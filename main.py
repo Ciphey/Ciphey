@@ -1,3 +1,3 @@
 import LanguageChecker
 l = LanguageChecker.languageChecker()
-l.chiSquared("")
+l.chiSquared("Ich würde meine große Schwester gerne öfter sehen.")
