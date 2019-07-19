@@ -10,11 +10,27 @@ Github: brandonskerritt
 Class to determine whether somethine is English or not.
 1. Calculate the Chi Squared score of a sentence
 2. If the score is significantly lower than the average score, it _might_ be English
-3. 
+    2.1. If the score _might_ be English, then take the text and compare it to the sorted dictionary
+    in O(n log n) time.
+    It creates a percentage of "How much of this text is in the dictionary?"
+    The dictionary contains:
+        * 20,000 most common US words
+        * 10,000 most common UK words (there's no repition between the two)
+        * The top 10,000 passwords
+    If the word "Looks like" English (chi-squared) and if it contains English words, we can conclude it is
+    very likely English. The alternative is doing the dictionary thing but with an entire 479k word dictionary (slower)
+    2.2. If the score is not English, but we haven't tested enough to create an average, then test it against the dictionary
+
+Things to optimise:
+* We only run the dictionary if it's 20% smaller than the average for chi squared
+* We consider it "English" if 45% of the text matches the dictionary
+* We run the dictionary if there is less than 10 total chisquared tests
+
 """
 from scipy.stats import chisquare
 from collections import OrderedDict
 from string import punctuation
+import mathsHelper
 """
     {"E": 12.02, "T": 9.10, "A": 8.12, "O": 7.68, "I": 7.31, "N": 6.95, "S": 6.28, "R": 6.02,
     "H": 5.92, "D": 4.32, "L": 3.98, "U": 2.88, "C": 2.71, "M": 2.61, "F": 2.30, "Y": 2.11,
@@ -32,6 +48,8 @@ class languageChecker:
         self.average = 0.0
         self.totalDone = 0.0
         self.oldAverage = 0.0
+        self.mh = mathsHelper.mathsHelper()
+        self.totalWordsTried = 0.0
     def chiSquared(self, text):
         print(text)
         # creates letter frequency of the text
@@ -87,6 +105,28 @@ class languageChecker:
         # https://stackoverflow.com/questions/196345/how-to-check-if-a-string-in-python-is-in-ascii
         return bool(lambda s: len(s) == len(s.encode()))
     def checkChi(self):
+        # TODO 20% isn't optimal
         # runs after every chi squared to see if it's 1 significantly lower than averae
-        if percentage(self.oldAverage, self.average) >= 20:
+        # the or statement is bc if the program has just started I don't want it to ignore the 
+        # ones at the start
+        # TODO is 10 optimal?
+        # TODO is 45 optimal?
+        if self.mh.percentage(self.oldAverage, self.average) >= 20 or self.totalDone < 10:
+            percetageOfEnglish = checkEnglish(text)
             print("Ok, it's significant!")
+            if percetageOfEnglish > 45:
+                print("I'm pretty sure this is English")
+    def checkEnglish(self, text):
+        # reads through most common words / passwords
+        # and calculates how much of that is in English
+        text = text.split(" ")
+        text = text.sort()
+        f = open("dictionary.txt", "r")
+        f = f.readlines()
+        counter = 0.00
+        # dictionary is "word\n" so I remove the "\n"
+        for word[0:-2] in f:
+            if word == text:
+                counter = counter + 1
+        counter = mh.percentage(counter, len(text))
+        return counter
