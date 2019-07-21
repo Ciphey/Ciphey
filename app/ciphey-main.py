@@ -16,7 +16,7 @@ class Ciphey:
         parser.add_argument('-g','--greppable', help='Are you grepping this output?', required=False)
 
         args = vars(parser.parse_args())
-                print("""
+        print("""
         ██████╗██╗██████╗ ██╗  ██╗███████╗██╗   ██╗
         ██╔════╝██║██╔══██╗██║  ██║██╔════╝╚██╗ ██╔╝
         ██║     ██║██████╔╝███████║█████╗   ╚████╔╝ 
