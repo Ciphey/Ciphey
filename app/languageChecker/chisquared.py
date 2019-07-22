@@ -9,6 +9,12 @@ Github: brandonskerritt
 
 Class calculates the Chi squared score
 """
+
+import mathsHelper
+from string import punctuation
+# I had a bug where empty string was being added to letter freq dictionary
+# this solves it :)
+punctuation += " "
 class chiSquared:
     """Class that calculates the Chi squared score and tries to work out what language it might be
     to add a new language, go into this class (/app/languageChecker/chisquared.py)
@@ -25,7 +31,7 @@ class chiSquared:
         self.oldAverage = 0.0
         self.mh = mathsHelper.mathsHelper()
         self.highestLanguage = ""
-
+        self.totalChi = 0.0
 
         # these are settings that may impact how the program works overall
         self.chiSquaredSignificaneThreshold = 20
@@ -47,8 +53,8 @@ class chiSquared:
         # the or statement is bc if the program has just started I don't want it to ignore the 
         # ones at the start
         self.chiSquared(text)
-        if self.mh.percentage(self.oldAverage, self.average) >= self.chiSquaredSignificaneThreshold or self.totalDone < totalDoneThreshold:
-            percetageOfEnglish = checkEnglish(text)
+        if self.mh.percentage(self.oldAverage, self.average) >= self.chiSquaredSignificaneThreshold or self.totalDone < self.totalDoneThreshold:
+            print("It's significant!")
             return(True)
         else:
             return(False)
@@ -63,7 +69,7 @@ class chiSquared:
             else:
                 # if letter is not puncuation, but it is still ascii
                 # it's probably a different language so add it to the dict
-                if letter not in punctuation and self.isAscii(letter) :
+                if letter not in punctuation and self.mh.isAscii(letter) :
                     letterFreq[letter] = 1
                 
         # so we dont have to calculate len more than once
@@ -89,7 +95,8 @@ class chiSquared:
         # calculates running average
         self.oldAverage = self.average
         self.totalDone += 1
-        self.average = (self.average + chisquare) / self.totalDone
+        # calculates a running average, maxChiSquare is the new chi score we get
+        self.average = (self.totalChi + maxChiSquare) / self.totalDone
         return(languagesChi)
     def myChi(self, text, distribution):
         """My own implementation of Chi squared using the two resources mention in the comments on this definition as guidance"""
@@ -97,6 +104,8 @@ class chiSquared:
         # http://practicalcryptography.com/cryptanalysis/text-characterisation/chi-squared-statistic/
         # given a text frequency and a distribution, calculate it's Chi score
         chiScore = 0.0
+        print(len(text))
+        print(len(distribution))
         for counter, letter in enumerate(text.values()):
             chiScore = chiScore + ((letter - distribution[counter])**2) / distribution[counter]
         return chiScore

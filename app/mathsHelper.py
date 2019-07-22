@@ -19,6 +19,11 @@ class mathsHelper:
         None
     def percentage(self, part, whole):
         """Works with percentages"""
+        # yeah uhm sometimes I'm a dummy dum dum and I think dividing by 0 is a good idea
+        # this if statememt is to stop my stupidity
+        if part or whole <= 0:
+            return 0
+        
         # works with percentages
         return 100 * float(part)/float(whole)
     def sortDictionary(self, dictionary):
