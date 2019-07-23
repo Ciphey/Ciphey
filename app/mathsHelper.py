@@ -34,3 +34,7 @@ class mathsHelper:
         # checks if a charecter is ascii
         # https://stackoverflow.com/questions/196345/how-to-check-if-a-string-in-python-is-in-ascii
         return bool(lambda s: len(s) == len(s.encode()))
+    def checkEqual(self, a):
+        """checks if all items in an iterable are the same
+        https://stackoverflow.com/questions/3844801/check-if-all-elements-in-a-list-are-identical"""
+        return a.count(a[0]) == len(a)

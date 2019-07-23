@@ -12,6 +12,7 @@ Class calculates the Chi squared score
 
 import mathsHelper
 from string import punctuation
+from numpy import std
 # I had a bug where empty string was being added to letter freq dictionary
 # this solves it :)
 punctuation += " "
@@ -32,10 +33,15 @@ class chiSquared:
         self.mh = mathsHelper.mathsHelper()
         self.highestLanguage = ""
         self.totalChi = 0.0
+        self.totalEqual = False
+        self.chisAsaList = []
 
         # these are settings that may impact how the program works overall
-        self.chiSquaredSignificaneThreshold = 20
+        self.chiSquaredSignificaneThreshold = 1 # how many stds you want to go below it
         self.totalDoneThreshold = 10
+
+        self.standarddeviation = 0.00 # the standard deviation I use
+        self.oldstandarddeviation = 0.00
     def checkChi(self, text):
         """Checks to see if the Chi score is good
         if it is, it returns True
@@ -51,15 +57,16 @@ class chiSquared:
         # TODO 20% isn't optimal
         # runs after every chi squared to see if it's 1 significantly lower than averae
         # the or statement is bc if the program has just started I don't want it to ignore the 
-        # ones at the start
+        # ones at the start        
         self.chiSquared(text)
-        if self.mh.percentage(self.oldAverage, self.average) >= self.chiSquaredSignificaneThreshold or self.totalDone < self.totalDoneThreshold:
+        # If the latest chi squared is less than the standard deviation
+        # or if not many chi squares have been calculated
+        # or if every single letter in a text appears exactly once (pangram)
+        if a[-1] <= (a[-1] - (self.oldstandarddeviation * self.chiSquaredSignificaneThreshold)) or self.totalDone < self.totalDoneThreshold or self.totalEqual:
             return(True)
         else:
             return(False)
-    def chiSquared(self, text):
-        """Creates letter frequency of text and compares that to the letter frequency of the language"""
-
+    def getLetterFreq(self, text):
         # This part creates a letter frequency of the text
         letterFreq = {'a': 0, 'b': 0, 'c': 0, 'd': 0, 'e': 0, 'f': 0, 'g': 0, 'h': 0, 'i': 0, 'j': 0, 'k': 0, 'l': 0, 'm': 0, 'n': 0, 'o': 0, 'p': 0, 'q': 0, 'r': 0, 's': 0, 't': 0, 'u': 0, 'v': 0, 'w': 0, 'x': 0, 'y': 0, 'z': 0}
         
@@ -71,17 +78,30 @@ class chiSquared:
                 # it's probably a different language so add it to the dict
                 if letter not in punctuation and self.mh.isAscii(letter) :
                     letterFreq[letter] = 1
-                
+        return letterFreq
+    def chiSquared(self, text):
+        """Creates letter frequency of text and compares that to the letter frequency of the language"""
+
+ 
+        # if all items of the dictionary are the same, then it's a normal distribution
+        # examples of this could be "the quick brown fox jumped over the lazy dog"
+
+        letterFreq = self.getLetterFreq(text)
+        print("letter freq for ", str(text), " is ", str(list(letterFreq.values())))
+        self.totalEqual = self.mh.checkEqual(list(letterFreq.values()))
+
         # so we dont have to calculate len more than once
         # turns them into probabilities (frequency distribution)
         lenOfString = len(text)
+        totalLetterFreq = 0.0
         for key, value in letterFreq.items():
             try:
                 letterFreq[key] = value / lenOfString
+                totalLetterFreq = totalLetterFreq + value
             except ZeroDivisionError as e:
                 print("Error, you have entered an empty string :( The error is \"" + str(e) +"\" on line 34 of LanguageChecker.py (function chiSquared)")
                 exit(1)
-
+        
         # calculates chi squared of each language
         maxChiSquare = 0.00
         languagesChi = {}
@@ -93,11 +113,14 @@ class chiSquared:
             if temp > maxChiSquare:
                 self.highestLanguage = language
                 maxChiSquare = temp
+        self.chisAsaList.append(maxChiSquare)
         # calculates running average
         self.oldAverage = self.average
         self.totalDone += 1
         # calculates a running average, maxChiSquare is the new chi score we get
         self.average = (self.totalChi + maxChiSquare) / self.totalDone
+        self.oldstandarddeviation = self.standarddeviation
+        self.standarddeviation = std(self.chisAsaList)
         return(languagesChi)
     def myChi(self, text, distribution):
         """My own implementation of Chi squared using the two resources mention in the comments on this definition as guidance"""
