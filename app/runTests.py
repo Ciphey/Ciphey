@@ -1,4 +1,4 @@
 import sys
 sys.path.append("..")
-from Tests import test_chi_squared
-test_chi_squared.tests()
+from Tests import testchi_squared
+testchi_squared.TestChi()
