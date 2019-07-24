@@ -62,7 +62,7 @@ class chiSquared:
         # If the latest chi squared is less than the standard deviation
         # or if not many chi squares have been calculated
         # or if every single letter in a text appears exactly once (pangram)
-        if a[-1] <= (a[-1] - (self.oldstandarddeviation * self.chiSquaredSignificaneThreshold)) or self.totalDone < self.totalDoneThreshold or self.totalEqual:
+        if self.chisAsaList[-1] <= (self.average - (self.oldstandarddeviation * self.chiSquaredSignificaneThreshold)) or self.totalDone < self.totalDoneThreshold or self.totalEqual:
             return(True)
         else:
             return(False)
@@ -87,7 +87,6 @@ class chiSquared:
         # examples of this could be "the quick brown fox jumped over the lazy dog"
 
         letterFreq = self.getLetterFreq(text)
-        print("letter freq for ", str(text), " is ", str(list(letterFreq.values())))
         self.totalEqual = self.mh.checkEqual(list(letterFreq.values()))
 
         # so we dont have to calculate len more than once
