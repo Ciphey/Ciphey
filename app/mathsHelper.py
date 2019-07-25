@@ -12,6 +12,7 @@ Class to provide helper functions for mathematics
 """
 
 from collections import OrderedDict
+from string import punctuation
 
 class mathsHelper:
     """Class to provide helper functions for mathematics and other small things"""
@@ -38,3 +39,6 @@ class mathsHelper:
         """checks if all items in an iterable are the same
         https://stackoverflow.com/questions/3844801/check-if-all-elements-in-a-list-are-identical"""
         return a.count(a[0]) == len(a)
+    def stripPuncuation(self, text):
+        """Strips punctuation from a given string"""
+        return text.translate(None, punctuation)
