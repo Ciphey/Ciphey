@@ -19,11 +19,6 @@ class OurNeuralNetwork:
     - 2 inputs
     - a hidden layer with 2 neurons (h1, h2)
     - an output layer with 1 neuron (o1)
-
-  *** DISCLAIMER ***:
-  The code below is intended to be simple and educational, NOT optimal.
-  Real neural net code looks nothing like this. DO NOT use this code.
-  Instead, read/run it to understand how this specific network works.
   '''
   def __init__(self):
     # Weights
@@ -113,9 +108,8 @@ class OurNeuralNetwork:
         print("Epoch %d loss: %.3f" % (epoch, loss))
 
 # Define dataset
-
 data = np.array([
-  [-4, -1],  # Alice
+  [-2, -1],  # Alice
   [25, 6],   # Bob
   [17, 4],   # Charlie
   [-15, -6], # Diana
@@ -130,8 +124,9 @@ all_y_trues = np.array([
 # Train our neural network!
 network = OurNeuralNetwork()
 network.train(data, all_y_trues)
+
 # Make some predictions
 emily = np.array([-7, -3]) # 128 pounds, 63 inches
-frank = np.array([5, 1])  # 155 pounds, 68 inches
+frank = np.array([20, 2])  # 155 pounds, 68 inches
 print("Emily: %.3f" % network.feedforward(emily)) # 0.951 - F
 print("Frank: %.3f" % network.feedforward(frank)) # 0.039 - M
