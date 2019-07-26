@@ -22,9 +22,8 @@ class mathsHelper:
         """Works with percentages"""
         # yeah uhm sometimes I'm a dummy dum dum and I think dividing by 0 is a good idea
         # this if statememt is to stop my stupidity
-        if part or whole <= 0:
+        if part <= 0 or whole <= 0:
             return 0
-        
         # works with percentages
         return 100 * float(part)/float(whole)
     def sortDictionary(self, dictionary):
@@ -41,4 +40,5 @@ class mathsHelper:
         return a.count(a[0]) == len(a)
     def stripPuncuation(self, text):
         """Strips punctuation from a given string"""
-        return text.translate(str.maketrans('','',punctuation))
+        text = text.translate(str.maketrans('','',punctuation))
+        return text

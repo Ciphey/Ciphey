@@ -24,23 +24,45 @@ class dictionaryChecker:
         text = text.lower()
         text = self.mh.stripPuncuation(text)
         text = text.split(" ")
-        text = text.sort()
         text = list(set(text)) # removes duplicate words
+        text.sort()
         # can dynamically use languages then
         language = str(language) + ".txt"
-        f = open(language, "r")
-        f = f.readlines()
+        file = open("languageChecker/{}".format(language), "r")
+        f = file.readlines()
+        file.close()
         counter = 0.00
         # dictionary is "word\n" so I remove the "\n"
-        for word[0:-2] in f:
-            if word == text:
-                counter = counter + 1
+
+        # so this should loop until it gets to the point in the @staticmethod
+        # that equals the word :)
+
+        """
+        for every single word in main dictionary
+        if that word == text[0] then +1 to counter
+        then +1 to text[0 + i]
+        so say the dict is ordered
+        we just loop through dict 
+        and eventually we'll reach a point where word in dict = word in text
+        at that point, we move to the next text point
+        both text and dict are sorted
+        so we only loop once, we can do this in O(n log n) time
+        """
+        counter = 0
+        counterPercent = 0
+        for word in f:
+            if counter >= len(text):
+                break
+            if word.strip() == text[counter]:
+                counter += 1
+                counterPercent += 1
         self.languageWordsCounter = counter
-        self.languagePercentage = mh.percentage(self.languageWordsCounter, len(text))
+        self.languagePercentage = self.mh.percentage(float(self.languageWordsCounter), float(len(text)))
         return(counter)
 
     def confirmlanguage(self, text, language):
         self.checkDictionary(text, language)
+        
         if self.languagePercentage > self.languageThreshold:
             return True
         else:
