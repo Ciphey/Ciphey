@@ -83,7 +83,7 @@ class chiSquared:
     def chiSquared(self, text):
         """Creates letter frequency of text and compares that to the letter frequency of the language"""
 
- 
+          
         # if all items of the dictionary are the same, then it's a normal distribution
         # examples of this could be "the quick brown fox jumped over the lazy dog"
 
