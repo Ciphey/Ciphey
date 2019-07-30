@@ -1,20 +1,65 @@
-import keras
-from keras.models import Sequential
+import tensorflow as tf
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten, Conv2D, MaxPooling2D
+import numpy as np
+import matplotlib.pyplot as plt
+import os
+import cv2
+from tensorflow.keras.callbacks import TensorBoard
+import time
+import numpy
 
-model = Sequential()
 
-from keras.layers import Dense
 
-model.add(Dense(units=64, activation='relu', input_dim=4))
-model.add(Dense(units=4, activation='softmax'))
+import tensorboard
 
-model.compile(loss='categorical_crossentropy',
-              optimizer='sgd',
-              metrics=['accuracy'])
-
-model.compile(loss=keras.losses.sparse_categorical_crossentropy,
-              optimizer=keras.optimizers.SGD(lr=0.01, momentum=0.9, nesterov=True))
-# x_train and y_train are Numpy arrays --just like in the Scikit-Learn API.
-x_train = [[28, 16], [28, 13], [32, 19], [17, 51]]
-y_train = [[1], [1], [0], [0]]
-model.fit(x_train, y_train, epochs=5, batch_size=32)
+class neuralNetwork:
+    def __init__(self):
+        self.CATEGORIES = ["sha1", "md5", "sha256", "sha512", "caeser", "plaintext"]
+        self.CATEGORIES = [1, 2, 3, 4, 5, 6]
+        pass
+    def editData(self, data):
+        pass
+    def useNetwork(self, data):
+        pass
+    def refreshEverything(self):
+        """creates data and retrains the neural network. warning - can take a long time"""
+        pass
+    def train(self, data):
+        """Run this when you want to retrain the neural network"""
+        import csv
+        with open('output.csv', 'r') as f:
+            reader = csv.reader(f)
+            your_list = list(reader)
+        
+        # prepares the data
+        # it should only return the length and how many letters it has     
+        # length of text
+        # how many letters
+        # chi squared score   
+        x = []
+        y = []
+        counter = 0.0
+        totals = 0.00
+        for item in your_list:
+            counter = counter + 1
+            y.append([item[-1]])
+            # delete y from it
+            del item[-1]
+            # delete the plaintext
+            del item[0]
+            # delete the encrypted text
+            del item[0]
+            # delete the array (this was causing me problems)
+            del item[2]
+            item[0] = float(item[0])
+            item[1] = float(item[1])
+            try:
+                item[2] = float(item[2])
+                totals = totals + item[2]
+            except ValueError as e:
+                item[2] = float(totals / counter)
+                
+            x.append(item)
+    def makeTrainingData(self, file):
+        pass
