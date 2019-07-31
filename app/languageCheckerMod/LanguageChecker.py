@@ -60,6 +60,8 @@ class languageChecker:
         self.chi = new
         return self
     def checkLanguage(self, text):
+        if text == "":
+            return False
         result = self.chi.checkChi(text)
         if result:
             result2 = self.dictionary.confirmlanguage(text, "English")
@@ -71,3 +73,5 @@ class languageChecker:
             return False
     def getChiSquaredObj(self):
         return self.chi
+    def getChiScore(self):
+        return self.chi.totalChi
