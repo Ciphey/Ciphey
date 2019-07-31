@@ -45,7 +45,7 @@ class TestLanguageChecker(unittest.TestCase):
         result = lc.checkLanguage("Hi! I just checked this URL and it appeared to be unavailable or slow loading (Connection timed out after 8113 milliseconds). Here are some mirrors to try:")
         result = lc.checkLanguage("The quick brown fox jumped over the lazy dog")
         self.assertEqual(result, False)
-    def test_chi_maxima_true(self):
+    def test_chi_maxima_false(self):
         lc = LanguageChecker.languageChecker()
         result = lc.checkLanguage("The quick brown fox jumped over the lazy dog")
         result = lc.checkLanguage("Hypertext Transfer Protocol (HTTP) parameters, including HTTP headers, allow the client and the server to pass additional information with the request or the response.")
@@ -82,3 +82,77 @@ class TestLanguageChecker(unittest.TestCase):
         result = lc.checkLanguage("Hi! I just checked this URL and it appeared to be unavailable or slow loading (Connection timed out after 8113 milliseconds). Here are some mirrors to try:")
         result = lc.checkLanguage("There can only be one way to make this work for real and I really do enjoy the long thought out process of drinking milk")
         self.assertEqual(result, False)
+    def test_chi_maxima_true(self):
+        """
+        This returns false because s.d is not over 1 as all inputs are English
+        """
+        lc = LanguageChecker.languageChecker()
+        result = lc.checkLanguage("sa dew fea dxza dcsa da fsa d")
+        result = lc.checkLanguage("df grtsf a sgrds fgserwqd")
+        result = lc.checkLanguage("fd sa fe safsda srmad sadsa d")
+        result = lc.checkLanguage(" oihn giuhh7hguygiuhuyguyuyg ig iug iugiugiug")
+        result = lc.checkLanguage("oiuhiuhiuhoiuh7 a opokp[poj uyg ytdra4efriug oih kjnbjhb jgv")
+        result = lc.checkLanguage("r jabbi tb y jyg ygiuygytff  u0")
+        result = lc.checkLanguage("ld oiu oj uh t t er s d gf hg g  h h")
+        result = lc.checkLanguage("posa   idijdsa ije i vi ijerijofdj ouhsaf oiuhas  oihd ")
+        result = lc.checkLanguage("Likwew e wqrew rwr safdsa dawe r3d hg jyrt dwqefp ;g;;' [ [sadqa ]].")
+        result = lc.checkLanguage("Her hyt e jytgv  urjfdghbsfd c   ")
+        result = lc.checkLanguage("CASSAE X T H WAEASD AFDG TERFADDSFD")
+        result = lc.checkLanguage("das te y we fdsbfsd fe a ")
+        result = lc.checkLanguage("d pa pdpsa ofoiaoew ifdisa ikrkasd s")
+        result = lc.checkLanguage("My friend is a really nice people who really enjoys swimming, dancing, kicking, English.")
+        self.assertEqual(result, True)
+    def test_integration_unusual_one(self):
+        lc = LanguageChecker.languageChecker()
+        result = lc.checkLanguage("HELLO MY NAME IS BRANDON AND I LIKE DOLLAR")
+        self.assertEqual(result, True)
+    def test_integration_unusual_two(self):
+        lc = LanguageChecker.languageChecker()
+        result = lc.checkLanguage("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+        self.assertEqual(result, False)
+    def test_integration_unusual_three(self):
+        lc = LanguageChecker.languageChecker()
+        result = lc.checkLanguage("password")
+        self.assertEqual(result, True)
+    def test_integration_unusual_three(self):
+        lc = LanguageChecker.languageChecker()
+        result = lc.checkLanguage("")
+        self.assertEqual(result, False)
+    def test_integration_unusual_four(self):
+        lc = LanguageChecker.languageChecker()
+        result = lc.checkLanguage(".")
+        self.assertEqual(result, False)
+    def test_integration_unusual_five(self):
+        lc = LanguageChecker.languageChecker()
+        result = lc.checkLanguage("#")
+        self.assertEqual(result, False)
+    def test_integration_unusual_6(self):
+        lc = LanguageChecker.languageChecker()
+        result = lc.checkLanguage("\"")
+        self.assertEqual(result, False)
+    def test_integration_unusual_7(self):
+        lc = LanguageChecker.languageChecker()
+        result = lc.checkLanguage("999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999")
+        self.assertEqual(result, False)
+    def test_integration_unusual_7(self):
+        lc = LanguageChecker.languageChecker()
+        result = lc.checkLanguage("")
+        self.assertEqual(result, False)
+    def test_integration_addition(self):
+        """
+        Makes sure you can add 2 lanuggae objecs together
+        """
+        lc = LanguageChecker.languageChecker()
+        result = lc.checkLanguage("hello my darling")
+
+        lc2 = LanguageChecker.languageChecker()
+        result = lc.checkLanguage("sad as dasr as s")
+
+        temp = lc.getChiScore()
+        temp2 = lc2.getChiScore()
+        temp3 = temp + temp2
+        print(temp3)
+        lc3 = lc + lc2
+        print(lc3.getChiScore())
+
+        self.assertAlmostEqual(lc3.getChiScore(), temp3)

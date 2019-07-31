@@ -75,7 +75,7 @@ class chiSquared:
         # If the latest chi squared is less than the standard deviation
         # or if not many chi squares have been calculated
         # or if every single letter in a text appears exactly once (pangram)
-        if self.chisAsaList[-1] <= (self.average - (self.oldstandarddeviation * self.chiSquaredSignificaneThreshold)) or self.totalDone < self.totalDoneThreshold or self.totalEqual:
+        if self.chisAsaList[-1] <= abs(self.average - (self.oldstandarddeviation * self.chiSquaredSignificaneThreshold)) or self.totalDone < self.totalDoneThreshold or self.totalEqual:
             return(True)
         else:
             return(False)
@@ -131,8 +131,8 @@ class chiSquared:
         self.totalDone += 1
         # calculates a running average, maxChiSquare is the new chi score we get
         self.average = (self.totalChi + maxChiSquare) / self.totalDone
-        self.oldstandarddeviation = self.standarddeviation
-        self.standarddeviation = std(self.chisAsaList)
+        self.oldstandarddeviation = abs(self.standarddeviation)
+        self.standarddeviation = abs(std(self.chisAsaList))
         return(languagesChi)
     def myChi(self, text, distribution):
         """My own implementation of Chi squared using the two resources mention in the comments on this definition as guidance"""
@@ -141,7 +141,10 @@ class chiSquared:
         # given a text frequency and a distribution, calculate it's Chi score
         chiScore = 0.0
         for counter, letter in enumerate(text.values()):
-            chiScore = chiScore + ((letter - distribution[counter])**2) / distribution[counter]
+            try:
+                chiScore = chiScore + ((letter - distribution[counter])**2) / distribution[counter]
+            except IndexError as e:
+                return True
         return chiScore
     def getMostLikelyLanguage(self):
         """Returns what the most likely language is
