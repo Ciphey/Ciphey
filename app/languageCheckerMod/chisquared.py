@@ -16,6 +16,7 @@ from numpy import std
 # I had a bug where empty string was being added to letter freq dictionary
 # this solves it :)
 punctuation += " "
+NUMBERS = "1234567890"
 class chiSquared:
     """Class that calculates the Chi squared score and tries to work out what language it might be
     to add a new language, go into this class (/app/languageChecker/chisquared.py)
@@ -43,6 +44,17 @@ class chiSquared:
 
         self.standarddeviation = 0.00 # the standard deviation I use
         self.oldstandarddeviation = 0.00
+    def __add__(self, otherChiSquared):
+        """
+        each language checker has its own intance of chi squared
+        so to add 2 languae checkers together we add their chi squared together
+        """
+        addedObject = chiSquared()
+        addedObject.average = self.average + otherChiSquared.average
+        addedObject.totalDone = self.totalDone + otherChiSquared.totalDone
+        addedObject.totalChi = self.totalChi + otherChiSquared.totalChi
+        addedObject.chisAsaList = self.chisAsaList + otherChiSquared.chisAsaList
+        return addedObject
     def checkChi(self, text):
         """Checks to see if the Chi score is good
         if it is, it returns True
@@ -77,7 +89,7 @@ class chiSquared:
             else:
                 # if letter is not puncuation, but it is still ascii
                 # it's probably a different language so add it to the dict
-                if letter not in punctuation and self.mh.isAscii(letter) :
+                if letter not in punctuation and self.mh.isAscii(letter) and letter not in NUMBERS:
                     letterFreq[letter] = 1
         return letterFreq
     def chiSquared(self, text):
