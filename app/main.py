@@ -7,7 +7,7 @@
 © Brandon Skerritt
 Github: brandonskerritt
 """
-import LanguageChecker
+import languageChecker.LanguageChecker
 class Ciphey:
     def __init__(self):
         parser = argparse.ArgumentParser(description='Blog')
@@ -22,4 +22,4 @@ class Ciphey:
         ██║     ██║██████╔╝███████║█████╗   ╚████╔╝ 
         ██║     ██║██╔═══╝ ██╔══██║██╔══╝    ╚██╔╝  
         ╚██████╗██║██║     ██║  ██║███████╗   ██║ """)
-        LanguageChecker.chisquare("hello this is a test I hope you have a good day")
+    
