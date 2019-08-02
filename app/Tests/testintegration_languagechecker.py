@@ -151,8 +151,6 @@ class TestLanguageChecker(unittest.TestCase):
         temp = lc.getChiScore()
         temp2 = lc2.getChiScore()
         temp3 = temp + temp2
-        print(temp3)
         lc3 = lc + lc2
-        print(lc3.getChiScore())
 
         self.assertAlmostEqual(lc3.getChiScore(), temp3)
