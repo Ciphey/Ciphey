@@ -8,6 +8,7 @@
 Github: brandonskerritt
 """
 import languageChecker.LanguageChecker
+import neuralnetwork.nn
 class Ciphey:
     def __init__(self):
         parser = argparse.ArgumentParser(description='Blog')
@@ -22,4 +23,5 @@ class Ciphey:
         ██║     ██║██████╔╝███████║█████╗   ╚████╔╝ 
         ██║     ██║██╔═══╝ ██╔══██║██╔══╝    ╚██╔╝  
         ╚██████╗██║██║     ██║  ██║███████╗   ██║ """)
+        self.ai = nn()
     
