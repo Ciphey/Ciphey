@@ -15,14 +15,14 @@ import numpy
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
 
-class neuralNetwork:
+class NeuralNetwork:
     """
     Class to use the neural network
     """
     def __init__(self):
         self.CATEGORIES = ["sha1", "md5", "sha256", "sha512", "caeser", "plaintext"]
         self.CATEGORIES = [1, 2, 3, 4, 5, 6]
-        self.MODEL = load_model("neuralNetwork/NeuralNetworkModel.model")
+        self.MODEL = load_model("neuralNetworkMod/NeuralNetworkModel.model")
         import mathsHelper
         self.mh = mathsHelper.mathsHelper()
     def formatData(self, text):
