@@ -1,22 +1,39 @@
-class caesar(ciphey):
-    def __init__(self, message):
-        self.LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-        self.message = message
-    def bruteFoce(self):
-        for key in range(len(self.LETTERS)):
-            translated = ''
+class Caesar():
+    def __init__(self, message, lc):
+        self.lc = lc
+    def bruteforce(self, message):
+        ''' Simple python program to bruteforce a caesar cipher'''
 
-            for symbol in message:
-                if symbol in LETTERS:
-                    num = LETTERS.find(symbol)
-                    num = num - key
+        ''' Simple python program for the caesar cipher'''
 
-                    if num < 0:
-                        num = num + LETTERS[num]
-                    
-                    translated = translated + LETTERS[num]
+
+        # Example string
+        message = self.message.lower()
+        # Everything we can encrypt
+        SYMBOLS = 'abcdefghijklmnopqrstuvwxyz'
+
+        for key in range(len(SYMBOLS)):
+            # try again with each key attempt
+            translated = ""
+
+            for character in message:
+                if character in SYMBOLS:
+                    symbolIndex = SYMBOLS.find(character)
+                    translatedIndex = symbolIndex - key
+
+                    # In the event of wraparound
+                    if translatedIndex < 0:
+                        translatedIndex += len(SYMBOLS)
+
+                    translated += SYMBOLS[translatedIndex]
+
                 else:
-                    translated = translated + symbol
+                    # Append the symbol without encrypting or decrypting
+                    translated += character
 
-                # TODO check translated for english
+            # Output each attempt
+            result = self.lc.checkLanguage(translated)
+            if result:
+                print(translated)
+                return True
 

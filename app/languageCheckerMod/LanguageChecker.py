@@ -50,7 +50,7 @@ from string import punctuation
 import languageCheckerMod.dictionaryChecker
 import languageCheckerMod.chisquared
 
-class languageChecker:
+class LanguageChecker:
     def __init__(self):
         self.dictionary = languageCheckerMod.dictionaryChecker.dictionaryChecker()
         self.chi = languageCheckerMod.chisquared.chiSquared()
