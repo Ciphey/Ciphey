@@ -10,5 +10,5 @@
     "python.testing.nosetestsEnabled": false,
     "python.testing.unittestEnabled": false,
     "python.testing.promptToConfigure": false,
-    "python.pythonPath": "venv\\Scripts\\python.exe"
+    "python.pythonPath": "C:\\Users\\Admin\\AppData\\Local\\Programs\\Python\\Python37-32\\python.exe"
 }
