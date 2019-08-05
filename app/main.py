@@ -7,7 +7,7 @@
 © Brandon Skerritt
 Github: brandonskerritt
 """
-from languageCheckerMod.languageChecker import LanguageChecker
+from languageCheckerMod.LanguageChecker import LanguageChecker
 from neuralNetworkMod.nn import NeuralNetwork
 from Decryptor.basicEncryption.basic_parent import BasicParent
 import argparse
@@ -105,21 +105,32 @@ class Ciphey:
         self.one_level_of_decryption()
 
     def one_level_of_decryption(self):
-        BasicParent(self.lc, self.text)
+        for key, val in self.whatToChoose.items():
+            if key == str:
+                continue
+            # https://stackoverflow.com/questions/4843173/how-to-check-if-type-of-a-variable-is-string
+            if key != str:
+                print("****************************")
+                print(key)
+                print(type(key))
+                print("****************************")
+
+                key.setProbTable(val)
+                #key.decrypt(self.text)
     
 if __name__ == "__main__":
-        parser = argparse.ArgumentParser(description='Blog')
-        parser.add_argument('-f','--file', help='File you want to decrypt', required=False)
-        parser.add_argument('-l','--level', help='How many levels of decryption you want (the more levels, the slower it is)', required=False)
-        parser.add_argument('-g','--greppable', help='Are you grepping this output?', required=False)
-        parser.add_argument('-t','--text', help='Text to decrypt', required=False)
+    parser = argparse.ArgumentParser(description='Blog')
+    parser.add_argument('-f','--file', help='File you want to decrypt', required=False)
+    parser.add_argument('-l','--level', help='How many levels of decryption you want (the more levels, the slower it is)', required=False)
+    parser.add_argument('-g','--greppable', help='Are you grepping this output?', required=False)
+    parser.add_argument('-t','--text', help='Text to decrypt', required=False)
 
-        args = vars(parser.parse_args())
-        print("""
-        ██████╗██╗██████╗ ██╗  ██╗███████╗██╗   ██╗
-        ██╔════╝██║██╔══██╗██║  ██║██╔════╝╚██╗ ██╔╝
-        ██║     ██║██████╔╝███████║█████╗   ╚████╔╝ 
-        ██║     ██║██╔═══╝ ██╔══██║██╔══╝    ╚██╔╝  
-        ╚██████╗██║██║     ██║  ██║███████╗   ██║ """)
-        cipherObj = Ciphey("uryyb zl sngure uryyb zl zbgure naq v ernyyl qb yvxr n tbbq ratyvfu oernxsnfg")
-        cipherObj.decrypt("this is a test")
+    args = vars(parser.parse_args())
+    print("""
+    ██████╗██╗██████╗ ██╗  ██╗███████╗██╗   ██╗
+    ██╔════╝██║██╔══██╗██║  ██║██╔════╝╚██╗ ██╔╝
+    ██║     ██║██████╔╝███████║█████╗   ╚████╔╝ 
+    ██║     ██║██╔═══╝ ██╔══██║██╔══╝    ╚██╔╝  
+    ╚██████╗██║██║     ██║  ██║███████╗   ██║ """)
+    cipherObj = Ciphey("uryyb zl sngure uryyb zl zbgure naq v ernyyl qb yvxr n tbbq ratyvfu oernxsnfg")
+    cipherObj.decrypt("this is a test")
