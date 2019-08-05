@@ -1,6 +1,8 @@
 class Caesar():
-    def __init__(self, message, lc):
+    def __init__(self, lc):
         self.lc = lc
+    def getName(self):
+        return "Caesar"
     def bruteforce(self, message):
         ''' Simple python program to bruteforce a caesar cipher'''
 
