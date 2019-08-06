@@ -3,14 +3,14 @@ class Caesar():
         self.lc = lc
     def getName(self):
         return "Caesar"
-    def bruteforce(self, message):
+    def decrypt(self, message):
         ''' Simple python program to bruteforce a caesar cipher'''
 
         ''' Simple python program for the caesar cipher'''
 
 
         # Example string
-        message = self.message.lower()
+        message = message.lower()
         # Everything we can encrypt
         SYMBOLS = 'abcdefghijklmnopqrstuvwxyz'
 
@@ -36,6 +36,9 @@ class Caesar():
             # Output each attempt
             result = self.lc.checkLanguage(translated)
             if result:
-                print(translated)
+                return {"lc": self.lc, "IsPlaintext?": True, "Plaintext": translated}
                 return True
+        # if none of them match English, return false!
+        return {"lc": self.lc, "IsPlaintext?": False, "Plaintext": None}
+
 
