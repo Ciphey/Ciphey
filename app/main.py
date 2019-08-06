@@ -7,7 +7,7 @@
 © Brandon Skerritt
 Github: brandonskerritt
 """
-from languageCheckerMod.LanguageChecker import LanguageChecker
+from languageCheckerMod.languageChecker import LanguageChecker
 from neuralNetworkMod.nn import NeuralNetwork
 from Decryptor.basicEncryption.basic_parent import BasicParent
 import argparse
@@ -64,7 +64,6 @@ class Ciphey:
         # sorts each indiviudal sub-dictionary
         for key, value in self.whatToChoose.items():
             self.whatToChoose[key] = self.mh.sortDictionary(value)
-        import pprint
 
         # the below code selects the most likely one
         # and places it at the front
@@ -109,12 +108,7 @@ class Ciphey:
             if key == str:
                 continue
             # https://stackoverflow.com/questions/4843173/how-to-check-if-type-of-a-variable-is-string
-            if key != str:
-                print("****************************")
-                print(key)
-                print(type(key))
-                print("****************************")
-
+            if not isinstance(key, str):
                 key.setProbTable(val)
                 #key.decrypt(self.text)
     
