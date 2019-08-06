@@ -38,12 +38,11 @@ class BasicParent:
         self.caesar = Caesar(self.lc)
         self.list_of_objects = [self.caesar]
     def decrypt(self, text):
-        self.caesar = Caesar(selftext)
-        result = self.caesar.bruteforce()
+        for item in self.list_of_objects:
+            item.decrypt(text)
+            result = self.caesar.bruteforce()
     def setProbTable(self, prob):
-        import pprint
-        pprint.pprint(prob)
-        self.probabilityDistribution   = prob
+        self.probabilityDistribution = prob
         # we get a sorted list of objects :)
         counter = 0
         for key, val in self.probabilityDistribution.items():
@@ -52,4 +51,5 @@ class BasicParent:
                     # moves the item
                     list_objs.insert(counter, list_objs.pop(listCounter))
                     counter = counter + 1
+        pprint.pprint(self.list_of_objects)
 
