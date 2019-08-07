@@ -39,17 +39,26 @@ class BasicParent:
         self.caesar = Caesar(self.lc)
         self.reverse = Reverse(self.lc)
 
-        self.list_of_objects = [self.caesar, self.reverse]
+        self.list_of_objects = [self.caesar]
     def decrypt(self, text):
-        answers = []
-        for item in self.list_of_objects:
+        self.text = text
+
+        from multiprocessing.dummy import Pool as ThreadPool 
+        pool = ThreadPool(4) 
+        answers = pool.map(self.callDecrypt, self.list_of_objects)
+
+        """for item in self.list_of_objects:
             result = item.decrypt(text)
-            answers.append(result)
+            answers.append(result)"""
         for answer in answers:
             # adds the LC objects together
             self.lc = self.lc + answer["lc"]
             if answer["IsPlaintext?"]:
-                return "YESSS QUEEn"
+                return answer
+        return {"lc": self.lc, "IsPlaintext?": False, "Plaintext": None, "Cipher": None, "Extra Information": None}
+    def callDecrypt(self, obj):
+        # i only exist to call decrypt
+        return obj.decrypt(self.text) 
             
     def setProbTable(self, prob):
         self.probabilityDistribution = prob
