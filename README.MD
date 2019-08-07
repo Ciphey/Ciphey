@@ -26,3 +26,8 @@ the dictionarty.txt is a combination of
 * top 30,000 most used words (american)
 * top 10,000 most used british words
 * 100k of most popular passwords
+
+# The internal data packet
+```python
+{"lc": self.lc, "IsPlaintext?": True, "Plaintext": translated, "Cipher": "Caesar", "Extra Information": "The rotation used is {counter}"}
+```

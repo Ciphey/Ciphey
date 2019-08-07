@@ -1,4 +1,5 @@
 from Decryptor.basicEncryption.caesar import Caesar
+from Decryptor.basicEncryption.reverse import Reverse
 """
 So I want to assign the prob distribution to objects
 so it makes sense to do this?
@@ -36,11 +37,20 @@ class BasicParent:
     def __init__(self, lc):
         self.lc = lc
         self.caesar = Caesar(self.lc)
-        self.list_of_objects = [self.caesar]
+        self.reverse = Reverse(self.lc)
+
+        self.list_of_objects = [self.caesar, self.reverse]
     def decrypt(self, text):
+        answers = []
         for item in self.list_of_objects:
-            item.decrypt(text)
-            result = self.caesar.bruteforce()
+            result = item.decrypt(text)
+            answers.append(result)
+        for answer in answers:
+            # adds the LC objects together
+            self.lc = self.lc + answer["lc"]
+            if answer["IsPlaintext?"]:
+                return "YESSS QUEEn"
+            
     def setProbTable(self, prob):
         self.probabilityDistribution = prob
         # we get a sorted list of objects :)
@@ -51,5 +61,4 @@ class BasicParent:
                     # moves the item
                     list_objs.insert(counter, list_objs.pop(listCounter))
                     counter = counter + 1
-        pprint.pprint(self.list_of_objects)
 

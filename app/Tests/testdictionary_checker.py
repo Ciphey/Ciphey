@@ -26,3 +26,8 @@ class TestChi(unittest.TestCase):
         dc = dictionaryChecker.dictionaryChecker()
         result = dc.confirmlanguage("The password for my computer is tyu456q and the username is admin", "English")
         self.assertEqual(dc.languagePercentage, 80.0)
+    def test_english_perfect(self):
+        dc = dictionaryChecker.dictionaryChecker()
+        result = dc.confirmlanguage("If your school lends textbooks, teachers seem perfectly content in using ones published in 1999. If your school sells textbooks, then last year’s editions are suddenly outdated, worthless pieces of trash.", "English")
+        self.assertEqual(result, True)
+        

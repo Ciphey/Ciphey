@@ -7,9 +7,12 @@
 © Brandon Skerritt
 Github: brandonskerritt
 """
-from languageCheckerMod.languageChecker import LanguageChecker
+from languageCheckerMod.LanguageChecker import LanguageChecker
 from neuralNetworkMod.nn import NeuralNetwork
+
 from Decryptor.basicEncryption.basic_parent import BasicParent
+from Decryptor.Hash import hashBuster
+
 import argparse
 import mathsHelper
 import collections
@@ -62,6 +65,12 @@ class Ciphey:
         }
         }
         # sorts each indiviudal sub-dictionary
+        for key, value in self.whatToChoose.items():
+            for k, v in value.items():
+                if v < 0.01:
+                    self.whatToChoose[key][k] = 0.01
+        import pprint
+        pprint.pprint(self.whatToChoose)
         for key, value in self.whatToChoose.items():
             self.whatToChoose[key] = self.mh.sortDictionary(value)
 
