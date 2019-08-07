@@ -1,5 +1,19 @@
-#!/usr/bin/env python3
-# https://github.com/s0md3v/Hash-Buster
+"""
+ ██████╗██╗██████╗ ██╗  ██╗███████╗██╗   ██╗
+██╔════╝██║██╔══██╗██║  ██║██╔════╝╚██╗ ██╔╝
+██║     ██║██████╔╝███████║█████╗   ╚████╔╝ 
+██║     ██║██╔═══╝ ██╔══██║██╔══╝    ╚██╔╝  
+╚██████╗██║██║     ██║  ██║███████╗   ██║ 
+© Brandon Skerritt
+Github: brandonskerritt
+
+This is Hashbuster but slightly modified to work with Ciphey
+why reivent the wheel?
+
+https://github.com/s0md3v/Hash-Buster
+"""
+
+
 import re
 import os
 import requests
@@ -70,10 +84,6 @@ def theta(hashvalue, hashtype):
     else:
         return False
 
-print ('''\033[1;97m_  _ ____ ____ _  _    ___  _  _ ____ ___ ____ ____
-|__| |__| [__  |__|    |__] |  | [__   |  |___ |__/
-|  | |  | ___] |  |    |__] |__| ___]  |  |___ |  \  %sv3.0\033[0m\n''' % red)
-
 md5 = [gamma, alpha, beta, theta, delta]
 sha1 = [alpha, beta, theta, delta]
 sha256 = [alpha, beta, theta]
@@ -83,46 +93,35 @@ sha512 = [alpha, beta, theta]
 def crack(hashvalue):
     result = False
     if len(hashvalue) == 32:
-        if not file:
-            print ('%s Hash function : MD5' % info)
         for api in md5:
             r = api(hashvalue, 'md5')
             if r:
-                return r
+                return {"lc": None, "IsPlaintext?": True, "Plaintext": r, "Cipher": "md5", "Extra Information": None}
     elif len(hashvalue) == 40:
-        if not file:
-            print ('%s Hash function : SHA1' % info)
         for api in sha1:
             r = api(hashvalue, 'sha1')
             if r:
-                return r
+                return {"lc": None, "IsPlaintext?": True, "Plaintext": r, "Cipher": "sha1", "Extra Information": None}
     elif len(hashvalue) == 64:
-        if not file:
-            print ('%s Hash function : SHA-256' % info)
         for api in sha256:
             r = api(hashvalue, 'sha256')
             if r:
-                return r
+                return {"lc": None, "IsPlaintext?": True, "Plaintext": r, "Cipher": "sha256", "Extra Information": None}
     elif len(hashvalue) == 96:
-        if not file:
-            print ('%s Hash function : SHA-384' % info)
         for api in sha384:
             r = api(hashvalue, 'sha384')
             if r:
-                return r
+                return {"lc": None, "IsPlaintext?": True, "Plaintext": r, "Cipher": "sha384", "Extra Information": None}
     elif len(hashvalue) == 128:
-        if not file:
-            print ('%s Hash function : SHA-512' % info)
         for api in sha512:
             r = api(hashvalue, 'sha512')
             if r:
-                return r
+                return {"lc": None, "IsPlaintext?": True, "Plaintext": r, "Cipher": "sha512", "Extra Information": None}
     else:
         if not file:
-            print ('%s This hash type is not supported.' % bad)
-            quit()
+            return {"lc": None, "IsPlaintext?": False, "Plaintext": None, "Cipher": None, "Extra Information": "The hash wasn't found. Please try Hashkiller.co.uk first, then use Hashcat to manually crack the hash."}
         else:
-            return False
+            return {"lc": None, "IsPlaintext?": False, "Plaintext": None, "Cipher": None, "Extra Information": "The hash wasn't found. Please try Hashkiller.co.uk first, then use Hashcat to manually crack the hash."}
 
 result = {}
 

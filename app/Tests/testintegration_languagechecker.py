@@ -1,7 +1,7 @@
 import sys
 sys.path.append("..")
 import unittest
-from languageCheckerMod.languageChecker import LanguageChecker
+from languageCheckerMod.LanguageChecker import LanguageChecker
 # python3 -m unittest Tests.testchi_squared
 # python -m unittest discover -s tests
 # python3 -m unittest discover -s Tests -p test*.py
@@ -13,7 +13,7 @@ class TestLanguageChecker(unittest.TestCase):
     def test_basics_german(self):
         lc = LanguageChecker()
         result = lc.checkLanguage("hallo keine lieben leute nach")
-        self.assertEqual(result, False)
+        self.assertEqual(result, True)
     def test_basics_quickbrownfox(self):
         """
         This returns true becaue by default chi squared returns true so long as it's less than 10 items it's processed
