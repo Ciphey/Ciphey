@@ -7,7 +7,7 @@
 © Brandon Skerritt
 Github: brandonskerritt
 """
-from languageCheckerMod.LanguageChecker import LanguageChecker
+from languageCheckerMod.languageChecker import LanguageChecker
 from neuralNetworkMod.nn import NeuralNetwork
 
 from Decryptor.basicEncryption.basic_parent import BasicParent
@@ -119,7 +119,8 @@ class Ciphey:
             # https://stackoverflow.com/questions/4843173/how-to-check-if-type-of-a-variable-is-string
             if not isinstance(key, str):
                 key.setProbTable(val)
-                #key.decrypt(self.text)
+                ret = key.decrypt(self.text)
+            print(ret)
     
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Blog')
