@@ -1,3 +1,13 @@
+"""
+ ██████╗██╗██████╗ ██╗  ██╗███████╗██╗   ██╗
+██╔════╝██║██╔══██╗██║  ██║██╔════╝╚██╗ ██╔╝
+██║     ██║██████╔╝███████║█████╗   ╚████╔╝ 
+██║     ██║██╔═══╝ ██╔══██║██╔══╝    ╚██╔╝  
+╚██████╗██║██║     ██║  ██║███████╗   ██║ 
+© Brandon Skerritt
+Github: brandonskerritt
+"""
+
 class Caesar():
     def __init__(self, lc):
         self.lc = lc
@@ -14,7 +24,7 @@ class Caesar():
         # Everything we can encrypt
         SYMBOLS = 'abcdefghijklmnopqrstuvwxyz'
 
-        for key in range(len(SYMBOLS)):
+        for counter, key in enumerate(range(len(SYMBOLS))):
             # try again with each key attempt
             translated = ""
 
@@ -36,9 +46,8 @@ class Caesar():
             # Output each attempt
             result = self.lc.checkLanguage(translated)
             if result:
-                return {"lc": self.lc, "IsPlaintext?": True, "Plaintext": translated}
-                return True
+                return {"lc": self.lc, "IsPlaintext?": True, "Plaintext": translated, "Cipher": "Caesar", "Extra Information": f"The rotation used is {counter}"}
         # if none of them match English, return false!
-        return {"lc": self.lc, "IsPlaintext?": False, "Plaintext": None}
+        return {"lc": self.lc, "IsPlaintext?": False, "Plaintext": None, "Cipher": "Caesar", "Extra Information": None}
 
 
