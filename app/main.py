@@ -11,7 +11,7 @@ from languageCheckerMod.languageChecker import LanguageChecker
 from neuralNetworkMod.nn import NeuralNetwork
 
 from Decryptor.basicEncryption.basic_parent import BasicParent
-from Decryptor.Hash import hashBuster
+from Decryptor.Hash.hash_parent import HashParent
 
 import argparse
 import mathsHelper
@@ -29,7 +29,8 @@ class Ciphey:
 
         # the decryptor components
         self.basic = BasicParent(self.lc)
-    def decrypt(self, text):
+        self.hash = HashParent()
+    def decrypt(self):
                 
         """
         this method calls 1 level of decrypt
@@ -49,8 +50,8 @@ class Ciphey:
 
 
         """
-        self.probabilityDistribution = self.ai.predictnn(text)[0]
-        self.whatToChoose = {"Hashing":
+        self.probabilityDistribution = self.ai.predictnn(self.text)[0]
+        self.whatToChoose = {self.hash:
             {
             "sha1": self.probabilityDistribution[0], 
             "md5": self.probabilityDistribution[1],
@@ -69,8 +70,7 @@ class Ciphey:
             for k, v in value.items():
                 if v < 0.01:
                     self.whatToChoose[key][k] = 0.01
-        import pprint
-        pprint.pprint(self.whatToChoose)
+
         for key, value in self.whatToChoose.items():
             self.whatToChoose[key] = self.mh.sortDictionary(value)
 
@@ -114,13 +114,12 @@ class Ciphey:
 
     def one_level_of_decryption(self):
         for key, val in self.whatToChoose.items():
-            if key == str:
-                continue
             # https://stackoverflow.com/questions/4843173/how-to-check-if-type-of-a-variable-is-string
             if not isinstance(key, str):
                 key.setProbTable(val)
                 ret = key.decrypt(self.text)
-            print(ret)
+                if ret['IsPlaintext?']:
+                    print(ret)
     
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Blog')
@@ -135,6 +134,9 @@ if __name__ == "__main__":
     ██╔════╝██║██╔══██╗██║  ██║██╔════╝╚██╗ ██╔╝
     ██║     ██║██████╔╝███████║█████╗   ╚████╔╝ 
     ██║     ██║██╔═══╝ ██╔══██║██╔══╝    ╚██╔╝  
-    ╚██████╗██║██║     ██║  ██║███████╗   ██║ """)
-    cipherObj = Ciphey("uryyb zl sngure uryyb zl zbgure naq v ernyyl qb yvxr n tbbq ratyvfu oernxsnfg")
-    cipherObj.decrypt("this is a test")
+    ╚██████╗██║██║     ██║  ██║███████╗   ██║ 
+                Made by Brandon Skerritt""")
+                
+    #uryyb zl sngure uryyb zl zbgure naq v ernyyl qb yvxr n tbbq ratyvfu oernxsnfg
+    cipherObj = Ciphey("AAF4C61DDCC5E8A2DABEDE0F3B482CD9AEA9434D")
+    cipherObj.decrypt()
