@@ -18,3 +18,5 @@ for x in ciphertext:
         val = ord(x)
         print(val,end=" ")
         print("In binary: {0:b}".format(val))
+
+#( ͡° ͜ʖ ͡°)
