@@ -22,3 +22,5 @@ for char in ciphertext:
         output += " "
 
 print(output)
+
+# ( ͡° ͜ʖ ͡°)
