@@ -22,25 +22,11 @@ class EncodingParent:
         pass
     def callFunction(func):
         return func(self.text)
-    def base64(self, text):
-        import base64
-        try:
-            result = base64.b64decode(text)
-        except binascii.Error as e:
-            return {"lc": self.lc, "IsPlaintext?": False, "Plaintext": None, "Cipher": None, "Extra Information": None}
 
-        return {"lc": self.lc, "IsPlaintext?": True, "Plaintext": result, "Cipher": "Base64 encoded", "Extra Information": None}
     def binary(self, text):
         import binascii
 
-        def text_from_bits(bits, encoding='utf-8', errors='surrogatepass'):
-            n = int(bits, 2)
-            return int2bytes(n).decode(encoding, errors)
-        
-        def int2bytes(i):
-            hex_string = '%x' % i
-            n = len(hex_string)
-            return binascii.unhexlify(hex_string.zfill(n + (n & 1)))
+
 
         try:
             result = text_from_bits(text)
