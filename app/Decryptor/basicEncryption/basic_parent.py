@@ -39,7 +39,7 @@ class BasicParent:
         self.caesar = Caesar(self.lc)
         self.reverse = Reverse(self.lc)
 
-        self.list_of_objects = [self.caesar]
+        self.list_of_objects = [self.caesar, self.reverse]
     def decrypt(self, text):
         self.text = text
 

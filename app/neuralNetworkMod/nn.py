@@ -69,7 +69,6 @@ class NeuralNetwork:
         new = []
         final.append(data)
         final = numpy.asarray(final)
-        #print(new.shape)
         result = model.predict(new)
         return result
     def refreshEverything(self):
