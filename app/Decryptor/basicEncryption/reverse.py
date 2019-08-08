@@ -8,3 +8,5 @@ class Reverse:
             return {"lc": self.lc, "IsPlaintext?": True, "Plaintext": message, "Cipher": "Reverse", "Extra Information": None}
         else:
             return {"lc": self.lc, "IsPlaintext?": False, "Plaintext": None, "Cipher": "Reverse", "Extra Information": None}
+    def getName(self):
+        return "Reverse"
