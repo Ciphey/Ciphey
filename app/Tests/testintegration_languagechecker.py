@@ -1,7 +1,7 @@
 import sys
 sys.path.append("..")
 import unittest
-from languageCheckerMod.LanguageChecker import LanguageChecker
+from languageCheckerMod.languageChecker import LanguageChecker
 # python3 -m unittest Tests.testchi_squared
 # python -m unittest discover -s tests
 # python3 -m unittest discover -s Tests -p test*.py
