@@ -6,6 +6,7 @@ class Base64:
         
         try:
             result = base64.b64decode(text)
+            print("********************************", str(result))
         except binascii.Error as e:
             return {"lc": self.lc, "IsPlaintext?": False, "Plaintext": None, "Cipher": None, "Extra Information": None}
         if self.lc.checkLanguage(result):

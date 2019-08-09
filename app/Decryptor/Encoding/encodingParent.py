@@ -1,6 +1,11 @@
+from Decryptor.Encoding.base64 import Base64
+from Decryptor.Encoding.binary import Binary
+
 class EncodingParent:
     def __init__(self, lc):
         self.lc = lc
+        self.base64 = Base64(self.lc)
+        self.binary = Binary(self.lc)
     def decrypt(self, text):
         self.text = text
         torun = [self.base64]
@@ -13,24 +18,15 @@ class EncodingParent:
         """
         from multiprocessing.dummy import Pool as ThreadPool 
         pool = ThreadPool(4) 
-        results = pool.map(callFunction, torun)
-
-        """
-        Ok so this one will have a list of all functions it can call
-        then it'll map.apply that for threading
-        """
-        pass
-    def callFunction(func):
-        return func(self.text)
-
-    def binary(self, text):
-        import binascii
-
-
-
-        try:
-            result = text_from_bits(text)
-        except ValueError as e:
-            return {"lc": self.lc, "IsPlaintext?": False, "Plaintext": None, "Cipher": None, "Extra Information": None}
-        return {"lc": self.lc, "IsPlaintext?": True, "Plaintext": result, "Cipher": "ASCII to Binary encoded", "Extra Information": None}
+        answers = pool.map(self.callDecrypt, torun)
+ 
+        for answer in answers:
+            # adds the LC objects together
+            self.lc = self.lc + answer["lc"]
+            if answer["IsPlaintext?"]:
+                return answer
+        return {"lc": self.lc, "IsPlaintext?": False, "Plaintext": None, "Cipher": None, "Extra Information": None}
+    def callDecrypt(self, obj):
+        # i only exist to call decrypt
+        return obj.decrypt(self.text) 
         
