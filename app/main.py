@@ -12,6 +12,7 @@ from neuralNetworkMod.nn import NeuralNetwork
 
 from Decryptor.basicEncryption.basic_parent import BasicParent
 from Decryptor.Hash.hash_parent import HashParent
+from Decryptor.Encoding.encodingParent import EncodingParent
 
 import argparse
 import mathsHelper
@@ -30,6 +31,7 @@ class Ciphey:
         # the decryptor components
         self.basic = BasicParent(self.lc)
         self.hash = HashParent()
+        self.encoding = EncodingParent(self.lc)
     def decrypt(self):
                 
         """
