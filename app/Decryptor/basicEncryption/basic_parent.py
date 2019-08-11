@@ -1,5 +1,6 @@
 from Decryptor.basicEncryption.caesar import Caesar
 from Decryptor.basicEncryption.reverse import Reverse
+from Decryptor.basicEncryption.viginere import Viginere
 """
 So I want to assign the prob distribution to objects
 so it makes sense to do this?

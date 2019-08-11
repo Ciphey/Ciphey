@@ -1,6 +1,7 @@
 from Decryptor.Encoding.base64 import Base64
 from Decryptor.Encoding.binary import Binary
 from Decryptor.Encoding.hexadecimal import Hexadecimal
+from Decryptor.Encoding.ascii import Ascii
 
 class EncodingParent:
     def __init__(self, lc):
@@ -8,9 +9,10 @@ class EncodingParent:
         self.base64 = Base64(self.lc)
         self.binary = Binary(self.lc)
         self.hex = Hexadecimal(self.lc)
+        self.ascii = Ascii(self.lc)
     def decrypt(self, text):
         self.text = text
-        torun = [self.base64, self.binary, self.hex]
+        torun = [self.base64, self.binary, self.hex, self.ascii]
         """
         ok so I have an array of functions
         and I want to apply each function to some text
