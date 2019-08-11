@@ -36,4 +36,9 @@ class TestNN(unittest.TestCase):
         a = a.replace(" ", "")
         result = ep.decrypt(a)
         self.assertEqual(result['IsPlaintext?'], True)
-        
+    def test_ascii(self):
+        lc = LanguageChecker()
+        ep = EncodingParent(lc)
+        a = "68 65 6C 6C 6F 20 64 6F 67"
+        result = ep.decrypt(a)
+        self.assertEqual(result['IsPlaintext?'], True)
