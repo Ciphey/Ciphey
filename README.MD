@@ -16,16 +16,42 @@ Ciphey will then work through each cipher to try and decode it.
 
 Ciphey uses the language module (app/languageChecker) to determine both the language something is written in, and whether or not that string is valid in that language. So Ciphey would say "hello my name is whiteboard" is English. But it wouldn't say "iaid i2iv ria9i" is a language.
 
+Using the probability distribution, Ciphey calls each object on a new thread. Yes, Ciphey is **multi-threaded**.
+
+Ciphey is designed from the groundup to be as fast as physically possible. The second it sees the answer, it will stop and return that answer.
+
 # What encryptions can Ciphey deal with?
+Not just encryptions, but hashes and encodings too.
+
+* Vigenère cipher
+* Pig Latin
+* Morse Code
+* Ascii
+* Binary
+* Base64
+* Hexadecimal
+* Caesar Cipher
+* Reverse (palindrome)
+* Sha512
+* MD5
+* Sha1
+* Sha384
+* Sha256
 
 # How to install
+Just download the GitHub repo.
 
 # How to use
 
-the dictionarty.txt is a combination of
-* top 30,000 most used words (american)
-* top 10,000 most used british words
-* 100k of most popular passwords
+```
+pip install -r requirements.txt
+```
+
+And then
+
+```
+python main.py
+```
 
 # The internal data packet
 ```python
