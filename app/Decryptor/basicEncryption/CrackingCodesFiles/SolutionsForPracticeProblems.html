@@ -1,0 +1,1041 @@
+﻿<h1>Answers to Practice Problems</h1>
+
+<h2>Chapter 1</h2>
+
+<ol>
+  <li>
+    <p>Encrypt the following sentences with the given keys:</p>
+
+    <p>With key 4: "AMBIDEXTROUS: Able to pick with equal skill a right-hand pocket or a left."</p>
+
+    <p>ANSWER: EQFMHIbXVSYW:AEfpiAxsAtmgoA1mxlAiuyepAwomppAeAvmklx-lerhAtsgoixAsvAeApijxD</p>
+
+    <p>With key 17: "GUILLOTINE: A machine which makes a Frenchman shrug his shoulders with good reason."</p>
+
+    <p>ANSWER: bpdggjodiZ:RVR8vx349zRD34x3R8v6z.RvRa?z9x38v9R.3?B2R34.R.30B7yz?.RD4A3R200yR?zv.09U</p>
+
+    <p>With key 21: "IMPIETY: Your irreverence toward my deity."</p>
+
+    <p>ANSWER: dhkdZot:Rt0B?R4??zCz?z9xzRA0Dv?yR8FRyz4AFU</p>
+  </li>
+
+  <li>
+    <p>Decrypt the following ciphertexts with the given keys:</p>
+
+    <p>With key 15: "ZXAI: P RDHIJBT HDBTIXBTH LDGC QN HRDIRWBTC XC PBTGXRP PCS PBTGXRPCH XC HRDIAPCS."</p>
+
+    <p>ANSWER: KILT: A costume sometimes worn by Scotchmen in America and Americans in Scotland.</p>
+
+    <p>With key 4: "MQTSWXSV: E VMZEP EWTMVERX XS TYFPMG LSRSVW."</p>
+
+    <p>ANSWER: IMPOSTOR: A rival aspirant to public honors.</p>
+  </li>
+
+  <li>
+    <p>Encrypt the following sentence with the key 0:</p>
+
+    <p>"This is a silly example."</p>
+
+    <p>ANSWER: This is a silly example.</p>
+  </li>
+
+  <li>
+    <p>Here are some words and their encryptions. Which key was used for each word?</p>
+
+    <p>ROSEBUD – LIMYVOX</p>
+
+    <p>ANSWER: 20</p>
+
+    <p>YAMAMOTO – PRDRDFKF</p>
+
+    <p>ANSWER: 17</p>
+
+    <p>ASTRONOMY – HZAYVUVTF</p>
+
+    <p>ANSWER: 19</p>
+  </li>
+  <li>
+    <p>What does this sentence encrypted with key 8 decrypt to with key 9? "UMMSVMAA: Cvkwuuwv xibqmvkm qv xtivvqvo i zmdmvom bpib qa ewzbp epqtm."</p>
+
+    <p>ANSWER: LDDJMDRR: TMBNLLNM OZSHDMBD HM OKZMMHMF Z QDUDMFD SGZS HR VNQSG VGHKD. (Decrypting with the incorrect key results in nonsense text.)</p>
+  </li>
+
+</ol>
+
+
+<h2>Chapter 2</h2>
+
+<ol>
+  <li>
+    <p>Which is the operator for division, / or \ ?</p>
+
+    <p>ANSWER: / (The backslash \ is used for escape characters in strings, described in Chapter 3.)</p>
+  </li>
+  <li>
+    <p>Which of the following is an integer value, and which is a floating-point value?</p>
+
+    <ul>
+      <li><code>42</code></li>
+      <li><code>3.141592</code></li>
+    </ul>
+
+    <p>ANSWER: <code>42</code> is an integer value, <code>3.141592</code> is a floating-point value.</p>
+  </li>
+  <li>
+    <p>Which of the following lines are not expressions?</p>
+
+    <ul>
+      <li><code>4 x 10 + 2 </code></li>
+      <li><code>3 * 7 + 1 </code></li>
+      <li><code>2 + </code></li>
+      <li><code>42 </code></li>
+      <li><code>2 + 2 </code></li>
+      <li><code>spam = 42 </code></li>
+    </ul>
+
+    <p>ANSWER: 4 x 10 + 2 (x is not the multiplication operator, * is), 2 + (this expression is incomplete), and spam = 42 (this is an assignment statement, not an expression)</p>
+  </li>
+
+  <li>
+    <p>If you enter the following lines of code into the interactive shell, what do lines (1) and (2) print?</p>
+
+    <p>spam = 20<br />
+    spam + 20 # (1)<br />
+    SPAM = 30<br />
+    spam # (2)</p>
+
+    <p>ANSWER: Line 1 prints <code>40</code>, line 2 prints <code>20</code>. (<code>spam</code> and <code>SPAM</code> are two different variables.)
+  </li>
+
+</ol>
+
+
+<h2>Chapter 3</h2>
+
+<ol>
+  <li>
+    <p>If you assign spam = 'Cats' , what do the following lines print?</p>
+
+    <p><code>spam + spam + spam</code></p>
+
+    <p>ANSWER: <code>'CatsCatsCats'</code></p>
+
+    <p><code>spam * 3</code></p>
+
+    <p>ANSWER: 'CatsCatsCats'</p>
+  </li>
+  <li>
+    <p>What do the following lines print?</p>
+
+    <p><code>print("Dear Alice,\nHow are you?\nSincerely,\nBob")</code></p>
+
+    <p>ANSWER: Dear Alice,<br />How are you?<br />Sincerely,<br />Bob</p>
+
+    <p><code>print('Hello' + 'Hello')</code></p>
+
+    <p>ANSWER: HelloHello</p>
+  </li>
+  <li>
+    <p>If you assign <code>spam = 'Four score and seven years is eighty seven years.'</code>, what would each of the following lines print?</p>
+
+    <p><code>print(spam[5])</code></p>
+
+    <p>ANSWER: s</p>
+
+    <p><code>print(spam[-3])</code></p>
+
+    <p>ANSWER: r</p>
+
+    <p><code>print(spam[0:4] + spam[5])</code></p>
+
+    <p>ANSWER: Fours</p>
+
+
+    <p><code>print(spam[-3:-1])</code></p>
+
+    <p>ANSWER: rs</p>
+
+
+    <p><code>print(spam[:10])</code></p>
+
+    <p>ANSWER: Four score</p>
+
+
+    <p><code>print(spam[-5:])</code></p>
+
+    <p>ANSWER: ears.</p>
+
+
+    <p><code>print(spam[:])</code></p>
+
+    <p>ANSWER: Four score and seven years is eighty seven years.</p>
+
+
+  </li>
+  <li>
+    <p>Which window displays the >>> prompt, the interactive shell or the file editor?</p>
+
+    <p>ANSWER: The interactive shell.</p>
+
+  </li>
+  <li>
+    <p>What does the following line print?</p>
+
+    <p><code>#print('Hello, world!')</code></p>
+
+    <p>ANSWER: It prints nothing.</p>
+  </li>
+</ol>
+
+
+<h2>Chapter 4</h2>
+
+<ol>
+  <li>
+    <p>What does the following piece of code print to the screen?</p>
+
+<pre>print(len('Hello') + len('Hello'))</pre>
+
+    <p>ANSWER: <code>10</code> (Both calls to <code>len()</code> return integer values, and the <code>5</code>s add to the integer value <code>10</code>, which is printed on the screen.)</p>
+  </li>
+  <li>
+    <p>What does this code print?</p>
+
+<pre>i = 0
+while i &lt; 3:
+    print('Hello')
+    i = i + 1</pre>
+
+  <p>ANSWER: Hello<br />
+Hello<br />
+Hello</p>
+
+  </li>
+  <li>
+    <p>How about this code?</p>
+
+<pre>i = 0
+spam = 'Hello'
+while i &lt; 5:
+    spam = spam + spam[i]
+    i = i + 1
+print(spam)</pre>
+
+  <p>ANSWER: HelloHello</p>
+
+  </li>
+  <li>
+    <p>And this?</p>
+
+<pre>i = 0
+while i &lt; 4:
+    while i &lt; 6:
+        i = i + 2
+        print(i)</pre>
+
+  <p>ANSWER: 2
+4
+6</p>
+
+  </li>
+</ol>
+
+
+<h2>Chapter 5</h2>
+
+<ol>
+  <li>
+    <p>Using caesarCipher.py, encrypt the following sentences with the given keys:</p>
+
+    <p><code>'"You can show black is white by argument," said Filby, "but you will never convince me."'</code> with key 8</p>
+
+    <p>ANSWER: "gw3EkivE1pw5EjtiksEq1E5pq2mEj7Eizo3umv2,"E1iqlENqtj7,E"j32E7w3E5qttEvm4mzEkwv4qvkmEumH"</p>
+
+    <p><code>'1234567890'</code> with key 21</p>
+
+    <p>ANSWER: HIJKLMNOPQ</p>
+
+  </li>
+  <li>
+    <p>Using caesarCipher.py, decrypt the following ciphertexts with the given keys:</p>
+
+    <p><code>'Kv?uqwpfu?rncwukdng?gpqwijB'</code> with key 2</p>
+
+    <p>ANSWER: It sounds plausible enough.</p>
+
+    <p><code>'XCBSw88S18A1S 2SB41SE .8zSEwAS50D5A5x81V'</code> with key 22</p>
+
+    <p>ANSWER: But all else of the world was invisible.</p>
+
+  </li>
+  <li>
+
+    <p>Which Python instruction would import a module named watermelon.py?</p>
+
+    <p>ANSWER: import watermelon</p>
+
+  </li>
+  <li>
+    <p>What do the following pieces of code display on the screen?</p>
+
+<pre>spam = 'foo'
+for i in spam:
+    spam = spam + i
+print(spam)</pre>
+
+    <p>ANSWER: foofoo</p>
+
+<pre>if 10 &lt; 5:
+    print('Hello')
+elif False:
+    print('Alice')
+elif 5 != 5:
+    print('Bob')
+else:
+    print('Goodbye')</pre>
+
+    <p>ANSWER: Goodbye</p>
+
+<pre>print('f' not in 'foo')</pre>
+
+    <p>ANSWER: False</p>
+
+<pre>print('foo' in 'f')</pre>
+
+    <p>ANSWER: False</p>
+
+<pre>print('hello'.find('oo'))</pre>
+
+    <p>ANSWER: -1 (The find() method returns -1 when it can't find the string.)</p>
+
+  </li>
+</ol>
+
+
+<h2>Chapter 6</h2>
+
+<ol>
+  <li>
+    <p>Break the following ciphertext, decrypting one line at a time because each line has a different key. Remember to escape any quote characters:</p>
+
+<pre>qeFIP?eGSeECNNS,
+5coOMXXcoPSZIWoQI,
+avnl1olyD4l'ylDohww6DhzDjhuDil,
+z.GM?.cEQc. 70c.7KcKMKHA9AGFK,
+?MFYp2pPJJUpZSIJWpRdpMFY,
+ZqH8sl5HtqHTH4s3lyvH5zH5spH4t pHzqHlH3l5K
+Zfbi,!tif!xpvme!qspcbcmz!fbu!nfA</pre>
+
+<p>ANSWER:<br />
+I love my kitty,<br />
+My kitty loves me,<br />
+Together we're happy as can be,<br />
+<br />
+Though my head has suspicions,<br />
+That I keep under my hat,<br />
+Of what if I shrank to the size of a rat.<br />
+<br />
+Yeah, she would probably eat me.<br />
+</p>
+
+  </li>
+</ol>
+
+<h2>Chapter 7</h2>
+
+<ol>
+  <li>
+    <p>With paper and pencil, encrypt the following messages with the key 9 using the transposition cipher. The number of characters has been provided for your convenience.</p>
+
+<p>Underneath a huge oak tree there was of swine a huge company, (61 characters)</p>
+
+<p>ANSWER: Uhot  on ahoamdakef pe  r harhtesunnur wgyegewie,aeean t  sec</p>
+
+<p>That grunted as they crunched the mast: For that was ripe and fell full fast. (77 characters)</p>
+
+<p>ANSWER: Tteeshiefheydtaplaad  :telst ct    t arhFwaf.gsueoanur n rsdlutcm   lnhhatrf </p>
+
+<p>Then they trotted away for the wind grew high: One acorn they left, and no more might you spy. (94 characters)</p>
+
+<p>ANSWER: T atg:renishtwhr nfogperaeeO t hynoy wnt,mt. t w eh o ttfih earyheoniayneoedrdgc d uy   hol m </p>
+
+  </li>
+  <li>
+    <p>In the following program, is each spam a global or local variable?</p>
+
+<pre>spam = 42
+def foo():
+    global spam
+    spam = 99
+    print(spam)</pre>
+
+    <p>ANSWER: They are all global. (The global statement makes the spam variables in foo() global.)</p>
+
+  </li>
+  <li>
+    <p>What value does each of the following expressions evaluate to?</p>
+
+    <pre>[0, 1, 2, 3, 4][2]</pre>
+
+    <p>ANSWER: <code>2</code></p>
+
+    <pre>[[1, 2], [3, 4]][0]</pre>
+
+    <p>ANSWER: <code>[1, 2]</code></p>
+
+    <pre>[[1, 2], [3, 4]][0][1]</pre>
+
+    <p>ANSWER: <code>2</code></p>
+
+    <pre>['hello'][0][1]</pre>
+
+    <p>ANSWER: <code>'e'</code></p>
+
+    <pre>[2, 4, 6, 8, 10][1:3]</pre>
+
+    <p>ANSWER: <code>[4, 6]</code></p>
+
+    <pre>list('Hello world!')</pre>
+
+    <p>ANSWER: <code>['H', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd', '!']</code></p>
+
+    <pre>list(range(10))[2]</pre>
+
+    <p>ANSWER: <code>2</code></p>
+
+  </li>
+  <li>
+    <p>What value does each of the following expressions evaluate to?</p>
+    <pre>len([2, 4])</pre>
+
+    <p>ANSWER: <code>2</code></p>
+
+    <pre>len([])</pre>
+
+    <p>ANSWER: <code>0</code></p>
+
+
+    <pre>len(['', '', ''])</pre>
+
+    <p>ANSWER: <code>3</code></p>
+
+
+    <pre>[4, 5, 6] + [1, 2, 3]</pre>
+
+    <p>ANSWER: <code>[4, 5, 6, 1, 2, 3]</code></p>
+
+
+    <pre>3 * [1, 2, 3] + [9]</pre>
+
+    <p>ANSWER: <code>[1, 2, 3, 1, 2, 3, 1, 2, 3, 9]</code></p>
+
+
+    <pre>42 in [41, 42, 42, 42]</pre>
+
+    <p>ANSWER: <code>True</code></p>
+
+
+  </li>
+  <li>
+    <p>What are the four augmented assignment operators?</p>
+
+    <p>ANSWER: <code>+=</code>, <code>-=</code>, <code>*=</code>, <code>/=</code></p>
+  </li>
+</ol>
+
+
+
+<h2>Chapter 8</h2>
+
+<ol>
+  <li>
+    <p>Using paper and pencil, decrypt the following messages with the key 9. The _ marks a single space. The total number of characters has been counted for you.</p>
+
+    <p>H_cb__irhdeuousBdi___prrtyevdgp_nir__eerit_eatoreechadihf_paken_ge_b_te_dih_aoa.da_tts_tn (89 characters)</p>
+
+    <p>ANSWER: He picked up the acorn and buried it straight By the side of a river both deep and great.</p>
+
+    <p>A_b__drottthawa_nwar_eci_t_nlel_ktShw_leec,hheat_.na__e_soogmah_a__ateniAcgakh_dmnor__ (86 characters)</p>
+
+    <p>ANSWER: At length he came back, and with him a She And the acorn was grown to a tall oak tree.</p>
+
+    <p>Bmmsrl_dpnaua!toeboo’ktn_uknrwos._yaregonr_w_nd,tu__oiady_hgtRwt___A_hhanhhasthtev__e_t_e__eo (93 characters)</p>
+
+    <p>ANSWER: But with many a hem! and a sturdy stroke, At length he brought down the poor Raven’s own oak.</p>
+
+  </li>
+  <li>
+    <p>When you enter the following code into the interactive shell, what does each line print?</p>
+
+    <pre>>>> math.ceil(3.0)</pre>
+
+    <p>ANSWER: <code>3</code></p>
+
+    <pre>>>> math.floor(3.1)</pre>
+
+    <p>ANSWER: <code>3</code></p>
+
+    <pre>>>> round(3.1)</pre>
+
+    <p>ANSWER: <code>3</code></p>
+
+    <pre>>>> round(3.5)</pre>
+
+    <p>ANSWER: <code>4</code></p>
+
+    <pre>>>> False and False</pre>
+
+    <p>ANSWER: <code>False</code></p>
+
+    <pre>>>> False or False</pre>
+
+    <p>ANSWER: <code>False</code></p>
+
+    <pre>>>> not not True</pre>
+
+    <p>ANSWER: <code>True</code></p>
+  </li>
+  <li>
+    <p>Draw the complete truth tables for the and, or, and not operators.</p>
+
+<table border="1">
+  <tr><td colspan="5">and Operator</td></tr>
+  <tr><td>A</td><td>and</td><td>B</td><td>==</td><td>Evaluates to</td></tr>
+  <tr><td>True</td><td>and</td><td>True</td><td>==</td><td>True</td></tr>
+  <tr><td>True</td><td>and</td><td>False</td><td>==</td><td>False</td></tr>
+  <tr><td>False</td><td>and</td><td>True</td><td>==</td><td>False</td></tr>
+  <tr><td>False</td><td>and</td><td>False</td><td>==</td><td>False</td></tr>
+</table><br /><br />
+
+<table border="1">
+  <tr><td colspan="5">or Operator</td></tr>
+  <tr><td>A</td><td>and</td><td>B</td><td>==</td><td>Evaluates to</td></tr>
+  <tr><td>True</td><td>or</td><td>True</td><td>==</td><td>True</td></tr>
+  <tr><td>True</td><td>or</td><td>False</td><td>==</td><td>True</td></tr>
+  <tr><td>False</td><td>or</td><td>True</td><td>==</td><td>True</td></tr>
+  <tr><td>False</td><td>or</td><td>False</td><td>==</td><td>False</td></tr>
+</table><br /><br />
+
+<table border="1">
+  <tr><td colspan="4">not Operator</td></tr>
+  <tr><td>not</td><td>A</td><td>==</td><td>Evaluates to</td></tr>
+  <tr><td>not</td><td>True</td><td>==</td><td>False</td></tr>
+  <tr><td>not</td><td>False</td><td>==</td><td>True</td></tr>
+</table><br /><br />
+  </li>
+
+
+  <li>
+    <p>Which of the following is correct?</p>
+
+    <pre>if __name__ == '__main__':</pre>
+
+    <pre>if __main__ == '__name__':</pre>
+
+    <pre>if _name_ == '_main_':</pre>
+
+    <pre>if _main_ == '_name_':</pre>
+
+    <p>ANSWER: <code>if __name__ == '__main__':</code></p>
+  </li>
+</ol>
+
+
+<h2>Chapter 9</h2>
+
+<ol>
+  <li>
+    <p>If you ran the following program and it printed the number 8 , what would it print the next time you ran it?</p>
+
+<pre>import random
+random.seed(9)
+print(random.randint(1, 10))</pre>
+
+    <p>ANSWER: <code>8</code> (Setting the seed to the same number will cause the same random numbers to be generated.)
+
+  </li>
+  <li>
+    <p>What does the following program print?</p>
+
+<pre>spam = [1, 2, 3]
+eggs = spam
+ham = eggs
+ham[0] = 99
+print(ham == spam)</pre>
+
+    <p>ANSWER: <code>True</code></p>
+
+  </li>
+  <li>
+    <p>Which module contains the deepcopy() function?</p>
+
+    <p>ANSWER: The <code>copy</code> module.</p>
+  </li>
+  <li>
+    <p>What does the following program print?</p>
+
+<pre>import copy
+spam = [1, 2, 3]
+eggs = copy.deepcopy(spam)
+ham = copy.deepcopy(eggs)
+ham[0] = 99
+print(ham == spam)</pre>
+
+    <p>ANSWER: <code>False</code></p>
+
+  </li>
+</ol>
+
+<h2>Chapter 10</h2>
+
+<ol>
+  <li>
+    <p>Which is correct: <code>os.exists()</code> or <code>os.path.exists()</code>?</p>
+
+    <p>ANSWER: <code>os.path.exists()</code></p>
+  </li>
+  <li>
+    <p>When is the Unix Epoch?</p>
+
+    <p>ANSWER: January 1st, 1970 at midnight, GMT</p>
+
+  </li>
+  <li>
+    <p>What do the following expressions evaluate to?</p>
+
+<pre>'Foobar'.startswith('Foo')</pre>
+
+    <p>ANSWER: <code>True</code></p>
+
+<pre>'Foo'.startswith('Foobar')</pre>
+
+    <p>ANSWER: <code>False</code></p>
+
+<pre>'Foobar'.startswith('foo')</pre>
+
+    <p>ANSWER: <code>False</code></p>
+
+<pre>'bar'.endswith('Foobar')</pre>
+
+    <p>ANSWER: <code>False</code></p>
+
+<pre>'Foobar'.endswith('bar')</pre>
+
+    <p>ANSWER: <code>True</code></p>
+
+<pre>'The quick brown fox jumped over the yellow lazy dog.'.title()</pre>
+
+    <p>ANSWER: <code>'The Quick Brown Fox Jumped Over The Yellow Lazy Dog.'</code></p>
+
+
+  </li>
+</ol>
+
+<h2>Chapter 11</h2>
+
+<ol>
+  <li>
+    <p>What does the following code print?</p>
+
+<pre>spam = {'name': 'Al'}
+print(spam['name'])</pre>
+
+    <p>ANSWER: <code>'Al'</code></p>
+
+  </li>
+  <li>
+    <p>What does this code print?</p>
+
+<pre>spam = {'eggs': 'bacon'}
+print('bacon' in spam)</pre>
+
+    <p>ANSWER: <code>False</code></p>
+
+  </li>
+  <li>
+    <p>What <code>for</code> loop code would print the values in the following spam dictionary?</p>
+
+    <p><code>spam = {'name': 'Zophie', 'species':'cat', 'age':8}</code></p>
+
+    <p>ANSWER: <code>spam = {'name': 'Zophie', 'species':'cat', 'age':8}<br />for key in spam:<br />&nbsp;&nbsp;&nbsp;&nbsp;print(spam[val])</code></p>
+
+  </li>
+  <li>
+    <p>What does the following line print?</p>
+
+<pre>print('Hello, world!'.split())</pre>
+
+    <p><code>['Hello,', 'world!']</code></p>
+
+  </li>
+  <li>
+    <p>What will the following code print?</p>
+
+    <p><code>def spam(eggs=42):<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;print(eggs)<br />
+    spam()<br />
+    spam('Hello')</code></p>
+
+  <p>ANSWER: <code>42<br />Hello</code></p>
+
+  </li>
+  <li>
+    <p>What percentage of words in this sentence are valid English words?</p>
+    <p>"Whether it's flobulllar in the mind to quarfalog the slings and arrows of outrageous guuuuuuuuur."</p>
+
+    <p>ANSWER: 80% (12 out of 15 words is 12 / 15 == 0.8, or 80%)</p>
+  </li>
+</ol>
+
+<h2>Chapter 12</h2>
+
+<ol>
+  <li>
+    <p>What does this expression evaluate to?</p>
+
+<pre>' Hello world'.strip()</pre>
+
+    <p>ANSWER: <code>'Hello world'</code></p>
+
+  </li>
+  <li>
+    <p>Which characters are whitespace characters?</p>
+
+    <p>ANSWER: space, tab, and newline</p>
+  </li>
+  <li>
+    <p>Why does <code>'Hello world'.strip('o')</code> evaluate to a string that still has Os in it?</p>
+
+    <p>ANSWER: Because <code>strip()</code> will only remove <code>'o'</code> from the left or right side of the string.</p>
+  </li>
+  <li>
+    <p>Why does <code>'xxxHelloxxx'.strip('X')</code> evaluate to a string that still has Xs in it?</p>
+
+    <p>ANSWER: Because <code>strip('X')</code> will only remove <code>'X'</code>, not <code>'x'</code>.</p>
+  </li>
+
+</ol>
+
+<h2>Chapter 13</h2>
+
+<ol>
+  <li>
+    <p>What do the following expressions evaluate to?</p>
+<pre>17 % 1000</pre>
+
+    <p>ANSWER: <code>17</code></p>
+
+<pre>5 % 5</pre>
+
+    <p>ANSWER: <code>0</code></p>
+
+  </li>
+  <li>
+    <p>What is the GCD of 10 and 15?</p>
+
+    <p>ANSWER: 5 (Because 5 is the largest number that evenly divides both 10 and 15.)</p>
+  </li>
+  <li>
+    <p>What does <code>spam</code> contain after executing <code>spam, eggs = 'hello', 'world'</code>?</p>
+
+    <p>ANSWER: <code>'hello'</code></p>
+  </li>
+  <li>
+    <p>The GCD of 17 and 31 is 1. Are 17 and 31 relatively prime?</p>
+
+    <p>ANSWER: Yes. (The definition of relatively prime is having a GCD of 1.)</p>
+  </li>
+  <li>
+    <p>Why aren’t 6 and 8 relatively prime?</p>
+
+    <p>ANSWER: Because their GCD is 2, not 1.</p>
+  </li>
+  <li>
+    <p>What is the formula for the modular inverse of A mod C?</p>
+
+    <p>ANSWER: The modular inverse i is where (A * i) % C == 1</p>
+  </li>
+</ol>
+
+<h2>Chapter 14</h2>
+
+<ol>
+  <li>
+    <p>The affine cipher is the combination of which two other ciphers?</p>
+
+    <p>ANSWER: The multiplicative and shift (or Caesar) cipher.</p>
+  </li>
+  <li>
+    <p>What is a tuple? How is a tuple different from a list?</p>
+
+    <p>ANSWER: A tuple is a data type that can contain multiple values like a list. Unlike a list, it's values are immutable and cannot be changed.</p>
+  </li>
+  <li>
+    <p>If Key A is 1, why does it make the affine cipher weak?</p>
+
+    <p>ANSWER: Because multiplying any number by 1 results in that number, and this means the affine cipher encrypts a letter to that same letter.
+  </li>
+  <li>
+    <p>If Key B is 0, why does it make the affine cipher weak?</p>
+
+    <p>ANSWER: Because adding 0 to a number results in that number, and this means the affine cipher encrypts a letter to that same letter.
+  </li>
+</ol>
+
+<h2>Chapter 15</h2>
+
+<ol>
+  <li>
+    <p>What does <code>2 ** 5</code> evaluate to?</p>
+
+    <p>ANSWER: <code>32</code></p>
+  </li>
+  <li>
+    <p>What does <code>6 ** 2</code> evaluate to?</p>
+
+    <p>ANSWER: <code>36</code></p>
+  </li>
+  <li>
+    <p>What does the following code print?</p>
+
+<pre>for i in range(5):
+    if i == 2:
+        continue
+    print(i)</pre>
+
+    <p>ANSWER: <pre>0
+1
+3
+4</pre>
+
+  </li>
+  <li>
+    <p>Does the main() function of affineHacker.py get called if another program runs import affineHacker?</p>
+
+    <p>ANSWER: No. (This is because when a program is imported, the <code>__name__</code> variable is set to <code>'affineHacker'</code> so <code>main()</code> isn't called.)
+  </li>
+</ol>
+
+<h2>Chapter 16</h2>
+
+<ol>
+  <li>
+    <p>Why can’t a brute-force attack be used against a simple substitution cipher, even with a powerful supercomputer?</p>
+
+    <p>ANSWER: There are too many possible keys, even for the most powerful computer.</p>
+  </li>
+  <li>
+    <p>What does the spam variable contain after running this code?</p>
+
+<pre>spam = [4, 6, 2, 8]
+spam.sort()</pre>
+
+    <p>ANSWER: <code>[2, 4, 6, 8]</code></p>
+  </li>
+  <li>
+    <p>What is a wrapper function?</p>
+
+    <p>ANSWER: A wrapper function calls another function, passing its arguments to the function and returning what the function returns.</p>
+  </li>
+  <li>
+    <p>What does 'hello'.islower() evaluate to?</p>
+
+    <p>ANSWER: <code>True</code></p>
+  </li>
+  <li>
+    <p>What does 'HELLO 123'.isupper() evaluate to?</p>
+
+    <p>ANSWER: <code>True</code></p>
+
+  </li>
+  <li>
+    <p>What does '123'.islower() evaluate to?</p>
+
+    <p>ANSWER: <code>False</code> (All letters must be lowercase and the string must have at least one letter for <code>islower()</code> to return <code>True</code></p>
+  </li>
+</ol>
+
+
+<h2>Chapter 17</h2>
+
+<ol>
+  <li>
+    <p>What is the word pattern for the word hello?</p>
+
+    <p>ANSWER: <code>'0.1.2.2.3'</code></p>
+  </li>
+  <li>
+    <p>Do mammoth and goggles have the same word pattern?</p>
+
+    <p>ANSWER: Yes. (<code>'0.1.0.0.2.3.4'</code>)</p>
+  </li>
+  <li>
+    <p>Which word could be the possible plaintext word for the cipherword PYYACAO? Alleged, efficiently, or poodle?</p>
+
+    <p>ANSWER: Alleged (The word pattern for both "PYYACAO" and "Alleged" is 0.1.1.2.3.2.4)</p>
+  </li>
+</ol>
+
+<h2>Chapter 18</h2>
+
+<ol>
+  <li>
+    <p>Which cipher is the Vigenère cipher similar to, except that the Vigenère cipher uses multiple keys instead of just one key?</p>
+
+    <p>ANSWER: The Vigenère cipher is similar to the Caesar cipher. (If you use a key that is one character long for the Vigenère cipher, it becomes identical to the Caesar cipher.)</p>
+  </li>
+  <li>
+    <p>How many possible keys are there for a Vigenère key with a key length</p>
+of 10?
+a. Hundreds
+b. Thousands
+c. Millions
+d. More than a trillion
+
+  <p>ANSWER: d. More than a trillion. (Technically, there are 141,167,095,653,376.)
+  </li>
+  <li>
+    <p>What kind of cipher is the Vigenère cipher?</p>
+
+    <p>ANSWER: The Vigenère cipher is known as a polyalphabetic shift cipher because it is a shift cipher (like the Caesar cipher) that uses multiple sets of substitutions.</p>
+  </li>
+</ol>
+
+<h2>Chapter 19</h2>
+
+<ol>
+  <li>
+    <p>What is frequency analysis?</p>
+
+    <p>ANSWER: Counting the frequency of letters in a ciphertext as part of cryptanalysis.</p>
+  </li>
+  <li>
+    <p>What are the six most commonly used letters in English?</p>
+
+    <p>ANSWER: ETAOIN</p>
+  </li>
+  <li>
+    <p>What does the spam variable contain after you run the following code?</p>
+
+<pre>spam = [4, 6, 2, 8]
+spam.sort(reverse=True)</pre>
+
+    <p>ANSWER: <code>[8, 6, 4, 2]</code></p>
+  </li>
+  <li>
+    <p>If the <code>spam</code> variable contains a dictionary, how can you get a list value of the keys in the dictionary?</p>
+
+    <p>ANSWER: <code>list(spam.keys())</code></p>
+  </li>
+</ol>
+
+<h2>Chapter 20</h2>
+
+<ol>
+  <li>
+    <p>What is a dictionary attack?</p>
+
+    <p>ANSWER: A dictionary attack is a brute force attack using the words in an English dictionary for the possible keys.</p>
+  </li>
+  <li>
+    <p>What does Kasiski examination of a ciphertext reveal?</p>
+
+    <p>ANSWER: Kasiski examination can reveal the length of the Vigenère key used for a ciphertext.</p>
+  </li>
+  <li>
+    <p>What two changes happen when converting a list value to a set value with the set() function?</p>
+
+    <p>ANSWER: Duplicate values are removed and the order of the values is lost (unlike lists, values in sets do not have an order)</p>
+  </li>
+  <li>
+    <p>If the spam variable contains <code>['cat', 'dog', 'mouse', 'dog']</code>, this list has four items in it. How many items does the list returned from list(set(spam)) have?</p>
+
+    <p>ANSWER: 3 (The duplicate <code>'dog'</code> value is removed.)
+  </li>
+  <li>
+    <p>What does the following code print?</p>
+
+<pre>print('Hello', end='')
+print('World')</pre>
+
+    <p>ANSWER: HelloWorld (on one line)</p>
+
+  </li>
+</ol>
+
+<h2>Chapter 21</h2>
+
+<ol>
+  <li>
+    <p>Why isn’t a one-time pad program presented in this chapter?</p>
+
+    <p>ANSWER: Because using the Vigenère program with a random key that is as long as the message is the same thing as a one-time pad.</p>
+  </li>
+  <li>
+    <p>Which cipher is the two-time pad equivalent to?</p>
+
+    <p>ANSWER: Re-using a one-time pad twice makes the ciphertext equivalent to being encrypted with the Vigenère cipher.</p>
+  </li>
+  <li>
+    <p>Would using a key twice as long as the plaintext message make the one-time pad twice as secure?</p>
+
+    <p>ANSWER: No. It is equally secure as a regular one-time pad since the additional letters in the key aren't used.</p>
+  </li>
+</ol>
+
+
+<h2>Chapter 22</h2>
+
+<ol>
+  <li>
+    <p>How many prime numbers are there?</p>
+
+    <p>ANSWER: There are an infinite number of prime numbers. There is no "largest" prime number.</p>
+  </li>
+  <li>
+    <p>What are integers that are not prime called?</p>
+
+    <p>ANSWER: Composite numbers</p>
+  </li>
+  <li>
+    <p>What are two algorithms for finding prime numbers?</p>
+
+    <p>ANSWER: Any two of: Trial division, Rabin-Miller, and the Sieve of Eratosthenes.</p>
+  </li>
+</ol>
+
+<h2>Chapter 23</h2>
+
+<ol>
+  <li>
+    <p>What is the difference between a symmetric cipher and an asymmetric cipher?</p>
+
+    <p>ANSWER: A symmetric cipher uses the same key for encrypting and decrypting. An asymmetric cipher uses two different keys for encrypting and decrypting.</p>
+  </li>
+  <li>
+    <p>Alice generates a public key and a private key. Unfortunately, she later loses her private key.</p>
+
+    <p>a. Will other people be able to send her encrypted messages?</p>
+    <p>ANSWER: Yes. Other people will use Alice's public key to send encrypted messages to Alice.</p>
+
+    <p>b. Will she be able to decrypt messages previously sent to her?</p>
+    <p>ANSWER: No. Alice needs her private key to decrypt these encrypted messages.</p>
+
+    <p>c. Will she be able to digitally sign documents?</p>
+    <p>ANSWER: No. Alice needs her private key to digitially sign documents.</p>
+
+    <p>d. Will other people be able to verify her previously signed documents?</p>
+    <p>ANSWER: Yes. Other people will use Alice's public key to verify any documents she signed before she lost her private key.</p>
+
+  </li>
+  <li>
+    <p>What are authentication and confidentiality? How are they different?</p>
+
+    <p>ANSWER: Authentication is verifying a person's identity; that they are who they say they are. Confidentiality is keeping information secret and readable by the intended recipient.</p>
+  </li>
+  <li>
+    <p>What is non-repudiation?</p>
+
+    <p>ANSWER: Non-repudiation is the property of digital signatures that a person cannot later claim they didn't sign it.</p>
+  </li>
+</ol>

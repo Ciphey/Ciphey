@@ -31,7 +31,7 @@ class dictionaryChecker:
         file = open("languageCheckerMod/English.txt", "r")
         f = file.readlines()
         file.close()
-        counter = 0.00
+        f = [x.strip().lower() for x in f]
         # dictionary is "word\n" so I remove the "\n"
 
         # so this should loop until it gets to the point in the @staticmethod
@@ -50,12 +50,18 @@ class dictionaryChecker:
         """
         counter = 0
         counterPercent = 0
-        for word in f:
+
+        for dictLengthCounter, word in enumerate(f):
+            # if there is more words counted than there is text
+            # it is 100%, sometimes it goes over
+            # so this stops that
             if counter >= len(text):
                 break
-            if word.strip() == text[counter]:
-                counter += 1
-                counterPercent += 1
+            # if the dictionary word is contained in the text somewhere
+            # counter + 1
+            if word in text:
+                counter = counter + 1
+                counterPercent = counterPercent + 1
         self.languageWordsCounter = counter
         self.languagePercentage = self.mh.percentage(float(self.languageWordsCounter), float(len(text)))
         return(counter)
