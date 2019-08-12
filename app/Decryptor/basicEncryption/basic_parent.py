@@ -39,8 +39,9 @@ class BasicParent:
         self.lc = lc
         self.caesar = Caesar(self.lc)
         self.reverse = Reverse(self.lc)
+        self.viginere = Viginere(self.lc)
 
-        self.list_of_objects = [self.caesar, self.reverse]
+        self.list_of_objects = [self.caesar, self.reverse, self.viginere]
     def decrypt(self, text):
         self.text = text
 
@@ -55,6 +56,7 @@ class BasicParent:
             # adds the LC objects together
             self.lc = self.lc + answer["lc"]
             if answer["IsPlaintext?"]:
+                print(answer)
                 return answer
         return {"lc": self.lc, "IsPlaintext?": False, "Plaintext": None, "Cipher": None, "Extra Information": None}
     def callDecrypt(self, obj):
