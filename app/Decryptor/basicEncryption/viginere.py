@@ -5,7 +5,7 @@ class Viginere:
         self.LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
         self.SILENT_MODE = True # If set to True, program doesn't print anything.
         self.NUM_MOST_FREQ_LETTERS = 4 # Attempt this many letters per subkey.
-        self.MAX_KEY_LENGTH = 16 # Will not attempt keys longer than this.
+        self.MAX_KEY_LENGTH = 10 # Will not attempt keys longer than this.
         self.NONLETTERS_PATTERN = re.compile('[^A-Z]')
 
         self.lc = lc

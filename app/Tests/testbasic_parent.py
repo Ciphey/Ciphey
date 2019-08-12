@@ -8,7 +8,6 @@ from languageCheckerMod.languageChecker import LanguageChecker
 # python3 -m unittest discover -s Tests -p test*.py
 
 class TestBasicParent(unittest.TestCase):
-    """
     def test_basic_parent_caesar_yes(self):
         lc = LanguageChecker()
         bp = BasicParent(lc)
@@ -23,7 +22,7 @@ class TestBasicParent(unittest.TestCase):
         lc = LanguageChecker()
         bp = BasicParent(lc)
         result = bp.decrypt("sevom ylpmis rac eht ciffart ruoy lla gnillenut si hcihw redivorp NPV a ekilnU")
-        self.assertEqual(result['IsPlaintext?'], True)"""
+        self.assertEqual(result['IsPlaintext?'], True)
     def test_viginere_yes(self):
         lc = LanguageChecker()
         bp = BasicParent(lc)
