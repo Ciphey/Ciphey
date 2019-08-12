@@ -1,6 +1,7 @@
 from Decryptor.basicEncryption.caesar import Caesar
 from Decryptor.basicEncryption.reverse import Reverse
 from Decryptor.basicEncryption.viginere import Viginere
+from Decryptor.basicEncryption.pigLatin import PigLatin
 """
 So I want to assign the prob distribution to objects
 so it makes sense to do this?
@@ -40,8 +41,9 @@ class BasicParent:
         self.caesar = Caesar(self.lc)
         self.reverse = Reverse(self.lc)
         self.viginere = Viginere(self.lc)
+        self.pig = PigLatin(self.lc)
 
-        self.list_of_objects = [self.caesar, self.reverse, self.viginere]
+        self.list_of_objects = [self.caesar, self.reverse, self.viginere, self.pig]
     def decrypt(self, text):
         self.text = text
 
@@ -56,7 +58,6 @@ class BasicParent:
             # adds the LC objects together
             self.lc = self.lc + answer["lc"]
             if answer["IsPlaintext?"]:
-                print(answer)
                 return answer
         return {"lc": self.lc, "IsPlaintext?": False, "Plaintext": None, "Cipher": None, "Extra Information": None}
     def callDecrypt(self, obj):
