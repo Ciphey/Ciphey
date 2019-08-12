@@ -63,7 +63,7 @@ class dictionaryChecker:
                 counter = counter + 1
                 counterPercent = counterPercent + 1
         self.languageWordsCounter = counter
-        self.languagePercentage = self.mh.percentage(float(self.languageWordsCounter), float(len(text)))
+        self.languagePercentage = self.mh.percentage(float(self.languageWordsCounter), float(len(text))) 
         return(counter)
 
     def confirmlanguage(self, text, language):
