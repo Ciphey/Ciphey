@@ -1,35 +1,16 @@
+import math
+
 class Transposition:
     def __init__(self, lc):
         self.lc = lc
     def decrypt(self, text):
         # Brute-force by looping through every possible key.
-        for key in range(1, len(message)):
-            decryptedText = self.decryptMessage(key, message)
-            if self.lc.
+        for key in range(1, len(text)):
+            decryptedText = self.decryptMessage(key, text)
+            if self.lc.checkLanguage(decryptedText):
+                return {"lc": self.lc, "IsPlaintext?": True, "Plaintext": decryptedText, "Cipher": "Transposition", "Extra Information": f"The key used is {key}"}
         
-            # Python programs can be stopped at any time by pressing Ctrl-C (on
-            # Windows) or Ctrl-D (on Mac and Linux)
-            print('(Press Ctrl-C or Ctrl-D to quit at any time.)')
-        
-            # Brute-force by looping through every possible key.
-            for key in range(1, len(message)):
-                print('Trying key #%s...' % (key))
-        
-                decryptedText = transpositionDecrypt.decryptMessage(key, message)
-        
-                if detectEnglish.isEnglish(decryptedText):
-                    # Ask user if this is the correct decryption.
-                    print()
-                    print('Possible encryption hack:')
-                    print('Key %s: %s' % (key, decryptedText[:100]))
-                    print()
-                    print('Enter D if done, anything else to continue hacking:')
-                    response = input('> ')
-        
-                    if response.strip().upper().startswith('D'):
-                        return decryptedText
-        
-            return None
+            return {"lc": self.lc, "IsPlaintext?": False, "Plaintext": None, "Cipher": "Transposition", "Extra Information": None}
     def decryptMessage(self, key, message):
         # The transposition decrypt function will simulate the "columns" and
         # "rows" of the grid that the plaintext is written on by using a list
