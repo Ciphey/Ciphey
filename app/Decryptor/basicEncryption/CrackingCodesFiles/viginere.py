@@ -1,14 +1,12 @@
 import itertools, re
-from Decryptor.basicEncryption import freqAnalysis 
+import vigenereCipher, freqAnalysis, detectEnglish
 class Viginere:
-    def __init__(self, lc):
+    def __init__(self):
         self.LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-        self.SILENT_MODE = True # If set to True, program doesn't print anything.
+        self.SILENT_MODE = False # If set to True, program doesn't print anything.
         self.NUM_MOST_FREQ_LETTERS = 4 # Attempt this many letters per subkey.
         self.MAX_KEY_LENGTH = 16 # Will not attempt keys longer than this.
         self.NONLETTERS_PATTERN = re.compile('[^A-Z]')
-
-        self.lc = lc
 
 
     def main(self):
@@ -22,12 +20,6 @@ class Viginere:
             print(hackedMessage)
         else:
             print('Failed to hack encryption.')
-    def decrypt(self, text):
-        result =  self.hackVigenere(text)
-        if result['IsPlaintext?']:
-            return result
-        else:
-            return result
 
 
     def findRepeatSequencesSpacings(self, message):
@@ -201,7 +193,7 @@ class Viginere:
 
             decryptedText = self.decryptMessage(possibleKey, ciphertextUp)
 
-            if self.lc.checkLanguage(decryptedText):
+            if detectEnglish.isEnglish(decryptedText):
                 # Set the hacked ciphertext to the original casing:
                 origCase = []
                 for i in range(len(ciphertext)):
@@ -212,7 +204,14 @@ class Viginere:
                 decryptedText = ''.join(origCase)
 
                 # Check with user to see if the key has been found:
-                return {"lc": self.lc, "IsPlaintext?": True, "Plaintext": decryptedText, "Cipher": "Viginere", "Extra Information": f"The key used is {possibleKey}"}
+                print('Possible encryption hack with key %s:' % (possibleKey))
+                print(decryptedText[:200]) # Only show first 200 characters.
+                print()
+                print('Enter D if done, anything else to continue hacking:')
+                response = input('> ')
+
+                if response.strip().upper().startswith('D'):
+                    return decryptedText
 
         # No English-looking decryption found, so return None:
         return None
@@ -243,7 +242,7 @@ class Viginere:
             for keyLength in range(1, self.MAX_KEY_LENGTH + 1):
                 # Don't re-check key lengths already tried from Kasiski:
                 if keyLength not in allLikelyKeyLengths:
-                    if not self.SILENT_MODE:
+                    if not SILENT_MODE:
                         print('Attempting hack with key length %s (%s possible keys)...' % (keyLength, self.NUM_MOST_FREQ_LETTERS ** keyLength))
                     hackedMessage = self.attemptHackWithKeyLength(ciphertext, keyLength)
                     if hackedMessage != None:
