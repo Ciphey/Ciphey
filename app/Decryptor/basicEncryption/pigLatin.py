@@ -1,6 +1,8 @@
 class PigLatin:
     def __init__(self, lc):
         self.lc = lc
+    def getName(self):
+        return "Pig Latin"
     def decrypt(self, message):
         # If the message is less than or equal to 3 charecters, it's impossible to perform
         # a pig latin cipher on it unless the word was one letter long
