@@ -11,7 +11,7 @@ from languageCheckerMod.languageChecker import LanguageChecker
 from neuralNetworkMod.nn import NeuralNetwork
 
 from Decryptor.basicEncryption.basic_parent import BasicParent
-from Decryptor.Hash.hash_parent import HashParent
+from Decryptor.Hash.hashParent import HashParent
 from Decryptor.Encoding.encodingParent import EncodingParent
 
 import argparse
@@ -63,7 +63,7 @@ class Ciphey:
         self.basic: {
             "caesar": self.probabilityDistribution[4]
         },
-        "plaintext":{
+        self.encoding:{
             "plaintext": self.probabilityDistribution[5]
         }
         }
@@ -122,6 +122,9 @@ class Ciphey:
                 ret = key.decrypt(self.text)
                 if ret['IsPlaintext?']:
                     print(ret)
+        print("No encryption found. Here's the probabilities we calculated")
+        import pprint
+        pprint.pprint(self.whatToChoose)
     
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Blog')
@@ -140,5 +143,5 @@ if __name__ == "__main__":
                 Made by Brandon Skerritt""")
                 
     #uryyb zl sngure uryyb zl zbgure naq v ernyyl qb yvxr n tbbq ratyvfu oernxsnfg
-    cipherObj = Ciphey("AAF4C61DDCC5E8A2DABEDE0F3B482CD9AEA9434D")
+    cipherObj = Ciphey("racecar")
     cipherObj.decrypt()

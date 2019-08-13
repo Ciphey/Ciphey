@@ -17,6 +17,8 @@ class Affine:
                 return {"lc": self.lc, "IsPlaintext?": True, "Plaintext": decryptedText, "Cipher": "Affine", "Extra Information": f"The key used is {key}"}
 
         return {"lc": self.lc, "IsPlaintext?": False, "Plaintext": None, "Cipher": "Affine", "Extra Information": None}
+    def getName(self):
+        return "Affine"
 
     def getKeyParts(self, key):
         keyA = key // len(SYMBOLS)
