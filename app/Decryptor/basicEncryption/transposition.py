@@ -11,6 +11,8 @@ class Transposition:
                 return {"lc": self.lc, "IsPlaintext?": True, "Plaintext": decryptedText, "Cipher": "Transposition", "Extra Information": f"The key used is {key}"}
         
             return {"lc": self.lc, "IsPlaintext?": False, "Plaintext": None, "Cipher": "Transposition", "Extra Information": None}
+    def getName(self):
+        return "Transposition"
     def decryptMessage(self, key, message):
         # The transposition decrypt function will simulate the "columns" and
         # "rows" of the grid that the plaintext is written on by using a list
