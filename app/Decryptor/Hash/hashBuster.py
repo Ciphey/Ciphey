@@ -20,35 +20,7 @@ import requests
 import argparse
 import concurrent.futures
 
-parser = argparse.ArgumentParser()
-parser.add_argument('-s', help='hash', dest='hash')
-parser.add_argument('-f', help='file containing hashes', dest='file')
-parser.add_argument('-d', help='directory containing hashes', dest='dir')
-parser.add_argument('-t', help='number of threads', dest='threads', type=int)
-args = parser.parse_args()
-
-#Colors and shit like that
-end = '\033[0m'
-red = '\033[91m'
-green = '\033[92m'
-white = '\033[97m'
-dgreen = '\033[32m'
-yellow = '\033[93m'
-back = '\033[7;91m'
-run = '\033[97m[~]\033[0m'
-que = '\033[94m[?]\033[0m'
-bad = '\033[91m[-]\033[0m'
-info = '\033[93m[!]\033[0m'
-good = '\033[92m[+]\033[0m'
-
-cwd = os.getcwd()
-directory = args.dir
-file = args.file
-thread_count = args.threads or 4
-
-if directory:
-    if directory[-1] == '/':
-        directory = directory[:-1]
+thread_count =  4
 
 def alpha(hashvalue, hashtype):
     return False
@@ -118,10 +90,7 @@ def crack(hashvalue):
             if r:
                 return {"lc": None, "IsPlaintext?": True, "Plaintext": r, "Cipher": "sha512", "Extra Information": None}
     else:
-        if not file:
-            return {"lc": None, "IsPlaintext?": False, "Plaintext": None, "Cipher": None, "Extra Information": "The hash wasn't found. Please try Hashkiller.co.uk first, then use Hashcat to manually crack the hash."}
-        else:
-            return {"lc": None, "IsPlaintext?": False, "Plaintext": None, "Cipher": None, "Extra Information": "The hash wasn't found. Please try Hashkiller.co.uk first, then use Hashcat to manually crack the hash."}
+        return {"lc": None, "IsPlaintext?": False, "Plaintext": None, "Cipher": None, "Extra Information": "The hash wasn't found. Please try Hashkiller.co.uk first, then use Hashcat to manually crack the hash."}
 
 result = {}
 
@@ -160,22 +129,3 @@ def single(args):
         print (result)
     else:
         print ('%s Hash was not found in any database.' % bad)
-
-if directory:
-    try:
-        grepper(directory)
-    except KeyboardInterrupt:
-        pass
-
-elif file:
-    try:
-        miner(file)
-    except KeyboardInterrupt:
-        pass
-    with open('cracked-%s' % file.split('/')[-1], 'w+') as f:
-        for hashvalue, cracked in result.items():
-            f.write(hashvalue + ':' + cracked + '\n')
-    print ('%s Results saved in cracked-%s' % (info, file.split('/')[-1]))
-
-elif args.hash:
-    single(args)
