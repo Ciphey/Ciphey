@@ -1,7 +1,11 @@
+import mathsHelper
 class Reverse:
     def __init__(self, lc):
         self.lc = lc
+        self.mh = mathsHelper.mathsHelper()
     def decrypt(self, message):
+        message = self.mh.stripPuncuation(message)
+
         message = message[::-1]
         result = self.lc.checkLanguage(message)
         if result:
