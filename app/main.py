@@ -19,7 +19,7 @@ import mathsHelper
 import collections
 
 class Ciphey:
-    def __init__(self, text):
+    def __init__(self, text, level=1, sickomode=False):
         # general purpose modules 
         self.ai = NeuralNetwork()
         self.lc = LanguageChecker()
@@ -32,6 +32,9 @@ class Ciphey:
         self.basic = BasicParent(self.lc)
         self.hash = HashParent()
         self.encoding = EncodingParent(self.lc)
+
+        self.level = level
+        self.sickomode = sickomode
     def decrypt(self):
                 
         """
@@ -63,8 +66,16 @@ class Ciphey:
         self.basic: {
             "caesar": self.probabilityDistribution[4]
         },
-        self.encoding:{
+        "plaintext": {
             "plaintext": self.probabilityDistribution[5]
+        },
+        self.encoding:{
+            "reverse": self.probabilityDistribution[6],
+            "base64": self.probabilityDistribution[7],
+            "binary": self.probabilityDistribution[8],
+            "hexadecimal": self.probabilityDistribution[9],
+            "ascii": self.probabilityDistribution[10],
+            "morse": self.probabilityDistribution[11]
         }
         }
         # sorts each indiviudal sub-dictionary
@@ -112,36 +123,99 @@ class Ciphey:
             sort that dictionary
         sort the overall dictionary by the first value of the new dictionary
         """
-        self.one_level_of_decryption()
+        if self.level <= 1:
+            self.one_level_of_decryption()
+        else:
+            if self.sickomode:
+                print('''
+                MMMMSSSSSSSSSSSSSSSSSMSS;.     .dMMMMSSSSSSMMSSSSSSSSS
+                MMSSSSSSSMSSSSSMSSSSMMMSS."-.-":MMMMMSSSSMMMMSSMSSSMMS
+                MSSSSSSSMSSSSMMMSSMMMPTMM;"-/":MMM^"     MMMSSMMMSSMM
+                SSSSSSSMMSSMMMMMMMMMP-.MMM :  ;.;P       dMMMMMMMMMP' 
+                SSMSSSMMMSMMMMMMMMMP   :M;`:  ;.'+"""t+dMMMMMMMMMMP   
+                MMMSSMMMMMMMMPTMMMM"""":P `.\// '    ""^^MMMMMMMP'    
+                MMMMMMPTMMMMP="TMMMsg,      \/   db`c"  dMMMMMP"      
+                MMMMMM  TMMM   d$$$b ^          /T$; ;-/TMMMP         
+                MMMMM; .^`M; d$P^T$$b          :  $$ ::  "T(          
+                MMMMMM   .-+d$$   $$$;         ; d$$ ;;  __           
+                MMMMMMb   _d$$$   $$$$         :$$$; :MmMMMMp.        
+                MMMMMM"  " T$$$._.$$$;          T$P.'MMMSSSSSSb.      
+                MMM`TMb   -")T$$$$$$P'       `._ ""  :MMSSSMMP'       
+                MMM / \    '  "T$$P"           /     :MMMMMMM         
+                MMSb`. ;                      "      :MMMMMMM         
+                MMSSb_lSSSb.      \ `.   .___.       MMMMMMMM         
+                MMMMSSSSSSSSb.                     .MMMMMMMMM         
+                MMMMMMMMMMMSSSb                  .dMMMMMMMMM'         
+                MMMMMMMMMMMMMSS;               .dMMMMMMMMMMP          
+                MMMMMMMMMMMMMb`;"-.          .dMMMMMMMMMMP'           
+                MMMMMMMMMMMMMMb    ""--.___.dMMMMMMMMMP^"       
+                
+                                      _..._                 .-'''                                  '''-.                                     
+                   .-'_..._''.             '   _    \                               '   _    \ _______                           
+           .--.  .' .'      '.\    .     /   /` '.   \            __  __   ___    /   /` '.     ___ `'.         __.....__      
+           |__| / .'             .'|    .   |     \  '           |  |/  `.'   `. .   |     \  ' ' |--.\  \    .-''         '.    
+           .--.. '             .'  |    |   '      |  '          |   .-.  .-.   '|   '      |  '| |    \  '  /     .-''"'-.  `.  
+           |  || |            <    |    \    \     / /           |  |  |  |  |  |\    \     / / | |     |  '/     /________\   \ 
+       _   |  || |             |   | ____`.   ` ..' /            |  |  |  |  |  | `.   ` ..' /  | |     |  ||                  | 
+     .' |  |  |. '             |   | \ .'   '-...-'`             |  |  |  |  |  |    '-...-'`   | |     ' .'\    .-------------' 
+    .   | /|  | \ '.          .|   |/  .                         |  |  |  |  |  |               | |___.' /'  \    '-.____...---. 
+  .'.'| |//|__|  '. `._____.-'/|    /\  \                        |__|  |__|  |__|              /_______.'/    `.             .'  
+.'.'.-'  /         `-.______ / |   |  \  \                                                     \_______|/       `''-...... -'    
+.'   \_.'       _..._       `  '    \  \  \                                                                                      
+             .-'_..._''.      '------'  '---'                                         _______                                    
+           .' .'      '.\      .--..----.     .----.                     __.....__    \  ___ `'.                                 
+          / .'                 |__| \    \   /    /                  .-''         '.   ' |--.\  \                                
+         . '               .|  .--.  '   '. /'   /             .|   /     .-''"'-.  `. | |    \  '                               
+    __   | |             .' |_ |  |  |    |'    /    __      .' |_ /     /________\   \| |     |  '                              
+ .:--.'. | |           .'     ||  |  |    ||    | .:--.'.  .'     ||                  || |     |  |                              
+/ |   \ |. '          '--.  .-'|  |  '.   `'   .'/ |   \ |'--.  .-'\    .-------------'| |     ' .'                              
+`" __ | | \ '.          .|  |  |  |   \        / `" __ | |   |  |   \    '-.____...---.| |___.' /'                               
+ .'.''| |  '. `._____.-'/|  |  |__|    \      /   .'.''| |   |  |    `.             .'/_______.'/                                
+/ /   | |_   `-.______ / |  '.'         '----'   / /   | |_  |  '.'    `''-...... -'  \_______|/                                 
+\ \._,\ '/            `  |   /                   \ \._,\ '/  |   /                                                               
+ `--'  `"                `'-'                     `--'  `"   `'-'                                                                
 
-    def one_level_of_decryption(self):
+                ''')
+            f = open("decryptionContents.txt", "w")
+            self.one_level_of_decryption(file=f, sickomode=self.sickomode)
+            
+            for i in range(0, self.level):
+                # open file and go through each text item
+                pass
+
+    def one_level_of_decryption(self, file=None, sickomode=None):
         for key, val in self.whatToChoose.items():
             # https://stackoverflow.com/questions/4843173/how-to-check-if-type-of-a-variable-is-string
             if not isinstance(key, str):
                 key.setProbTable(val)
                 ret = key.decrypt(self.text)
                 if ret['IsPlaintext?']:
-                    print(ret)
+                    print(ret['Plaintext'])
+                    return ret
         print("No encryption found. Here's the probabilities we calculated")
         import pprint
         pprint.pprint(self.whatToChoose)
     
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Blog')
+    parser = argparse.ArgumentParser(description='Automated decryption tool. Put in the encrypted text and Ciphey will decrypt it.')
     parser.add_argument('-f','--file', help='File you want to decrypt', required=False)
     parser.add_argument('-l','--level', help='How many levels of decryption you want (the more levels, the slower it is)', required=False)
     parser.add_argument('-g','--greppable', help='Are you grepping this output?', required=False)
-    parser.add_argument('-t','--text', help='Text to decrypt', required=False)
+    parser.add_argument('-t','--text', help='Text to decrypt', required=True)
+    parser.add_argument('-s','--sicko-mode', help='If it is encrypted Ciphey WILL find it', required=False)
 
     args = vars(parser.parse_args())
-    print("""
+    """
     ██████╗██╗██████╗ ██╗  ██╗███████╗██╗   ██╗
     ██╔════╝██║██╔══██╗██║  ██║██╔════╝╚██╗ ██╔╝
     ██║     ██║██████╔╝███████║█████╗   ╚████╔╝ 
     ██║     ██║██╔═══╝ ██╔══██║██╔══╝    ╚██╔╝  
     ╚██████╗██║██║     ██║  ██║███████╗   ██║ 
-                Made by Brandon Skerritt""")
+                Made by Brandon Skerritt"""
                 
     #uryyb zl sngure uryyb zl zbgure naq v ernyyl qb yvxr n tbbq ratyvfu oernxsnfg
-    cipherObj = Ciphey("racecar")
-    cipherObj.decrypt()
+    if args['text']:
+        cipherObj = Ciphey(args['text'])
+        cipherObj.decrypt()
+    else:
+        print("You didn't supply any arguments")

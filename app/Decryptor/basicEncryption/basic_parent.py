@@ -45,7 +45,7 @@ class BasicParent:
         self.pig = PigLatin(self.lc)
         self.trans = Transposition(self.lc)
 
-        self.list_of_objects = [self.caesar, self.reverse, self.viginere, self.pig, self.trans]
+        self.list_of_objects = [self.caesar, self.reverse, self.pig, self.trans]
     def decrypt(self, text):
         self.text = text
 
@@ -61,6 +61,13 @@ class BasicParent:
             self.lc = self.lc + answer["lc"]
             if answer["IsPlaintext?"]:
                 return answer
+        
+        # so viginere runs ages 
+        # and you cant kill threads in a pool
+        # so i just run it last lol
+        result = self.callDecrypt(self.viginere)
+        if result["IsPlaintext?"]:
+            return result
         return {"lc": self.lc, "IsPlaintext?": False, "Plaintext": None, "Cipher": None, "Extra Information": None}
     def callDecrypt(self, obj):
         # i only exist to call decrypt

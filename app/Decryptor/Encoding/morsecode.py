@@ -1,7 +1,7 @@
 class MorseCode:
     def __init__(self, lc):
         self.lc = lc
-        self.ALLOWED = [".", "-", " ", "/"]
+        self.ALLOWED = [".", "-", " ", "/", "\n"]
         self.MORSE_CODE_DICT = {'A': '.-', 'B': '-...',
         'C': '-.-.', 'D': '-..', 'E': '.',
         'F': '..-.', 'G': '--.', 'H': '....',
@@ -15,7 +15,7 @@ class MorseCode:
         '0': '-----',  '1': '.----',  '2': '..---',
         '3': '...--',  '4': '....-',  '5': '.....',
         '6': '-....',  '7': '--...',  '8': '---..',
-        '9': '----.' 
+        '9': '----.', " ": "\n" 
         }
 
         self.MORSE_CODE_DICT_INV = {v: k for k, v in self.MORSE_CODE_DICT.items()}
