@@ -5,7 +5,7 @@ class Viginere:
         self.LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
         self.SILENT_MODE = True # If set to True, program doesn't print anything.
         self.NUM_MOST_FREQ_LETTERS = 4 # Attempt this many letters per subkey.
-        self.MAX_KEY_LENGTH = 10 # Will not attempt keys longer than this.
+        self.MAX_KEY_LENGTH = 4 # Will not attempt keys longer than this.
         self.NONLETTERS_PATTERN = re.compile('[^A-Z]')
 
         self.lc = lc
@@ -215,7 +215,7 @@ class Viginere:
                 return {"lc": self.lc, "IsPlaintext?": True, "Plaintext": decryptedText, "Cipher": "Viginere", "Extra Information": f"The key used is {possibleKey}"}
 
         # No English-looking decryption found, so return None:
-        return None
+        return {"lc": self.lc, "IsPlaintext?": False, "Plaintext": None, "Cipher": "Pig Latin", "Extra Information": None} 
 
 
     def hackVigenere(self, ciphertext):
@@ -251,6 +251,8 @@ class Viginere:
         return hackedMessage
     def decryptMessage(self, key, message):
         return self.translateMessage(key, message, 'decrypt')
+    def getName(self):
+        return "Viginere"
     
     
     def translateMessage(self, key, message, mode):

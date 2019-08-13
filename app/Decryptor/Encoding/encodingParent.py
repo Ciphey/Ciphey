@@ -12,6 +12,8 @@ class EncodingParent:
         self.hex = Hexadecimal(self.lc)
         self.ascii = Ascii(self.lc)
         self.morse = MorseCode(self.lc)
+    def setProbTable(self, table):
+        pass
     def decrypt(self, text):
         self.text = text
         torun = [self.base64, self.binary, self.hex, self.ascii, self.morse]
