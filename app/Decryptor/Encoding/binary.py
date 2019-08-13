@@ -13,6 +13,7 @@ class Binary:
 
         if self.lc.checkLanguage(result):
             return {"lc": self.lc, "IsPlaintext?": True, "Plaintext": result, "Cipher": "Ascii to Binary encoded", "Extra Information": None}
+        return {"lc": self.lc, "IsPlaintext?": False, "Plaintext": None, "Cipher": None, "Extra Information": None}
     
     def decode(self, text):
         """
