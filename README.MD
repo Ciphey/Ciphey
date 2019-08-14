@@ -24,6 +24,8 @@ Ciphey is designed from the groundup to be as fast as physically possible. The s
 Not just encryptions, but hashes and encodings too.
 
 * Vigenère cipher
+* Affine cipher
+* Transposition Cipher
 * Pig Latin
 * Morse Code
 * Ascii
