@@ -201,7 +201,7 @@ if __name__ == "__main__":
     parser.add_argument('-f','--file', help='File you want to decrypt', required=False)
     parser.add_argument('-l','--level', help='How many levels of decryption you want (the more levels, the slower it is)', required=False)
     parser.add_argument('-g','--greppable', help='Are you grepping this output?', required=False)
-    parser.add_argument('-t','--text', help='Text to decrypt', required=True)
+    parser.add_argument('-t','--text', help='Text to decrypt', required=False)
     parser.add_argument('-s','--sicko-mode', help='If it is encrypted Ciphey WILL find it', required=False)
 
     args = vars(parser.parse_args())
@@ -215,7 +215,14 @@ if __name__ == "__main__":
                 
     #uryyb zl sngure uryyb zl zbgure naq v ernyyl qb yvxr n tbbq ratyvfu oernxsnfg
     if args['text']:
-        cipherObj = Ciphey(args['text'])
+        #cipherObj = Ciphey(args['text'])
+        cipherObj = Ciphey(""""AaKoosoeDe5 b5sn ma reno ora'lhlrrceey e  enlh
+        na  indeit n uhoretrm au ieu v er Ne2 gmanw,forwnlbsya apor tE.no
+        euarisfatt  e mealefedhsppmgAnlnoe(c -or)alat r lw o eb  nglom,Ain
+        one dtes ilhetcdba. t tg eturmudg,tfl1e1 v  nitiaicynhrCsaemie-sp
+        ncgHt nie cetrgmnoa yc r,ieaa  toesa- e a0m82e1w shcnth  ekh
+        gaecnpeutaaieetgn iodhso d ro hAe snrsfcegrt NCsLc b17m8aEheideikfr
+        aBercaeu thllnrshicwsg etriebruaisss  d iorr.""")
         cipherObj.decrypt()
     else:
         print("You didn't supply any arguments")
