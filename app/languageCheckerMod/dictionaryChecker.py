@@ -15,7 +15,7 @@ class dictionaryChecker:
         self.mh = mathsHelper.mathsHelper()
         self.languagePercentage = 0.0
         self.languageWordsCounter = 0.0
-        self.languageThreshold = 75
+        self.languageThreshold = 55
     def checkDictionary(self, text, language):
         """Compares a word with 
         The dictionary is sorted and the text is sorted"""
