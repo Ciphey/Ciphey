@@ -19,7 +19,7 @@ import mathsHelper
 import collections
 
 class Ciphey:
-    def __init__(self, text, level=1, sickomode=False):
+    def __init__(self, text, cipher):
         # general purpose modules 
         self.ai = NeuralNetwork()
         self.lc = LanguageChecker()
@@ -33,8 +33,9 @@ class Ciphey:
         self.hash = HashParent()
         self.encoding = EncodingParent(self.lc)
 
-        self.level = level
-        self.sickomode = sickomode
+        self.level = 1
+        self.sickomode = False
+        self.cipher = cipher
     def decrypt(self):
                 
         """
@@ -191,6 +192,12 @@ class Ciphey:
                 ret = key.decrypt(self.text)
                 if ret['IsPlaintext?']:
                     print(ret['Plaintext'])
+                    if self.cipher:
+                        if ret['Extra Information'] != None:
+                            print("The cipher used is", ret['Cipher'] + ".", ret['Extra Information'] + ".")
+                        else:
+                            print(ret['Cipher'])
+
                     return ret
         print("No encryption found. Here's the probabilities we calculated")
         import pprint
@@ -203,8 +210,13 @@ if __name__ == "__main__":
     parser.add_argument('-g','--greppable', help='Are you grepping this output?', required=False)
     parser.add_argument('-t','--text', help='Text to decrypt', required=False)
     parser.add_argument('-s','--sicko-mode', help='If it is encrypted Ciphey WILL find it', required=False)
+    parser.add_argument('-c','--cipher', help='What is the cipher used?', required=False)
 
     args = vars(parser.parse_args())
+    if args['cipher'] != None:
+        cipher = True
+    else:
+        cipher = False
     """
     ██████╗██╗██████╗ ██╗  ██╗███████╗██╗   ██╗
     ██╔════╝██║██╔══██╗██║  ██║██╔════╝╚██╗ ██╔╝
@@ -215,14 +227,7 @@ if __name__ == "__main__":
                 
     #uryyb zl sngure uryyb zl zbgure naq v ernyyl qb yvxr n tbbq ratyvfu oernxsnfg
     if args['text']:
-        #cipherObj = Ciphey(args['text'])
-        cipherObj = Ciphey(""""AaKoosoeDe5 b5sn ma reno ora'lhlrrceey e  enlh
-        na  indeit n uhoretrm au ieu v er Ne2 gmanw,forwnlbsya apor tE.no
-        euarisfatt  e mealefedhsppmgAnlnoe(c -or)alat r lw o eb  nglom,Ain
-        one dtes ilhetcdba. t tg eturmudg,tfl1e1 v  nitiaicynhrCsaemie-sp
-        ncgHt nie cetrgmnoa yc r,ieaa  toesa- e a0m82e1w shcnth  ekh
-        gaecnpeutaaieetgn iodhso d ro hAe snrsfcegrt NCsLc b17m8aEheideikfr
-        aBercaeu thllnrshicwsg etriebruaisss  d iorr.""")
+        cipherObj = Ciphey(args['text'], cipher)
         cipherObj.decrypt()
     else:
         print("You didn't supply any arguments")
