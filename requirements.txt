@@ -67,7 +67,7 @@ tensorflow==1.14.0
 tensorflow-estimator==1.14.0
 termcolor==1.1.0
 traitlets==4.3.2
-Twisted==17.9.0
+Twisted==19.7.0
 ufw==0.36
 unattended-upgrades==0.1
 urllib3==1.22
