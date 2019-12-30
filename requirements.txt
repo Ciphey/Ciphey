@@ -52,7 +52,7 @@ pyOpenSSL==17.5.0
 pyserial==3.4
 python-apt==1.6.4
 python-debian==0.1.32
-pyxdg==0.25
+pyxdg==0.26
 PyYAML==5.1.1
 requests==2.18.4
 requests-unixsocket==0.1.5
