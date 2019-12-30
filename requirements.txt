@@ -70,7 +70,7 @@ traitlets==4.3.2
 Twisted==17.9.0
 ufw==0.36
 unattended-upgrades==0.1
-urllib3==1.22
+urllib3==1.24.2
 Werkzeug==0.15.5
 wrapt==1.11.2
 zope.interface==4.3.2
