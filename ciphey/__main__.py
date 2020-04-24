@@ -151,9 +151,6 @@ class Ciphey:
                 # Sets all 0 probabilities to 0.01, we want Ciphey to try all decryptions.
                 if v < 0.01:
                     # this should turn off hashing functions if offline mode is turned on
-                    if self.config["offline"]:
-                        if key.__name__() == "hashParent":
-                            continue
                     self.what_to_choose[key][k] = 0.01
         logger.trace(
             f"The probability table after 0.1 in __main__ is {self.what_to_choose}"
