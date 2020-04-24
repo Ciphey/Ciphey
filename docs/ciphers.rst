@@ -14,10 +14,16 @@ Encodings
 * Base16
 * Base32
 * Base64
+* base85
+* Ascii base85
+* Base62
+* Base58 Bitcoin
+* Base58 Ripple
 * Ascii
 * Hexadecimal
 * Binary
 * Morse Code
+* Morse code with new lines
 
 Hashes
 -------

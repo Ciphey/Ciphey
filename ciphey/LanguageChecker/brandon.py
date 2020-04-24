@@ -172,6 +172,7 @@ class Brandon(LanguageChecker):
         # Suppresses warning
         super().__init__(config)
         self.mh = mh.mathsHelper()
+        # ******************** CHANGE THE THRESHOLD TODO 
         self.languageThreshold = config["params"].get("threshold", 0.55)
         self.top1000Words = config["params"].get("top1000")
         self.wordlist = config["wordlist"]

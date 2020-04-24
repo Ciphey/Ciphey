@@ -13,6 +13,23 @@ These are taken from the GitHub Issues tab.
 * The code is now pep8'd
 * Move to Poetry from setuptools.py
 * Moved to Pytest from unittest
+## 5.0.0 _The Great Refactor_
+_The Great Refactor_ is version 5 of Ciphey. The entire program was refactored.
+#### Features
+* Added base58 Bitcoin
+* Added base58 Ripple
+* Added Base62 (link shortener char set)
+* Added base85
+* Added base85 asciii
+* **A brand new cipher detection interface**
+* **Much faster, much more accuracte `brandon` interface, which is the default plaintext checking interface**
+* Recursive decryption methods. Is your text base64 -> binary -> caesar -> vigenere? Ciphey can handle it now. I was told I'm not supposed to talk about nerdy things in the changelog but.... We're using A* search with the weight being how many computations it takes and the heuristic being the likelihood chance. Pretty nifty!
+#### Bug Fixes
+* Morse code is now better optimised and works across multiple different Morse alphabets.
+* Fixed issue where Vigenere broke on inputs of equal signs.
+#### Maintenance
+* Tensorflow is reduced from 500mb to a 1mb install using TF lite.
+* Models are now parsed in C++
 ## 4.1
 #### Features
 * Vigenere is now enabled, due to massive performance gains from the C++ core
