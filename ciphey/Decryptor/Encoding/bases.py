@@ -25,7 +25,8 @@ class Bases:
             self.base64(text),
             self.base85(text),
             self.ascii85(text),
-            self.base85_bitcoin(text),
+            self.base58_bitcoin(text),
+            self.base58_ripple(text, alphabet=base58.RIPPLE_ALPHABET),
             self.b62(text),
         ]
         for answer in bases:
@@ -40,11 +41,13 @@ class Bases:
         # if nothing works, it has failed.
         return self.badRet()
 
-    def _dispatch(self, decoder: Callable[[str], bytes], text: str, cipher: str):
+    def _dispatch(
+        self, decoder: Callable[[str], bytes], text: str, cipher: str, alphabet=None
+    ):
         logger.trace("Attempting base64")
         result = None
         try:
-            result = decoder(text)
+            result = decoder(text) if not alphabet else decoder(text, alphabet)
             # yeet turning b strings into normal stringy bois
             result = result.decode("utf-8")
         except UnicodeDecodeError as e:
@@ -121,15 +124,13 @@ class Bases:
         logger.trace("Attempting ascii85")
         return self._dispatch(base64.a85decode, text, "base85")
 
-    def base85_bitcoin(self, text: str):
+    def base58_bitcoin(self, text: str):
         logger.trace("Attempting Base58 Bitcoin")
         return self._dispatch(base58.b58decode, text, "base58_bitcoin")
 
-    def base85_ripple(self, text: str):
+    def base58_ripple(self, text: str, alphabet: str):
         logger.trace("Attempting Base58 ripple alphabet")
-        return self._dispatch(
-            base58.b58decode(alphabet=base58.RIPPLE_ALPHABET), text, "base58_bitcoin"
-        )
+        return self._dispatch(base58.b58decode, text, "base58_ripple", alphabet=alphabet)
 
     def b62(self, text: str):
         logger.trace("Attempting base62")

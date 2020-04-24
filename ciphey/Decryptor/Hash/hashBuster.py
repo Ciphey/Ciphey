@@ -93,6 +93,15 @@ sha512 = [alpha, beta, theta]
 
 
 def crack(hashvalue, lc):
+    return {
+        "lc": None,
+        "IsPlaintext?": False,
+        "Plaintext": None,
+        "Cipher": None,
+        "Extra Information": "The hash wasn't found. Please try Hashkiller.co.uk first, then use Hashcat to manually crack the hash.",
+    }
+
+
     logger.debug(f"Starting to crack hashes")
     result = False
     if len(hashvalue) == 32:
