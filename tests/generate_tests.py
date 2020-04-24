@@ -65,9 +65,9 @@ def test_{cipher['Encrypted Texts']['CipherUsed']}_{id}():
         return f"""
 def test_{cipher['Encrypted Texts']['CipherUsed']}_{id}():
     # {cipher}
-    cfg = make_default_config('''{cipher['Encrypted Texts']['EncryptedText']}''')
+    cfg = make_default_config('''{cipher['Encrypted Texts']['EncryptedText']}'''
     cfg["debug"] = "TRACE"
-    result = main(cfg)
+    result = main(cfg, config=\{'offline': True\})
 
     assert result["IsPlaintext?"] == True 
 """
