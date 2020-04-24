@@ -150,6 +150,10 @@ class Ciphey:
             for k, v in value.items():
                 # Sets all 0 probabilities to 0.01, we want Ciphey to try all decryptions.
                 if v < 0.01:
+                    # this should turn off hashing functions if offline mode is turned on
+                    if self.config["offline"]:
+                        if key.__name__() == "hashParent":
+                            continue
                     self.what_to_choose[key][k] = 0.01
         logger.trace(
             f"The probability table after 0.1 in __main__ is {self.what_to_choose}"
@@ -207,7 +211,7 @@ class Ciphey:
         for k, v in prob_table.items():
             for key, value in v.items():
                 # Prevents the table from showing pointless 0.01 probs as they're faked
-                if value == 0.01:
+                if value <= 0.01:
                     continue
                 # gets the string ready to print
                 logger.debug(f"Key is {str(key)} and value is {str(value)}")
@@ -400,7 +404,7 @@ def arg_parsing() -> Optional[dict]:
         "--offline",
         help="Run Ciphey in offline mode (No hash support)",
         action="store_true",
-        required="False",
+        required=False,
     )
 
     parser.add_argument("rest", nargs=argparse.REMAINDER)
@@ -444,6 +448,7 @@ def arg_parsing() -> Optional[dict]:
     config["ctext"] = args["text"]
     config["grep"] = args["greppable"]
     config["info"] = args["info"]
+    config["offline"] = args["offline"]
     # Try to work out how verbose we should be
     if args["trace"]:
         config["debug"] = "TRACE"

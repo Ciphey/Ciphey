@@ -113,3 +113,5 @@ class BasicParent:
                     # moves the item
                     list_objs.insert(counter, list_objs.pop(listCounter))
                     counter = counter + 1
+    def __name__(self):
+        return "basicParent"

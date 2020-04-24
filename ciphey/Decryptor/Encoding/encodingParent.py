@@ -54,3 +54,6 @@ class EncodingParent:
     def callDecrypt(self, obj):
         # i only exist to call decrypt
         return obj.decrypt(self.text)
+
+    def __name__(self):
+        return "encodingParent"
