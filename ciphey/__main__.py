@@ -91,8 +91,9 @@ class Ciphey:
         self.hash = HashParent(self.lc)
         self.encoding = EncodingParent(self.lc)
         self.level: int = 1
-        self.greppable: bool = config["grep"]
-        self.cipher_info = config["info"]
+
+        self.config = config
+
         self.console = Console()
         self.probability_distribution: dict = {}
         self.what_to_choose: dict = {}
@@ -157,7 +158,7 @@ class Ciphey:
         self.what_to_choose: dict = self.mh.sort_prob_table(self.what_to_choose)
 
         # Creates and prints the probability table
-        if not self.greppable:
+        if not self.config["grep"]:
             self.produceprobtable(self.what_to_choose)
 
         logger.debug(
@@ -241,7 +242,7 @@ class Ciphey:
         # Calls one level of decryption
         # mainly used to control the progress bar
         output = None
-        if self.greppable:
+        if self.config["grep"]:
             logger.debug("__main__ is running as greppable")
             output = self.decrypt_normal()
         else:
@@ -282,7 +283,7 @@ class Ciphey:
                 if ret["IsPlaintext?"]:
                     logger.debug(f"Ret is plaintext")
                     print(ret["Plaintext"])
-                    if self.cipher_info:
+                    if self.config["info"]:
                         logger.trace("Self.cipher_info runs")
                         if ret["Extra Information"] is not None:
                             print(
@@ -393,6 +394,15 @@ def arg_parsing() -> Optional[dict]:
         action="store_true",
         required=False,
     )
+
+    parser.add_argument(
+        "-O",
+        "--offline",
+        help="Run Ciphey in offline mode (No hash support)",
+        action="store_true",
+        required="False",
+    )
+
     parser.add_argument("rest", nargs=argparse.REMAINDER)
     args = vars(parser.parse_args())
 
