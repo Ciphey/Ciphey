@@ -187,7 +187,7 @@ class encipher_crypto:  # pragma: no cover
         ).decode("utf-8")
 
     def b62(self, text: str):
-        return base62.decode(str(re.sub(r"[A-za_z]+", "", text)))
+        return base62.decode(str(re.sub(r"[^A-Za-z1-9]+", "", text)))
 
 
 # obj = encipher()
