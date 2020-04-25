@@ -7,6 +7,26 @@
 # $ git config --global mergetool.keepBackup false
 *.orig
 
+
+# Created by https://www.gitignore.io/api/venv
+# Edit at https://www.gitignore.io/?templates=venv
+
+### venv ###
+# Virtualenv
+# http://iamzed.com/2009/05/07/a-primer-on-virtualenv/
+.Python
+pyvenv.cfg
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+pip-selfcheck.json
+
+# End of https://www.gitignore.io/api/venv
+
 # Created by git when using merge tools for conflicts
 *.BACKUP.*
 *.BASE.*
@@ -156,3 +176,4 @@ pyvenv.cfg
 pip-selfcheck.json
 
 # End of https://www.gitignore.io/api/git,python,virtualenv
+.vscode/
