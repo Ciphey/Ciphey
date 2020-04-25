@@ -22,7 +22,7 @@ class NeuralNetwork:
     def __init__(self):
         self.CATEGORIES = ["sha1", "md5", "sha256", "sha512", "caeser", "plaintext"]
         self.CATEGORIES = [1, 2, 3, 4, 5, 6]
-        self.MODEL = load_model("neuralNetworkMod/NeuralNetworkModel.model")
+        self.MODEL = load_model("app/neuralNetworkMod/NeuralNetworkModel.model")
         import mathsHelper
         self.mh = mathsHelper.mathsHelper()
     def formatData(self, text):

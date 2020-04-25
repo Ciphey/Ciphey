@@ -28,7 +28,7 @@ class dictionaryChecker:
         text.sort()
         # can dynamically use languages then
         language = str(language) + ".txt"
-        file = open("languageCheckerMod/English.txt", "r")
+        file = open("app/languageCheckerMod/English.txt", "r")
         f = file.readlines()
         file.close()
         f = [x.strip().lower() for x in f]
