@@ -22,7 +22,7 @@ class Ciphey:
     def __init__(self, text, cipher):
         # general purpose modules 
         self.ai = NeuralNetwork()
-        self.lc = LanguageChecker()
+        self.lc = LanguageChecker.LanguageChecker()
         self.mh = mathsHelper.mathsHelper()
 
         # the one bit of text given to us to decrypt
