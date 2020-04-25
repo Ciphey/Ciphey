@@ -7,7 +7,7 @@
 © Brandon Skerritt
 Github: brandonskerritt
 """
-from languageCheckerMod.languageChecker import LanguageChecker
+from languageCheckerMod import LanguageChecker
 from neuralNetworkMod.nn import NeuralNetwork
 
 from Decryptor.basicEncryption.basic_parent import BasicParent
