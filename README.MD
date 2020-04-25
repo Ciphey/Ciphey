@@ -52,7 +52,7 @@ pip install -r requirements.txt
 And then
 
 ```
-python3 app/main.py
+python3 app/main.py -t "Encrypted Text Here"
 ```
 
 # The internal data packet
