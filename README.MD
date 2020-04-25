@@ -52,9 +52,8 @@ pip install -r requirements.txt
 And then
 
 ```
-python main.py
+python3 app/main.py
 ```
-**Note**: Python 3
 
 # The internal data packet
 This is the data packet specification Ciphey uses.
