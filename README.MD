@@ -63,7 +63,7 @@ This is the data packet specification Ciphey uses. To pass data around the diffe
 
 # How to contribute
 Ciphey is always in need of more decryption tools! 
-1. Write a decryption tool (this can include encodings such as Base64 too)
+1. Write a decryption tool (this can include encodings such as Base64 too). Make sure it has a `decrypt` function and is a class.
 2. For each possible decryption, call `self.lc.checkLanguage(translated)` where `translated` is the decrypted text.
 **Note** by default, all decryption modules when creating get passed Language Checker (lc). Look at this for example:
 ```python
@@ -71,4 +71,12 @@ Ciphey is always in need of more decryption tools!
         self.lc = lc
 ```
 3. If result returns `True`, it is successfully decrypted to English. Return the internal data packet but make sure to change the information to match your decryption module.
+4. Create a new object in the parent class. For example, in Encoding the parent is `encodingParent.py`. Simply add your object to the list of other objects. For `encodingParent.py` this list of objects is currently:
+```python
+        self.base64 = Base64(self.lc)
+        self.binary = Binary(self.lc)
+        self.hex = Hexadecimal(self.lc)
+        self.ascii = Ascii(self.lc)
+        self.morse = MorseCode(self.lc)
+```
 4. I'll put your name on the list of contributors!
