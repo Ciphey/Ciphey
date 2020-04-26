@@ -65,10 +65,11 @@ This is the data packet specification Ciphey uses. To pass data around the diffe
 Ciphey is always in need of more decryption tools! 
 1. Write a decryption tool (this can include encodings such as Base64 too)
 2. For each possible decryption, call `self.lc.checkLanguage(translated)` where `translated` is the decrypted text.
-**Note** by default, all decryption modules when creating get passed Language Checker (lc). Look at this for example:
+**Note** by default, all decryption modules when instantiated get passed Language Checker (lc). Look at this for example:
 ```python
     def __init__(self, lc):
         self.lc = lc
 ```
 3. If result returns `True`, it is successfully decrypted to English. Return the internal data packet but make sure to change the information to match your decryption module.
-4. I'll put your name on the list of contributors!
+4. It'd be nice if you wrote some tests for it, but if you don't know much about testing no worries! I can write the tests for you :)
+5. I'll put your name on the list of contributors!
