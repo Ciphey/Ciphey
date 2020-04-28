@@ -1,5 +1,5 @@
 import itertools, re
-from Decryptor.basicEncryption import freqAnalysis 
+import app.Decryptor.basicEncryption.freqAnalysis
 class Viginere:
     def __init__(self, lc):
         self.LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -173,7 +173,7 @@ class Viginere:
             freqScores = []
             for possibleKey in self.LETTERS:
                 decryptedText = self.decryptMessage(possibleKey, nthLetters)
-                keyAndFreqMatchTuple = (possibleKey, freqAnalysis.englishFreqMatchScore(decryptedText))
+                keyAndFreqMatchTuple = (possibleKey, app.Decryptor.basicEncryption.freqAnalysis.englishFreqMatchScore(decryptedText))
                 freqScores.append(keyAndFreqMatchTuple)
             # Sort by match score:
             freqScores.sort(key=self.getItemAtIndexOne, reverse=True)
