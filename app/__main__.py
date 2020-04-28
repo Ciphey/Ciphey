@@ -205,12 +205,12 @@ class Ciphey:
     
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Automated decryption tool. Put in the encrypted text and Ciphey will decrypt it.')
-    parser.add_argument('-f','--file', help='File you want to decrypt', required=False)
-    parser.add_argument('-l','--level', help='How many levels of decryption you want (the more levels, the slower it is)', required=False)
-    parser.add_argument('-g','--greppable', help='Are you grepping this output?', required=False)
+    #parser.add_argument('-f','--file', help='File you want to decrypt', required=False)
+    #parser.add_argument('-l','--level', help='How many levels of decryption you want (the more levels, the slower it is)', required=False)
+    #parser.add_argument('-g','--greppable', help='Are you grepping this output?', required=False)
     parser.add_argument('-t','--text', help='Text to decrypt', required=False)
-    parser.add_argument('-s','--sicko-mode', help='If it is encrypted Ciphey WILL find it', required=False)
-    parser.add_argument('-c','--cipher', help='What is the cipher used?', required=False)
+    #parser.add_argument('-s','--sicko-mode', help='If it is encrypted Ciphey WILL find it', required=False)
+    #parser.add_argument('-c','--cipher', help='What is the cipher used?', required=False)
 
     args = vars(parser.parse_args())
     if args['cipher'] != None:
@@ -230,4 +230,4 @@ if __name__ == "__main__":
         cipherObj = Ciphey(args['text'], cipher)
         cipherObj.decrypt()
     else:
-        print("You didn't supply any arguments")
+        print("You didn't supply any arguments. Look at the help menu with -h or --help")
