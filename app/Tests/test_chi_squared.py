@@ -1,7 +1,7 @@
+import unittest
 import sys
 sys.path.append("..")
-import unittest
-from app.languageCheckerMod import chisquared
+import app.languageCheckerMod.chisquared
 # python3 -m unittest Tests.testchi_squared
 # python -m unittest discover -s tests
 # python3 -m unittest discover -s Tests -p test*.py
@@ -9,28 +9,28 @@ from app.languageCheckerMod import chisquared
 class TestChi(unittest.TestCase):
     def test_chi_english_yes(self):
         """Checks to see if it returns True (it should)"""
-        self.chi = chisquared.chiSquared()
+        self.chi = app.languageCheckerMod.chisquared.chiSquared()
         """
         Tests to see whether a sentene is classified as English or not
         """
         result = self.chi.checkChi("Hello my name is Brandon and I'm a top secret message")
         self.assertEqual(result, True)
     def test_chi_english_caps(self):
-        self.chi = chisquared.chiSquared()
+        self.chi = app.languageCheckerMod.chisquared.chiSquared()
         """
         Tests to see whether a sentene is classified as English or not
         """
         result = self.chi.checkChi("Hello My NaME IS BraNdOnnn And I LOVE You!")
         self.assertEqual(result, True)
     def tests_english_no_words(self):
-        self.chi = chisquared.chiSquared()
+        self.chi = app.languageCheckerMod.chisquared.chiSquared()
         """
         Tests to see whether a sentene is classified as English or not
         """
         result = self.chi.checkChi("!!!!!!!!!!!!!!!!!!!")
         self.assertEqual(result, True)
     def tests_english_overflow(self):
-        self.chi = chisquared.chiSquared()
+        self.chi = app.languageCheckerMod.chisquared.chiSquared()
         """
         Tests to see whether a sentene is classified as English or not
         """
@@ -48,7 +48,7 @@ class TestChi(unittest.TestCase):
         result = self.chi.checkChi("cguakdbwnmfqknm ")
         self.assertEqual(result, False)
     def test_english_quckbrown(self):
-        self.chi = chisquared.chiSquared()
+        self.chi = app.languageCheckerMod.chisquared.chiSquared()
         """
         Tests to see whether a sentene is classified as English or not
         """
@@ -66,7 +66,7 @@ class TestChi(unittest.TestCase):
         result = self.chi.checkChi("The quick brown fox jumped over the lazy dog")
         self.assertEqual(result, False)
     def test_english_puncuation(self):
-        self.chi = chisquared.chiSquared()
+        self.chi = app.languageCheckerMod.chisquared.chiSquared()
         """
         Tests to see whether a sentene is classified as English or not
         Returns False because exclamation marks aren't english
@@ -85,7 +85,7 @@ class TestChi(unittest.TestCase):
         result = self.chi.checkChi("!!!!!!!!!!!!!!!!!!!!!!")
         self.assertEqual(result, True)
     def test_english_one_letter(self):
-        self.chi = chisquared.chiSquared()
+        self.chi = app.languageCheckerMod.chisquared.chiSquared()
         """
         Tests to see whether a sentene is classified as English or not
         Returns False because exclamation marks aren't english
@@ -104,7 +104,7 @@ class TestChi(unittest.TestCase):
         result = self.chi.checkChi("a")
         self.assertEqual(result, False)
     def test_english_same_letter(self):
-        self.chi = chisquared.chiSquared()
+        self.chi = app.languageCheckerMod.chisquared.chiSquared()
         """
         Tests to see whether a sentene is classified as English or not
         Returns False because exclamation marks aren't english
@@ -123,7 +123,7 @@ class TestChi(unittest.TestCase):
         result = self.chi.checkChi("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaz")
         self.assertEqual(result, False)
     def test_english_same_letter(self):
-        self.chi = chisquared.chiSquared()
+        self.chi = app.languageCheckerMod.chisquared.chiSquared()
         """
         Tests to see whether a sentene is classified as English or not
         Returns False because exclamation marks aren't english
@@ -142,7 +142,7 @@ class TestChi(unittest.TestCase):
         result = self.chi.checkChi("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaz")
         self.assertEqual(result, False)
     def test_my_chi(self):
-        self.chi = chisquared.chiSquared()
+        self.chi = app.languageCheckerMod.chisquared.chiSquared()
         result = self.chi.myChi(self.chi.getLetterFreq("hello this is my test"), [0.0812, 0.0271, 0.0149, 0.1202, 0.0432, 0.0203, 0.023, 0.0731, 0.0592, 0.0069, 0.001, 0.026099999999999998, 0.0398, 0.0768, 0.0695, 0.0011, 0.0182, 0.06280000000000001, 0.0602, 0.0288, 0.091, 0.0209, 0.0111, 0.021099999999999997, 0.0017000000000000001, 0.0007000000000000001])
         self.assertEqual(result, 1424.8873999810571)
 

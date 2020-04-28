@@ -210,7 +210,7 @@ if __name__ == "__main__":
     #parser.add_argument('-g','--greppable', help='Are you grepping this output?', required=False)
     parser.add_argument('-t','--text', help='Text to decrypt', required=False)
     #parser.add_argument('-s','--sicko-mode', help='If it is encrypted Ciphey WILL find it', required=False)
-    #parser.add_argument('-c','--cipher', help='What is the cipher used?', required=False)
+    parser.add_argument('-c','--cipher', help='What is the cipher used?', required=False)
 
     args = vars(parser.parse_args())
     if args['cipher'] != None:
