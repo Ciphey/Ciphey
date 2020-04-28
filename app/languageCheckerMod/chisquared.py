@@ -10,7 +10,7 @@ Github: brandonskerritt
 Class calculates the Chi squared score
 """
 
-import mathsHelper
+import app.mathsHelper
 from string import punctuation
 from numpy import std
 # I had a bug where empty string was being added to letter freq dictionary
@@ -32,7 +32,7 @@ class chiSquared:
         self.average = 0.0
         self.totalDone = 0.0
         self.oldAverage = 0.0
-        self.mh = mathsHelper.mathsHelper()
+        self.mh = app.mathsHelper.mathsHelper()
         self.highestLanguage = ""
         self.totalChi = 0.0
         self.totalEqual = False
