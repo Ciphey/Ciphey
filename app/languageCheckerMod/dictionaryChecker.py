@@ -1,4 +1,4 @@
-import mathsHelper 
+import app.mathsHelper
 import string
 class dictionaryChecker:
     """
@@ -12,10 +12,11 @@ class dictionaryChecker:
     if a string is 45% **language** words, then it's confirmed to be english
     """
     def __init__(self):
-        self.mh = mathsHelper.mathsHelper()
+        self.mh = app.mathsHelper.mathsHelper()
         self.languagePercentage = 0.0
         self.languageWordsCounter = 0.0
         self.languageThreshold = 55
+
     def checkDictionary(self, text, language):
         """Compares a word with 
         The dictionary is sorted and the text is sorted"""
@@ -49,7 +50,7 @@ class dictionaryChecker:
         so we only loop once, we can do this in O(n log n) time
         """
         counter = 0
-        counterPercent = 0
+        counter_percent = 0
 
         for dictLengthCounter, word in enumerate(f):
             # if there is more words counted than there is text
@@ -61,10 +62,10 @@ class dictionaryChecker:
             # counter + 1
             if word in text:
                 counter = counter + 1
-                counterPercent = counterPercent + 1
+                counter_percent = counter_percent + 1
         self.languageWordsCounter = counter
         self.languagePercentage = self.mh.percentage(float(self.languageWordsCounter), float(len(text))) 
-        return(counter)
+        return counter
 
     def confirmlanguage(self, text, language):
         self.checkDictionary(text, language)
@@ -72,4 +73,3 @@ class dictionaryChecker:
             return True
         else:
             return False
-    
