@@ -13,7 +13,7 @@ class TestLanguageChecker(unittest.TestCase):
     def test_basics_german(self):
         lc = app.languageCheckerMod.LanguageChecker.LanguageChecker()
         result = lc.checkLanguage("hallo keine lieben leute nach")
-        self.assertEqual(result, True)
+        self.assertEqual(result, False)
     def test_basics_quickbrownfox(self):
         """
         This returns true becaue by default chi squared returns true so long as it's less than 10 items it's processed
@@ -25,7 +25,7 @@ class TestLanguageChecker(unittest.TestCase):
         """
         This returns true becaue by default chi squared returns true so long as it's less than 10 items it's processed
         """
-        lc = LanguageChecker()
+        lc = app.languageCheckerMod.LanguageChecker.LanguageChecker()
         result = lc.checkLanguage("The quick brown fox jumped over the lazy dog")
         self.assertEqual(result, True)
     def test_chi_maxima(self):
@@ -145,7 +145,7 @@ class TestLanguageChecker(unittest.TestCase):
         lc = app.languageCheckerMod.LanguageChecker.LanguageChecker()
         result = lc.checkLanguage("hello my darling")
 
-        lc2 = app.LanguageChecker()
+        lc2 = app.languageCheckerMod.LanguageChecker.LanguageChecker()
         result = lc.checkLanguage("sad as dasr as s")
 
         temp = lc.getChiScore()
