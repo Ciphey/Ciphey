@@ -2,19 +2,39 @@ class Ascii:
     """
     turns ASCII numbers into strings
     """
+
     def __init__(self, lc):
         self.lc = lc
+
     def decrypt(self, text):
         try:
             result = self.deascii(text)
         except ValueError as e:
-            return {"lc": self.lc, "IsPlaintext?": False, "Plaintext": None, "Cipher": None, "Extra Information": None}
+            return {
+                "lc": self.lc,
+                "IsPlaintext?": False,
+                "Plaintext": None,
+                "Cipher": None,
+                "Extra Information": None,
+            }
         except TypeError as e:
-            return {"lc": self.lc, "IsPlaintext?": False, "Plaintext": None, "Cipher": None, "Extra Information": None}
-
+            return {
+                "lc": self.lc,
+                "IsPlaintext?": False,
+                "Plaintext": None,
+                "Cipher": None,
+                "Extra Information": None,
+            }
 
         if self.lc.checkLanguage(result):
-            return {"lc": self.lc, "IsPlaintext?": True, "Plaintext": result, "Cipher": "Ascii to Ascii number encoded", "Extra Information": None}
+            return {
+                "lc": self.lc,
+                "IsPlaintext?": True,
+                "Plaintext": result,
+                "Cipher": "Ascii to Ascii number encoded",
+                "Extra Information": None,
+            }
+
     def deascii(self, text):
         # splits into individual ascii nums
         text = text.split(" ")
@@ -24,4 +44,4 @@ class Ascii:
             # turn it from ascii num to char and append to list
             sentence.append(chr(char))
         # return the list as a string
-        return ''.join(sentence)
+        return "".join(sentence)
