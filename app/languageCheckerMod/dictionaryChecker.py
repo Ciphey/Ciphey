@@ -1,5 +1,8 @@
 import app.mathsHelper
 import string
+import os
+
+
 class dictionaryChecker:
     """
     Class designed to confirm whether something is **language** based on how many words of **language** appears
@@ -11,6 +14,7 @@ class dictionaryChecker:
     languageThreshold = 45
     if a string is 45% **language** words, then it's confirmed to be english
     """
+
     def __init__(self):
         self.mh = app.mathsHelper.mathsHelper()
         self.languagePercentage = 0.0
@@ -25,11 +29,15 @@ class dictionaryChecker:
         text = text.lower()
         text = self.mh.stripPuncuation(text)
         text = text.split(" ")
-        text = list(set(text)) # removes duplicate words
+        text = list(set(text))  # removes duplicate words
         text.sort()
         # can dynamically use languages then
         language = str(language) + ".txt"
-        file = open("app/languageCheckerMod/English.txt", "r")
+
+        # https://stackoverflow.com/questions/7165749/open-file-in-a-relative-location-in-python
+        script_dir = os.path.dirname(__file__)
+        file_path = os.path.join(script_dir, "English.txt")
+        file = open(file_path, "r")
         f = file.readlines()
         file.close()
         f = [x.strip().lower() for x in f]
@@ -64,7 +72,9 @@ class dictionaryChecker:
                 counter = counter + 1
                 counter_percent = counter_percent + 1
         self.languageWordsCounter = counter
-        self.languagePercentage = self.mh.percentage(float(self.languageWordsCounter), float(len(text))) 
+        self.languagePercentage = self.mh.percentage(
+            float(self.languageWordsCounter), float(len(text))
+        )
         return counter
 
     def confirmlanguage(self, text, language):

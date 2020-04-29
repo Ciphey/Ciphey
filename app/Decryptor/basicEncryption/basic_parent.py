@@ -35,6 +35,7 @@ for key, val in self.prob:
 Eventually we get a sorted list of obj
 """
 
+
 class BasicParent:
     def __init__(self, lc):
         self.lc = lc
@@ -48,8 +49,9 @@ class BasicParent:
 
     def decrypt(self, text):
         self.text = text
-        from multiprocessing.dummy import Pool as ThreadPool 
-        pool = ThreadPool(4) 
+        from multiprocessing.dummy import Pool as ThreadPool
+
+        pool = ThreadPool(4)
         answers = pool.map(self.callDecrypt, self.list_of_objects)
 
         """for item in self.list_of_objects:
@@ -60,19 +62,25 @@ class BasicParent:
             self.lc = self.lc + answer["lc"]
             if answer["IsPlaintext?"]:
                 return answer
-        
-        # so viginere runs ages 
+
+        # so viginere runs ages
         # and you cant kill threads in a pool
         # so i just run it last lol
         result = self.callDecrypt(self.viginere)
         if result["IsPlaintext?"]:
             return result
-        return {"lc": self.lc, "IsPlaintext?": False, "Plaintext": None, "Cipher": None, "Extra Information": None}
+        return {
+            "lc": self.lc,
+            "IsPlaintext?": False,
+            "Plaintext": None,
+            "Cipher": None,
+            "Extra Information": None,
+        }
 
     def callDecrypt(self, obj):
         # i only exist to call decrypt
-        return obj.decrypt(self.text) 
-            
+        return obj.decrypt(self.text)
+
     def setProbTable(self, prob):
         """I'm still writing this"""
         self.probabilityDistribution = prob
@@ -84,4 +92,3 @@ class BasicParent:
                     # moves the item
                     list_objs.insert(counter, list_objs.pop(listCounter))
                     counter = counter + 1
-
