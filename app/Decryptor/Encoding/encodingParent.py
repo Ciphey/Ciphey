@@ -1,8 +1,8 @@
-from Decryptor.Encoding.base64 import Base64
-from Decryptor.Encoding.binary import Binary
-from Decryptor.Encoding.hexadecimal import Hexadecimal
-from Decryptor.Encoding.ascii import Ascii
-from Decryptor.Encoding.morsecode import MorseCode
+from app.Decryptor.Encoding.base64 import Base64
+from app.Decryptor.Encoding.binary import Binary
+from app.Decryptor.Encoding.hexadecimal import Hexadecimal
+from app.Decryptor.Encoding.ascii import Ascii
+from app.Decryptor.Encoding.morsecode import MorseCode
 
 class EncodingParent:
     def __init__(self, lc):
