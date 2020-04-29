@@ -46,9 +46,8 @@ In alphabetical order
 And you're.... Done! Make sure the name of the two match up
 """
 from string import punctuation
-import app.languageCheckerMod.dictionaryChecker
-import app.languageCheckerMod.chisquared
-from app import languageCheckerMod
+import languageCheckerMod.dictionaryChecker
+import languageCheckerMod.chisquared
 
 
 class LanguageChecker:
