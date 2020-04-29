@@ -18,9 +18,10 @@ import argparse
 import mathsHelper
 import collections
 
+
 class Ciphey:
     def __init__(self, text, cipher):
-        # general purpose modules 
+        # general purpose modules
         self.ai = NeuralNetwork()
         self.lc = LanguageChecker.LanguageChecker()
         self.mh = mathsHelper.mathsHelper()
@@ -36,8 +37,9 @@ class Ciphey:
         self.level = 1
         self.sickomode = False
         self.cipher = cipher
+
     def decrypt(self):
-                
+
         """
         this method calls 1 level of decrypt
         The idea is that so long as decrypt doesnt return the plaintext
@@ -57,27 +59,23 @@ class Ciphey:
 
         """
         self.probabilityDistribution = self.ai.predictnn(self.text)[0]
-        self.whatToChoose = {self.hash:
-            {
-            "sha1": self.probabilityDistribution[0], 
-            "md5": self.probabilityDistribution[1],
-            "sha256": self.probabilityDistribution[2],
-            "sha512": self.probabilityDistribution[3]
+        self.whatToChoose = {
+            self.hash: {
+                "sha1": self.probabilityDistribution[0],
+                "md5": self.probabilityDistribution[1],
+                "sha256": self.probabilityDistribution[2],
+                "sha512": self.probabilityDistribution[3],
             },
-        self.basic: {
-            "caesar": self.probabilityDistribution[4]
-        },
-        "plaintext": {
-            "plaintext": self.probabilityDistribution[5]
-        },
-        self.encoding:{
-            "reverse": self.probabilityDistribution[6],
-            "base64": self.probabilityDistribution[7],
-            "binary": self.probabilityDistribution[8],
-            "hexadecimal": self.probabilityDistribution[9],
-            "ascii": self.probabilityDistribution[10],
-            "morse": self.probabilityDistribution[11]
-        }
+            self.basic: {"caesar": self.probabilityDistribution[4]},
+            "plaintext": {"plaintext": self.probabilityDistribution[5]},
+            self.encoding: {
+                "reverse": self.probabilityDistribution[6],
+                "base64": self.probabilityDistribution[7],
+                "binary": self.probabilityDistribution[8],
+                "hexadecimal": self.probabilityDistribution[9],
+                "ascii": self.probabilityDistribution[10],
+                "morse": self.probabilityDistribution[11],
+            },
         }
         # sorts each indiviudal sub-dictionary
         for key, value in self.whatToChoose.items():
@@ -118,7 +116,7 @@ class Ciphey:
         # adds all content of dict b onto end of dict a
         # no way to add it to front, so I have to do this :)
         self.whatToChoose = new_dict
-            
+
         """
         for each dictionary in the dictionary
             sort that dictionary
@@ -128,7 +126,8 @@ class Ciphey:
             self.one_level_of_decryption()
         else:
             if self.sickomode:
-                print('''
+                print(
+                    '''
                 MMMMSSSSSSSSSSSSSSSSSMSS;.     .dMMMMSSSSSSMMSSSSSSSSS
                 MMSSSSSSSMSSSSSMSSSSMMMSS."-.-":MMMMMSSSSMMMMSSMSSSMMS
                 MSSSSSSSMSSSSMMMSSMMMPTMM;"-/":MMM^"     MMMSSMMMSSMM
@@ -151,7 +150,8 @@ class Ciphey:
                 MMMMMMMMMMMMMb`;"-.          .dMMMMMMMMMMP'           
                 MMMMMMMMMMMMMMb    ""--.___.dMMMMMMMMMP^"       
                 
-                                      _..._                 .-'''                                  '''-.                                     
+                                      _..._                 .-'''
+                    """-.                                     
                    .-'_..._''.             '   _    \                               '   _    \ _______                           
            .--.  .' .'      '.\    .     /   /` '.   \            __  __   ___    /   /` '.     ___ `'.         __.....__      
            |__| / .'             .'|    .   |     \  '           |  |/  `.'   `. .   |     \  ' ' |--.\  \    .-''         '.    
@@ -176,10 +176,11 @@ class Ciphey:
 \ \._,\ '/            `  |   /                   \ \._,\ '/  |   /                                                               
  `--'  `"                `'-'                     `--'  `"   `'-'                                                                
 
-                ''')
+                """
+                )
             f = open("decryptionContents.txt", "w")
             self.one_level_of_decryption(file=f, sickomode=self.sickomode)
-            
+
             for i in range(0, self.level):
                 # open file and go through each text item
                 pass
@@ -190,30 +191,40 @@ class Ciphey:
             if not isinstance(key, str):
                 key.setProbTable(val)
                 ret = key.decrypt(self.text)
-                if ret['IsPlaintext?']:
-                    print(ret['Plaintext'])
+                if ret["IsPlaintext?"]:
+                    print(ret["Plaintext"])
                     if self.cipher:
-                        if ret['Extra Information'] != None:
-                            print("The cipher used is", ret['Cipher'] + ".", ret['Extra Information'] + ".")
+                        if ret["Extra Information"] != None:
+                            print(
+                                "The cipher used is",
+                                ret["Cipher"] + ".",
+                                ret["Extra Information"] + ".",
+                            )
                         else:
-                            print(ret['Cipher'])
+                            print(ret["Cipher"])
 
                     return ret
         print("No encryption found. Here's the probabilities we calculated")
         import pprint
+
         pprint.pprint(self.whatToChoose)
-    
+
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Automated decryption tool. Put in the encrypted text and Ciphey will decrypt it.')
-    #parser.add_argument('-f','--file', help='File you want to decrypt', required=False)
-    #parser.add_argument('-l','--level', help='How many levels of decryption you want (the more levels, the slower it is)', required=False)
-    #parser.add_argument('-g','--greppable', help='Are you grepping this output?', required=False)
-    parser.add_argument('-t','--text', help='Text to decrypt', required=False)
-    #parser.add_argument('-s','--sicko-mode', help='If it is encrypted Ciphey WILL find it', required=False)
-    parser.add_argument('-c','--cipher', help='What is the cipher used?', required=False)
+    parser = argparse.ArgumentParser(
+        description="Automated decryption tool. Put in the encrypted text and Ciphey will decrypt it."
+    )
+    # parser.add_argument('-f','--file', help='File you want to decrypt', required=False)
+    # parser.add_argument('-l','--level', help='How many levels of decryption you want (the more levels, the slower it is)', required=False)
+    # parser.add_argument('-g','--greppable', help='Are you grepping this output?', required=False)
+    parser.add_argument("-t", "--text", help="Text to decrypt", required=False)
+    # parser.add_argument('-s','--sicko-mode', help='If it is encrypted Ciphey WILL find it', required=False)
+    parser.add_argument(
+        "-c", "--cipher", help="What is the cipher used?", required=False
+    )
 
     args = vars(parser.parse_args())
-    if args['cipher'] != None:
+    if args["cipher"] != None:
         cipher = True
     else:
         cipher = False
@@ -224,10 +235,12 @@ if __name__ == "__main__":
     ██║     ██║██╔═══╝ ██╔══██║██╔══╝    ╚██╔╝  
     ╚██████╗██║██║     ██║  ██║███████╗   ██║ 
                 Made by Brandon Skerritt"""
-                
-    #uryyb zl sngure uryyb zl zbgure naq v ernyyl qb yvxr n tbbq ratyvfu oernxsnfg
-    if args['text']:
-        cipherObj = Ciphey(args['text'], cipher)
+
+    # uryyb zl sngure uryyb zl zbgure naq v ernyyl qb yvxr n tbbq ratyvfu oernxsnfg
+    if args["text"]:
+        cipherObj = Ciphey(args["text"], cipher)
         cipherObj.decrypt()
     else:
-        print("You didn't supply any arguments. Look at the help menu with -h or --help")
+        print(
+            "You didn't supply any arguments. Look at the help menu with -h or --help"
+        )
