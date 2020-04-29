@@ -10,6 +10,7 @@ from tensorflow.keras.layers import (Activation, Conv2D, Dense, Dropout,
 from tensorflow.keras.models import Sequential, load_model
 from string import punctuation
 import numpy
+import app.mathsHelper
 
 # i need the below code to make tensorflow shut up. Yup, it's SO bad you have to have 2 LINES TO MAKE IT SHUT UP!!!
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
@@ -23,8 +24,8 @@ class NeuralNetwork:
         self.CATEGORIES = ["sha1", "md5", "sha256", "sha512", "caeser", "plaintext"]
         self.CATEGORIES = [1, 2, 3, 4, 5, 6]
         self.MODEL = load_model("app/neuralNetworkMod/NeuralNetworkModel.model")
-        import mathsHelper
-        self.mh = mathsHelper.mathsHelper()
+        
+        self.mh = app.mathsHelper.mathsHelper()
     def formatData(self, text):
         """
         formats the data
