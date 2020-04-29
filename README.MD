@@ -1,3 +1,15 @@
+<p align="center">
+  <img src="logo.png" alt="Ciphey">
+</p>
+
+
+<p align="center">
+  <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="Ciphey">
+  <img src="https://github.com/brandonskerritt/Ciphey/workflows/Python%20application/badge.svg?branch=master" alt="Ciphey">
+</p>
+
+
+
 # What is this?
 Ciphey is an automated decryption tool.
 You put in encrypted text, and it outputs the decrypted text.
@@ -41,18 +53,16 @@ Not just encryptions, but hashes and encodings too.
 * Sha256
 
 # How to install
-Just download the GitHub repo.
+```
+pip install ciphey
+```
 
 # How to use
 
-```
-pip install -r requirements.txt
-```
-
-And then
+In Terminal:
 
 ```
-python3 app/main.py -t "Encrypted Text Here"
+ciphey
 ```
 
 # The internal data packet
