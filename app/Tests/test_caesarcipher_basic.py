@@ -3,8 +3,8 @@ import sys
 
 import unittest
 
-import app.Decryptor.basicEncryption.caesar
-import app.languageCheckerMod.LanguageChecker
+import Decryptor.basicEncryption.caesar
+import languageCheckerMod.LanguageChecker
 # python3 -m unittest Tests.testchi_squared
 # python -m unittest discover -s tests
 # python3 -m unittest discover -s Tests -p test*.py
