@@ -8,6 +8,7 @@
 from string import punctuation
 from scipy.stats import chisquare
 import base64
+
 with open("harrypotter.txt", "r") as f:
     text = f.read()
 
@@ -15,10 +16,9 @@ with open("harrypotter.txt", "r") as f:
 #%%
 
 
-
 #%%
 # replaces new lines with full stops
-text = text.replace('\n', '.').lower()
+text = text.replace("\n", ".").lower()
 
 
 #%%
@@ -40,7 +40,7 @@ print(sentences[:10])
 #%% [markdown]
 # So I want the table to look like:
 # text | length | how many letters are used (uniqueness) | maybe the chi squared score ? (normalised distribution not english) | frequency distribution | what it is | the plaintext
-# 
+#
 # I want it to include these things:
 # base64
 # sha1
@@ -48,25 +48,26 @@ print(sentences[:10])
 # sha256
 # caeser cipher
 # plaintext
-# 
+#
 # So the next step would be to create encryption functions
 # then for every sentence in it
 # encrypt it
 # create a csv line
 # plaintext | encrypted text | length | how many letters are used | frequency distribution | chi squared score | what it is (base 64, sha 256, etc)
-# 
+#
 
 #%%
 def apply_rotation(c, factor):
     """Applies a shift of factor to the letter denoted by c"""
     if c.isalpha():
-        lower = ord('A') if c.isupper() else ord('a')
+        lower = ord("A") if c.isupper() else ord("a")
         c = chr(lower + ((ord(c) - lower + factor) % 26))
     return c
 
+
 def caesar_cipher(s, k):
     """Iterates through each letter and constructs the cipher text"""
-    new_message = ''
+    new_message = ""
     factor = k % 26
     for c in s:
         new_message += apply_rotation(c, factor)
@@ -82,7 +83,7 @@ import hashlib
 
 
 #%%
-hash_object = hashlib.sha1(b'HelWorld')
+hash_object = hashlib.sha1(b"HelWorld")
 
 
 #%%
@@ -117,7 +118,6 @@ def sha256hash(s):
 #%%
 
 
-
 #%%
 def sha512hash(s):
     temp = str.encode(s)
@@ -126,14 +126,27 @@ def sha512hash(s):
 
 
 #%%
-types = ["sha1", "md5", "sha256", "sha512", "caeser", "caeser", "plaintext", "reverse", "morse", "base64", "binary", "hexadecimal", "ascii" ]
+types = [
+    "sha1",
+    "md5",
+    "sha256",
+    "sha512",
+    "caeser",
+    "caeser",
+    "plaintext",
+    "reverse",
+    "morse",
+    "base64",
+    "binary",
+    "hexadecimal",
+    "ascii",
+]
 
 
 #%%
 def howManyLettersUsed(text):
     text = list(set(list(text)))
     return len(text)
-    
 
 
 #%%
@@ -158,32 +171,60 @@ def b64(s):
 
 #%%
 def binary(s):
-    return ' '.join(format(x, 'b') for x in bytearray(s))
+    return " ".join(format(x, "b") for x in bytearray(s))
 
 
 #%%
 def hexade(s):
-    return ''.join(hex(ord(c))[2:] for c in s)
+    return "".join(hex(ord(c))[2:] for c in s)
 
 
 #%%
-MORSE_CODE_DICT = {'A': '.-', 'B': '-...',
-        'C': '-.-.', 'D': '-..', 'E': '.',
-        'F': '..-.', 'G': '--.', 'H': '....',
-        'I': '..', 'J': '.---', 'K': '-.-',
-        'L': '.-..', 'M': '--', 'N': '-.',
-        'O': '---', 'P': '.--.', 'Q': '--.-',
-        'R': '.-.', 'S': '...', 'T': '-',
-        'U': '..-', 'V': '...-', 'W': '.--',
-        'X': '-..-', 'Y': '-.--', 'Z': '--..',
-        '?': '..--..', '.': '.-.-.-', ' ': '/',
-        '0': '-----',  '1': '.----',  '2': '..---',
-        '3': '...--',  '4': '....-',  '5': '.....',
-        '6': '-....',  '7': '--...',  '8': '---..',
-        '9': '----.' 
-        }
+MORSE_CODE_DICT = {
+    "A": ".-",
+    "B": "-...",
+    "C": "-.-.",
+    "D": "-..",
+    "E": ".",
+    "F": "..-.",
+    "G": "--.",
+    "H": "....",
+    "I": "..",
+    "J": ".---",
+    "K": "-.-",
+    "L": ".-..",
+    "M": "--",
+    "N": "-.",
+    "O": "---",
+    "P": ".--.",
+    "Q": "--.-",
+    "R": ".-.",
+    "S": "...",
+    "T": "-",
+    "U": "..-",
+    "V": "...-",
+    "W": ".--",
+    "X": "-..-",
+    "Y": "-.--",
+    "Z": "--..",
+    "?": "..--..",
+    ".": ".-.-.-",
+    " ": "/",
+    "0": "-----",
+    "1": ".----",
+    "2": "..---",
+    "3": "...--",
+    "4": "....-",
+    "5": ".....",
+    "6": "-....",
+    "7": "--...",
+    "8": "---..",
+    "9": "----.",
+}
+
+
 def morse(s):
-    return ' '.join(MORSE_CODE_DICT.get(i.upper()) for i in s)
+    return " ".join(MORSE_CODE_DICT.get(i.upper()) for i in s)
 
 
 #%%
@@ -191,17 +232,44 @@ def asci(s):
     a = []
     for ch in s:
         a.append(str(ord(ch)))
-    return ' '.join(a)
+    return " ".join(a)
 
 
 #%%
 def getLetterFreq(text):
     # This part creates a letter frequency of the text
-    letterFreq = {'a': 0, 'b': 0, 'c': 0, 'd': 0, 'e': 0, 'f': 0, 'g': 0, 'h': 0, 'i': 0, 'j': 0, 'k': 0, 'l': 0, 'm': 0, 'n': 0, 'o': 0, 'p': 0, 'q': 0, 'r': 0, 's': 0, 't': 0, 'u': 0, 'v': 0, 'w': 0, 'x': 0, 'y': 0, 'z': 0}
+    letterFreq = {
+        "a": 0,
+        "b": 0,
+        "c": 0,
+        "d": 0,
+        "e": 0,
+        "f": 0,
+        "g": 0,
+        "h": 0,
+        "i": 0,
+        "j": 0,
+        "k": 0,
+        "l": 0,
+        "m": 0,
+        "n": 0,
+        "o": 0,
+        "p": 0,
+        "q": 0,
+        "r": 0,
+        "s": 0,
+        "t": 0,
+        "u": 0,
+        "v": 0,
+        "w": 0,
+        "x": 0,
+        "y": 0,
+        "z": 0,
+    }
 
     for letter in text.lower():
         if letter in letterFreq:
-            letterFreq[letter] +=1
+            letterFreq[letter] += 1
         else:
             # if letter is not puncuation, but it is still ascii
             # it's probably a different language so add it to the dict
@@ -213,12 +281,14 @@ def getLetterFreq(text):
 #%%
 
 
-
 #%%
 import csv
+
 f = open("encryptionData.csv", "w")
 counter = 0
-encryption_writer = csv.writer(f, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+encryption_writer = csv.writer(
+    f, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL
+)
 
 
 #%%
@@ -229,7 +299,7 @@ def makeCsvLine(plaintext, text, cipher):
     howManyLetters = howManyLettersUsed(text)
     letterfreq = getLetterFreq(text)
     chi = chisquare(letterfreq)[1]
-    
+
     used = cipher
     if used == "sha1":
         used = 0
@@ -254,10 +324,11 @@ def makeCsvLine(plaintext, text, cipher):
     elif used == "ascii":
         used == 10
     if plaintext == "" or plaintext == None:
-        return (1)
+        return 1
     global counter
-    encryption_writer.writerow([plaintext, ciphertext, length, howManyLetters, letterfreq, chi, used])
-    
+    encryption_writer.writerow(
+        [plaintext, ciphertext, length, howManyLetters, letterfreq, chi, used]
+    )
 
 
 #%%
@@ -267,11 +338,11 @@ makeCsvLine("hello my name is brandon", "iad jadiw aikjawi", "caesar")
 #%%
 
 
-
 #%%
 # types = ["sha1", "md5", "sha256", "sha512", "caeser", "caeser", "plaintext" ]
 import random
-for sent in sentences:        
+
+for sent in sentences:
     result = random.choice(types)
     try:
         if sent == None or sent == "" or sent == " ":
@@ -318,7 +389,7 @@ for sent in sentences:
             if temp == None:
                 continue
             makeCsvLine(sent, temp, "base64")
-        elif result=="binary":
+        elif result == "binary":
             temp = binary(sent)
             if temp == None:
                 continue
@@ -340,9 +411,7 @@ for sent in sentences:
 #%%
 
 
-
 #%%
-
 
 
 #%%
@@ -351,16 +420,13 @@ f.close()
 
 #%%
 import pandas as pd
-df = pd.read_csv('encryptionData.csv', encoding='ISO-8859-15')
-#df.replace('Â', ' ')
-df.to_csv('output.csv', index=False)
+
+df = pd.read_csv("encryptionData.csv", encoding="ISO-8859-15")
+# df.replace('Â', ' ')
+df.to_csv("output.csv", index=False)
 
 
 #%%
 
 
-
 #%%
-
-
-
