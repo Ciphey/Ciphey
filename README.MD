@@ -53,18 +53,16 @@ Not just encryptions, but hashes and encodings too.
 * Sha256
 
 # How to install
-Just download the GitHub repo.
+```
+pip install ciphey
+```
 
 # How to use
 
-```
-pip install -r requirements.txt
-```
-
-And then
+In Terminal:
 
 ```
-python3 main.py -t "Encrypted Text Here"
+ciphey
 ```
 
 # The internal data packet
