@@ -6,6 +6,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="Ciphey">
   <img src="https://github.com/brandonskerritt/Ciphey/workflows/Python%20application/badge.svg?branch=master" alt="Ciphey">
+  <img src="https://img.shields.io/badge/code%20style-black-000000.svg> alt="Formatted with Black">
 </p>
 
 
