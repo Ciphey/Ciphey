@@ -18,7 +18,9 @@ from tensorflow.keras.layers import (
 from tensorflow.keras.models import Sequential, load_model
 from string import punctuation
 import numpy
-import app.mathsHelper
+import sys
+sys.path.append("..")
+import mathsHelper
 
 # i need the below code to make tensorflow shut up. Yup, it's SO bad you have to have 2 LINES TO MAKE IT SHUT UP!!!
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
@@ -36,7 +38,7 @@ class NeuralNetwork:
         file_path = os.path.join(script_dir, "NeuralNetworkModel.model")
         self.MODEL = load_model(file_path)
 
-        self.mh = app.mathsHelper.mathsHelper()
+        self.mh = mathsHelper.mathsHelper()
 
     def formatData(self, text):
         """
