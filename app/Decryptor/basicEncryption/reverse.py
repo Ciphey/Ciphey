@@ -1,10 +1,13 @@
-import app.mathsHelper
+import sys
+
+sys.path.append("..")
+import mathsHelper
 
 
 class Reverse:
     def __init__(self, lc):
         self.lc = lc
-        self.mh = app.mathsHelper.mathsHelper()
+        self.mh = mathsHelper.mathsHelper()
 
     def decrypt(self, message):
         message = self.mh.stripPuncuation(message)
