@@ -38,6 +38,7 @@ try:
 except ModuleNotFoundError:
     import app.mathsHelper as mh
 import collections
+from alive_progress import alive_bar
 
 
 class Ciphey:
@@ -147,58 +148,7 @@ class Ciphey:
             self.one_level_of_decryption()
         else:
             if self.sickomode:
-                print(
-                    '''
-                MMMMSSSSSSSSSSSSSSSSSMSS;.     .dMMMMSSSSSSMMSSSSSSSSS
-                MMSSSSSSSMSSSSSMSSSSMMMSS."-.-":MMMMMSSSSMMMMSSMSSSMMS
-                MSSSSSSSMSSSSMMMSSMMMPTMM;"-/":MMM^"     MMMSSMMMSSMM
-                SSSSSSSMMSSMMMMMMMMMP-.MMM :  ;.;P       dMMMMMMMMMP' 
-                SSMSSSMMMSMMMMMMMMMP   :M;`:  ;.'+"""t+dMMMMMMMMMMP   
-                MMMSSMMMMMMMMPTMMMM"""":P `.\// '    ""^^MMMMMMMP'    
-                MMMMMMPTMMMMP="TMMMsg,      \/   db`c"  dMMMMMP"      
-                MMMMMM  TMMM   d$$$b ^          /T$; ;-/TMMMP         
-                MMMMM; .^`M; d$P^T$$b          :  $$ ::  "T(          
-                MMMMMM   .-+d$$   $$$;         ; d$$ ;;  __           
-                MMMMMMb   _d$$$   $$$$         :$$$; :MmMMMMp.        
-                MMMMMM"  " T$$$._.$$$;          T$P.'MMMSSSSSSb.      
-                MMM`TMb   -")T$$$$$$P'       `._ ""  :MMSSSMMP'       
-                MMM / \    '  "T$$P"           /     :MMMMMMM         
-                MMSb`. ;                      "      :MMMMMMM         
-                MMSSb_lSSSb.      \ `.   .___.       MMMMMMMM         
-                MMMMSSSSSSSSb.                     .MMMMMMMMM         
-                MMMMMMMMMMMSSSb                  .dMMMMMMMMM'         
-                MMMMMMMMMMMMMSS;               .dMMMMMMMMMMP          
-                MMMMMMMMMMMMMb`;"-.          .dMMMMMMMMMMP'           
-                MMMMMMMMMMMMMMb    ""--.___.dMMMMMMMMMP^"       
-                
-                                      _..._                 .-'''
-                    """-.                                     
-                   .-'_..._''.             '   _    \                               '   _    \ _______                           
-           .--.  .' .'      '.\    .     /   /` '.   \            __  __   ___    /   /` '.     ___ `'.         __.....__      
-           |__| / .'             .'|    .   |     \  '           |  |/  `.'   `. .   |     \  ' ' |--.\  \    .-''         '.    
-           .--.. '             .'  |    |   '      |  '          |   .-.  .-.   '|   '      |  '| |    \  '  /     .-''"'-.  `.  
-           |  || |            <    |    \    \     / /           |  |  |  |  |  |\    \     / / | |     |  '/     /________\   \ 
-       _   |  || |             |   | ____`.   ` ..' /            |  |  |  |  |  | `.   ` ..' /  | |     |  ||                  | 
-     .' |  |  |. '             |   | \ .'   '-...-'`             |  |  |  |  |  |    '-...-'`   | |     ' .'\    .-------------' 
-    .   | /|  | \ '.          .|   |/  .                         |  |  |  |  |  |               | |___.' /'  \    '-.____...---. 
-  .'.'| |//|__|  '. `._____.-'/|    /\  \                        |__|  |__|  |__|              /_______.'/    `.             .'  
-.'.'.-'  /         `-.______ / |   |  \  \                                                     \_______|/       `''-...... -'    
-.'   \_.'       _..._       `  '    \  \  \                                                                                      
-             .-'_..._''.      '------'  '---'                                         _______                                    
-           .' .'      '.\      .--..----.     .----.                     __.....__    \  ___ `'.                                 
-          / .'                 |__| \    \   /    /                  .-''         '.   ' |--.\  \                                
-         . '               .|  .--.  '   '. /'   /             .|   /     .-''"'-.  `. | |    \  '                               
-    __   | |             .' |_ |  |  |    |'    /    __      .' |_ /     /________\   \| |     |  '                              
- .:--.'. | |           .'     ||  |  |    ||    | .:--.'.  .'     ||                  || |     |  |                              
-/ |   \ |. '          '--.  .-'|  |  '.   `'   .'/ |   \ |'--.  .-'\    .-------------'| |     ' .'                              
-`" __ | | \ '.          .|  |  |  |   \        / `" __ | |   |  |   \    '-.____...---.| |___.' /'                               
- .'.''| |  '. `._____.-'/|  |  |__|    \      /   .'.''| |   |  |    `.             .'/_______.'/                                
-/ /   | |_   `-.______ / |  '.'         '----'   / /   | |_  |  '.'    `''-...... -'  \_______|/                                 
-\ \._,\ '/            `  |   /                   \ \._,\ '/  |   /                                                               
- `--'  `"                `'-'                     `--'  `"   `'-'                                                                
-
-                """
-                )
+                print("Sicko mode entered")
             f = open("decryptionContents.txt", "w")
             self.one_level_of_decryption(file=f, sickomode=self.sickomode)
 
@@ -207,24 +157,27 @@ class Ciphey:
                 pass
 
     def one_level_of_decryption(self, file=None, sickomode=None):
-        for key, val in self.whatToChoose.items():
-            # https://stackoverflow.com/questions/4843173/how-to-check-if-type-of-a-variable-is-string
-            if not isinstance(key, str):
-                key.setProbTable(val)
-                ret = key.decrypt(self.text)
-                if ret["IsPlaintext?"]:
-                    print(ret["Plaintext"])
-                    if self.cipher:
-                        if ret["Extra Information"] != None:
-                            print(
-                                "The cipher used is",
-                                ret["Cipher"] + ".",
-                                ret["Extra Information"] + ".",
-                            )
-                        else:
-                            print(ret["Cipher"])
+        items = range(1)
+        with alive_bar() as bar:
+            for key, val in self.whatToChoose.items():
+                # https://stackoverflow.com/questions/4843173/how-to-check-if-type-of-a-variable-is-string
+                if not isinstance(key, str):
+                    key.setProbTable(val)
+                    ret = key.decrypt(self.text)
+                    if ret["IsPlaintext?"]:
+                        print(ret["Plaintext"])
+                        if self.cipher:
+                            if ret["Extra Information"] != None:
+                                print(
+                                    "The cipher used is",
+                                    ret["Cipher"] + ".",
+                                    ret["Extra Information"] + ".",
+                                )
+                            else:
+                                print(ret["Cipher"])
 
-                    return ret
+                        bar()
+                        return ret
         print("No encryption found. Here's the probabilities we calculated")
         import pprint
 
