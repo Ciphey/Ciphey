@@ -1,13 +1,16 @@
 import sys
 
 sys.path.append("..")
-import mathsHelper
+try:
+    import mathsHelper as mh
+except ModuleNotFoundError:
+    import app.mathsHelper as mh
 
 
 class Reverse:
     def __init__(self, lc):
         self.lc = lc
-        self.mh = mathsHelper.mathsHelper()
+        self.mh = mh.mathsHelper()
 
     def decrypt(self, message):
         message = self.mh.stripPuncuation(message)
