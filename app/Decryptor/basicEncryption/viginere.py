@@ -1,6 +1,8 @@
 import itertools, re
-import Decryptor.basicEncryption.freqAnalysis
-
+try:
+    import Decryptor.basicEncryption.freqAnalysis
+except ModuleNotFoundError:
+    import app.Decryptor.basicEncryption.freqAnalysis
 
 class Viginere:
     def __init__(self, lc):
