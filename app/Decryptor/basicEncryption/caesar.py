@@ -8,21 +8,21 @@
 Github: brandonskerritt
 """
 
-class Caesar():
+
+class Caesar:
     def __init__(self, lc):
         self.lc = lc
+
     def getName(self):
         return "Caesar"
+
     def decrypt(self, message):
-        ''' Simple python program to bruteforce a caesar cipher'''
-
-        ''' Simple python program for the caesar cipher'''
-
+        """ Simple python program to bruteforce a caesar cipher"""
 
         # Example string
         message = message.lower()
         # Everything we can encrypt
-        SYMBOLS = 'abcdefghijklmnopqrstuvwxyz'
+        SYMBOLS = "abcdefghijklmnopqrstuvwxyz"
 
         for counter, key in enumerate(range(len(SYMBOLS))):
             # try again with each key attempt
@@ -46,8 +46,18 @@ class Caesar():
             # Output each attempt
             result = self.lc.checkLanguage(translated)
             if result:
-                return {"lc": self.lc, "IsPlaintext?": True, "Plaintext": translated, "Cipher": "Caesar", "Extra Information": f"The rotation used is {counter}"}
+                return {
+                    "lc": self.lc,
+                    "IsPlaintext?": True,
+                    "Plaintext": translated,
+                    "Cipher": "Caesar",
+                    "Extra Information": f"The rotation used is {counter}",
+                }
         # if none of them match English, return false!
-        return {"lc": self.lc, "IsPlaintext?": False, "Plaintext": None, "Cipher": "Caesar", "Extra Information": None}
-
-
+        return {
+            "lc": self.lc,
+            "IsPlaintext?": False,
+            "Plaintext": None,
+            "Cipher": "Caesar",
+            "Extra Information": None,
+        }
