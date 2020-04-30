@@ -1,8 +1,8 @@
-from Decryptor.basicEncryption.caesar import Caesar
-from Decryptor.basicEncryption.reverse import Reverse
-from Decryptor.basicEncryption.viginere import Viginere
-from Decryptor.basicEncryption.pigLatin import PigLatin
-from Decryptor.basicEncryption.transposition import Transposition
+import Decryptor.basicEncryption.caesar
+import Decryptor.basicEncryption.reverse
+import Decryptor.basicEncryption.viginere
+import Decryptor.basicEncryption.pigLatin
+
 """
 So I want to assign the prob distribution to objects
 so it makes sense to do this?
@@ -32,25 +32,26 @@ for key, val in self.prob:
             list_objs.insert(counter, list_objs.pop(listCounter))
             counter = counter + 1
 
-Eventually we get a sorted list of objs
-
-
+Eventually we get a sorted list of obj
 """
+
+
 class BasicParent:
     def __init__(self, lc):
         self.lc = lc
-        self.caesar = Caesar(self.lc)
-        self.reverse = Reverse(self.lc)
-        self.viginere = Viginere(self.lc)
-        self.pig = PigLatin(self.lc)
-        self.trans = Transposition(self.lc)
+        self.caesar = Decryptor.basicEncryption.caesar.Caesar(self.lc)
+        self.reverse = Decryptor.basicEncryption.reverse.Reverse(self.lc)
+        self.viginere = Decryptor.basicEncryption.viginere.Viginere(self.lc)
+        self.pig = Decryptor.basicEncryption.pigLatin.PigLatin(self.lc)
+        # self.trans = Transposition(self.lc)
 
         self.list_of_objects = [self.caesar, self.reverse, self.pig]
+
     def decrypt(self, text):
         self.text = text
+        from multiprocessing.dummy import Pool as ThreadPool
 
-        from multiprocessing.dummy import Pool as ThreadPool 
-        pool = ThreadPool(4) 
+        pool = ThreadPool(4)
         answers = pool.map(self.callDecrypt, self.list_of_objects)
 
         """for item in self.list_of_objects:
@@ -61,19 +62,27 @@ class BasicParent:
             self.lc = self.lc + answer["lc"]
             if answer["IsPlaintext?"]:
                 return answer
-        
-        # so viginere runs ages 
+
+        # so viginere runs ages
         # and you cant kill threads in a pool
         # so i just run it last lol
         result = self.callDecrypt(self.viginere)
         if result["IsPlaintext?"]:
             return result
-        return {"lc": self.lc, "IsPlaintext?": False, "Plaintext": None, "Cipher": None, "Extra Information": None}
+        return {
+            "lc": self.lc,
+            "IsPlaintext?": False,
+            "Plaintext": None,
+            "Cipher": None,
+            "Extra Information": None,
+        }
+
     def callDecrypt(self, obj):
         # i only exist to call decrypt
-        return obj.decrypt(self.text) 
-            
+        return obj.decrypt(self.text)
+
     def setProbTable(self, prob):
+        """I'm still writing this"""
         self.probabilityDistribution = prob
         # we get a sorted list of objects :)
         counter = 0
@@ -83,4 +92,3 @@ class BasicParent:
                     # moves the item
                     list_objs.insert(counter, list_objs.pop(listCounter))
                     counter = counter + 1
-
