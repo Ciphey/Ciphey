@@ -17,8 +17,8 @@ with open('requirements.txt') as f:
 
 # This call to setup() does all the work
 setup(
-    name="ciphey",
-    version="2.0.0",
+    name="Ciphey",
+    version="3.0.2",
     description="Automated decryption tool using machine learning & common sense",
     long_description=README,
     long_description_content_type="text/markdown",
@@ -31,12 +31,11 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.8",
     ],
-    packages=find_packages(exclude=("tests",)),
+    packages=find_packages("Ciphey", exclude=("tests",)),
     include_package_data=True,
     install_requires=required,
-    entry_points={
-        "console_scripts": [
-            "ciphey=app.__main__:main",
-        ]
-    },
+        entry_points={
+        'console_scripts': [
+            'ciphey = app.__main__:main',
+        ],}
 )

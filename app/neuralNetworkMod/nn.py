@@ -19,8 +19,12 @@ from tensorflow.keras.models import Sequential, load_model
 from string import punctuation
 import numpy
 import sys
+
 sys.path.append("..")
-import mathsHelper
+try:
+    import mathsHelper as mh
+except ModuleNotFoundError:
+    import app.mathsHelper as mh
 
 # i need the below code to make tensorflow shut up. Yup, it's SO bad you have to have 2 LINES TO MAKE IT SHUT UP!!!
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
@@ -38,7 +42,7 @@ class NeuralNetwork:
         file_path = os.path.join(script_dir, "NeuralNetworkModel.model")
         self.MODEL = load_model(file_path)
 
-        self.mh = mathsHelper.mathsHelper()
+        self.mh = mh.mathsHelper()
 
     def formatData(self, text):
         """

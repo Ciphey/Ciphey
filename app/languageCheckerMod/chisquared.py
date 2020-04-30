@@ -14,7 +14,10 @@ from numpy import std
 import sys
 
 sys.path.append("..")
-import mathsHelper
+try:
+    import mathsHelper as mh
+except ModuleNotFoundError:
+    import app.mathsHelper as mh
 
 # I had a bug where empty string was being added to letter freq dictionary
 # this solves it :)
@@ -65,7 +68,7 @@ class chiSquared:
         self.average = 0.0
         self.totalDone = 0.0
         self.oldAverage = 0.0
-        self.mh = mathsHelper.mathsHelper()
+        self.mh = mh.mathsHelper()
         self.highestLanguage = ""
         self.totalChi = 0.0
         self.totalEqual = False

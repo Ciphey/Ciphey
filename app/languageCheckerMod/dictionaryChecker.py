@@ -1,8 +1,13 @@
 import string
 import os
 import sys
+
 sys.path.append("..")
-import mathsHelper
+try:
+    import mathsHelper as mh
+except ModuleNotFoundError:
+    import app.mathsHelper as mh
+
 
 class dictionaryChecker:
     """
@@ -17,7 +22,7 @@ class dictionaryChecker:
     """
 
     def __init__(self):
-        self.mh = mathsHelper.mathsHelper()
+        self.mh = mh.mathsHelper()
         self.languagePercentage = 0.0
         self.languageWordsCounter = 0.0
         self.languageThreshold = 55

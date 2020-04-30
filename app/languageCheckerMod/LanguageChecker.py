@@ -46,14 +46,21 @@ In alphabetical order
 And you're.... Done! Make sure the name of the two match up
 """
 from string import punctuation
-import languageCheckerMod.dictionaryChecker
-import languageCheckerMod.chisquared
+try:
+    import languageCheckerMod.dictionaryChecker as dc
+except ModuleNotFoundError:
+    import app.languageCheckerMod.dictionaryChecker as dc
+try:
+    import languageCheckerMod.chisquared as cs
+except ModuleNotFoundError:
+    import app.languageCheckerMod.chisquared as cs
+
 
 
 class LanguageChecker:
     def __init__(self):
-        self.dictionary = languageCheckerMod.dictionaryChecker.dictionaryChecker()
-        self.chi = languageCheckerMod.chisquared.chiSquared()
+        self.dictionary = dc.dictionaryChecker()
+        self.chi = cs.chiSquared()
 
     def __add__(self, otherLanguageObject):
         # sets the added chi squared to be of this one
