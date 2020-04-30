@@ -1,7 +1,13 @@
-import Decryptor.basicEncryption.caesar
-import Decryptor.basicEncryption.reverse
-import Decryptor.basicEncryption.viginere
-import Decryptor.basicEncryption.pigLatin
+try:
+    import Decryptor.basicEncryption.caesar as ca
+    import Decryptor.basicEncryption.reverse as re
+    import Decryptor.basicEncryption.viginere as vi
+    import Decryptor.basicEncryption.pigLatin as pi
+except ModuleNotFoundError:
+    import app.Decryptor.basicEncryption.caesar as ca
+    import app.Decryptor.basicEncryption.reverse as re
+    import app.Decryptor.basicEncryption.viginere as vi
+    import app.Decryptor.basicEncryption.pigLatin as pi
 
 """
 So I want to assign the prob distribution to objects
@@ -39,10 +45,10 @@ Eventually we get a sorted list of obj
 class BasicParent:
     def __init__(self, lc):
         self.lc = lc
-        self.caesar = Decryptor.basicEncryption.caesar.Caesar(self.lc)
-        self.reverse = Decryptor.basicEncryption.reverse.Reverse(self.lc)
-        self.viginere = Decryptor.basicEncryption.viginere.Viginere(self.lc)
-        self.pig = Decryptor.basicEncryption.pigLatin.PigLatin(self.lc)
+        self.caesar = ca.Caesar(self.lc)
+        self.reverse = re.Reverse(self.lc)
+        self.viginere = vi.Viginere(self.lc)
+        self.pig = pi.PigLatin(self.lc)
         # self.trans = Transposition(self.lc)
 
         self.list_of_objects = [self.caesar, self.reverse, self.pig]

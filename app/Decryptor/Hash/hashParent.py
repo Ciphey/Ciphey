@@ -1,5 +1,7 @@
-from Decryptor.Hash import hashBuster
-
+try:
+    from Decryptor.Hash import hashBuster
+except ModuleNotFoundError:
+    from app.Decryptor.Hash import hashBuster
 
 class HashParent:
     def decrypt(self, text):
