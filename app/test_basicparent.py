@@ -3,7 +3,7 @@ try:
 except ModuleNotFoundError:
     from app.languageCheckerMod import LanguageChecker as lcm
 try:
-    from Decryptor.basicEncryption.basic_parent import BasicParent#
+    from Decryptor.basicEncryption.basic_parent import BasicParent  #
 except ModuleNotFoundError:
     from app.Decryptor.basicEncryption.basic_parent import BasicParent
 import unittest

@@ -34,8 +34,9 @@ setup(
     packages=find_packages("Ciphey", exclude=("tests",)),
     include_package_data=True,
     install_requires=required,
-        entry_points={
-        'console_scripts': [
-            'ciphey = app.__main__:main',
-        ],}
+    entry_points={
+        "console_scripts": [
+            "ciphey=ciphey.__main__:main",
+        ]
+    },
 )
