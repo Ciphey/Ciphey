@@ -46,6 +46,7 @@ In alphabetical order
 And you're.... Done! Make sure the name of the two match up
 """
 from string import punctuation
+
 try:
     import languageCheckerMod.dictionaryChecker as dc
 except ModuleNotFoundError:
@@ -54,7 +55,6 @@ try:
     import languageCheckerMod.chisquared as cs
 except ModuleNotFoundError:
     import app.languageCheckerMod.chisquared as cs
-
 
 
 class LanguageChecker:

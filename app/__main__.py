@@ -32,6 +32,7 @@ except ModuleNotFoundError:
 
 
 import argparse
+
 try:
     import mathsHelper as mh
 except ModuleNotFoundError:
@@ -229,6 +230,7 @@ class Ciphey:
 
         pprint.pprint(self.whatToChoose)
 
+
 def main():
     parser = argparse.ArgumentParser(
         description="Automated decryption tool. Put in the encrypted text and Ciphey will decrypt it."
@@ -263,5 +265,7 @@ def main():
         print(
             "You didn't supply any arguments. Look at the help menu with -h or --help"
         )
+
+
 if __name__ == "__main__":
     main()
