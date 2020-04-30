@@ -1,7 +1,8 @@
-import app.mathsHelper
 import string
 import os
-
+import sys
+sys.path.append("..")
+import mathsHelper
 
 class dictionaryChecker:
     """
@@ -16,7 +17,7 @@ class dictionaryChecker:
     """
 
     def __init__(self):
-        self.mh = app.mathsHelper.mathsHelper()
+        self.mh = mathsHelper.mathsHelper()
         self.languagePercentage = 0.0
         self.languageWordsCounter = 0.0
         self.languageThreshold = 55
