@@ -23,7 +23,6 @@ Keras-Preprocessing==1.1.0
 keyring==21.2.0
 Markdown==3.2.1
 more-itertools==8.2.0
-myproject==1.0
 numpy==1.18.3
 oauthlib==3.1.0
 opt-einsum==3.2.1
