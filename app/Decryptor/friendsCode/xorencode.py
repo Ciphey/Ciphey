@@ -10,13 +10,13 @@ for char in plain:
     else:
         ciphertext += " "
 
-print("Ciphertext (basically useless):\n"+ciphertext)
+print("Ciphertext (basically useless):\n" + ciphertext)
 
 print("Ascii Values:")
 for x in ciphertext:
     if x != " ":
         val = ord(x)
-        print(val,end=" ")
+        print(val, end=" ")
         print("In binary: {0:b}".format(val))
 
-#( ͡° ͜ʖ ͡°)
+# ( ͡° ͜ʖ ͡°)
