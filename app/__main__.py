@@ -7,15 +7,35 @@
 © Brandon Skerritt
 Github: brandonskerritt
 """
-from languageCheckerMod import LanguageChecker
-from neuralNetworkMod.nn import NeuralNetwork
+try:
+    from languageCheckerMod import LanguageChecker as lc
+except ModuleNotFoundError:
+    from app.languageCheckerMod import LanguageChecker as lc
+try:
+    from neuralNetworkMod.nn import NeuralNetwork
+except ModuleNotFoundError:
+    from app.neuralNetworkMod.nn import NeuralNetwork
 
-from Decryptor.basicEncryption.basic_parent import BasicParent
-from Decryptor.Hash.hashParent import HashParent
-from Decryptor.Encoding.encodingParent import EncodingParent
+try:
+    from Decryptor.basicEncryption.basic_parent import BasicParent
+except ModuleNotFoundError:
+    from app.Decryptor.basicEncryption.basic_parent import BasicParent
+
+try:
+    from Decryptor.Hash.hashParent import HashParent
+except ModuleNotFoundError:
+    from app.Decryptor.Hash.hashParent import HashParent
+try:
+    from Decryptor.Encoding.encodingParent import EncodingParent
+except ModuleNotFoundError:
+    from app.Decryptor.Encoding.encodingParent import EncodingParent
+
 
 import argparse
-import mathsHelper
+try:
+    import mathsHelper as mh
+except ModuleNotFoundError:
+    import app.mathsHelper as mh
 import collections
 
 
@@ -23,8 +43,8 @@ class Ciphey:
     def __init__(self, text, cipher):
         # general purpose modules
         self.ai = NeuralNetwork()
-        self.lc = LanguageChecker.LanguageChecker()
-        self.mh = mathsHelper.mathsHelper()
+        self.lc = lc.LanguageChecker()
+        self.mh = mh.mathsHelper()
 
         # the one bit of text given to us to decrypt
         self.text = text
@@ -209,8 +229,7 @@ class Ciphey:
 
         pprint.pprint(self.whatToChoose)
 
-
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(
         description="Automated decryption tool. Put in the encrypted text and Ciphey will decrypt it."
     )
@@ -244,3 +263,5 @@ if __name__ == "__main__":
         print(
             "You didn't supply any arguments. Look at the help menu with -h or --help"
         )
+if __name__ == "__main__":
+    main()

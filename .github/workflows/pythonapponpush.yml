@@ -31,7 +31,3 @@ jobs:
         cd app
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         python3 -m unittest discover
-    - name: Test with pytest
-      run: |
-        cd app
-        python3 -m unittest discover
