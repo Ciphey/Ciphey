@@ -3,6 +3,7 @@ try:
 except ModuleNotFoundError:
     from app.Decryptor.Hash import hashBuster
 
+
 class HashParent:
     def decrypt(self, text):
         result = hashBuster.crack(text)
