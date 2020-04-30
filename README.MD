@@ -54,7 +54,7 @@ Not just encryptions, but hashes and encodings too.
 
 # How to install
 ```
-pip install ciphey
+pip3 install ciphey
 ```
 
 # How to use
