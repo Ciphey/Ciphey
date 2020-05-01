@@ -9,7 +9,6 @@ cachetools==4.1.0
 certifi==2020.4.5.1
 cffi==1.14.0
 chardet==3.0.4
-ciphey==3.0.0
 click==7.1.2
 cryptography==2.9.2
 docutils==0.16
@@ -25,7 +24,6 @@ Keras-Preprocessing==1.1.0
 keyring==21.2.0
 Markdown==3.2.1
 more-itertools==8.2.0
-myproject==1.0
 numpy==1.18.3
 oauthlib==3.1.0
 opt-einsum==3.2.1
