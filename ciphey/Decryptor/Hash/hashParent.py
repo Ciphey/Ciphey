@@ -1,7 +1,7 @@
 try:
     from Decryptor.Hash import hashBuster
 except ModuleNotFoundError:
-    from app.Decryptor.Hash import hashBuster
+    from ciphey.Decryptor.Hash import hashBuster
 
 
 class HashParent:

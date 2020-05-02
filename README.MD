@@ -62,8 +62,18 @@ pip3 install ciphey
 In Terminal:
 
 ```
-ciphey
+ciphey -t "encrypted text here"
 ```
+
+# How to import Ciphey
+```
+import ciphey.__main__
+x = ciphey.__main__.Ciphey("Encrypted text", "Possible cipher used here")
+x.decrypt()
+```
+Note: 
+* Possible cipher used is not a feature _yet_, I am working on it!
+* The output is not greppable, so it'll output the progress bar, cipher, extra information, and the plaintext. I am working on greppable output.
 
 # The internal data packet
 This is the data packet specification Ciphey uses. To pass data around the different modules and to language checker, it is neccesary to use an internal data packet.

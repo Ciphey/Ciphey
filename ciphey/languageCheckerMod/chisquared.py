@@ -17,7 +17,7 @@ sys.path.append("..")
 try:
     import mathsHelper as mh
 except ModuleNotFoundError:
-    import app.mathsHelper as mh
+    import ciphey.mathsHelper as mh
 
 # I had a bug where empty string was being added to letter freq dictionary
 # this solves it :)
