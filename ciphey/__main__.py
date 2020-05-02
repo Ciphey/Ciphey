@@ -10,6 +10,7 @@ Github: brandonskerritt
 # Tensorflow always spams my terminal with so many warnings of things I can't change
 # so this tells them to shut up
 import warnings
+
 warnings.filterwarnings("ignore")
 
 
