@@ -50,11 +50,11 @@ from string import punctuation
 try:
     import languageCheckerMod.dictionaryChecker as dc
 except ModuleNotFoundError:
-    import app.languageCheckerMod.dictionaryChecker as dc
+    import ciphey.languageCheckerMod.dictionaryChecker as dc
 try:
     import languageCheckerMod.chisquared as cs
 except ModuleNotFoundError:
-    import app.languageCheckerMod.chisquared as cs
+    import ciphey.languageCheckerMod.chisquared as cs
 
 
 class LanguageChecker:

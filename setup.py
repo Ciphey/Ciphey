@@ -33,8 +33,8 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.8",
     ],
-    packages=['app', 'app.Decryptor', 'app.Decryptor.Encoding', 'app.Decryptor.basicEncryption', 'app.neuralNetworkMod',
-            'app.languageCheckerMod', 'app.Decryptor.Hash'],
+    packages=['ciphey', 'ciphey.Decryptor', 'ciphey.Decryptor.Encoding', 'ciphey.Decryptor.basicEncryption', 'ciphey.neuralNetworkMod',
+            'ciphey.languageCheckerMod', 'ciphey.Decryptor.Hash'],
     include_package_data=True,
     install_requires=required,
     entry_points={
