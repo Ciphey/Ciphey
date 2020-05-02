@@ -3,7 +3,7 @@ import itertools, re
 try:
     import Decryptor.basicEncryption.freqAnalysis
 except ModuleNotFoundError:
-    import app.Decryptor.basicEncryption.freqAnalysis
+    import ciphey.Decryptor.basicEncryption.freqAnalysis
 
 
 class Viginere:
