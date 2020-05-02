@@ -12,6 +12,7 @@ Github: brandonskerritt
 import warnings
 warnings.filterwarnings("ignore")
 
+
 try:
     from languageCheckerMod import LanguageChecker as lc
 except ModuleNotFoundError:
@@ -66,7 +67,6 @@ class Ciphey:
         self.cipher = cipher
 
     def decrypt(self):
-
         """
         this method calls 1 level of decrypt
         The idea is that so long as decrypt doesnt return the plaintext
