@@ -24,7 +24,7 @@ sys.path.append("..")
 try:
     import mathsHelper as mh
 except ModuleNotFoundError:
-    import app.mathsHelper as mh
+    import ciphey.mathsHelper as mh
 
 # i need the below code to make tensorflow shut up. Yup, it's SO bad you have to have 2 LINES TO MAKE IT SHUT UP!!!
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)

@@ -4,10 +4,10 @@ try:
     import Decryptor.basicEncryption.viginere as vi
     import Decryptor.basicEncryption.pigLatin as pi
 except ModuleNotFoundError:
-    import app.Decryptor.basicEncryption.caesar as ca
-    import app.Decryptor.basicEncryption.reverse as re
-    import app.Decryptor.basicEncryption.viginere as vi
-    import app.Decryptor.basicEncryption.pigLatin as pi
+    import ciphey.Decryptor.basicEncryption.caesar as ca
+    import ciphey.Decryptor.basicEncryption.reverse as re
+    import ciphey.Decryptor.basicEncryption.viginere as vi
+    import ciphey.Decryptor.basicEncryption.pigLatin as pi
 
 """
 So I want to assign the prob distribution to objects
