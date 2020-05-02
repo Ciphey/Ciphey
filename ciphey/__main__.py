@@ -16,25 +16,25 @@ warnings.filterwarnings("ignore")
 try:
     from languageCheckerMod import LanguageChecker as lc
 except ModuleNotFoundError:
-    from app.languageCheckerMod import LanguageChecker as lc
+    from ciphey.languageCheckerMod import LanguageChecker as lc
 try:
     from neuralNetworkMod.nn import NeuralNetwork
 except ModuleNotFoundError:
-    from app.neuralNetworkMod.nn import NeuralNetwork
+    from ciphey.neuralNetworkMod.nn import NeuralNetwork
 
 try:
     from Decryptor.basicEncryption.basic_parent import BasicParent
 except ModuleNotFoundError:
-    from app.Decryptor.basicEncryption.basic_parent import BasicParent
+    from ciphey.Decryptor.basicEncryption.basic_parent import BasicParent
 
 try:
     from Decryptor.Hash.hashParent import HashParent
 except ModuleNotFoundError:
-    from app.Decryptor.Hash.hashParent import HashParent
+    from ciphey.Decryptor.Hash.hashParent import HashParent
 try:
     from Decryptor.Encoding.encodingParent import EncodingParent
 except ModuleNotFoundError:
-    from app.Decryptor.Encoding.encodingParent import EncodingParent
+    from ciphey.Decryptor.Encoding.encodingParent import EncodingParent
 
 
 import argparse
@@ -42,7 +42,7 @@ import argparse
 try:
     import mathsHelper as mh
 except ModuleNotFoundError:
-    import app.mathsHelper as mh
+    import ciphey.mathsHelper as mh
 import collections
 from alive_progress import alive_bar
 

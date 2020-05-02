@@ -1,1 +1,1 @@
-from .Decryptor import *
+import __main__
