@@ -4,7 +4,7 @@ sys.path.append("..")
 try:
     import mathsHelper as mh
 except ModuleNotFoundError:
-    import app.mathsHelper as mh
+    import ciphey.mathsHelper as mh
 
 
 class Reverse:
