@@ -2,6 +2,7 @@ import pathlib
 from setuptools import setup, find_packages
 import io
 import os
+from distutils.command.install import INSTALL_SCHEMES
 
 # The directory containing this file
 HERE = pathlib.Path(__file__).parent
@@ -18,7 +19,7 @@ with open('requirements.txt') as f:
 # This call to setup() does all the work
 setup(
     name="Ciphey",
-    version="3.0.3",
+    version="3.0.6",
     description="Automated decryption tool using machine learning & common sense",
     long_description=README,
     long_description_content_type="text/markdown",
@@ -26,6 +27,7 @@ setup(
     author="Brandon Skerritt",
     author_email="brandon@skerritt.blog",
     license="MIT",
+    setup_requires=['setuptools_scm'],
     classifiers=[
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
