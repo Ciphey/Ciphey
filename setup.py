@@ -39,7 +39,7 @@ setup(
     install_requires=required,
     entry_points={
         "console_scripts": [
-            "ciphey=app.__main__:main",
+            "ciphey=ciphey.__main__:main",
         ]
     },
 )
