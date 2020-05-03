@@ -49,7 +49,7 @@ from alive_progress import alive_bar
 
 
 class Ciphey:
-    def __init__(self, text, cipher):
+    def __init__(self, text, grep=False, cipher=False):
         # general purpose modules
         self.ai = NeuralNetwork()
         self.lc = lc.LanguageChecker()
@@ -65,6 +65,7 @@ class Ciphey:
 
         self.level = 1
         self.sickomode = False
+        self.greppable = grep
         self.cipher = cipher
 
     def decrypt(self):
@@ -156,7 +157,7 @@ class Ciphey:
             if self.sickomode:
                 print("Sicko mode entered")
             f = open("decryptionContents.txt", "w")
-            self.one_level_of_decryption(file=f, sickomode=self.sickomode)
+            self.one_level_of_decryption(file=f)
 
             for i in range(0, self.level):
                 # open file and go through each text item
@@ -164,30 +165,41 @@ class Ciphey:
 
     def one_level_of_decryption(self, file=None, sickomode=None):
         items = range(1)
-        with alive_bar() as bar:
-            for key, val in self.whatToChoose.items():
-                # https://stackoverflow.com/questions/4843173/how-to-check-if-type-of-a-variable-is-string
-                if not isinstance(key, str):
-                    key.setProbTable(val)
-                    ret = key.decrypt(self.text)
-                    if ret["IsPlaintext?"]:
-                        print(ret["Plaintext"])
-                        if self.cipher:
-                            if ret["Extra Information"] != None:
-                                print(
-                                    "The cipher used is",
-                                    ret["Cipher"] + ".",
-                                    ret["Extra Information"] + ".",
-                                )
-                            else:
-                                print(ret["Cipher"])
+        if self.greppable:
+            self.decryptNormal()
+        else:
+            with alive_bar() as bar:
+                self.decryptNormal(bar)
 
-                        bar()
-                        return ret
+
+    def decryptNormal(self, bar=None):
+        for key, val in self.whatToChoose.items():
+        # https://stackoverflow.com/questions/4843173/how-to-check-if-type-of-a-variable-is-string
+            if not isinstance(key, str):
+                key.setProbTable(val)
+                ret = key.decrypt(self.text)
+                if ret["IsPlaintext?"]:
+                    print(ret["Plaintext"])
+                    if self.cipher:
+                        if ret["Extra Information"] != None:
+                            print(
+                                "The cipher used is",
+                                ret["Cipher"] + ".",
+                                ret["Extra Information"] + ".",
+                            )
+                        else:
+                            print(ret["Cipher"])
+                    return ret
+                    
+            if not self.greppable:
+                bar()
+
         print("No encryption found. Here's the probabilities we calculated")
         import pprint
 
         pprint.pprint(self.whatToChoose)
+
+            
 
 
 def main():
@@ -196,18 +208,22 @@ def main():
     )
     # parser.add_argument('-f','--file', help='File you want to decrypt', required=False)
     # parser.add_argument('-l','--level', help='How many levels of decryption you want (the more levels, the slower it is)', required=False)
-    # parser.add_argument('-g','--greppable', help='Are you grepping this output?', required=False)
+    parser.add_argument('-g','--greppable', help='Are you grepping this output?', required=False)
     parser.add_argument("-t", "--text", help="Text to decrypt", required=False)
     # parser.add_argument('-s','--sicko-mode', help='If it is encrypted Ciphey WILL find it', required=False)
     parser.add_argument(
-        "-c", "--cipher", help="What is the cipher used?", required=False
+        "-c", "--printcipher", help="Do you want information on the cipher?", required=False
     )
 
     args = vars(parser.parse_args())
-    if args["cipher"] != None:
+    if args["printcipher"] != None:
         cipher = True
     else:
         cipher = False
+    if args['greppable'] != None:
+        greppable = True
+    else:
+        greppable = False
     """
     ██████╗██╗██████╗ ██╗  ██╗███████╗██╗   ██╗
     ██╔════╝██║██╔══██╗██║  ██║██╔════╝╚██╗ ██╔╝
@@ -218,7 +234,7 @@ def main():
 
     # uryyb zl sngure uryyb zl zbgure naq v ernyyl qb yvxr n tbbq ratyvfu oernxsnfg
     if args["text"]:
-        cipherObj = Ciphey(args["text"], cipher)
+        cipherObj = Ciphey(args["text"], greppable, cipher)
         cipherObj.decrypt()
     else:
         print(
