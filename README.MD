@@ -74,6 +74,8 @@ print(x.decrypt())
 
 The grep argument is to make the output greppable, meaning the output is a single string. Without the flag, the output would involve the progress bar.
 
+The __main__ part is so you can call the package anywhere on your OS like a normal program. ciphey is the name of the folder, __main__ is the name of the file, Ciphey is the name of the class in that file.
+
 # The internal data packet
 This is the data packet specification Ciphey uses. To pass data around the different modules and to language checker, it is neccesary to use an internal data packet.
 ```python
