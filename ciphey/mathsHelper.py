@@ -61,7 +61,32 @@ class mathsHelper:
 
     def sortDictionary(self, dictionary):
         """Sorts a dictionary"""
+        
         return dict(OrderedDict(sorted(dictionary.items())))
+
+    def sortProbTable(self, probTable):
+        """Sorts the probabiltiy table"""
+        table = sortDictionary(probTable)
+        # for each object: prob table in dictionary
+        maxOverall = 0
+        maxDictPair = {}
+        highestKey = None
+        for key, value in table:
+            maxLocal = 0
+            # for each item in that table
+            for key2, value2 in table['value']:
+                maxLocal = maxLocal + value2
+            if maxLocal > maxOverall:
+                maxOverall = maxLocal
+                # so eventually, we get the maximum dict pairing?
+                maxDictPair[key] = value
+                highestKey = key
+        # removes the highest key from the prob table
+        newTable = del probTable[highestKey]
+        # returns the max dict (at the start) with the prob table
+        # this way, it should always work on most likely first.
+        return maxDictPair.update(newTable)
+        
 
     def isAscii(self, letter):
         """Determines whether a letter (or word) is ASCII"""

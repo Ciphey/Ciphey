@@ -107,6 +107,8 @@ class Ciphey:
             },
         }
         # sorts each indiviudal sub-dictionary
+        import pprint
+        print(self.whatToChoose)
         for key, value in self.whatToChoose.items():
             for k, v in value.items():
                 if v < 0.01:
@@ -114,6 +116,7 @@ class Ciphey:
 
         for key, value in self.whatToChoose.items():
             self.whatToChoose[key] = self.mh.sortDictionary(value)
+        
 
         # the below code selects the most likely one
         # and places it at the front
@@ -171,10 +174,9 @@ class Ciphey:
             with alive_bar() as bar:
                 self.decryptNormal(bar)
 
-
     def decryptNormal(self, bar=None):
         for key, val in self.whatToChoose.items():
-        # https://stackoverflow.com/questions/4843173/how-to-check-if-type-of-a-variable-is-string
+            # https://stackoverflow.com/questions/4843173/how-to-check-if-type-of-a-variable-is-string
             if not isinstance(key, str):
                 key.setProbTable(val)
                 ret = key.decrypt(self.text)
@@ -190,7 +192,7 @@ class Ciphey:
                         else:
                             print(ret["Cipher"])
                     return ret
-                    
+
             if not self.greppable:
                 bar()
 
@@ -199,8 +201,6 @@ class Ciphey:
 
         pprint.pprint(self.whatToChoose)
 
-            
-
 
 def main():
     parser = argparse.ArgumentParser(
@@ -208,11 +208,16 @@ def main():
     )
     # parser.add_argument('-f','--file', help='File you want to decrypt', required=False)
     # parser.add_argument('-l','--level', help='How many levels of decryption you want (the more levels, the slower it is)', required=False)
-    parser.add_argument('-g','--greppable', help='Are you grepping this output?', required=False)
+    parser.add_argument(
+        "-g", "--greppable", help="Are you grepping this output?", required=False
+    )
     parser.add_argument("-t", "--text", help="Text to decrypt", required=False)
     # parser.add_argument('-s','--sicko-mode', help='If it is encrypted Ciphey WILL find it', required=False)
     parser.add_argument(
-        "-c", "--printcipher", help="Do you want information on the cipher?", required=False
+        "-c",
+        "--printcipher",
+        help="Do you want information on the cipher?",
+        required=False,
     )
 
     args = vars(parser.parse_args())
@@ -220,7 +225,7 @@ def main():
         cipher = True
     else:
         cipher = False
-    if args['greppable'] != None:
+    if args["greppable"] != None:
         greppable = True
     else:
         greppable = False
