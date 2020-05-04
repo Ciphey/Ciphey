@@ -107,8 +107,6 @@ class Ciphey:
             },
         }
         # sorts each indiviudal sub-dictionary
-        import pprint
-        print(self.whatToChoose)
         for key, value in self.whatToChoose.items():
             for k, v in value.items():
                 if v < 0.01:
@@ -116,6 +114,10 @@ class Ciphey:
 
         for key, value in self.whatToChoose.items():
             self.whatToChoose[key] = self.mh.sortDictionary(value)
+        
+        self.whatToChoose = self.mh.sortProbTable(self.whatToChoose)
+
+        
         
 
         # the below code selects the most likely one
