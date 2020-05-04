@@ -66,15 +66,15 @@ class mathsHelper:
 
     def sortProbTable(self, probTable):
         """Sorts the probabiltiy table"""
-        table = sortDictionary(probTable)
         # for each object: prob table in dictionary
         maxOverall = 0
         maxDictPair = {}
         highestKey = None
-        for key, value in table:
+        print(probTable)
+        for key, value in probTable.items():
             maxLocal = 0
             # for each item in that table
-            for key2, value2 in table['value']:
+            for key2, value2 in probTable['value'].items():
                 maxLocal = maxLocal + value2
             if maxLocal > maxOverall:
                 maxOverall = maxLocal
@@ -82,10 +82,12 @@ class mathsHelper:
                 maxDictPair[key] = value
                 highestKey = key
         # removes the highest key from the prob table
-        newTable = del probTable[highestKey]
+        del probTable[highestKey]
         # returns the max dict (at the start) with the prob table
         # this way, it should always work on most likely first.
-        return maxDictPair.update(newTable)
+        d = dict(maxDictPair.update(probTable))
+        print(d)
+        return d
         
 
     def isAscii(self, letter):
