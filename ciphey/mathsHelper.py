@@ -72,9 +72,11 @@ class mathsHelper:
         highestKey = None
         print(probTable)
         for key, value in probTable.items():
+            print(key, value)
             maxLocal = 0
             # for each item in that table
-            for key2, value2 in probTable['value'].items():
+            print(value)
+            for key2, value2 in value.items():
                 maxLocal = maxLocal + value2
             if maxLocal > maxOverall:
                 maxOverall = maxLocal
