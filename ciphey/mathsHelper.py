@@ -86,8 +86,13 @@ class mathsHelper:
         # removes the highest key from the prob table
         del probTable[highestKey]
         # returns the max dict (at the start) with the prob table
-        # this way, it should always work on most likely first.
-        d = dict(maxDictPair.update(probTable))
+        # this way, it should always work on most likely first.#
+        print("# Prob table")
+        print(probTable)
+        print("# Max dict pair")
+        print(maxDictPair)
+        d = {**maxDictPair, **probTable}
+        print("################### d is:")
         print(d)
         return d
         
