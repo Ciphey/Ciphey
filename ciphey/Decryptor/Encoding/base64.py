@@ -11,7 +11,6 @@ class Base64:
         self.lc = lc
 
     def decrypt(self, text):
-        print("Trying bases")
         result = "None"
         ciph = "None"
 
@@ -20,10 +19,11 @@ class Base64:
             result = base64.b64decode(text)
             # yeet turning b strings into normal stringy bois
             result = result.decode("utf-8")
-            print(result)
         except UnicodeDecodeError as e:
             None
         except binascii.Error as e:
+            None
+        except ValueError:
             None
         
         if self.lc.checkLanguage(result):
@@ -39,6 +39,8 @@ class Base64:
             None
         except binascii.Error as e:
             None
+        except ValueError:
+            None
 
         if self.lc.checkLanguage(result):
             return self.goodRet(result, cipher="Base32")
@@ -52,6 +54,8 @@ class Base64:
             None
         except binascii.Error as e:
             None
+        except ValueError:
+            None
             
         if self.lc.checkLanguage(result):
             return self.goodRet(result, cipher="Base16")
@@ -64,6 +68,8 @@ class Base64:
         except UnicodeDecodeError as e:
             None
         except binascii.Error as e:
+            None
+        except ValueError:
             None
             
         if self.lc.checkLanguage(result):
