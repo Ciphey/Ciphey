@@ -33,4 +33,4 @@ def sortProbTable(probTable):
     return d
 
 sortProbTable({"hash parent": {'md5': 0.01, 'sha1': 0.01, 'sha256': 0.01, 'sha512': 0.01}, "basic parent": {'caesar': 0.1266546}, 
-'plaintext': {'plaintext': 0.22581327}, "encoding parent": {'ascii': 0.01, 'base64': 0.22110419, 'binary': 0.91, 'hexadecimal': 0.024687605, 'morse': 0.01, 'reverse': 0.01}})
+'plaintext': {'plaintext': 0.92581327}, "encoding parent": {'ascii': 0.01, 'base64': 0.22110419, 'binary': 0.11, 'hexadecimal': 0.024687605, 'morse': 0.01, 'reverse': 0.01}})
