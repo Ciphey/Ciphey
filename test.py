@@ -21,7 +21,6 @@ def sortProbTable(probTable):
         if maxLocal > maxOverall:
             # because the dict doesnt reset
             maxDictPair = {}
-            
             maxOverall = maxLocal
             # so eventually, we get the maximum dict pairing?
             maxDictPair[key] = value
