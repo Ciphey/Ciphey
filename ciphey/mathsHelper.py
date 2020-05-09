@@ -79,6 +79,7 @@ class mathsHelper:
             for key2, value2 in value.items():
                 maxLocal = maxLocal + value2
             if maxLocal > maxOverall:
+                print(f"\nChanging maxDictPair from {maxDictPair} to {highestKey}\n")
                 maxOverall = maxLocal
                 # so eventually, we get the maximum dict pairing?
                 maxDictPair[key] = value
