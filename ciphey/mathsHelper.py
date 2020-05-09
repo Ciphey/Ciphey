@@ -70,16 +70,22 @@ class mathsHelper:
         maxOverall = 0
         maxDictPair = {}
         highestKey = None
-        print(probTable)
+        
+        # sorts the prob table before we find max, and converts it to order dicts
         for key, value in probTable.items():
-            print(key, value)
+            probTable[key] = self.newSort(value)
+            probTable[key] = dict(probTable[key])
+
+        
+        # gets maximum key then sets it to the front
+        for key, value in probTable.items():
             maxLocal = 0
             # for each item in that table
-            print(value)
             for key2, value2 in value.items():
                 maxLocal = maxLocal + value2
             if maxLocal > maxOverall:
-                print(f"\nChanging maxDictPair from {maxDictPair} to {highestKey}\n")
+                # because the dict doesnt reset
+                maxDictPair = {}
                 maxOverall = maxLocal
                 # so eventually, we get the maximum dict pairing?
                 maxDictPair[key] = value
@@ -88,14 +94,20 @@ class mathsHelper:
         del probTable[highestKey]
         # returns the max dict (at the start) with the prob table
         # this way, it should always work on most likely first.#
-        print("# Prob table")
-        print(probTable)
-        print("# Max dict pair")
-        print(maxDictPair)
         d = {**maxDictPair, **probTable}
-        print("################### d is:")
-        print(d)
         return d
+    def newSort(self, newDict):
+        # gets the key of the dictionary
+        # keyDict = list(newDict.keys())[0]
+        # gets the items of that key (which is a dictionary)
+        d = dict(newDict)
+        
+        
+        
+        # (f"d is {d}")
+        sortedI = OrderedDict(sorted(d.items(), key=lambda x: x[1], reverse=True))
+        # sortedI = sortDictionary(x)
+        return sortedI
         
 
     def isAscii(self, letter):
@@ -111,7 +123,7 @@ class mathsHelper:
 
     def stripPuncuation(self, text):
         """Strips punctuation from a given string"""
-        text = text.translate(str.maketrans("", "", punctuation))
+        text = str(text).translate(str.maketrans("", "", punctuation))
         return text
 
     def getAllLetters(self, text):
