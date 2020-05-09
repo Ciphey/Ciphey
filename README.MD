@@ -77,7 +77,7 @@ print(x.decrypt())
 
 The grep argument is to make the output greppable, meaning the output is a single string. Without the flag, the output would involve the progress bar.
 
-The `__main__` part is so you can call the package anywhere on your OS like a normal program. ciphey is the name of the folder, `__main__` is the name of the file, Ciphey is the name of the class in that file.
+The `\__main\__` part is so you can call the package anywhere on your OS like a normal program. ciphey is the name of the folder, `\__main\__` is the name of the file, Ciphey is the name of the class in that file.
 
 It is possible  to import language checker, the neural network, or any of the decryptor modules by themselves and use them.
 # The internal data packet
