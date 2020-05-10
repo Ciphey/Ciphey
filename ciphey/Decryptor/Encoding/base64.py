@@ -76,7 +76,7 @@ class Base64:
             return self.goodRet(result, cipher="Base85")
 
         # if nothing works, it has failed.        
-        return self.badRet
+        return self.badRet()
 
     def goodRet(self, result, cipher):
         return {
