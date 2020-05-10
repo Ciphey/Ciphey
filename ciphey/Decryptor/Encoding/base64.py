@@ -25,11 +25,10 @@ class Base64:
             None
         except ValueError:
             None
-        
+
         if self.lc.checkLanguage(result):
             return self.goodRet(result, cipher="Base64")
-            
-        
+
         # Base32\
         try:
             result = base64.b32decode(text)
@@ -56,10 +55,10 @@ class Base64:
             None
         except ValueError:
             None
-            
+
         if self.lc.checkLanguage(result):
             return self.goodRet(result, cipher="Base16")
-        
+
         # Base85
         try:
             result = base64.b85decode(text)
@@ -71,26 +70,27 @@ class Base64:
             None
         except ValueError:
             None
-            
+
         if self.lc.checkLanguage(result):
             return self.goodRet(result, cipher="Base85")
 
-        # if nothing works, it has failed.        
+        # if nothing works, it has failed.
         return self.badRet()
 
     def goodRet(self, result, cipher):
         return {
-                "lc": self.lc,
-                "IsPlaintext?": True,
-                "Plaintext": result,
-                "Cipher": cipher,
-                "Extra Information": None,
-            }
+            "lc": self.lc,
+            "IsPlaintext?": True,
+            "Plaintext": result,
+            "Cipher": cipher,
+            "Extra Information": None,
+        }
+
     def badRet(self):
         return {
-                "lc": self.lc,
-                "IsPlaintext?": False,
-                "Plaintext": None,
-                "Cipher": None,
-                "Extra Information": None,
-            }
+            "lc": self.lc,
+            "IsPlaintext?": False,
+            "Plaintext": None,
+            "Cipher": None,
+            "Extra Information": None,
+        }

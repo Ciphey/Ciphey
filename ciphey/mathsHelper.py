@@ -62,7 +62,7 @@ class mathsHelper:
 
     def sortDictionary(self, dictionary):
         """Sorts a dictionary"""
-        
+
         return dict(OrderedDict(sorted(dictionary.items())))
 
     def sortProbTable(self, probTable):
@@ -71,13 +71,12 @@ class mathsHelper:
         maxOverall = 0
         maxDictPair = {}
         highestKey = None
-        
+
         # sorts the prob table before we find max, and converts it to order dicts
         for key, value in probTable.items():
             probTable[key] = self.newSort(value)
             probTable[key] = dict(probTable[key])
 
-        
         # gets maximum key then sets it to the front
         for key, value in probTable.items():
             maxLocal = 0
@@ -97,19 +96,17 @@ class mathsHelper:
         # this way, it should always work on most likely first.#
         d = {**maxDictPair, **probTable}
         return d
+
     def newSort(self, newDict):
         # gets the key of the dictionary
         # keyDict = list(newDict.keys())[0]
         # gets the items of that key (which is a dictionary)
         d = dict(newDict)
-        
-        
-        
+
         # (f"d is {d}")
         sortedI = OrderedDict(sorted(d.items(), key=lambda x: x[1], reverse=True))
         # sortedI = sortDictionary(x)
         return sortedI
-        
 
     def isAscii(self, letter):
         """Determines whether a letter (or word) is ASCII"""

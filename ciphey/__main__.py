@@ -114,11 +114,8 @@ class Ciphey:
 
         for key, value in self.whatToChoose.items():
             self.whatToChoose[key] = self.mh.sortDictionary(value)
-        
-        self.whatToChoose = self.mh.sortProbTable(self.whatToChoose)
 
-        
-        
+        self.whatToChoose = self.mh.sortProbTable(self.whatToChoose)
 
         # the below code selects the most likely one
         # and places it at the front
