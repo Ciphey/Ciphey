@@ -1,0 +1,19 @@
+name: ciphey
+version: '1.0'
+summary: Ciphey
+description: |
+  Ciphey is an automated decryption too.
+confinement: devmode
+base: core18
+
+parts:
+  ciphey:
+    plugin: python
+    python-version: python3
+    source: https://github.com/brandonskerritt51/ciphey
+    stage-packages:
+      - python-six
+
+apps:
+  ciphey:
+    command: ciphey
