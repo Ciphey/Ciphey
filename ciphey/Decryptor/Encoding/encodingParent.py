@@ -34,7 +34,6 @@ class EncodingParent:
 
         for answer in answers:
             # adds the LC objects together
-            print(f"\n\n The answer object is {answer}\n\n")
             self.lc = self.lc + answer["lc"]
             if answer["IsPlaintext?"]:
                 return answer
