@@ -19,3 +19,9 @@ When we input unknown text to the neural network, it will return a softmax (prob
 If the unknown text is exactly 256bits long, it is likely to be a SHA256 hash and so on. 
 We use this probability table to determine what encryptions to try first. We might try BASE64, but if that fails we try the _family_. In our case, the family is called _basic encodings_.
 If the family fails, we move onto the 2nd most likely family and so on.
+
+# Future updates
+- [ ] Add the use of an "=" sign into the trianing so ciphey can identify bases easier
+- [ ] Maybe also spaces? Cause bases don't use spaces, and neither do hashes?
+- [ ] A much, much larger dataset / corpus
+- [ ] Check for puncuation too. Sometimes encryptions use puncuation whereas other encodings don't.

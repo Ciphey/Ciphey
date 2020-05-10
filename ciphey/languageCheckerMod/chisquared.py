@@ -164,9 +164,9 @@ class chiSquared:
                 # if letter is not puncuation, but it is still ascii
                 # it's probably a different language so add it to the dict
                 if (
-                    letter not in punctuation
+                    str(letter) not in punctuation
                     and self.mh.isAscii(letter)
-                    and letter not in NUMBERS
+                    and str(letter) not in NUMBERS
                 ):
                     letterFreq[letter] = 1
         return letterFreq
