@@ -24,3 +24,4 @@ If the family fails, we move onto the 2nd most likely family and so on.
 - [ ] Add the use of an "=" sign into the trianing so ciphey can identify bases easier
 - [ ] Maybe also spaces? Cause bases don't use spaces, and neither do hashes?
 - [ ] A much, much larger dataset / corpus
+- [ ] Check for puncuation too. Sometimes encryptions use puncuation whereas other encodings don't.
