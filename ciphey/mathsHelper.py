@@ -8,7 +8,8 @@
 Github: brandonskerritt
 
 Class to provide helper functions for mathematics
-(oh, not entirely mathematics either. Some NLP stuff and sorting dicts. It's just a helper class)
+(oh, not entirely mathematics either. Some NLP stuff and sorting dicts. It's just a helper class
+)
 """
 
 from collections import OrderedDict
