@@ -44,7 +44,7 @@ class Transposition:
         # brute-force by looping through every possible key
         for key in range(1, len(message)):
 
-            decryptedText = self.transpositionDecrypt.decryptMessage(key, message)
+            decryptedText = self.decryptMessage(key, message)
 
             # if self.lc.checkLanguage(decryptedText):
             # Check with user to see if the decrypted key has been found.
