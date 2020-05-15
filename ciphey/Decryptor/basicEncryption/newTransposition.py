@@ -1,4 +1,7 @@
 class Transposition:
+    """
+    Transposition hacker. Try to multi 
+    """
     def __init__(self, lc):
         self.lc = lc
 
