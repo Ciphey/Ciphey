@@ -5,7 +5,7 @@
 ██║     ██║██╔═══╝ ██╔══██║██╔══╝    ╚██╔╝  
 ╚██████╗██║██║     ██║  ██║███████╗   ██║ 
 © Brandon Skerritt
-Github: brandonskerritt
+https://github.com/brandonskerritt/ciphey
 """
 # Tensorflow always spams my terminal with so many warnings of things I can't change
 # so this tells them to shut up
@@ -57,6 +57,26 @@ class Ciphey:
 
         # the one bit of text given to us to decrypt
         self.text = text
+        self.text = """Cb b rssti aieih rooaopbrtnsceee er es no npfgcwu  plri
+
+        ch nitaalr eiuengiteehb(e1  hilincegeoamn fubehgtarndcstudmd nM eu eacBoltaetee
+        
+        oinebcdkyremdteghn.aa2r81a condari fmps" tad   l t oisn sit u1rnd stara nvhn fs
+        
+        edbh ee,n  e necrg6  8nmisv l nc muiftegiitm tutmg cm shSs9fcie ebintcaets h  a
+        
+        ihda cctrhe ele 1O7 aaoem waoaatdahretnhechaopnooeapece9etfncdbgsoeb uuteitgna.
+        
+        rteoh add e,D7c1Etnpneehtn beete" evecoal lsfmcrl iu1cifgo ai. sl1rchdnheev sh
+        
+        meBd ies e9t)nh,htcnoecplrrh ,ide hmtlme. pheaLem,toeinfgn t e9yce da' eN eMp a
+        
+        ffn Fc1o ge eohg dere.eec s nfap yox hla yon. lnrnsreaBoa t,e eitsw il ulpbdofg
+        
+        BRe bwlmprraio po  droB wtinue r Pieno nc ayieeto'lulcih sfnc  ownaSserbereiaSm
+        
+        -eaiah, nnrttgcC  maciiritvledastinideI  nn rms iehn tsigaBmuoetcetias rn"""
+        
 
         # the decryptor components
         self.basic = BasicParent(self.lc)
@@ -178,6 +198,7 @@ class Ciphey:
             # https://stackoverflow.com/questions/4843173/how-to-check-if-type-of-a-variable-is-string
             if not isinstance(key, str):
                 key.setProbTable(val)
+                print(key)
                 ret = key.decrypt(self.text)
                 if ret["IsPlaintext?"]:
                     print(ret["Plaintext"])
