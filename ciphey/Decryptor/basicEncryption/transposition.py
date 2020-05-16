@@ -51,7 +51,7 @@ class Transposition:
                 }
             if key == 11:
                 import time
-                time.sleep(60)\
+                time.sleep(60)
                 exit(1)
         exit(1)
 

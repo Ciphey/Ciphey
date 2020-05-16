@@ -94,6 +94,10 @@ class chiSquared:
         return addedObject
 
     def checkChi(self, text):
+        if "CHARLES" in text.upper():
+            print("************************************************************************************")
+            print("************************************************************************************")
+            print("************************************************************************************")
         """Checks to see if the Chi score is good
         if it is, it returns True
         Call this when you want to determine whether something is likely to be Chi or not
@@ -113,14 +117,26 @@ class chiSquared:
         # If the latest chi squared is less than the standard deviation
         # or if not many chi squares have been calculated
         # or if every single letter in a text appears exactly once (pangram)
+        print(f"The chi as a list is {self.chisAsaList[-1]}")
+        tempy = abs(self.average - (self.oldstandarddeviation * self.chiSquaredSignificaneThreshold))
+        print(f"std * chiSig {tempy}")
+        print(f"Average is {self.average}")
+        print(f"std - chiSig {(self.oldstandarddeviation * self.chiSquaredSignificaneThreshold)}")
+        print(self.chisAsaList[-1]<= abs(self.average- (self.oldstandarddeviation * self.chiSquaredSignificaneThreshold)))
+        if "CHARLES" in text.upper():
+            print("************************************************************************************")
+            print("************************************************************************************")
+            print("************************************************************************************")
+            import time
+            time.sleep(60)
+        stdSignif = float(self.average - (self.oldstandarddeviation * self.chiSquaredSignificaneThreshold))
         if (
             self.chisAsaList[-1]
-            <= abs(
-                self.average
-                - (self.oldstandarddeviation * self.chiSquaredSignificaneThreshold)
-            )
+            <= abs(stdSignif)
             or self.totalDone < self.totalDoneThreshold
-            or self.totalEqual
+            or self.totalEqual 
+            or float(self.chisAsaList[-1]) < stdSignif + 0.1
+            or float(self.chisAsaList[-1]) > stdSignif - 0.1
         ):
             return True
         else:
@@ -213,13 +229,14 @@ class chiSquared:
         self.totalDone += 1
         # calculates a running average, maxChiSquare is the new chi score we get
         self.average = (self.totalChi + maxChiSquare) / self.totalDone
+        print(f"The chi squared score is {maxChiSquare}")
         self.oldstandarddeviation = abs(self.standarddeviation)
         self.standarddeviation = abs(std(self.chisAsaList))
         return languagesChi
 
     def myChi(self, text, distribution):
         """My own implementation of Chi squared using the two resources mention in the comments on this definition as guidance"""
-        # chrome-extension://oemmndcbldboiebfnladdacbdfmadadm/https://cgi.csc.liv.ac.uk/~john/comp105resources/lecture10.pdf
+        # https://cgi.csc.liv.ac.uk/~john/comp105resources/lecture10.pdf
         # http://practicalcryptography.com/cryptanalysis/text-characterisation/chi-squared-statistic/
         # given a text frequency and a distribution, calculate it's Chi score
         chiScore = 0.0
