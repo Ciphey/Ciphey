@@ -76,7 +76,6 @@ class Ciphey:
         BRe bwlmprraio po  droB wtinue r Pieno nc ayieeto'lulcih sfnc  ownaSserbereiaSm
         
         -eaiah, nnrttgcC  maciiritvledastinideI  nn rms iehn tsigaBmuoetcetias rn"""
-        
 
         # the decryptor components
         self.basic = BasicParent(self.lc)
