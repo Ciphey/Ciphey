@@ -3,15 +3,16 @@
 
 import math
 
+
 def main():
-    myMessage = 'Cenoonommstmme oo snnio. s s c'
+    myMessage = "Cenoonommstmme oo snnio. s s c"
     myKey = 8
 
     plaintext = decryptMessage(myKey, myMessage)
 
     # Print with a | (called "pipe" character) after it in case
     # there are spaces at the end of the decrypted message.
-    print(plaintext + '|')
+    print(plaintext + "|")
 
 
 def decryptMessage(key, message):
@@ -27,7 +28,7 @@ def decryptMessage(key, message):
     numOfShadedBoxes = (numOfColumns * numOfRows) - len(message)
 
     # Each string in plaintext represents a column in the grid.
-    plaintext = [''] * numOfColumns
+    plaintext = [""] * numOfColumns
 
     # The col and row variables point to where in the grid the next
     # character in the encrypted message will go.
@@ -36,18 +37,20 @@ def decryptMessage(key, message):
 
     for symbol in message:
         plaintext[col] += symbol
-        col += 1 # point to next column
+        col += 1  # point to next column
 
         # If there are no more columns OR we're at a shaded box, go back to
         # the first column and the next row.
-        if (col == numOfColumns) or (col == numOfColumns - 1 and row >= numOfRows - numOfShadedBoxes):
+        if (col == numOfColumns) or (
+            col == numOfColumns - 1 and row >= numOfRows - numOfShadedBoxes
+        ):
             col = 0
             row += 1
 
-    return ''.join(plaintext)
+    return "".join(plaintext)
 
 
 # If transpositionDecrypt.py is run (instead of imported as a module) call
 # the main() function.
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
