@@ -235,7 +235,7 @@ def main():
     parser.add_argument(
         "-c",
         "--printcipher",
-        help="Do you want information on the cipher?",
+        help="Do you want information on the cipher used?",
         required=False,
     )
 
@@ -248,13 +248,6 @@ def main():
         greppable = True
     else:
         greppable = False
-    """
-    ██████╗██╗██████╗ ██╗  ██╗███████╗██╗   ██╗
-    ██╔════╝██║██╔══██╗██║  ██║██╔════╝╚██╗ ██╔╝
-    ██║     ██║██████╔╝███████║█████╗   ╚████╔╝ 
-    ██║     ██║██╔═══╝ ██╔══██║██╔══╝    ╚██╔╝  
-    ╚██████╗██║██║     ██║  ██║███████╗   ██║ 
-                Made by Brandon Skerritt"""
 
     # uryyb zl sngure uryyb zl zbgure naq v ernyyl qb yvxr n tbbq ratyvfu oernxsnfg
     if args["text"]:
