@@ -11,8 +11,16 @@ https://github.com/brandonskerritt/ciphey
 import transpositionDecrypt
 import math
 class Transposition:
-    def __init__(lc):
+    def __init__(self, lc):
         self.lc = lc
+    def getName(self):
+        return "Transposition"
+        
+    def decrypt(self, text):
+        # Brute-force by looping through every possible key.
+        decryptedText = self.hackTransposition(text)
+        print(decryptedText)
+        return decryptedText
     def hackTransposition(self, message):
         print('Hacking...')
 
@@ -32,11 +40,17 @@ class Transposition:
             response = input('> ')
 
             if response.strip().upper().startswith('D'):
-                return decryptedText
+                return {
+                    "lc": "lc",
+                    "IsPlaintext?": True,
+                    "Plaintext": decryptedText,
+                    "Cipher": "Transposition",
+                    "Extra Information": f"The key is {key}",
+                }
 
         return None
     def hackTransposition(self, message):
-        print('Hacking...')\\\
+        print('Hacking...')
 
         # Python programs can be stopped at any time by pressing Ctrl-C (on
         # Windows) or Ctrl-D (on Mac and Linux)
@@ -94,8 +108,8 @@ def main():
     # You might want to copy & paste this text from the source code at
     # http://invpy.com/transpositionHacker.py
     myMessage = """Cb b rssti aieih rooaopbrtnsceee er es no npfgcwu  plri ch nitaalr eiuengiteehb(e1  hilincegeoamn fubehgtarndcstudmd nM eu eacBoltaeteeoinebcdkyremdteghn.aa2r81a condari fmps" tad   l t oisn sit u1rnd stara nvhn fsedbh ee,n  e necrg6  8nmisv l nc muiftegiitm tutmg cm shSs9fcie ebintcaets h  aihda cctrhe ele 1O7 aaoem waoaatdahretnhechaopnooeapece9etfncdbgsoeb uuteitgna.rteoh add e,D7c1Etnpneehtn beete" evecoal lsfmcrl iu1cifgo ai. sl1rchdnheev sh meBd ies e9t)nh,htcnoecplrrh ,ide hmtlme. pheaLem,toeinfgn t e9yce da' eN eMp a ffn Fc1o ge eohg dere.eec s nfap yox hla yon. lnrnsreaBoa t,e eitsw il ulpbdofgBRe bwlmprraio po  droB wtinue r Pieno nc ayieeto'lulcih sfnc  ownaSserbereiaSm-eaiah, nnrttgcC  maciiritvledastinideI  nn rms iehn tsigaBmuoetcetias rn"""
-
-    hackedMessage = hackTransposition(myMessage)
+    x = Transposition("hello")
+    hackedMessage = x.decrypt(myMessage)
 
     if hackedMessage == None:
         print('Failed to hack encryption.')
