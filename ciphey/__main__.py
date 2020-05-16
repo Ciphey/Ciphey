@@ -197,7 +197,6 @@ class Ciphey:
             # https://stackoverflow.com/questions/4843173/how-to-check-if-type-of-a-variable-is-string
             if not isinstance(key, str):
                 key.setProbTable(val)
-                print(key)
                 ret = key.decrypt(self.text)
                 if ret["IsPlaintext?"]:
                     print(ret["Plaintext"])
@@ -216,9 +215,6 @@ class Ciphey:
                 bar()
 
         print("No encryption found. Here's the probabilities we calculated")
-        import pprint
-
-        pprint.pprint(self.whatToChoose)
 
 
 def main():
