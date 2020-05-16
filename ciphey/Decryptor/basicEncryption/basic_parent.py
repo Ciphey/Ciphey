@@ -76,7 +76,6 @@ class BasicParent:
             answers.append(result)"""
         for answer in answers:
             # adds the LC objects together
-            print(answer)
             self.lc = self.lc + answer["lc"]
             if answer["IsPlaintext?"]:
                 return answer
