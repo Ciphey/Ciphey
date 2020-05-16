@@ -13,7 +13,6 @@ Permission granted from author.
 
 import math
 
-
 class Transposition:
     def __init__(self, lc):
         self.lc = lc
@@ -26,27 +25,23 @@ class Transposition:
         text = """Cb b rssti aieih rooaopbrtnsceee er es no npfgcwu  plri ch nitaalr eiuengiteehb(e1  hilincegeoamn fubehgtarndcstudmd nM eu eacBoltaeteeoinebcdkyremdteghn.aa2r81a condari fmps" tad   l t oisn sit u1rnd stara nvhn fsedbh ee,n  e necrg6  8nmisv l nc muiftegiitm tutmg cm shSs9fcie ebintcaets h  aihda cctrhe ele 1O7 aaoem waoaatdahretnhechaopnooeapece9etfncdbgsoeb uuteitgna.rteoh add e,D7c1Etnpneehtn beete" evecoal lsfmcrl iu1cifgo ai. sl1rchdnheev sh meBd ies e9t)nh,htcnoecplrrh ,ide hmtlme. pheaLem,toeinfgn t e9yce da' eN eMp a ffn Fc1o ge eohg dere.eec s nfap yox hla yon. lnrnsreaBoa t,e eitsw il ulpbdofgBRe bwlmprraio po  droB wtinue r Pieno nc ayieeto'lulcih sfnc  ownaSserbereiaSm-eaiah, nnrttgcC  maciiritvledastinideI  nn rms iehn tsigaBmuoetcetias rn"""
 
         decryptedText = self.hackTransposition(text)
-        print(decryptedText)
         return decryptedText
 
     def hackTransposition(self, message):
-        print("Hacking...")
-
-        print("(Press Ctrl-C or Ctrl-D to quit at any time.)")
-
+        print("hacking transposition")
         # brute-force by looping through every possible key
         for key in range(1, len(message)):
-            print("Trying key #%s..." % (key))
             decryptedText = self.decryptMessage(key, message)
-            print()
-            print("Possible encryption hack:")
-            print("Key %s: %s" % (key, decryptedText[:100]))
-            print()
-            print("Enter D for done, or just press Enter to continue hacking:")
-            response = input("> ")
-
-            if response.strip().upper().startswith("D"):
-                # it is found
+            print(key)
+            # if decrypted english is found, return them
+            if key == 10:
+                print(decryptedText)
+            print("checking LC")
+            result = self.lc.checkLanguage(decryptedText)
+            print(result)
+            if result:
+                print("*******************LC returns TRUE")
+                exit(1)
                 return {
                     "lc": self.lc,
                     "IsPlaintext?": True,
@@ -54,6 +49,11 @@ class Transposition:
                     "Cipher": "Transposition",
                     "Extra Information": f"The key is {key}",
                 }
+            if key == 11:
+                import time
+                time.sleep(60)
+                exit(1)
+        exit(1)
 
         # it is not found
         return {
