@@ -117,19 +117,19 @@ class chiSquared:
         # If the latest chi squared is less than the standard deviation
         # or if not many chi squares have been calculated
         # or if every single letter in a text appears exactly once (pangram)
+        stdSignif = float(self.average - (self.oldstandarddeviation * self.chiSquaredSignificaneThreshold))
         print(f"The chi as a list is {self.chisAsaList[-1]}")
         tempy = abs(self.average - (self.oldstandarddeviation * self.chiSquaredSignificaneThreshold))
         print(f"std * chiSig {tempy}")
         print(f"Average is {self.average}")
         print(f"std - chiSig {(self.oldstandarddeviation * self.chiSquaredSignificaneThreshold)}")
         print(self.chisAsaList[-1]<= abs(self.average- (self.oldstandarddeviation * self.chiSquaredSignificaneThreshold)))
+        print(float(self.chisAsaList[-1]) < stdSignif + 0.1)
+        print(float(self.chisAsaList[-1]) > stdSignif - 0.1)
         if "CHARLES" in text.upper():
             print("************************************************************************************")
             print("************************************************************************************")
             print("************************************************************************************")
-            import time
-            time.sleep(60)
-        stdSignif = float(self.average - (self.oldstandarddeviation * self.chiSquaredSignificaneThreshold))
         if (
             self.chisAsaList[-1]
             <= abs(stdSignif)
