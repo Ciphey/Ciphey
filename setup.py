@@ -13,7 +13,7 @@ long_description = "An automated decryption tool using machine learning"
 DESCRIPTION = "An automated decryption tool using machine learning"
 
 # get list of required installs
-with open('requirements.txt') as f:
+with open("requirements.txt") as f:
     required = f.read().splitlines()
 
 # This call to setup() does all the work
@@ -27,19 +27,22 @@ setup(
     author="Brandon Skerritt",
     author_email="brandon@skerritt.blog",
     license="MIT",
-    setup_requires=['setuptools_scm'],
+    setup_requires=["setuptools_scm"],
     classifiers=[
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.8",
     ],
-    packages=['ciphey', 'ciphey.Decryptor', 'ciphey.Decryptor.Encoding', 'ciphey.Decryptor.basicEncryption', 'ciphey.neuralNetworkMod',
-            'ciphey.languageCheckerMod', 'ciphey.Decryptor.Hash'],
+    packages=[
+        "ciphey",
+        "ciphey.Decryptor",
+        "ciphey.Decryptor.Encoding",
+        "ciphey.Decryptor.basicEncryption",
+        "ciphey.neuralNetworkMod",
+        "ciphey.languageCheckerMod",
+        "ciphey.Decryptor.Hash",
+    ],
     include_package_data=True,
     install_requires=required,
-    entry_points={
-        "console_scripts": [
-            "ciphey=ciphey.__main__:main",
-        ]
-    },
+    entry_points={"console_scripts": ["ciphey=ciphey.__main__:main",]},
 )
