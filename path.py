@@ -72,6 +72,7 @@ def show(pth_file=None):
 
 if __name__ == "__main__":
     import argparse
+
     EPILOG = "If no args are passed, the current contents are shown."
     parser = argparse.ArgumentParser(epilog=EPILOG)
     group = parser.add_mutually_exclusive_group()
