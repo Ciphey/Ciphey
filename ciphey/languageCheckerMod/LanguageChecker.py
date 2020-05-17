@@ -72,7 +72,7 @@ class LanguageChecker:
         if text == "":
             return False
         result = self.chi.checkChi(text)
-        if result:
+        if result or self.dictionary.check1000Words(text):
             result2 = self.dictionary.confirmlanguage(text, "English")
             if result2:
                 return True
