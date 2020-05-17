@@ -72,10 +72,8 @@ class LanguageChecker:
         if text == "":
             return False
         result = self.chi.checkChi(text)
-        print(f"The chi squared score is {result}")
         if result:
             result2 = self.dictionary.confirmlanguage(text, "English")
-            print(f"The dictionary checker score is {result2}")
             if result2:
                 return True
             else:
