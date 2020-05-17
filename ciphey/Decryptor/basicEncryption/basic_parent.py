@@ -62,7 +62,7 @@ class BasicParent:
         self.pig = pi.PigLatin(self.lc)
         self.trans = tr.Transposition(self.lc)
 
-        self.list_of_objects = [self.caesar, self.reverse, self.pig, self.trans]
+        self.list_of_objects = [self.caesar, self.reverse, self.pig]
 
     def decrypt(self, text):
         self.text = text

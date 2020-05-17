@@ -47,6 +47,7 @@ except ModuleNotFoundError:
 import collections
 from alive_progress import alive_bar
 
+
 class Ciphey:
     def __init__(self, text, grep=False, cipher=False):
         # general purpose modules
@@ -75,7 +76,6 @@ class Ciphey:
         BRe bwlmprraio po  droB wtinue r Pieno nc ayieeto'lulcih sfnc  ownaSserbereiaSm
         
         -eaiah, nnrttgcC  maciiritvledastinideI  nn rms iehn tsigaBmuoetcetias rn"""
-        
 
         # the decryptor components
         self.basic = BasicParent(self.lc)
