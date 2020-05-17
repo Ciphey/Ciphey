@@ -259,6 +259,7 @@ class testIntegration(unittest.TestCase):
         lc3 = lc + lc2
 
         self.assertAlmostEqual(lc3.getChiScore(), temp3)
+
     def test_integration_charlesBabbage(self):
         """
         I had a bug with this exact string
