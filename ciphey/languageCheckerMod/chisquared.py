@@ -105,7 +105,6 @@ class chiSquared:
             * True - if it has a significantly lower chi squared score
             * False - if it doesn't have a significantly lower chi squared score
         """
-        # TODO 20% isn't optimal
         # runs after every chi squared to see if it's 1 significantly lower than averae
         # the or statement is bc if the program has just started I don't want it to ignore the
         # ones at the start
@@ -125,8 +124,8 @@ class chiSquared:
             self.chisAsaList[-1] <= abs(stdSignif)
             or self.totalDone < self.totalDoneThreshold
             or self.totalEqual
-            #or float(self.chisAsaList[-1]) < stdSignif + 0.1
-            #or float(self.chisAsaList[-1]) > stdSignif - 0.1
+            # or float(self.chisAsaList[-1]) < stdSignif + 0.1
+            # or float(self.chisAsaList[-1]) > stdSignif - 0.1
         ):
             return True
         else:
