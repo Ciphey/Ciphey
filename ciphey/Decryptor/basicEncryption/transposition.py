@@ -13,6 +13,7 @@ Permission granted from author.
 
 import math
 
+
 class Transposition:
     def __init__(self, lc):
         self.lc = lc
@@ -28,19 +29,12 @@ class Transposition:
         return decryptedText
 
     def hackTransposition(self, message):
-        print("hacking transposition")
         # brute-force by looping through every possible key
         for key in range(1, len(message)):
             decryptedText = self.decryptMessage(key, message)
-            print(key)
             # if decrypted english is found, return them
-            if key == 10:
-                print(decryptedText)
-            print("checking LC")
             result = self.lc.checkLanguage(decryptedText)
-            print(result)
             if result:
-                print("*******************LC returns TRUE")
                 exit(1)
                 return {
                     "lc": self.lc,
@@ -51,6 +45,7 @@ class Transposition:
                 }
             if key == 11:
                 import time
+
                 time.sleep(60)
                 exit(1)
         exit(1)
