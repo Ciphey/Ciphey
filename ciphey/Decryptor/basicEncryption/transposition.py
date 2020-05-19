@@ -35,7 +35,6 @@ class Transposition:
             # if decrypted english is found, return them
             result = self.lc.checkLanguage(decryptedText)
             if result:
-                exit(1)
                 return {
                     "lc": self.lc,
                     "IsPlaintext?": True,
@@ -43,12 +42,6 @@ class Transposition:
                     "Cipher": "Transposition",
                     "Extra Information": f"The key is {key}",
                 }
-            if key == 11:
-                import time
-
-                time.sleep(60)
-                exit(1)
-        exit(1)
 
         # it is not found
         return {
@@ -104,8 +97,6 @@ def main():
     if hackedMessage == None:
         print("Failed to hack encryption.")
     else:
-        print("Copying hacked message to clipboard:")
-        print(hackedMessage)
 
 
 if __name__ == "__main__":
