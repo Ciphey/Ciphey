@@ -20,6 +20,7 @@ class mathsHelper:
     """Class to provide helper functions for mathematics and other small things"""
 
     def __init__(self):
+        # ETAOIN is the most popular letters in order
         self.ETAOIN = "ETAOINSHRDLCUMWFGYPBVKJXQZ"
         self.LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
