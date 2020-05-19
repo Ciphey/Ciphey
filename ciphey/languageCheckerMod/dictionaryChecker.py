@@ -44,6 +44,8 @@ class dictionaryChecker:
         # If any of the top 1000 words in the text appear
         # return true
         for word in text:
+            # I was debating using any() here, but I think they're the
+            # same speed so it doesn't really matter too much
             if word in check:
                 return True
             else:
@@ -108,3 +110,4 @@ class dictionaryChecker:
             return True
         else:
             return False
+
