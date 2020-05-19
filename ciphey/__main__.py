@@ -168,10 +168,10 @@ class Ciphey:
         self.whatToChoose = new_dict
 
         """
-        for each dictionary in the dictionary
-            sort that dictionary
-        sort the overall dictionary by the first value of the new dictionary
-        """
+        #for each dictionary in the dictionary
+         #   sort that dictionary
+        #sort the overall dictionary by the first value of the new dictionary
+        
         if self.level <= 1:
             self.one_level_of_decryption()
         else:
@@ -224,7 +224,7 @@ def main():
     # parser.add_argument('-f','--file', help='File you want to decrypt', required=False)
     # parser.add_argument('-l','--level', help='How many levels of decryption you want (the more levels, the slower it is)', required=False)
     parser.add_argument(
-        "-g", "--greppable", help="Are you grepping this output?", required=False
+        "-g", "--greppable", help="Only output the answer, no progress bars or information. Useful for grep", required=False
     )
     parser.add_argument("-t", "--text", help="Text to decrypt", required=False)
     # parser.add_argument('-s','--sicko-mode', help='If it is encrypted Ciphey WILL find it', required=False)
@@ -251,7 +251,7 @@ def main():
         cipherObj.decrypt()
     else:
         print(
-            "You didn't supply any arguments. Look at the help menu with -h or --help"
+            "No arguments were supplied. Look at the help menu with -h or --help"
         )
 
 
