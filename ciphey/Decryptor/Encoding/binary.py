@@ -43,7 +43,7 @@ class Binary:
 
     def decode(self, text):
         """
-        my own binary decoder lol ;p
+        Decodes into binary using .encode()
         """
         text = text.replace(" ", "")
         # to a bytes string
