@@ -263,7 +263,8 @@ class testIntegration(unittest.TestCase):
     def test_integration_charlesBabbage(self):
         """
         I had a bug with this exact string
-        """
+        Bug is that chi squared does not score this as True
+       """
         text = """Charles Babbage, FRS (26 December 1791 - 18 October 1871) was an English mathematician, philosopher, inventor and mechanical engineer who originated the concept of a programmable computer. Considered a "father of the computer", Babbage is credited with inventing the first mechanical computer that eventually led to more complex designs. Parts of his uncompleted mechanisms are on display in the London Science Museum. In 1991, a perfectly functioning difference engine was constructed from Babbage's original plans. Built to tolerances achievable in the 19th century, the success of the finished engine indicated that Babbage's machine would have worked. Nine years later, the Science Museum completed the printer Babbage had designed for the difference engine."""
         lc = LanguageChecker.LanguageChecker()
         result = lc.checkLanguage(text)
