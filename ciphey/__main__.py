@@ -171,7 +171,7 @@ class Ciphey:
         #for each dictionary in the dictionary
          #   sort that dictionary
         #sort the overall dictionary by the first value of the new dictionary
-        """    
+        """
         if self.level <= 1:
             self.one_level_of_decryption()
         else:
@@ -207,7 +207,7 @@ class Ciphey:
                                 ret["Cipher"] + ".",
                                 ret["Extra Information"] + ".",
                             )
-                         else:
+                        else:
                             print(ret["Cipher"])
                     return ret
 
@@ -224,7 +224,10 @@ def main():
     # parser.add_argument('-f','--file', help='File you want to decrypt', required=False)
     # parser.add_argument('-l','--level', help='How many levels of decryption you want (the more levels, the slower it is)', required=False)
     parser.add_argument(
-        "-g", "--greppable", help="Only output the answer, no progress bars or information. Useful for grep", required=False
+        "-g",
+        "--greppable",
+        help="Only output the answer, no progress bars or information. Useful for grep",
+        required=False,
     )
     parser.add_argument("-t", "--text", help="Text to decrypt", required=False)
     # parser.add_argument('-s','--sicko-mode', help='If it is encrypted Ciphey WILL find it', required=False)
@@ -250,9 +253,7 @@ def main():
         cipherObj = Ciphey(args["text"], greppable, cipher)
         cipherObj.decrypt()
     else:
-        print(
-            "No arguments were supplied. Look at the help menu with -h or --help"
-        )
+        print("No arguments were supplied. Look at the help menu with -h or --help")
 
 
 if __name__ == "__main__":
