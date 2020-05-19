@@ -171,7 +171,7 @@ class Ciphey:
         #for each dictionary in the dictionary
          #   sort that dictionary
         #sort the overall dictionary by the first value of the new dictionary
-        
+        """    
         if self.level <= 1:
             self.one_level_of_decryption()
         else:
@@ -207,7 +207,7 @@ class Ciphey:
                                 ret["Cipher"] + ".",
                                 ret["Extra Information"] + ".",
                             )
-                        else:
+                         else:
                             print(ret["Cipher"])
                     return ret
 
