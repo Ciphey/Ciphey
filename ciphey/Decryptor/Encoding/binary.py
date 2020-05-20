@@ -1,11 +1,12 @@
 import binascii
-
+from loguru import logger
 
 class Binary:
     def __init__(self, lc):
         self.lc = lc
 
     def decrypt(self, text):
+        logger.debug("Attempting to decrypt binary")
         try:
             result = self.decode(text)
         except ValueError as e:
@@ -26,6 +27,7 @@ class Binary:
             }
 
         if self.lc.checkLanguage(result):
+            logger.debug(f"Answer found for binary, it's {return}")
             return {
                 "lc": self.lc,
                 "IsPlaintext?": True,
