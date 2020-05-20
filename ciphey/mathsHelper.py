@@ -14,6 +14,7 @@ Class to provide helper functions for mathematics
 
 from collections import OrderedDict
 from string import punctuation
+import sys
 
 
 class mathsHelper:
@@ -63,8 +64,11 @@ class mathsHelper:
 
     def sortDictionary(self, dictionary):
         """Sorts a dictionary"""
-
-        return dict(OrderedDict(sorted(dictionary.items())))
+        ret = dict(OrderedDict(sorted(dictionary.items())))
+        logger.debug(
+            f"The old dictionary was {dictionary} and I am sorting it to {ret}"
+        )
+        return ret
 
     def sortProbTable(self, probTable):
         """Sorts the probabiltiy table"""
@@ -96,6 +100,7 @@ class mathsHelper:
         # returns the max dict (at the start) with the prob table
         # this way, it should always work on most likely first.#
         d = {**maxDictPair, **probTable}
+        logger.debug(f"The new sorted prob table is {d}")
         return d
 
     def newSort(self, newDict):
