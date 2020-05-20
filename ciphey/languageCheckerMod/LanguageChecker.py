@@ -56,6 +56,7 @@ try:
 except ModuleNotFoundError:
     import ciphey.languageCheckerMod.chisquared as cs
 
+from loguru import logger
 
 class LanguageChecker:
     def __init__(self):
@@ -72,8 +73,11 @@ class LanguageChecker:
         if text == "":
             return False
         result = self.chi.checkChi(text)
-        if result or self.dictionary.check1000Words(text):
+        wordsCheck = self.dictionary.check1000Words(text)
+        if result or wordsCheck:
+            logger.debug(f"Phase 1 complete. Result is {result} and 1000 words is {wordsCheck}")
             result2 = self.dictionary.confirmlanguage(text, "English")
+            logger.debug(f"Result is, dictionary checker, is {result2}")
             if result2:
                 return True
             else:
