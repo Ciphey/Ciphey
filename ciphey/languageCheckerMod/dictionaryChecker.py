@@ -1,6 +1,7 @@
 import string
 import os
 import sys
+from loguru import logger
 
 sys.path.append("..")
 try:
@@ -47,6 +48,7 @@ class dictionaryChecker:
             # I was debating using any() here, but I think they're the
             # same speed so it doesn't really matter too much
             if word in check:
+                logger.debug(f"Check 1000 words returns True for word {word}")
                 return True
             else:
                 return False
@@ -107,6 +109,7 @@ class dictionaryChecker:
     def confirmlanguage(self, text, language):
         self.checkDictionary(text, language)
         if self.languagePercentage > self.languageThreshold:
+            logger.debug(f"The language percentange {self.languagePercentage} is over the threshold {self.languageThreshold}")
             return True
         else:
             return False
