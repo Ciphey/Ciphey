@@ -10,7 +10,7 @@ in the text, go onto the 2nd phase (dictionary checker full).
 program when activated. The program is now easier to decrypt.
 * [Maintenance] Updated the GitHub action to automatically run tests and Black against the
 code base.
-* [Maintenance] Switch from alive_bar to Rich. Rich supports progress bars like alive_bar,
+* [Maintenance] Switch from `alive_bar` to ``Rich``. Rich supports progress bars like alive_bar,
 but it also supports rich text output such as tables. The table is used to
 prettily display the softmax distribution from the neural network to the user.
 The user can now easily read what the neural network thinks the decryption is,
@@ -19,7 +19,7 @@ and what's being worked on first.
 program operate in real time.
 ### Coming up next
 These are taken from the GitHub Issues tab.
-* Improved Neural Network
+* Improved Neural Network (See /documentation for more information on this)
 * Mod + XOR decryptions
 * Offline mode (No hash lookups)
 * Killswitch - Ciphey kills itself after X seconds. Some decryptions take forever, so if Ciphey is used as a library, waiting 30 - 60 minutes for 1 decryption module to finish sucks. Ciphey will either find the answer in X minutes or seconds, or it will return False.
