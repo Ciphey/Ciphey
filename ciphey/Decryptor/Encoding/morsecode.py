@@ -1,3 +1,4 @@
+from logguru import logging
 class MorseCode:
     def __init__(self, lc):
         self.lc = lc
@@ -48,6 +49,7 @@ class MorseCode:
         self.MORSE_CODE_DICT_INV = {v: k for k, v in self.MORSE_CODE_DICT.items()}
 
     def decrypt(self, text):
+        logging.debug("Attempting morse code")
         if not self.checkIfMorse(text):
             return {
                 "lc": self.lc,
@@ -66,7 +68,7 @@ class MorseCode:
                 "Cipher": "Morse Code",
                 "Extra Information": None,
             }
-
+        logging.debug(f"Morse code successful, returning {result}")
         return {
             "lc": self.lc,
             "IsPlaintext?": True,
