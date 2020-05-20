@@ -18,7 +18,7 @@ try:
     import mathsHelper as mh
 except ModuleNotFoundError:
     import ciphey.mathsHelper as mh
-
+from loguru import logger
 # I had a bug where empty string was being added to letter freq dictionary
 # this solves it :)
 punctuation += " "
@@ -127,6 +127,7 @@ class chiSquared:
             # or float(self.chisAsaList[-1]) < stdSignif + 0.1
             # or float(self.chisAsaList[-1]) > stdSignif - 0.1
         ):
+            logger.debug(f"Chi squared returns true for {text}")
             return True
         else:
             return False
