@@ -1,4 +1,4 @@
-from loguru import logging
+from loguru import logger
 class Ascii:
     """
     turns ASCII numbers into strings
@@ -8,7 +8,7 @@ class Ascii:
         self.lc = lc
 
     def decrypt(self, text):
-        logging.debug("Running ASCII decrypt")
+        logger.debug("Running ASCII decrypt")
         try:
             result = self.deascii(text)
         except ValueError as e:
@@ -29,7 +29,7 @@ class Ascii:
             }
 
         if self.lc.checkLanguage(result):
-            logging.debug(f"English found in ASCII, returning {result}")
+            logger.debug(f"English found in ASCII, returning {result}")
             return {
                 "lc": self.lc,
                 "IsPlaintext?": True,
