@@ -1,6 +1,6 @@
 import base64
 import binascii
-from loguru import logging
+from loguru import logger
 
 class Base64:
     """
@@ -11,12 +11,12 @@ class Base64:
         self.lc = lc
 
     def decrypt(self, text):
-        logging.debug("Attempting base decoding")
+        logger.debug("Attempting base decoding")
         result = "None"
         ciph = "None"
 
         # try to decode, if it fails do nothing until the end
-        logging.debug("Base64 decode attempt")
+        logger.debug("Base64 decode attempt")
         try:
             result = base64.b64decode(text)
             # yeet turning b strings into normal stringy bois
@@ -29,11 +29,11 @@ class Base64:
             None
         
         if self.lc.checkLanguage(result):
-            logging.debug(f"Base64 successful, returning {result}")
+            logger.debug(f"Base64 successful, returning {result}")
             return self.goodRet(result, cipher="Base64")
 
         # Base32
-        logging.debug("attempting base32")
+        logger.debug("attempting base32")
         try:
             result = base64.b32decode(text)
             # yeet turning b strings into normal stringy bois
@@ -46,11 +46,11 @@ class Base64:
             None
 
         if self.lc.checkLanguage(result):
-            logging.debug(f"base32 successful, {result}")      
+            logger.debug(f"base32 successful, {result}")      
             return self.goodRet(result, cipher="Base32")
 
         # Base16
-        logging.debug("Attempting base16")
+        logger.debug("Attempting base16")
         try:
             result = base64.b16decode(text)
             # yeet turning b strings into normal stringy bois
@@ -63,11 +63,11 @@ class Base64:
             None
 
         if self.lc.checkLanguage(result):
-            logging.debug(f"Base16 successful, {result}")
+            logger.debug(f"Base16 successful, {result}")
             return self.goodRet(result, cipher="Base16")
 
         # Base85
-        logging.debug("Attempting base85")
+        logger.debug("Attempting base85")
         try:
             result = base64.b85decode(text)
             # yeet turning b strings into normal stringy bois
@@ -80,7 +80,7 @@ class Base64:
             None
 
         if self.lc.checkLanguage(result):
-            logging.debug(f"Base85 successful, {result}")
+            logger.debug(f"Base85 successful, {result}")
             return self.goodRet(result, cipher="Base85")
 
         # if nothing works, it has failed.

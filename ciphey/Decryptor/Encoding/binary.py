@@ -1,4 +1,5 @@
 import binascii
+
 from loguru import logger
 
 class Binary:
@@ -27,7 +28,7 @@ class Binary:
             }
 
         if self.lc.checkLanguage(result):
-            logger.debug(f"Answer found for binary, it's {return}")
+            logger.debug(f"Answer found for binary")
             return {
                 "lc": self.lc,
                 "IsPlaintext?": True,
