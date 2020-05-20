@@ -45,8 +45,12 @@ try:
 except ModuleNotFoundError:
     import ciphey.mathsHelper as mh
 import collections
-from alive_progress import alive_bar
 
+from alive_progress import alive_bar
+# Rich is going to replace alive_bar
+import rich
+from loguru import logger
+logger.add(sys.stderr, format="{time} {level} {message}", filter="my_module", level="debug")
 
 class Ciphey:
     def __init__(self, text, grep=False, cipher=False):
@@ -76,7 +80,7 @@ class Ciphey:
         BRe bwlmprraio po  droB wtinue r Pieno nc ayieeto'lulcih sfnc  ownaSserbereiaSm
         
         -eaiah, nnrttgcC  maciiritvledastinideI  nn rms iehn tsigaBmuoetcetias rn"""
-
+        logger.debug(f"The inputted text at __main__ is {self.text}")
         # the decryptor components
         self.basic = BasicParent(self.lc)
         self.hash = HashParent()
@@ -88,24 +92,7 @@ class Ciphey:
         self.cipher = cipher
 
     def decrypt(self):
-        """
-        this method calls 1 level of decrypt
-        The idea is that so long as decrypt doesnt return the plaintext
-        to carry on decrypting all subsets of the text until we find one that does decrypt properly
-        maybe only 2 levels
-
-        The way probability distribution works is something like this:
-        {Encoding: {"Binary": 0.137, "Base64": 0.09, "Hexadecimal": 0.00148}, Hashes: {"SHA1": 0.0906, "MD5": 0.98}}
-        If an item in the dictionary is == 0.00 then write it down as 0.001
-        Each parental dictiony object (eg encoding, hashing) is the actual object
-        So each decipherment class has a parent that controls all of it
-        sha1, sha256, md5, sha512 etc all belong to the object "hashes"
-        Ciphey passes each probability to these classes
-        Sort the dictionary
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
-
-
-        """
+        # Read the documentation for more on this function.
         self.probabilityDistribution = self.ai.predictnn(self.text)[0]
         self.whatToChoose = {
             self.hash: {
@@ -125,11 +112,15 @@ class Ciphey:
                 "morse": self.probabilityDistribution[11],
             },
         }
+
+        logger.debug(f"The probability table before 0.1 in __main__ is {self.whatToChoose}")
         # sorts each indiviudal sub-dictionary
         for key, value in self.whatToChoose.items():
             for k, v in value.items():
+                # Sets all 0 probabilities to 0.01, we want Ciphey to try all decryptions.
                 if v < 0.01:
                     self.whatToChoose[key][k] = 0.01
+        logger.debug(f"The probability table after 0.1 in __main__ is {self.whatToChoose}")
 
         for key, value in self.whatToChoose.items():
             self.whatToChoose[key] = self.mh.sortDictionary(value)
@@ -151,10 +142,6 @@ class Ciphey:
                 max_val = value
         new_dict = collections.OrderedDict()
         new_dict[max_key] = max_val
-        """
-        find key in the main dict, delete it
-        go through that dict and add each component to the end of this dict?
-        """
         temp = self.whatToChoose
         for key, value in self.whatToChoose.items():
             if key == max_key:
@@ -166,6 +153,7 @@ class Ciphey:
         # adds all content of dict b onto end of dict a
         # no way to add it to front, so I have to do this :)
         self.whatToChoose = new_dict
+        logger.debug(f"The new probability table after sorting in __main__ is {self.whatToChoose}")
 
         """
         #for each dictionary in the dictionary
