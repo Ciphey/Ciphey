@@ -1,3 +1,4 @@
+from loguru import logger
 class PigLatin:
     def __init__(self, lc):
         self.lc = lc
@@ -8,6 +9,7 @@ class PigLatin:
     def decrypt(self, message):
         # If the message is less than or equal to 3 charecters, it's impossible to perform
         # a pig latin cipher on it unless the word was one letter long
+        logger.debug("Trying pig latin")
         if len(message) <= 3:
             return {
                 "lc": self.lc,
@@ -45,6 +47,7 @@ class PigLatin:
         # TODO find a way to return 2 variables
         # this returns 2 variables in a tuple
         if self.lc.checkLanguage(message3AY):
+            logger.debug("Pig latin 3AY returns True")
             return {
                 "lc": self.lc,
                 "IsPlaintext?": True,
@@ -53,6 +56,7 @@ class PigLatin:
                 "Extra Information": None,
             }
         elif self.lc.checkLanguage(messagepigWAY):
+            logger.debug("Pig latin WAY returns True")
             return {
                 "lc": self.lc,
                 "IsPlaintext?": True,
