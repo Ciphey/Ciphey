@@ -7,7 +7,7 @@
 © Brandon Skerritt
 Github: brandonskerritt
 """
-
+from loguru import logger
 
 class Caesar:
     def __init__(self, lc):
@@ -17,6 +17,7 @@ class Caesar:
         return "Caesar"
 
     def decrypt(self, message):
+        logger.debug("Trying caesar Cipher")
         """ Simple python program to bruteforce a caesar cipher"""
 
         # Example string
@@ -46,6 +47,7 @@ class Caesar:
             # Output each attempt
             result = self.lc.checkLanguage(translated)
             if result:
+                logger.debug(f"Caesar cipher returns true {result}")
                 return {
                     "lc": self.lc,
                     "IsPlaintext?": True,
