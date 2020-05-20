@@ -1,10 +1,10 @@
-from loguru import logging
+from loguru import logger
 class Hexadecimal:
     def __init__(self, lc):
         self.lc = lc
 
     def decrypt(self, text):
-        logging.debug("Attempting hexadecimal decryption")
+        logger.debug("Attempting hexadecimal decryption")
         try:
             result = bytearray.fromhex(text).decode()
         except ValueError as e:
@@ -17,7 +17,7 @@ class Hexadecimal:
             }
 
         if self.lc.checkLanguage(result):
-            logging.debug(f"Hexadecimal successful, returning {result}")
+            logger.debug(f"Hexadecimal successful, returning {result}")
             return {
                 "lc": self.lc,
                 "IsPlaintext?": True,
