@@ -47,10 +47,24 @@ except ModuleNotFoundError:
 import collections
 
 from alive_progress import alive_bar
+
 # Rich is going to replace alive_bar
 import rich
 from loguru import logger
-logger.add(sys.stderr, format="{time} {level} {message}", filter="my_module", level="debug", diagnose=True, backtrace=True)
+
+# needed for logger.add()
+# so logger can capture exceptions
+import sys
+
+logger.add(
+    sys.stderr,
+    format="{time} {level} {message}",
+    filter="my_module",
+    level="DEBUG",
+    diagnose=True,
+    backtrace=True,
+)
+
 
 class Ciphey:
     def __init__(self, text, grep=False, cipher=False):
@@ -61,25 +75,25 @@ class Ciphey:
 
         # the one bit of text given to us to decrypt
         self.text = text
-        self.text = """Cb b rssti aieih rooaopbrtnsceee er es no npfgcwu  plri
+        # self.text = """Cb b rssti aieih rooaopbrtnsceee er es no npfgcwu  plri
 
-        ch nitaalr eiuengiteehb(e1  hilincegeoamn fubehgtarndcstudmd nM eu eacBoltaetee
-        
-        oinebcdkyremdteghn.aa2r81a condari fmps" tad   l t oisn sit u1rnd stara nvhn fs
-        
-        edbh ee,n  e necrg6  8nmisv l nc muiftegiitm tutmg cm shSs9fcie ebintcaets h  a
-        
-        ihda cctrhe ele 1O7 aaoem waoaatdahretnhechaopnooeapece9etfncdbgsoeb uuteitgna.
-        
-        rteoh add e,D7c1Etnpneehtn beete" evecoal lsfmcrl iu1cifgo ai. sl1rchdnheev sh
-        
-        meBd ies e9t)nh,htcnoecplrrh ,ide hmtlme. pheaLem,toeinfgn t e9yce da' eN eMp a
-        
-        ffn Fc1o ge eohg dere.eec s nfap yox hla yon. lnrnsreaBoa t,e eitsw il ulpbdofg
-        
-        BRe bwlmprraio po  droB wtinue r Pieno nc ayieeto'lulcih sfnc  ownaSserbereiaSm
-        
-        -eaiah, nnrttgcC  maciiritvledastinideI  nn rms iehn tsigaBmuoetcetias rn"""
+        # ch nitaalr eiuengiteehb(e1  hilincegeoamn fubehgtarndcstudmd nM eu eacBoltaetee
+
+        # oinebcdkyremdteghn.aa2r81a condari fmps" tad   l t oisn sit u1rnd stara nvhn fs
+
+        # edbh ee,n  e necrg6  8nmisv l nc muiftegiitm tutmg cm shSs9fcie ebintcaets h  a
+
+        # ihda cctrhe ele 1O7 aaoem waoaatdahretnhechaopnooeapece9etfncdbgsoeb uuteitgna.
+
+        # rteoh add e,D7c1Etnpneehtn beete" evecoal lsfmcrl iu1cifgo ai. sl1rchdnheev sh
+
+        # meBd ies e9t)nh,htcnoecplrrh ,ide hmtlme. pheaLem,toeinfgn t e9yce da' eN eMp a
+
+        # ffn Fc1o ge eohg dere.eec s nfap yox hla yon. lnrnsreaBoa t,e eitsw il ulpbdofg
+
+        # BRe bwlmprraio po  droB wtinue r Pieno nc ayieeto'lulcih sfnc  ownaSserbereiaSm
+
+        # -eaiah, nnrttgcC  maciiritvledastinideI  nn rms iehn tsigaBmuoetcetias rn"""
         logger.debug(f"The inputted text at __main__ is {self.text}")
         # the decryptor components
         self.basic = BasicParent(self.lc)
@@ -113,14 +127,18 @@ class Ciphey:
             },
         }
 
-        logger.debug(f"The probability table before 0.1 in __main__ is {self.whatToChoose}")
+        logger.debug(
+            f"The probability table before 0.1 in __main__ is {self.whatToChoose}"
+        )
         # sorts each indiviudal sub-dictionary
         for key, value in self.whatToChoose.items():
             for k, v in value.items():
                 # Sets all 0 probabilities to 0.01, we want Ciphey to try all decryptions.
                 if v < 0.01:
                     self.whatToChoose[key][k] = 0.01
-        logger.debug(f"The probability table after 0.1 in __main__ is {self.whatToChoose}")
+        logger.debug(
+            f"The probability table after 0.1 in __main__ is {self.whatToChoose}"
+        )
 
         for key, value in self.whatToChoose.items():
             self.whatToChoose[key] = self.mh.sortDictionary(value)
@@ -153,7 +171,9 @@ class Ciphey:
         # adds all content of dict b onto end of dict a
         # no way to add it to front, so I have to do this :)
         self.whatToChoose = new_dict
-        logger.debug(f"The new probability table after sorting in __main__ is {self.whatToChoose}")
+        logger.debug(
+            f"The new probability table after sorting in __main__ is {self.whatToChoose}"
+        )
 
         """
         #for each dictionary in the dictionary
@@ -175,9 +195,11 @@ class Ciphey:
     def one_level_of_decryption(self, file=None, sickomode=None):
         items = range(1)
         if self.greppable:
+            logger.debug("__main__ is running as greppable")
             self.decryptNormal()
         else:
             with alive_bar() as bar:
+                logger.debug("__main__ is running with progress bar")
                 self.decryptNormal(bar)
 
     def decryptNormal(self, bar=None):
@@ -186,6 +208,11 @@ class Ciphey:
             if not isinstance(key, str):
                 key.setProbTable(val)
                 ret = key.decrypt(self.text)
+                logger.debug(f"Decrypt normal in __main__ ret is {ret}")
+                logger.debug(
+                    f"The plaintext is {ret['Plaintext']} and the extra information is {ret['Cipher']} and {ret['Extra Information']}"
+                )
+
                 if ret["IsPlaintext?"]:
                     print(ret["Plaintext"])
                     if self.cipher:
@@ -201,7 +228,7 @@ class Ciphey:
 
             if not self.greppable:
                 bar()
-
+        logger.debug("No encryption found")
         print("No encryption found. Here's the probabilities we calculated")
 
 
