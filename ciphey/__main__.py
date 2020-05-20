@@ -50,7 +50,7 @@ from alive_progress import alive_bar
 # Rich is going to replace alive_bar
 import rich
 from loguru import logger
-logger.add(sys.stderr, format="{time} {level} {message}", filter="my_module", level="debug")
+logger.add(sys.stderr, format="{time} {level} {message}", filter="my_module", level="debug", diagnose=True, backtrace=True)
 
 class Ciphey:
     def __init__(self, text, grep=False, cipher=False):
