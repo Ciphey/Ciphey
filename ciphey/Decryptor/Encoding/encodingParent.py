@@ -4,6 +4,7 @@ from .hexadecimal import Hexadecimal
 from .ascii import Ascii
 from .morsecode import MorseCode
 
+from loguru import logger
 
 class EncodingParent:
     def __init__(self, lc):
@@ -20,6 +21,7 @@ class EncodingParent:
     def decrypt(self, text):
         self.text = text
         torun = [self.base64, self.binary, self.hex, self.ascii, self.morse]
+        logger.debug(f"Encoding parent is running {torun}")
         """
         ok so I have an array of functions
         and I want to apply each function to some text
@@ -33,9 +35,11 @@ class EncodingParent:
         answers = pool.map(self.callDecrypt, torun)
 
         for answer in answers:
+            logger.debug(f"All answers are {answers}")
             # adds the LC objects together
             self.lc = self.lc + answer["lc"]
             if answer["IsPlaintext?"]:
+                logger.debug(f"Plaintext found {answer}")
                 return answer
         return {
             "lc": self.lc,
