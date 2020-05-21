@@ -23,10 +23,10 @@ You input a string (via a file, or via a terminal)
 
 Ciphey uses a Deep Neural Network to create a probability distribution (softmax). 
 
-This distribution gives how likely it is to be a hash, a basic encoding (hex, binary) or encryption (such as caeser, aes etc)
+This distribution gives how likely it is to be a hash, a basic encoding (hex, binary) or encryption (such as caeser, transposition etc)
 Ciphey will then work through each cipher to try and decode it.
 
-Ciphey uses the language module (app/languageChecker) to determine both the language something is written in, and whether or not that string is valid in that language. So Ciphey would say "hello my name is whiteboard" is English. But it wouldn't say "iaid i2iv ria9i" is a language.
+Ciphey uses the language checker (app/languageChecker) to determine both the language something is written in and whether or not that string is valid in that language. So Ciphey would say "hello my name is whiteboard" is English. But it wouldn't say "iaid i2iv ria9i" is a language. (Note: Only English is supported right now).
 
 Using the probability distribution, Ciphey calls each object on a new thread. Yes, Ciphey is **multi-threaded**.
 
@@ -35,8 +35,6 @@ Ciphey is designed from the groundup to be as fast as physically possible. The s
 # What encryptions can Ciphey deal with?
 Not just encryptions, but hashes and encodings too.
 
-* Vigenère cipher
-* Affine cipher
 * Transposition Cipher
 * Pig Latin
 * Morse Code
