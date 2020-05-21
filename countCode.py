@@ -19,8 +19,7 @@ def countlines(start, lines=0, header=True, begin_start=None):
                     else:
                         reldir_of_thing = '.' + thing.replace(start, '')
 
-                    print('{:>10} |{:>10} | {:<20}'.format(2
-                            newlines, lines, reldir_of_thing))
+                    print('{:>10} |{:>10} | {:<20}'.format(newlines, lines, reldir_of_thing))
 
 
     for thing in os.listdir(start):
@@ -29,3 +28,4 @@ def countlines(start, lines=0, header=True, begin_start=None):
             lines = countlines(thing, lines, header=False, begin_start=start)
 
     return lines
+countlines("./ciphey")
