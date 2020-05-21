@@ -17,6 +17,7 @@ from string import punctuation
 import sys
 from loguru import logger
 
+
 class mathsHelper:
     """Class to provide helper functions for mathematics and other small things"""
 
