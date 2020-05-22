@@ -56,6 +56,7 @@ class Caesar:
                     "Extra Information": f"The rotation used is {counter}",
                 }
         # if none of them match English, return false!
+        logger.debug(f"Caesar cipher returns false")
         return {
             "lc": self.lc,
             "IsPlaintext?": False,
