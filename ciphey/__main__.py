@@ -64,7 +64,8 @@ logger.add(
     diagnose=True,
     backtrace=True,
 )
-
+# removes the logger
+logger.remove()
 
 class Ciphey:
     def __init__(self, text, grep=False, cipher=False):
@@ -99,7 +100,6 @@ class Ciphey:
         self.basic = BasicParent(self.lc)
         self.hash = HashParent()
         self.encoding = EncodingParent(self.lc)
-
         self.level = 1
         self.sickomode = False
         self.greppable = grep
