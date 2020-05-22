@@ -12,7 +12,7 @@ Permission granted from author.
 """
 
 import math
-
+from loguru import logger
 
 class Transposition:
     def __init__(self, lc):
@@ -29,12 +29,15 @@ class Transposition:
         return decryptedText
 
     def hackTransposition(self, message):
+        logger.debug("Entering transposition")
         # brute-force by looping through every possible key
         for key in range(1, len(message)):
+            logger.debug(f"Transposition trying key {key}")
             decryptedText = self.decryptMessage(key, message)
             # if decrypted english is found, return them
             result = self.lc.checkLanguage(decryptedText)
             if result:
+                logger.debug("transposition returns true")
                 return {
                     "lc": self.lc,
                     "IsPlaintext?": True,
@@ -53,6 +56,7 @@ class Transposition:
         }
 
     def decryptMessage(self, key, message):
+        logger.debug("Decrypting message in transposition") 
         # The transposition decrypt function will simulate the "columns" and
         # "rows" of the grid that the plaintext is written on by using a list
         # of strings. First, we need to calculate a few values.
