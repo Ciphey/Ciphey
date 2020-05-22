@@ -58,6 +58,7 @@ except ModuleNotFoundError:
 
 from loguru import logger
 
+
 class LanguageChecker:
     def __init__(self):
         self.dictionary = dc.dictionaryChecker()
@@ -70,21 +71,26 @@ class LanguageChecker:
         return self
 
     def checkLanguage(self, text):
+        logger.debug(f"In Language Checker with {text}")
         if text == "":
             return False
         result = self.chi.checkChi(text)
         wordsCheck = self.dictionary.check1000Words(text)
         if result or wordsCheck:
-            logger.debug(f"Phase 1 complete. Result is {result} and 1000 words is {wordsCheck}")
+            logger.debug(
+                f"Phase 1 complete. Result is {result} and 1000 words is {wordsCheck}"
+            )
             result2 = self.dictionary.confirmlanguage(text, "English")
             logger.debug(f"Result is, dictionary checker, is {result2}")
             if result2:
                 return True
             else:
+                logger.debug(f"Phase 2 returns false")
                 return False
         else:
+            logger.debug(f"phase 1 returns false")
             return False
- 
+
     def getChiSquaredObj(self):
         return self.chi
 
