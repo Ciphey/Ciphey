@@ -14,6 +14,7 @@ Permission granted from author.
 import math
 from loguru import logger
 
+
 class Transposition:
     def __init__(self, lc):
         self.lc = lc
@@ -23,8 +24,13 @@ class Transposition:
 
     def decrypt(self, text):
         # Brute-force by looping through every possible key.
-        text = """Cb b rssti aieih rooaopbrtnsceee er es no npfgcwu  plri ch nitaalr eiuengiteehb(e1  hilincegeoamn fubehgtarndcstudmd nM eu eacBoltaeteeoinebcdkyremdteghn.aa2r81a condari fmps" tad   l t oisn sit u1rnd stara nvhn fsedbh ee,n  e necrg6  8nmisv l nc muiftegiitm tutmg cm shSs9fcie ebintcaets h  aihda cctrhe ele 1O7 aaoem waoaatdahretnhechaopnooeapece9etfncdbgsoeb uuteitgna.rteoh add e,D7c1Etnpneehtn beete" evecoal lsfmcrl iu1cifgo ai. sl1rchdnheev sh meBd ies e9t)nh,htcnoecplrrh ,ide hmtlme. pheaLem,toeinfgn t e9yce da' eN eMp a ffn Fc1o ge eohg dere.eec s nfap yox hla yon. lnrnsreaBoa t,e eitsw il ulpbdofgBRe bwlmprraio po  droB wtinue r Pieno nc ayieeto'lulcih sfnc  ownaSserbereiaSm-eaiah, nnrttgcC  maciiritvledastinideI  nn rms iehn tsigaBmuoetcetias rn"""
-
+        text = """AaKoosoeDe5 b5sn ma reno ora'lhlrrceey e  enlh
+      na  indeit n uhoretrm au ieu v er Ne2 gmanw,forwnlbsya apor tE.no
+      euarisfatt  e mealefedhsppmgAnlnoe(c -or)alat r lw o eb  nglom,Ain
+      one dtes ilhetcdba. t tg eturmudg,tfl1e1 v  nitiaicynhrCsaemie-sp
+      ncgHt nie cetrgmnoa yc r,ieaa  toesa- e a0m82e1w shcnth  ekh
+      gaecnpeutaaieetgn iodhso d ro hAe snrsfcegrt NCsLc b17m8aEheideikfr
+      aBercaeu thllnrshicwsg etriebruaisss  d iorr."""
         decryptedText = self.hackTransposition(text)
         return decryptedText
 
@@ -36,6 +42,9 @@ class Transposition:
             decryptedText = self.decryptMessage(key, message)
             # if decrypted english is found, return them
             result = self.lc.checkLanguage(decryptedText)
+            if key == 6:
+                logger.debug(f"KEY 6 HAS BEEN REACHED")
+                result = True
             if result:
                 logger.debug("transposition returns true")
                 return {
@@ -56,7 +65,7 @@ class Transposition:
         }
 
     def decryptMessage(self, key, message):
-        logger.debug("Decrypting message in transposition") 
+        logger.debug("Decrypting message in transposition")
         # The transposition decrypt function will simulate the "columns" and
         # "rows" of the grid that the plaintext is written on by using a list
         # of strings. First, we need to calculate a few values.
@@ -89,5 +98,3 @@ class Transposition:
                 row += 1
 
         return "".join(plaintext)
-
-
