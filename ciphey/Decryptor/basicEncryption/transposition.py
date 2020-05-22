@@ -65,7 +65,7 @@ class Transposition:
         }
 
     def decryptMessage(self, key, message):
-        logger.debug("Decrypting message in transposition")
+        logger.debug("Decrypting message in transposition the mesage is {message}")
         # The transposition decrypt function will simulate the "columns" and
         # "rows" of the grid that the plaintext is written on by using a list
         # of strings. First, we need to calculate a few values.
@@ -97,4 +97,5 @@ class Transposition:
                 col = 0
                 row += 1
 
+        logger.debug(f"The transposition decrypted message is {''.join(plaintext)}")
         return "".join(plaintext)
