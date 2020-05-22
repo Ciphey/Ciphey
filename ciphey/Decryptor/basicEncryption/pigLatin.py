@@ -11,6 +11,7 @@ class PigLatin:
         # a pig latin cipher on it unless the word was one letter long
         logger.debug("Trying pig latin")
         if len(message) <= 3:
+            logger.debug(f"Pig Latin is less than 3 so returning false")
             return {
                 "lc": self.lc,
                 "IsPlaintext?": False,
@@ -65,6 +66,7 @@ class PigLatin:
                 "Extra Information": None,
             }
         else:
+            logger.debug(f"Pig Latin returns false")
             return {
                 "lc": self.lc,
                 "IsPlaintext?": False,
