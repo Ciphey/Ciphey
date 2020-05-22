@@ -28,6 +28,7 @@ class Reverse:
                 "Extra Information": None,
             }
         else:
+            logger.debug(f"Reverse returns False")
             return {
                 "lc": self.lc,
                 "IsPlaintext?": False,
