@@ -24,13 +24,8 @@ class Transposition:
 
     def decrypt(self, text):
         # Brute-force by looping through every possible key.
-        text = """AaKoosoeDe5 b5sn ma reno ora'lhlrrceey e  enlh
-      na  indeit n uhoretrm au ieu v er Ne2 gmanw,forwnlbsya apor tE.no
-      euarisfatt  e mealefedhsppmgAnlnoe(c -or)alat r lw o eb  nglom,Ain
-      one dtes ilhetcdba. t tg eturmudg,tfl1e1 v  nitiaicynhrCsaemie-sp
-      ncgHt nie cetrgmnoa yc r,ieaa  toesa- e a0m82e1w shcnth  ekh
-      gaecnpeutaaieetgn iodhso d ro hAe snrsfcegrt NCsLc b17m8aEheideikfr
-      aBercaeu thllnrshicwsg etriebruaisss  d iorr."""
+        text = """Cb b rssti aieih rooaopbrtnsceee er es no npfgcwu  plri ch nitaalr eiuengiteehb(e1  hilincegeoamn fubehgtarndcstudmd nM eu eacBoltaeteeoinebcdkyremdteghn.aa2r81a condari fmps" tad   l t oisn sit u1rnd stara nvhn fsedbh ee,n  e necrg6  8nmisv l nc muiftegiitm tutmg cm shSs9fcie ebintcaets h  aihda cctrhe ele 1O7 aaoem waoaatdahretnhechaopnooeapece9etfncdbgsoeb uuteitgna.rteoh add e,D7c1Etnpneehtn beete" evecoal lsfmcrl iu1cifgo ai. sl1rchdnheev sh meBd ies e9t)nh,htcnoecplrrh ,ide hmtlme. pheaLem,toeinfgn t e9yce da' eN eMp a ffn Fc1o ge eohg dere.eec s nfap yox hla yon. lnrnsreaBoa t,e eitsw il ulpbdofgBRe bwlmprraio po  droB wtinue r Pieno nc ayieeto'lulcih sfnc  ownaSserbereiaSm-eaiah, nnrttgcC  maciiritvledastinideI  nn rms iehn tsigaBmuoetcetias rn"""
+
         decryptedText = self.hackTransposition(text)
         return decryptedText
 
@@ -44,7 +39,6 @@ class Transposition:
             result = self.lc.checkLanguage(decryptedText)
             if key == 6:
                 logger.debug(f"KEY 6 HAS BEEN REACHED")
-                result = True
             if result:
                 logger.debug("transposition returns true")
                 return {
@@ -56,8 +50,7 @@ class Transposition:
                 }
 
         # it is not found
-        return {
-            "lc": self.lc,
+        return { "lc": self.lc,
             "IsPlaintext?": False,
             "Plaintext": None,
             "Cipher": "Transposition",

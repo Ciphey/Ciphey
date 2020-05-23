@@ -13,49 +13,16 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
-
-try:
-    from languageCheckerMod import LanguageChecker as lc
-except ModuleNotFoundError:
-    from ciphey.languageCheckerMod import LanguageChecker as lc
-try:
-    from neuralNetworkMod.nn import NeuralNetwork
-except ModuleNotFoundError:
-    from ciphey.neuralNetworkMod.nn import NeuralNetwork
-
-try:
-    from Decryptor.basicEncryption.basic_parent import BasicParent
-except ModuleNotFoundError:
-    from ciphey.Decryptor.basicEncryption.basic_parent import BasicParent
-
-try:
-    from Decryptor.Hash.hashParent import HashParent
-except ModuleNotFoundError:
-    from ciphey.Decryptor.Hash.hashParent import HashParent
-try:
-    from Decryptor.Encoding.encodingParent import EncodingParent
-except ModuleNotFoundError:
-    from ciphey.Decryptor.Encoding.encodingParent import EncodingParent
-
-
+# Rich is replacing alive progress
 import argparse
-
-try:
-    import mathsHelper as mh
-except ModuleNotFoundError:
-    import ciphey.mathsHelper as mh
 import collections
-
-from alive_progress import alive_bar
-
-# Rich is going to replace alive_bar
-import rich
-from loguru import logger
-
 # needed for logger.add()
 # so logger can capture exceptions
 import sys
 
+from alive_progress import alive_bar
+import rich
+from loguru import logger
 logger.add(
     sys.stderr,
     format="{time} {level} {message}",
@@ -65,15 +32,38 @@ logger.add(
     backtrace=True,
 )
 # removes the logger
-# logger.remove()
+
+# Depening on whether ciphey is called, or ciphey/__main__
+# we need different imports to deal with both cases
+try:
+    from languageCheckerMod import LanguageChecker as lc
+    from neuralNetworkMod.nn import NeuralNetwork
+    from Decryptor.basicEncryption.basic_parent import BasicParent
+    from Decryptor.Hash.hashParent import HashParent
+    from Decryptor.Encoding.encodingParent import EncodingParent
+    from Decryptor.Hash.hashParent import HashParent
+except ModuleNotFoundError:
+    from ciphey.languageCheckerMod import LanguageChecker as lc
+    from ciphey.neuralNetworkMod.nn import NeuralNetwork
+    from ciphey.Decryptor.basicEncryption.basic_parent import BasicParent
+    from ciphey.Decryptor.Hash.hashParent import HashParent
+    from ciphey.Decryptor.Encoding.encodingParent import EncodingParent
+
+
+try:
+    import mathsHelper as mh
+except ModuleNotFoundError:
+    import ciphey.mathsHelper as mh
+
 
 class Ciphey:
-    def __init__(self, text, grep=False, cipher=False):
+    def __init__(self, text, grep=False, cipher=False, debug=False):
+        if not debug:
+            logger.remove()
         # general purpose modules
         self.ai = NeuralNetwork()
         self.lc = lc.LanguageChecker()
         self.mh = mh.mathsHelper()
-
         # the one bit of text given to us to decrypt
         self.text = text
         self.text = """Cb b rssti aieih rooaopbrtnsceee er es no npfgcwu  plri
@@ -253,6 +243,18 @@ def main():
         required=False,
     )
 
+    parser.add_argument(
+        "-c",
+        "--printcipher",
+        help="Do you want information on the cipher used?",
+        required=False,
+    )
+    parser.add_argument(
+        "-d",
+        "--debug",
+        help="Activates debug mode"
+        required=False,
+    )
     args = vars(parser.parse_args())
     if args["printcipher"] != None:
         cipher = True
@@ -262,10 +264,12 @@ def main():
         greppable = True
     else:
         greppable = False
+    if args['debug'] != None:
+        debug = True
 
     # uryyb zl sngure uryyb zl zbgure naq v ernyyl qb yvxr n tbbq ratyvfu oernxsnfg
     if args["text"]:
-        cipherObj = Ciphey(args["text"], greppable, cipher)
+        cipherObj = Ciphey(args["text"], greppable, cipher, debug)
         cipherObj.decrypt()
     else:
         print("No arguments were supplied. Look at the help menu with -h or --help")
