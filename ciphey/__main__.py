@@ -16,6 +16,7 @@ warnings.filterwarnings("ignore")
 # Rich is replacing alive progress
 import argparse
 import collections
+
 # needed for logger.add()
 # so logger can capture exceptions
 import sys
@@ -23,6 +24,7 @@ import sys
 from alive_progress import alive_bar
 import rich
 from loguru import logger
+
 logger.add(
     sys.stderr,
     format="{time} {level} {message}",
@@ -66,25 +68,6 @@ class Ciphey:
         self.mh = mh.mathsHelper()
         # the one bit of text given to us to decrypt
         self.text = text
-        self.text = """Cb b rssti aieih rooaopbrtnsceee er es no npfgcwu  plri
-
-        ch nitaalr eiuengiteehb(e1  hilincegeoamn fubehgtarndcstudmd nM eu eacBoltaetee
-
-        oinebcdkyremdteghn.aa2r81a condari fmps" tad   l t oisn sit u1rnd stara nvhn fs
-
-        edbh ee,n  e necrg6  8nmisv l nc muiftegiitm tutmg cm shSs9fcie ebintcaets h  a
-
-        ihda cctrhe ele 1O7 aaoem waoaatdahretnhechaopnooeapece9etfncdbgsoeb uuteitgna.
-
-        rteoh add e,D7c1Etnpneehtn beete" evecoal lsfmcrl iu1cifgo ai. sl1rchdnheev sh
-
-        meBd ies e9t)nh,htcnoecplrrh ,ide hmtlme. pheaLem,toeinfgn t e9yce da' eN eMp a
-
-        ffn Fc1o ge eohg dere.eec s nfap yox hla yon. lnrnsreaBoa t,e eitsw il ulpbdofg
-
-        BRe bwlmprraio po  droB wtinue r Pieno nc ayieeto'lulcih sfnc  ownaSserbereiaSm
-
-        -eaiah, nnrttgcC  maciiritvledastinideI  nn rms iehn tsigaBmuoetcetias rn"""
         logger.debug(f"The inputted text at __main__ is {self.text}")
         # the decryptor components
         self.basic = BasicParent(self.lc)
@@ -244,16 +227,7 @@ def main():
     )
 
     parser.add_argument(
-        "-c",
-        "--printcipher",
-        help="Do you want information on the cipher used?",
-        required=False,
-    )
-    parser.add_argument(
-        "-d",
-        "--debug",
-        help="Activates debug mode"
-        required=False,
+        "-d", "--debug", help="Activates debug mode", required=False,
     )
     args = vars(parser.parse_args())
     if args["printcipher"] != None:
@@ -264,10 +238,11 @@ def main():
         greppable = True
     else:
         greppable = False
-    if args['debug'] != None:
+    if args["debug"] != None:
         debug = True
+    else:
+        debug = False
 
-    # uryyb zl sngure uryyb zl zbgure naq v ernyyl qb yvxr n tbbq ratyvfu oernxsnfg
     if args["text"]:
         cipherObj = Ciphey(args["text"], greppable, cipher, debug)
         cipherObj.decrypt()
