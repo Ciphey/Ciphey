@@ -6,6 +6,7 @@ except ModuleNotFoundError:
 
 class HashParent:
     def decrypt(self, text):
+        logger.debug(f"Calling hash crackers")
         result = hashBuster.crack(text)
         return result
 

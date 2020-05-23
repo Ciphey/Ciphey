@@ -75,11 +75,13 @@ sha512 = [alpha, beta, theta]
 
 
 def crack(hashvalue):
+    logger.debug(f"Starting to crack hashes")
     result = False
     if len(hashvalue) == 32:
         for api in md5:
             r = api(hashvalue, "md5")
             if r:
+                logger.debug(f"md5 returns true")
                 return {
                     "lc": None,
                     "IsPlaintext?": True,
@@ -91,6 +93,7 @@ def crack(hashvalue):
         for api in sha1:
             r = api(hashvalue, "sha1")
             if r:
+                logger.debug(f"sha1 returns true")
                 return {
                     "lc": None,
                     "IsPlaintext?": True,
@@ -102,6 +105,7 @@ def crack(hashvalue):
         for api in sha256:
             r = api(hashvalue, "sha256")
             if r:
+                logger.debug(f"sha256 returns true")
                 return {
                     "lc": None,
                     "IsPlaintext?": True,
@@ -113,6 +117,7 @@ def crack(hashvalue):
         for api in sha384:
             r = api(hashvalue, "sha384")
             if r:
+                logger.debug(f"sha384 returns true")
                 return {
                     "lc": None,
                     "IsPlaintext?": True,
@@ -124,6 +129,7 @@ def crack(hashvalue):
         for api in sha512:
             r = api(hashvalue, "sha512")
             if r:
+                logger.debug(f"sha512 returns true")
                 return {
                     "lc": None,
                     "IsPlaintext?": True,
