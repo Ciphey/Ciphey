@@ -24,7 +24,8 @@ import sys
 from alive_progress import alive_bar
 
 # rich is used because of progress bars + prob table
-import rich
+from rich.console import Console
+from rich.table import Column, Table
 
 # Loguru is used for logging as it supprts
 # multi threading better
@@ -81,6 +82,7 @@ class Ciphey:
         self.sickomode = False
         self.greppable = grep
         self.cipher = cipher
+        self.console = Console()
 
     def decrypt(self):
         # Read the documentation for more on this function.
@@ -167,6 +169,25 @@ class Ciphey:
             for i in range(0, self.level):
                 # open file and go through each text item
                 pass
+
+    def produceProbTable(self, probTable):
+        """Produces the probability table using Rich's API
+
+        :probTable: the probability distribution table returned by the neural network
+        :returns: Nothing, it prints out the prob table.
+
+        """
+        table = Table(show_header=True, header_style="bold magenta")
+        table.add_column("Name of Cipher")
+        table.add_column("Probability", justify="right")
+        # for every key, value in dict add a row
+        # I think key is self.caesarcipher and not "caesar cipher"
+        # i must callName() somewhere else in this code
+        for key, value in probTable:
+            valAsPercent = str(value * 100) + "%"
+            keyStr = str(key)
+            table.add_row(key, value)
+        self.console.print(table)
 
     def one_level_of_decryption(self, file=None, sickomode=None):
         # Calls one level of decryption
