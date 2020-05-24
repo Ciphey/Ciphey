@@ -84,22 +84,24 @@ class mathsHelper:
             probTable[key] = dict(probTable[key])
 
         # gets maximum key then sets it to the front
-        for key, value in probTable.items():
-            logger.debug(f"Sorting {key}")
-            maxLocal = 0
-            # for each item in that table
-            for key2, value2 in value.items():
-                maxLocal = maxLocal + value2
-            if maxLocal > maxOverall:
-                logger.debug(f"New max local found {maxLocal}")
-                # because the dict doesnt reset
-                maxDictPair = {}
-                maxOverall = maxLocal
-                # so eventually, we get the maximum dict pairing?
-                maxDictPair[key] = value
-                highestKey = key
-        # removes the highest key from the prob table
-        del probTable[highestKey]
+        while len(maxDictPair) < len(probTable):
+            for key, value in probTable.items():
+                logger.debug(f"Sorting {key}")
+               
+                maxLocal = 0
+                # for each item in that table
+                for key2, value2 in value.items():
+                    maxLocal = maxLocal + value2
+                if maxLocal > maxOverall:
+                    logger.debug(f"New max local found {maxLocal}")
+                    # because the dict doesnt reset
+                    maxDictPair = {}
+                    maxOverall = maxLocal
+                    # so eventually, we get the maximum dict pairing?
+                    maxDictPair[key] = value
+                    highestKey = key
+            # removes the highest key from the prob table
+            del probTable[highestKey]
         # returns the max dict (at the start) with the prob table
         # this way, it should always work on most likely first.
         logger.debug(
