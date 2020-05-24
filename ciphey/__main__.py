@@ -146,7 +146,8 @@ class Ciphey:
             new_dict[key] = value
 
         # Creates and prints the probability table
-        self.produceProbTable(new_dict)
+        if not self.greppable:
+            self.produceProbTable(new_dict)
 
         self.whatToChoose = new_dict
         logger.debug(
@@ -180,7 +181,6 @@ class Ciphey:
         table = Table(show_header=True, header_style="bold magenta")
         table.add_column("Name of Cipher")
         table.add_column("Probability", justify="right")
-        self.console.print(table)
         # for every key, value in dict add a row
         # I think key is self.caesarcipher and not "caesar cipher"
         # i must callName() somewhere else in this code
