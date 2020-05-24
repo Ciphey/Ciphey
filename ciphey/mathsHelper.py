@@ -84,7 +84,9 @@ class mathsHelper:
             probTable[key] = dict(probTable[key])
 
         # gets maximum key then sets it to the front
-        while len(maxDictPair) < len(probTable):
+        counterMax = 0
+        counterProb = len(probTable)
+        while counterMax < counterProb: 
             for key, value in probTable.items():
                 logger.debug(f"Sorting {key}")
                
@@ -102,6 +104,7 @@ class mathsHelper:
                     highestKey = key
                 # removes the highest key from the prob table
             del probTable[highestKey]
+            counterMax += 1
         # returns the max dict (at the start) with the prob table
         # this way, it should always work on most likely first.
         logger.debug(
