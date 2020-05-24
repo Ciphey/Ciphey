@@ -109,6 +109,7 @@ class Ciphey:
         logger.debug(
             f"The probability table before 0.1 in __main__ is {self.whatToChoose}"
         )
+
         # sorts each indiviudal sub-dictionary
         for key, value in self.whatToChoose.items():
             for k, v in value.items():
@@ -144,10 +145,9 @@ class Ciphey:
                 continue
             new_dict[key] = value
 
-        # ok so this looks wacky but hear me out here
-        # a.update(b)
-        # adds all content of dict b onto end of dict a
-        # no way to add it to front, so I have to do this :)
+        # Creates and prints the probability table
+        self.produceProbTable(new_dict)
+
         self.whatToChoose = new_dict
         logger.debug(
             f"The new probability table after sorting in __main__ is {self.whatToChoose}"
@@ -180,13 +180,22 @@ class Ciphey:
         table = Table(show_header=True, header_style="bold magenta")
         table.add_column("Name of Cipher")
         table.add_column("Probability", justify="right")
+        self.console.print(table)
         # for every key, value in dict add a row
         # I think key is self.caesarcipher and not "caesar cipher"
         # i must callName() somewhere else in this code
-        for key, value in probTable:
-            valAsPercent = str(value * 100) + "%"
-            keyStr = str(key)
-            table.add_row(key, value)
+        for k, v in probTable.items():
+            for key, value in v.items():
+                # Prevents the table from showing pointless 0.01 probs as they're faked
+                if value == 0.01:
+                    continue
+                logger.debug(f"Key is {str(key)} and value is {str(value)}")
+                val_as_percent = str(round(self.mh.percentage(value, 1), 2))
+                keyStr = str(key).capitalize()
+                logger.debug(
+                    f"The value as percentage is {val_as_percent} and key is {keyStr}"
+                )
+                table.add_row(keyStr, val_as_percent)
         self.console.print(table)
 
     def one_level_of_decryption(self, file=None, sickomode=None):
