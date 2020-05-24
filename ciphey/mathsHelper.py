@@ -100,7 +100,7 @@ class mathsHelper:
                     # so eventually, we get the maximum dict pairing?
                     maxDictPair[key] = value
                     highestKey = key
-            # removes the highest key from the prob table
+                # removes the highest key from the prob table
             del probTable[highestKey]
         # returns the max dict (at the start) with the prob table
         # this way, it should always work on most likely first.
