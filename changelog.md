@@ -23,6 +23,7 @@ These are taken from the GitHub Issues tab.
 * Mod + XOR decryptions
 * Offline mode (No hash lookups)
 * Killswitch - Ciphey kills itself after X seconds. Some decryptions take forever, so if Ciphey is used as a library, waiting 30 - 60 minutes for 1 decryption module to finish sucks. Ciphey will either find the answer in X minutes or seconds, or it will return False.
+* Add screenshots to readme.md (ascii cinema)
 
 
 ## 3.0.7
