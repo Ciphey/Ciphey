@@ -22,7 +22,10 @@ import collections
 import sys
 
 from alive_progress import alive_bar
+# rich is used because of progress bars + prob table
 import rich
+# Loguru is used for logging as it supprts
+# multi threading better
 from loguru import logger
 
 logger.add(
@@ -33,7 +36,6 @@ logger.add(
     diagnose=True,
     backtrace=True,
 )
-# removes the logger
 
 # Depening on whether ciphey is called, or ciphey/__main__
 # we need different imports to deal with both cases
