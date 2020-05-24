@@ -10,15 +10,21 @@ Github: brandonskerritt
 This is Hashbuster but slightly modified to work with Ciphey
 why reivent the wheel?
 
+Changes (that I can remember)
+* timeout set, as hashbuster took AGES before timeout was set.
+
 https://github.com/s0md3v/Hash-Buster
 """
 
 
 import re
 import os
-import requests
 import argparse
+import requests
 import concurrent.futures
+
+from loguru import logger
+
 
 thread_count = 4
 
@@ -29,7 +35,7 @@ def alpha(hashvalue, hashtype):
 
 def beta(hashvalue, hashtype):
     response = requests.get(
-        "https://hashtoolkit.com/reverse-hash/?hash=", hashvalue
+        "https://hashtoolkit.com/reverse-hash/?hash=", hashvalue, timeout=5
     ).text
     match = re.search(r'/generate-hash/?text=.*?"', response)
     if match:
@@ -39,7 +45,9 @@ def beta(hashvalue, hashtype):
 
 
 def gamma(hashvalue, hashtype):
-    response = requests.get("https://www.nitrxgen.net/md5db/" + hashvalue).text
+    response = requests.get(
+        "https://www.nitrxgen.net/md5db/" + hashvalue, timeout=5
+    ).text
     if response:
         return response
     else:
@@ -59,7 +67,8 @@ def delta(hashvalue, hashtype):
 def theta(hashvalue, hashtype):
     response = requests.get(
         "https://md5decrypt.net/Api/api.php?hash=%s&hash_type=%s&email=deanna_abshire@proxymail.eu&code=1152464b80a61728"
-        % (hashvalue, hashtype)
+        % (hashvalue, hashtype),
+        timeout=5,
     ).text
     if len(response) != 0:
         return response
