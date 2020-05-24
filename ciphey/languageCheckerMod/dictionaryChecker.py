@@ -42,11 +42,15 @@ class dictionaryChecker:
     def check1000Words(self, text):
         check = dict.fromkeys(self.top1000Words)
         text = self.cleanText(text)
+        logger.debug(f"Check 1000 words text is {text}")
         # If any of the top 1000 words in the text appear
         # return true
         for word in text:
+            logger.debug(f"Word in check1000 is {word}")
             # I was debating using any() here, but I think they're the
             # same speed so it doesn't really matter too much
+            if word.lower() == text.lower():
+                logger.debug(f"THEY're the SAME! {word} and {text}")
             if word in check:
                 logger.debug(f"Check 1000 words returns True for word {word}")
                 return True
