@@ -102,7 +102,9 @@ class mathsHelper:
         del probTable[highestKey]
         # returns the max dict (at the start) with the prob table
         # this way, it should always work on most likely first.
-        logger.debug(f"The prob table is {probTable} and the maxDictPair is {maxDictPair}")
+        logger.debug(
+            f"The prob table is {probTable} and the maxDictPair is {maxDictPair}"
+        )
         d = {**maxDictPair, **probTable}
         logger.debug(f"The new sorted prob table is {d}")
         return d
