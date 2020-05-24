@@ -190,8 +190,10 @@ class Ciphey:
                 if value == 0.01:
                     continue
                 logger.debug(f"Key is {str(key)} and value is {str(value)}")
-                val_as_percent = str(round(self.mh.percentage(value, 1), 2))
+                val_as_percent = str(round(self.mh.percentage(value, 1), 2)) + "%"
                 keyStr = str(key).capitalize()
+                if "Base" in keyStr:
+                    keyStr = keyStr[0:-2]
                 logger.debug(
                     f"The value as percentage is {val_as_percent} and key is {keyStr}"
                 )
@@ -241,7 +243,10 @@ class Ciphey:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Automated decryption tool. Put in the encrypted text and Ciphey will decrypt it."
+        description="""Automated decryption tool. Put in the encrypted text and Ciphey will decrypt it.\n
+        Examples:
+        python3 ciphey -t "aGVsbG8gbXkgYmFieQ==" -d true -c true
+        """
     )
     # parser.add_argument('-f','--file', help='File you want to decrypt', required=False)
     # parser.add_argument('-l','--level', help='How many levels of decryption you want (the more levels, the slower it is)', required=False)
