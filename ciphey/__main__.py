@@ -22,8 +22,10 @@ import collections
 import sys
 
 from alive_progress import alive_bar
+
 # rich is used because of progress bars + prob table
 import rich
+
 # Loguru is used for logging as it supprts
 # multi threading better
 from loguru import logger
@@ -135,7 +137,6 @@ class Ciphey:
                 max_val = value
         new_dict = collections.OrderedDict()
         new_dict[max_key] = max_val
-        temp = self.whatToChoose
         for key, value in self.whatToChoose.items():
             if key == max_key:
                 continue
@@ -168,7 +169,8 @@ class Ciphey:
                 pass
 
     def one_level_of_decryption(self, file=None, sickomode=None):
-        items = range(1)
+        # Calls one level of decryption
+        # mainly used to control the progress bar
         if self.greppable:
             logger.debug("__main__ is running as greppable")
             self.decryptNormal()
