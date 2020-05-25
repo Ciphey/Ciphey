@@ -87,12 +87,23 @@ class mathsHelper:
         counterMax = 0
         counterProb = len(probTable)
         while counterMax < counterProb:
+            maxOverall = 0
+            highestKey = None
+            logger.debug(
+                f"Running while loop in sortProbTable, counterMax is {counterMax}"
+            )
             for key, value in probTable.items():
                 logger.debug(f"Sorting {key}")
                 maxLocal = 0
                 # for each item in that table
                 for key2, value2 in value.items():
+                    logger.debug(
+                        f"Running key2 {key2}, value2 {value2} for loop for {value.items()}"
+                    )
                     maxLocal = maxLocal + value2
+                    logger.debug(
+                        f"MaxLocal is {maxLocal} and maxOverall is {maxOverall}"
+                    )
                     if maxLocal > maxOverall:
                         logger.debug(f"New max local found {maxLocal}")
                         # because the dict doesnt reset
@@ -101,10 +112,12 @@ class mathsHelper:
                         # so eventually, we get the maximum dict pairing?
                         maxDictPair[key] = value
                         highestKey = key
+                        logger.debug(f"Highest key is {highestKey}")
                 # removes the highest key from the prob table
             logger.debug(f"Prob table is {probTable} and highest key is {highestKey}")
             logger.debug(f"Removing {probTable[highestKey]}")
             del probTable[highestKey]
+            logger.debug(f"Prob table after deletion is {probTable}")
             counterMax += 1
         # returns the max dict (at the start) with the prob table
         # this way, it should always work on most likely first.
