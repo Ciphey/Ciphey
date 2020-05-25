@@ -29,7 +29,7 @@ and what's being worked on first.
 * [Feature] The program is more verbose, which means in non-grep mode users can see the
 program operate in real time.
 * [Bug / Feature] Timeouts are now implemented in the hash cracking module.
-
+* [Bug] Flags previously required arguments when it didn't make sense to have an argument. Now some flags can be ran without arguments.
 
 ## 3.0.7
 * [Feature] Added other bases
