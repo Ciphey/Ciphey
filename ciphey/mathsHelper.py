@@ -77,7 +77,7 @@ class mathsHelper:
         maxOverall = 0
         maxDictPair = {}
         highestKey = None
-
+        emptyDict = {}
         # sorts the prob table before we find max, and converts it to order dicts
         for key, value in probTable.items():
             probTable[key] = self.newSort(value)
@@ -119,14 +119,15 @@ class mathsHelper:
             del probTable[highestKey]
             logger.debug(f"Prob table after deletion is {probTable}")
             counterMax += 1
+            emptyDict = {**emptyDict, **maxDictPair}
+
         # returns the max dict (at the start) with the prob table
         # this way, it should always work on most likely first.
         logger.debug(
             f"The prob table is {probTable} and the maxDictPair is {maxDictPair}"
         )
-        d = {**maxDictPair, **probTable}
-        logger.debug(f"The new sorted prob table is {d}")
-        return d
+        logger.debug(f"The new sorted prob table is {emptyDict}")
+        return emptyDict
 
     def newSort(self, newDict):
         # gets the key of the dictionary
