@@ -261,6 +261,7 @@ def main():
         "-g",
         "--greppable",
         help="Only output the answer, no progress bars or information. Useful for grep",
+        action='store_true',
         required=False,
     )
     parser.add_argument("-t", "--text", help="Text to decrypt", required=False)
@@ -269,11 +270,12 @@ def main():
         "-c",
         "--printcipher",
         help="Do you want information on the cipher used?",
+        action='store_true',
         required=False,
     )
 
     parser.add_argument(
-        "-d", "--debug", help="Activates debug mode", required=False,
+        "-d", "--debug", help="Activates debug mode", action='store_true', required=False,
     )
     args = vars(parser.parse_args())
     if args["printcipher"] != None:
