@@ -239,11 +239,13 @@ class Ciphey:
             if not self.greppable:
                 bar()
         logger.debug("No encryption found")
-        print("""No encryption found. Here are some tips to help crack the cipher:
+        print(
+            """No encryption found. Here are some tips to help crack the cipher:
                 * Use the probability table to work out what it could be. Base = base16, base32, base64 etc.
                 * If the probability table says 'Caesar Cipher' then it is a normal encryption that Ciphey cannot decrypt yet.
                 * If Ciphey think's it's a hash, try using hash-identifier to find out what hash it is, and then HashCat to crack the hash.
-                * The encryption may not contain normal English plaintext. It could be coordinates or another object no found in the dictionary. Use 'ciphey -d true > log.txt' to generate a log file of all attempted decryptions and manually search it.""")
+                * The encryption may not contain normal English plaintext. It could be coordinates or another object no found in the dictionary. Use 'ciphey -d true > log.txt' to generate a log file of all attempted decryptions and manually search it."""
+        )
 
 
 def main():
