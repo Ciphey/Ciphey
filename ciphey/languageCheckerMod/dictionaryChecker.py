@@ -1039,6 +1039,8 @@ class dictionaryChecker:
         return text
 
     def check1000Words(self, text):
+        if text == None:
+            return False
         check = dict.fromkeys(self.top1000Words)
         logger.debug(f"text before cleaning is {text}")
         text = self.cleanText(text)
