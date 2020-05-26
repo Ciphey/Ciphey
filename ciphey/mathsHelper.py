@@ -86,7 +86,7 @@ class mathsHelper:
         # gets maximum key then sets it to the front
         counterMax = 0
         counterProb = len(probTable)
-        while counterMax < counterProb:
+        while counterMax <= counterProb:
             maxOverall = 0
             highestKey = None
             logger.debug(
