@@ -147,7 +147,8 @@ class Ciphey:
             new_dict[key] = value
 
         # Creates and prints the probability table
-        if not self.greppable:
+        if self.greppable == False:
+            logger.debug(f"Self.greppable is {self.greppable}")
             self.produceProbTable(new_dict)
 
         self.whatToChoose = new_dict
@@ -179,6 +180,7 @@ class Ciphey:
         :returns: Nothing, it prints out the prob table.
 
         """
+        logger.debug(f"Producing log table")
         table = Table(show_header=True, header_style="bold magenta")
         table.add_column("Name of Cipher")
         table.add_column("Probability", justify="right")
@@ -261,7 +263,7 @@ def main():
         "-g",
         "--greppable",
         help="Only output the answer, no progress bars or information. Useful for grep",
-        action='store_true',
+         
         required=False,
     )
     parser.add_argument("-t", "--text", help="Text to decrypt", required=False)
@@ -270,12 +272,16 @@ def main():
         "-c",
         "--printcipher",
         help="Do you want information on the cipher used?",
-        action='store_true',
+         
         required=False,
     )
 
     parser.add_argument(
-        "-d", "--debug", help="Activates debug mode", action='store_true', required=False,
+        "-d",
+        "--debug",
+        help="Activates debug mode",
+         
+        required=False,
     )
     args = vars(parser.parse_args())
     if args["printcipher"] != None:

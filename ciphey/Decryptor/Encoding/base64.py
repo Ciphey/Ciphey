@@ -87,6 +87,7 @@ class Base64:
         return self.badRet()
 
     def goodRet(self, result, cipher):
+        logger.debug(f"Result for base is true, where result is {result}")
         return {
             "lc": self.lc,
             "IsPlaintext?": True,
