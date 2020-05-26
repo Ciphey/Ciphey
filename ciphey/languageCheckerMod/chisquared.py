@@ -19,6 +19,7 @@ try:
 except ModuleNotFoundError:
     import ciphey.mathsHelper as mh
 from loguru import logger
+
 # I had a bug where empty string was being added to letter freq dictionary
 # this solves it :)
 punctuation += " "
@@ -94,6 +95,8 @@ class chiSquared:
         return addedObject
 
     def checkChi(self, text):
+        if text == None:
+            return False
         """Checks to see if the Chi score is good
         if it is, it returns True
         Call this when you want to determine whether something is likely to be Chi or not
