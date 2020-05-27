@@ -1,7 +1,8 @@
 from languageCheckerMod import LanguageChecker
 
 import unittest
-
+from loguru import logger
+logger.remove()
 
 class testIntegration(unittest.TestCase):
     """
