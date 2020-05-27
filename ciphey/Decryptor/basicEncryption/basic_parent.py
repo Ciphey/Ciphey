@@ -71,7 +71,8 @@ class BasicParent:
 
         # so viginere runs ages
         # and you cant kill threads in a pool
-        # so i just run it last lol
+        # so i just run it last lol]
+        """
         result = self.callDecrypt(self.viginere)
         if result["IsPlaintext?"]:
             return result
@@ -81,7 +82,7 @@ class BasicParent:
             "Plaintext": None,
             "Cipher": None,
             "Extra Information": None,
-        }
+        }"""
 
     def callDecrypt(self, obj):
         # i only exist to call decrypt
