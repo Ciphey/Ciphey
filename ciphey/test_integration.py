@@ -77,7 +77,7 @@ class testIntegration(unittest.TestCase):
             "Hi! I just checked this URL and it appeared to be unavailable or slow loading (Connection timed out after 8113 milliseconds). Here are some mirrors to try:"
         )
         result = lc.checkLanguage("The quick brown fox jumped over the lazy dog")
-        self.assertEqual(result, False)
+        self.assertEqual(result, True)
 
     def test_chi_maxima_false(self):
         lc = LanguageChecker.LanguageChecker()
