@@ -1,10 +1,13 @@
-from languageCheckerMod.chisquared import chiSquared
+fFalserom languageCheckerMod.chisquared import chiSquared
 import unittest
 from loguru import logger
+
 logger.remove()
+
 
 class testChi(unittest.TestCase):
     def test_chi_english_yes(self):
+
         """Checks to see if it returns True (it should)"""
         self.chi = chiSquared()
         """
@@ -330,3 +333,31 @@ class testChi(unittest.TestCase):
             ],
         )
         self.assertEqual(result, 1424.8873999810571)
+
+    def tests_english_caesar_false(self):
+        self.chi = chiSquared()
+        result = self.chi.checkChi(
+            "Pm ol ohk hufaopun jvumpkluaphs av zhf, ol dyval pa pu jpwoly, aoha pz, if zv johunpun aol vykly vm aol slaalyz vm aol hswohila, aoha uva h dvyk jvbsk il thkl vba."
+        )
+        result = self.chi.checkChi("aolyl pz vusf ylhssf vul dhf mvy aopz av nv kvdu")
+        result = self.chi.checkChi("vul dhf vy aol opnodhf p ht nvpun av nla fvb")
+        self.assertEqual(result, True
+
+            )
+    def tests_english_caesar_false(self):
+        self.chi = chiSquared()
+        result = self.chi.checkChi(
+            "Pm ol ohk hufaopun jvumpkluaphs av zhf, ol dyval pa pu jpwoly, aoha pz, if zv johunpun aol vykly vm aol slaalyz vm aol hswohila, aoha uva h dvyk jvbsk il thkl vba."
+        )
+    self.assertEqual(result, False)
+
+    def tests_english_caesar_true(self):
+        self.chi = chiSquared()
+        result = self.chi.checkChi(
+            "Pm ol ohk hufaopun jvumpkluaphs av zhf, ol dyval pa pu jpwoly, aoha pz, if zv johunpun aol vykly vm aol slaalyz vm aol hswohila, aoha uva h dvyk jvbsk il thkl vba."
+        )
+        result = self.chi.checkChi("aolyl pz vusf ylhssf vul dhf mvy aopz av nv kvdu")
+        result = self.chi.checkChi(
+            "According to all known laws of aviation, there is no way for a bee to be able to fly. Its wings are simply too small for its fat tiny body."
+        )
+        self.assertEqual(result, True)

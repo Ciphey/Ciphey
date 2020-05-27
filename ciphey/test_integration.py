@@ -119,7 +119,7 @@ class testIntegration(unittest.TestCase):
             "Hi! I just checked this URL and it appeared to be unavailable or slow loading (Connection timed out after 8113 milliseconds). Here are some mirrors to try:"
         )
         result = lc.checkLanguage("The quick brown fox jumped over the lazy dog")
-        self.assertEqual(result, False)
+        self.assertEqual(result, True)
 
     def test_chi_maxima_true(self):
         """
@@ -166,7 +166,7 @@ class testIntegration(unittest.TestCase):
         result = lc.checkLanguage(
             "There can only be one way to make this work for real and I really do enjoy the long thought out process of drinking milk"
         )
-        self.assertEqual(result, False)
+        self.assertEqual(result, True)
 
     def test_chi_maxima_true(self):
         """
