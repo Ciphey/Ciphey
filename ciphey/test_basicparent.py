@@ -1,3 +1,5 @@
+from loguru import logger
+logger.remove()
 try:
     from languageCheckerMod import LanguageChecker as lcm
 except ModuleNotFoundError:
