@@ -1,6 +1,7 @@
 from languageCheckerMod.chisquared import chiSquared
 import unittest
-
+from loguru import logger
+logger.remove()
 
 class testChi(unittest.TestCase):
     def test_chi_english_yes(self):

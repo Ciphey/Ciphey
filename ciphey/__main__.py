@@ -120,38 +120,13 @@ class Ciphey:
             f"The probability table after 0.1 in __main__ is {self.whatToChoose}"
         )
 
-        for key, value in self.whatToChoose.items():
-            self.whatToChoose[key] = self.mh.sortDictionary(value)
-
         self.whatToChoose = self.mh.sortProbTable(self.whatToChoose)
-
-        # the below code selects the most likely one
-        # and places it at the front
-        # TODO is this code redundant because of self.mh.sortProbTable?
-        new_dict = {}
-        maximum = 0.00
-        max_key = None
-        max_val = None
-        for key, value in self.whatToChoose.items():
-            val = next(iter(value))
-            val = value[val]
-            if val >= maximum:
-                maximum = val
-                max_key = key
-                max_val = value
-        new_dict = collections.OrderedDict()
-        new_dict[max_key] = max_val
-        for key, value in self.whatToChoose.items():
-            if key == max_key:
-                continue
-            new_dict[key] = value
 
         # Creates and prints the probability table
         if self.greppable == False:
             logger.debug(f"Self.greppable is {self.greppable}")
-            self.produceProbTable(new_dict)
+            self.produceProbTable(self.whatToChoose)
 
-        self.whatToChoose = new_dict
         logger.debug(
             f"The new probability table after sorting in __main__ is {self.whatToChoose}"
         )
@@ -199,9 +174,7 @@ class Ciphey:
                 if "Base" in keyStr:
                     keyStr = keyStr[0:-2]
                 sortedDic[keyStr] = valInt
-                logger.debug(
-                    f"The value as percentage is {valInt} and key is {keyStr}"
-                )
+                logger.debug(f"The value as percentage is {valInt} and key is {keyStr}")
         sortedDic = {
             k: v
             for k, v in sorted(
