@@ -187,20 +187,29 @@ class Ciphey:
         # for every key, value in dict add a row
         # I think key is self.caesarcipher and not "caesar cipher"
         # i must callName() somewhere else in this code
+        sortedDic = {}
         for k, v in probTable.items():
             for key, value in v.items():
                 # Prevents the table from showing pointless 0.01 probs as they're faked
                 if value == 0.01:
                     continue
                 logger.debug(f"Key is {str(key)} and value is {str(value)}")
-                val_as_percent = str(round(self.mh.percentage(value, 1), 2)) + "%"
+                valInt = round(self.mh.percentage(value, 1), 2)
                 keyStr = str(key).capitalize()
                 if "Base" in keyStr:
                     keyStr = keyStr[0:-2]
+                sortedDic[keyStr] = valInt
                 logger.debug(
-                    f"The value as percentage is {val_as_percent} and key is {keyStr}"
+                    f"The value as percentage is {valInt} and key is {keyStr}"
                 )
-                table.add_row(keyStr, val_as_percent)
+        sortedDic = {
+            k: v
+            for k, v in sorted(
+                sortedDic.items(), key=lambda item: item[1], reverse=True
+            )
+        }
+        for k, v in sortedDic.items():
+            table.add_row(k, str(v) + "%")
         self.console.print(table)
 
     def one_level_of_decryption(self, file=None, sickomode=None):
@@ -263,7 +272,6 @@ def main():
         "-g",
         "--greppable",
         help="Only output the answer, no progress bars or information. Useful for grep",
-         
         required=False,
     )
     parser.add_argument("-t", "--text", help="Text to decrypt", required=False)
@@ -272,16 +280,11 @@ def main():
         "-c",
         "--printcipher",
         help="Do you want information on the cipher used?",
-         
         required=False,
     )
 
     parser.add_argument(
-        "-d",
-        "--debug",
-        help="Activates debug mode",
-         
-        required=False,
+        "-d", "--debug", help="Activates debug mode", required=False,
     )
     args = vars(parser.parse_args())
     if args["printcipher"] != None:
