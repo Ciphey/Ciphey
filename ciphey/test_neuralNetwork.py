@@ -2,6 +2,9 @@ from neuralNetworkMod.nn import NeuralNetwork
 import numpy
 
 import unittest
+from loguru import logger
+
+logger.remove()
 
 
 class testNeuralNetwork(unittest.TestCase):

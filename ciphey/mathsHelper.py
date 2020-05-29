@@ -14,12 +14,15 @@ Class to provide helper functions for mathematics
 
 from collections import OrderedDict
 from string import punctuation
+import sys
+from loguru import logger
 
 
 class mathsHelper:
     """Class to provide helper functions for mathematics and other small things"""
 
     def __init__(self):
+        # ETAOIN is the most popular letters in order
         self.ETAOIN = "ETAOINSHRDLCUMWFGYPBVKJXQZ"
         self.LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
@@ -62,8 +65,11 @@ class mathsHelper:
 
     def sortDictionary(self, dictionary):
         """Sorts a dictionary"""
-
-        return dict(OrderedDict(sorted(dictionary.items())))
+        ret = dict(OrderedDict(sorted(dictionary.items())))
+        logger.debug(
+            f"The old dictionary was {dictionary} and I am sorting it to {ret}"
+        )
+        return ret
 
     def sortProbTable(self, probTable):
         """Sorts the probabiltiy table"""
@@ -71,31 +77,57 @@ class mathsHelper:
         maxOverall = 0
         maxDictPair = {}
         highestKey = None
-
+        emptyDict = {}
         # sorts the prob table before we find max, and converts it to order dicts
         for key, value in probTable.items():
             probTable[key] = self.newSort(value)
             probTable[key] = dict(probTable[key])
 
         # gets maximum key then sets it to the front
-        for key, value in probTable.items():
-            maxLocal = 0
-            # for each item in that table
-            for key2, value2 in value.items():
-                maxLocal = maxLocal + value2
-            if maxLocal > maxOverall:
-                # because the dict doesnt reset
-                maxDictPair = {}
-                maxOverall = maxLocal
-                # so eventually, we get the maximum dict pairing?
-                maxDictPair[key] = value
-                highestKey = key
-        # removes the highest key from the prob table
-        del probTable[highestKey]
+        counterMax = 0
+        counterProb = len(probTable)
+        while counterMax < counterProb:
+            maxOverall = 0
+            highestKey = None
+            logger.debug(
+                f"Running while loop in sortProbTable, counterMax is {counterMax}"
+            )
+            for key, value in probTable.items():
+                logger.debug(f"Sorting {key}")
+                maxLocal = 0
+                # for each item in that table
+                for key2, value2 in value.items():
+                    logger.debug(
+                        f"Running key2 {key2}, value2 {value2} for loop for {value.items()}"
+                    )
+                    maxLocal = maxLocal + value2
+                    logger.debug(
+                        f"MaxLocal is {maxLocal} and maxOverall is {maxOverall}"
+                    )
+                    if maxLocal > maxOverall:
+                        logger.debug(f"New max local found {maxLocal}")
+                        # because the dict doesnt reset
+                        maxDictPair = {}
+                        maxOverall = maxLocal
+                        # so eventually, we get the maximum dict pairing?
+                        maxDictPair[key] = value
+                        highestKey = key
+                        logger.debug(f"Highest key is {highestKey}")
+                # removes the highest key from the prob table
+            logger.debug(f"Prob table is {probTable} and highest key is {highestKey}")
+            logger.debug(f"Removing {probTable[highestKey]}")
+            del probTable[highestKey]
+            logger.debug(f"Prob table after deletion is {probTable}")
+            counterMax += 1
+            emptyDict = {**emptyDict, **maxDictPair}
+
         # returns the max dict (at the start) with the prob table
-        # this way, it should always work on most likely first.#
-        d = {**maxDictPair, **probTable}
-        return d
+        # this way, it should always work on most likely first.
+        logger.debug(
+            f"The prob table is {probTable} and the maxDictPair is {maxDictPair}"
+        )
+        logger.debug(f"The new sorted prob table is {emptyDict}")
+        return emptyDict
 
     def newSort(self, newDict):
         # gets the key of the dictionary
@@ -104,7 +136,9 @@ class mathsHelper:
         d = dict(newDict)
 
         # (f"d is {d}")
+        logger.debug(f"The old dictionary before newSort() is {newDict}")
         sortedI = OrderedDict(sorted(d.items(), key=lambda x: x[1], reverse=True))
+        logger.debug(f"The dictionary after newSort() is {sortedI}")
         # sortedI = sortDictionary(x)
         return sortedI
 

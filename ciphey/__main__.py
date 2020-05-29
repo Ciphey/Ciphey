@@ -5,7 +5,7 @@
 ██║     ██║██╔═══╝ ██╔══██║██╔══╝    ╚██╔╝  
 ╚██████╗██║██║     ██║  ██║███████╗   ██║ 
 © Brandon Skerritt
-Github: brandonskerritt
+https://github.com/brandonskerritt/ciphey
 """
 # Tensorflow always spams my terminal with so many warnings of things I can't change
 # so this tells them to shut up
@@ -13,80 +13,79 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
+# Rich is replacing alive progress
+import argparse
+import collections
 
+# needed for logger.add()
+# so logger can capture exceptions
+import sys
+
+from alive_progress import alive_bar
+
+# rich is used because of progress bars + prob table
+from rich.console import Console
+from rich.table import Column, Table
+
+# Loguru is used for logging as it supprts
+# multi threading better
+from loguru import logger
+
+logger.add(
+    sys.stderr,
+    format="{time} {level} {message}",
+    filter="my_module",
+    level="DEBUG",
+    diagnose=True,
+    backtrace=True,
+)
+
+# Depening on whether ciphey is called, or ciphey/__main__
+# we need different imports to deal with both cases
 try:
     from languageCheckerMod import LanguageChecker as lc
-except ModuleNotFoundError:
-    from ciphey.languageCheckerMod import LanguageChecker as lc
-try:
     from neuralNetworkMod.nn import NeuralNetwork
-except ModuleNotFoundError:
-    from ciphey.neuralNetworkMod.nn import NeuralNetwork
-
-try:
     from Decryptor.basicEncryption.basic_parent import BasicParent
-except ModuleNotFoundError:
-    from ciphey.Decryptor.basicEncryption.basic_parent import BasicParent
-
-try:
+    from Decryptor.Hash.hashParent import HashParent
+    from Decryptor.Encoding.encodingParent import EncodingParent
     from Decryptor.Hash.hashParent import HashParent
 except ModuleNotFoundError:
+    from ciphey.languageCheckerMod import LanguageChecker as lc
+    from ciphey.neuralNetworkMod.nn import NeuralNetwork
+    from ciphey.Decryptor.basicEncryption.basic_parent import BasicParent
     from ciphey.Decryptor.Hash.hashParent import HashParent
-try:
-    from Decryptor.Encoding.encodingParent import EncodingParent
-except ModuleNotFoundError:
     from ciphey.Decryptor.Encoding.encodingParent import EncodingParent
 
-
-import argparse
 
 try:
     import mathsHelper as mh
 except ModuleNotFoundError:
     import ciphey.mathsHelper as mh
-import collections
-from alive_progress import alive_bar
 
 
 class Ciphey:
-    def __init__(self, text, grep=False, cipher=False):
+    def __init__(self, text, grep=False, cipher=False, debug=False):
+        if not debug:
+            logger.remove()
         # general purpose modules
         self.ai = NeuralNetwork()
         self.lc = lc.LanguageChecker()
         self.mh = mh.mathsHelper()
-
         # the one bit of text given to us to decrypt
         self.text = text
-
+        logger.debug(f"The inputted text at __main__ is {self.text}")
         # the decryptor components
         self.basic = BasicParent(self.lc)
         self.hash = HashParent()
         self.encoding = EncodingParent(self.lc)
-
         self.level = 1
         self.sickomode = False
         self.greppable = grep
         self.cipher = cipher
+        self.console = Console()
 
     def decrypt(self):
-        """
-        this method calls 1 level of decrypt
-        The idea is that so long as decrypt doesnt return the plaintext
-        to carry on decrypting all subsets of the text until we find one that does decrypt properly
-        maybe only 2 levels
-
-        The way probability distribution works is something like this:
-        {Encoding: {"Binary": 0.137, "Base64": 0.09, "Hexadecimal": 0.00148}, Hashes: {"SHA1": 0.0906, "MD5": 0.98}}
-        If an item in the dictionary is == 0.00 then write it down as 0.001
-        Each parental dictiony object (eg encoding, hashing) is the actual object
-        So each decipherment class has a parent that controls all of it
-        sha1, sha256, md5, sha512 etc all belong to the object "hashes"
-        Ciphey passes each probability to these classes
-        Sort the dictionary
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
-
-
-        """
+        # Read the documentation for more on this function.
         self.probabilityDistribution = self.ai.predictnn(self.text)[0]
         self.whatToChoose = {
             self.hash: {
@@ -106,52 +105,36 @@ class Ciphey:
                 "morse": self.probabilityDistribution[11],
             },
         }
+
+        logger.debug(
+            f"The probability table before 0.1 in __main__ is {self.whatToChoose}"
+        )
+
         # sorts each indiviudal sub-dictionary
         for key, value in self.whatToChoose.items():
             for k, v in value.items():
+                # Sets all 0 probabilities to 0.01, we want Ciphey to try all decryptions.
                 if v < 0.01:
                     self.whatToChoose[key][k] = 0.01
-
-        for key, value in self.whatToChoose.items():
-            self.whatToChoose[key] = self.mh.sortDictionary(value)
+        logger.debug(
+            f"The probability table after 0.1 in __main__ is {self.whatToChoose}"
+        )
 
         self.whatToChoose = self.mh.sortProbTable(self.whatToChoose)
 
-        # the below code selects the most likely one
-        # and places it at the front
-        new_dict = {}
-        maximum = 0.00
-        max_key = None
-        max_val = None
-        for key, value in self.whatToChoose.items():
-            val = next(iter(value))
-            val = value[val]
-            if val >= maximum:
-                maximum = val
-                max_key = key
-                max_val = value
-        new_dict = collections.OrderedDict()
-        new_dict[max_key] = max_val
-        """
-        find key in the main dict, delete it
-        go through that dict and add each component to the end of this dict?
-        """
-        temp = self.whatToChoose
-        for key, value in self.whatToChoose.items():
-            if key == max_key:
-                continue
-            new_dict[key] = value
+        # Creates and prints the probability table
+        if self.greppable == False:
+            logger.debug(f"Self.greppable is {self.greppable}")
+            self.produceProbTable(self.whatToChoose)
 
-        # ok so this looks wacky but hear me out here
-        # a.update(b)
-        # adds all content of dict b onto end of dict a
-        # no way to add it to front, so I have to do this :)
-        self.whatToChoose = new_dict
+        logger.debug(
+            f"The new probability table after sorting in __main__ is {self.whatToChoose}"
+        )
 
         """
-        for each dictionary in the dictionary
-            sort that dictionary
-        sort the overall dictionary by the first value of the new dictionary
+        #for each dictionary in the dictionary
+         #   sort that dictionary
+        #sort the overall dictionary by the first value of the new dictionary
         """
         if self.level <= 1:
             self.one_level_of_decryption()
@@ -165,12 +148,52 @@ class Ciphey:
                 # open file and go through each text item
                 pass
 
+    def produceProbTable(self, probTable):
+        """Produces the probability table using Rich's API
+
+        :probTable: the probability distribution table returned by the neural network
+        :returns: Nothing, it prints out the prob table.
+
+        """
+        logger.debug(f"Producing log table")
+        table = Table(show_header=True, header_style="bold magenta")
+        table.add_column("Name of Cipher")
+        table.add_column("Probability", justify="right")
+        # for every key, value in dict add a row
+        # I think key is self.caesarcipher and not "caesar cipher"
+        # i must callName() somewhere else in this code
+        sortedDic = {}
+        for k, v in probTable.items():
+            for key, value in v.items():
+                # Prevents the table from showing pointless 0.01 probs as they're faked
+                if value == 0.01:
+                    continue
+                logger.debug(f"Key is {str(key)} and value is {str(value)}")
+                valInt = round(self.mh.percentage(value, 1), 2)
+                keyStr = str(key).capitalize()
+                if "Base" in keyStr:
+                    keyStr = keyStr[0:-2]
+                sortedDic[keyStr] = valInt
+                logger.debug(f"The value as percentage is {valInt} and key is {keyStr}")
+        sortedDic = {
+            k: v
+            for k, v in sorted(
+                sortedDic.items(), key=lambda item: item[1], reverse=True
+            )
+        }
+        for k, v in sortedDic.items():
+            table.add_row(k, str(v) + "%")
+        self.console.print(table)
+
     def one_level_of_decryption(self, file=None, sickomode=None):
-        items = range(1)
+        # Calls one level of decryption
+        # mainly used to control the progress bar
         if self.greppable:
+            logger.debug("__main__ is running as greppable")
             self.decryptNormal()
         else:
             with alive_bar() as bar:
+                logger.debug("__main__ is running with progress bar")
                 self.decryptNormal(bar)
 
     def decryptNormal(self, bar=None):
@@ -179,6 +202,11 @@ class Ciphey:
             if not isinstance(key, str):
                 key.setProbTable(val)
                 ret = key.decrypt(self.text)
+                logger.debug(f"Decrypt normal in __main__ ret is {ret}")
+                logger.debug(
+                    f"The plaintext is {ret['Plaintext']} and the extra information is {ret['Cipher']} and {ret['Extra Information']}"
+                )
+
                 if ret["IsPlaintext?"]:
                     print(ret["Plaintext"])
                     if self.cipher:
@@ -189,61 +217,95 @@ class Ciphey:
                                 ret["Extra Information"] + ".",
                             )
                         else:
-                            print(ret["Cipher"])
+                            print("The cipher used is " + ret["Cipher"] + ".")
                     return ret
 
             if not self.greppable:
                 bar()
-
-        print("No encryption found. Here's the probabilities we calculated")
-        import pprint
-
-        pprint.pprint(self.whatToChoose)
+        logger.debug("No encryption found")
+        print(
+            """No encryption found. Here are some tips to help crack the cipher:
+                * Use the probability table to work out what it could be. Base = base16, base32, base64 etc.
+                * If the probability table says 'Caesar Cipher' then it is a normal encryption that Ciphey cannot decrypt yet.
+                * If Ciphey think's it's a hash, try using hash-identifier to find out what hash it is, and then HashCat to crack the hash.
+                * The encryption may not contain normal English plaintext. It could be coordinates or another object no found in the dictionary. Use 'ciphey -d true > log.txt' to generate a log file of all attempted decryptions and manually search it."""
+        )
 
 
 def main():
+
     parser = argparse.ArgumentParser(
-        description="Automated decryption tool. Put in the encrypted text and Ciphey will decrypt it."
+        description="""Automated decryption tool. Put in the encrypted text and Ciphey will decrypt it.\n
+        Examples:
+        python3 ciphey -t "aGVsbG8gbXkgYmFieQ==" -d true -c true
+        """
     )
     # parser.add_argument('-f','--file', help='File you want to decrypt', required=False)
     # parser.add_argument('-l','--level', help='How many levels of decryption you want (the more levels, the slower it is)', required=False)
     parser.add_argument(
-        "-g", "--greppable", help="Are you grepping this output?", required=False
+        "-g",
+        "--greppable",
+        help="Only output the answer, no progress bars or information. Useful for grep",
+        action="store_true",
+        required=False,
     )
     parser.add_argument("-t", "--text", help="Text to decrypt", required=False)
     # parser.add_argument('-s','--sicko-mode', help='If it is encrypted Ciphey WILL find it', required=False)
     parser.add_argument(
         "-c",
         "--printcipher",
-        help="Do you want information on the cipher?",
+        help="Do you want information on the cipher used?",
+        action="store_true",
         required=False,
     )
+    # fake argument to stop argparser complaining about no arguments
+    # allows sys.argv to be used
+    parser.add_argument("-m", action="store_false", default=True, required=False)
 
+    parser.add_argument(
+        "-d",
+        "--debug",
+        help="Activates debug mode",
+        required=False,
+        action="store_true",
+    )
+    parser.add_argument("rest", nargs=argparse.REMAINDER)
     args = vars(parser.parse_args())
-    if args["printcipher"] != None:
+    if args["printcipher"]:
         cipher = True
     else:
         cipher = False
-    if args["greppable"] != None:
+    if args["greppable"]:
         greppable = True
     else:
         greppable = False
-    """
-    ██████╗██╗██████╗ ██╗  ██╗███████╗██╗   ██╗
-    ██╔════╝██║██╔══██╗██║  ██║██╔════╝╚██╗ ██╔╝
-    ██║     ██║██████╔╝███████║█████╗   ╚████╔╝ 
-    ██║     ██║██╔═══╝ ██╔══██║██╔══╝    ╚██╔╝  
-    ╚██████╗██║██║     ██║  ██║███████╗   ██║ 
-                Made by Brandon Skerritt"""
-
-    # uryyb zl sngure uryyb zl zbgure naq v ernyyl qb yvxr n tbbq ratyvfu oernxsnfg
-    if args["text"]:
-        cipherObj = Ciphey(args["text"], greppable, cipher)
-        cipherObj.decrypt()
+    if args["debug"]:
+        debug = True
     else:
-        print(
-            "You didn't supply any arguments. Look at the help menu with -h or --help"
-        )
+        debug = False
+
+    text = None
+    
+    # the below text does:
+    # if -t is supplied, use that
+    # if ciphey is called like:
+    # ciphey 'encrypted text' use that
+    # else if data is piped like:
+    # echo 'hello' | ciphey use that
+    # if no data is supplied, no arguments supplied.
+    if args["text"]:
+        text = args["text"]
+    if args["text"] == None and len(sys.argv) > 1:
+        text = args["rest"][0]
+        print(f"text is {text}")
+    if not sys.stdin.isatty():
+        text = str(sys.stdin.read())
+    if len(sys.argv) == 1 and text == None:
+        print("No arguments were supplied. Look at the help menu with -h or --help")
+
+    if text != None:
+        cipherObj = Ciphey(text, greppable, cipher, debug)
+        cipherObj.decrypt()
 
 
 if __name__ == "__main__":
