@@ -2,15 +2,15 @@
 name = "ciphey"
 version = "4"
 description = "Automated Decryption Tool"
-authors = ["Bee <brandon@skerritt.blog>"]
+authors = ["Brandon <brandon@skerritt.blog>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.8"
 tensorflow = "^2.2.0"
 rich = "^1.2.3"
-alive = "^1.5.1"
-black = "19.10b0"
+alive-progress = "^1.5.1"
+loguru = "^0.5.0"
 
 [tool.poetry.dev-dependencies]
 
