@@ -177,3 +177,5 @@ pip-selfcheck.json
 
 # End of https://www.gitignore.io/api/git,python,virtualenv
 .vscode/
+
+.vim/coc-settings.json
