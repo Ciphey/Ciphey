@@ -30,9 +30,10 @@ If the family fails, we move onto the 2nd most likely family and so on.
 I need to develop a larger corpus of data, and I've decided to create my own dataset. The dataset will contain:
 * The entirety of the English wikipedia
 * All Reddit comments: https://www.reddit.com/r/datasets/comments/3bxlg7/i_have_every_publicly_available_reddit_comment/
-
+* British National Corpus
+* https://datasets.quantumstat.com/
 Then, use chi squared on the Reddit comments to only select English looking comments.
 
 Should be a good dataset :)
 
-I might even upload the crypto dataset that Ciphey uses too.
+I might even upload the crypto dataset that Ciphey uses too to Kaggle.
