@@ -27,8 +27,6 @@ from alive_progress import alive_bar
 from rich.console import Console
 from rich.table import Column, Table
 
-import click
-
 # Loguru is used for logging as it supprts
 # multi threading better
 from loguru import logger
