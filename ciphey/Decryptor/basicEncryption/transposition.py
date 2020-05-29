@@ -1,54 +1,42 @@
+"""
+ ██████╗██╗██████╗ ██╗  ██╗███████╗██╗   ██╗
+██╔════╝██║██╔══██╗██║  ██║██╔════╝╚██╗ ██╔╝
+██║     ██║██████╔╝███████║█████╗   ╚████╔╝ 
+██║     ██║██╔═══╝ ██╔══██║██╔══╝    ╚██╔╝  
+╚██████╗██║██║     ██║  ██║███████╗   ██║ 
+© Brandon Skerritt
+https://github.com/brandonskerritt/ciphey
+
+Code taken from http://invpy.com/transpositionHacker.py
+Permission granted from author.
+"""
+
 import math
+from loguru import logger
 
 
 class Transposition:
     def __init__(self, lc):
         self.lc = lc
 
-    def main(self):
-        myMessage = """Cb b rssti aieih rooaopbrtnsceee er es no npfgcwu  plri
-
-        ch nitaalr eiuengiteehb(e1  hilincegeoamn fubehgtarndcstudmd nM eu eacBoltaetee
-        
-        oinebcdkyremdteghn.aa2r81a condari fmps" tad   l t oisn sit u1rnd stara nvhn fs
-        
-        edbh ee,n  e necrg6  8nmisv l nc muiftegiitm tutmg cm shSs9fcie ebintcaets h  a
-        
-        ihda cctrhe ele 1O7 aaoem waoaatdahretnhechaopnooeapece9etfncdbgsoeb uuteitgna.
-        
-        rteoh add e,D7c1Etnpneehtn beete" evecoal lsfmcrl iu1cifgo ai. sl1rchdnheev sh
-        
-        meBd ies e9t)nh,htcnoecplrrh ,ide hmtlme. pheaLem,toeinfgn t e9yce da' eN eMp a
-        
-        ffn Fc1o ge eohg dere.eec s nfap yox hla yon. lnrnsreaBoa t,e eitsw il ulpbdofg
-        
-        BRe bwlmprraio po  droB wtinue r Pieno nc ayieeto'lulcih sfnc  ownaSserbereiaSm
-        
-        -eaiah, nnrttgcC  maciiritvledastinideI  nn rms iehn tsigaBmuoetcetias rn"""
-
-        hackedMessage = self.hackTransposition(myMessage)
-
-    def decrypt(self, text):
-        # Brute-force by looping through every possible key.
-        decryptedText = self.hackTransposition("""ehlol ym aftehrh ellom ym ohteXrX""")
-
     def getName(self):
         return "Transposition"
 
+    def decrypt(self, text):
+        # Brute-force by looping through every possible key.
+        decryptedText = self.hackTransposition(text)
+        return decryptedText
+
     def hackTransposition(self, message):
-        print("Hacking...")
-
-        # Python programs can be stopped at any time by pressing Ctrl-C (on
-        # Windows) or Ctrl-D (on Mac and Linux)
-
+        logger.debug("Entering transposition")
         # brute-force by looping through every possible key
         for key in range(1, len(message)):
-
-            decryptedText = self.transpositionDecrypt.decryptMessage(key, message)
-
-            # if self.lc.checkLanguage(decryptedText):
-            # Check with user to see if the decrypted key has been found.
-            if self.lc.checkLanguage(decryptedText):
+            logger.debug(f"Transposition trying key {key}")
+            decryptedText = self.decryptMessage(key, message)
+            # if decrypted english is found, return them
+            result = self.lc.checkLanguage(decryptedText)
+            if result:
+                logger.debug("transposition returns true")
                 return {
                     "lc": self.lc,
                     "IsPlaintext?": True,
@@ -56,8 +44,9 @@ class Transposition:
                     "Cipher": "Transposition",
                     "Extra Information": f"The key is {key}",
                 }
-        return {
-            "lc": self.lc,
+
+        # it is not found
+        return { "lc": self.lc,
             "IsPlaintext?": False,
             "Plaintext": None,
             "Cipher": "Transposition",
@@ -65,6 +54,7 @@ class Transposition:
         }
 
     def decryptMessage(self, key, message):
+        logger.debug("Decrypting message in transposition the mesage is {message}")
         # The transposition decrypt function will simulate the "columns" and
         # "rows" of the grid that the plaintext is written on by using a list
         # of strings. First, we need to calculate a few values.
@@ -96,9 +86,5 @@ class Transposition:
                 col = 0
                 row += 1
 
+        logger.debug(f"The transposition decrypted message is {''.join(plaintext)}")
         return "".join(plaintext)
-
-
-if __name__ == "__main__":
-    t = Transposition("a")
-    t.main()

@@ -1,13 +1,24 @@
+"""
+ ██████╗██╗██████╗ ██╗  ██╗███████╗██╗   ██╗
+██╔════╝██║██╔══██╗██║  ██║██╔════╝╚██╗ ██╔╝
+██║     ██║██████╔╝███████║█████╗   ╚████╔╝ 
+██║     ██║██╔═══╝ ██╔══██║██╔══╝    ╚██╔╝  
+╚██████╗██║██║     ██║  ██║███████╗   ██║ 
+© Brandon Skerritt
+https://github.com/brandonskerritt/ciphey
+"""
 try:
     import Decryptor.basicEncryption.caesar as ca
     import Decryptor.basicEncryption.reverse as re
     import Decryptor.basicEncryption.viginere as vi
     import Decryptor.basicEncryption.pigLatin as pi
+    import Decryptor.basicEncryption.transposition as tr
 except ModuleNotFoundError:
     import ciphey.Decryptor.basicEncryption.caesar as ca
     import ciphey.Decryptor.basicEncryption.reverse as re
     import ciphey.Decryptor.basicEncryption.viginere as vi
     import ciphey.Decryptor.basicEncryption.pigLatin as pi
+    import ciphey.Decryptor.basicEncryption.transposition as tr
 
 """
 So I want to assign the prob distribution to objects
@@ -49,10 +60,10 @@ class BasicParent:
         self.reverse = re.Reverse(self.lc)
         self.viginere = vi.Viginere(self.lc)
         self.pig = pi.PigLatin(self.lc)
-        # self.trans = Transposition(self.lc)
+        self.trans = tr.Transposition(self.lc)
 
-        self.list_of_objects = [self.caesar, self.reverse, self.pig]
-
+        self.list_of_objects = [self.caesar, self.reverse, self.pig, self.trans]
+        
     def decrypt(self, text):
         self.text = text
         from multiprocessing.dummy import Pool as ThreadPool
