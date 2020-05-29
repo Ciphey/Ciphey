@@ -1,4 +1,13 @@
-Binoculars logo
+<p align="center">
+  <img src="Pictures_for_README/binoculars.png" alt="Ciphey">
+</p>
+
+
+<p align="center">
+  <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="Ciphey">
+  <img src="https://github.com/brandonskerritt/Ciphey/workflows/Python%20application/badge.svg?branch=master" alt="Ciphey">
+</p>
+
 # Ciphey (centered)
 Automated Decryption Tool
 
@@ -10,7 +19,7 @@ That's the point. You don't know, you just know it's possibly encrypted. Ciphey 
 Ciphey uses a deep neural network to guess what something is encrypted with, and then a custom built natural language processing module to determine the output.
 
 Ciphey can solve most things in under 3 seconds.
-[![asciicast](https://asciinema.org/a/XTy9UvvXYTd5tOeSi4jK9KdVh.svg)](https://asciinema.org/a/XTy9UvvXYTd5tOeSi4jK9KdVh)
+[![asciicast](https://asciinema.org/a/FBBM0tgBW86svZmjJzct73oln.svg)](https://asciinema.org/a/FBBM0tgBW86svZmjJzct73oln)
 
 # Features
 
@@ -19,7 +28,7 @@ Ciphey can solve most things in under 3 seconds.
 - **Custom built natural language processing module** Ciphey can determine whether something is plaintext or not. It has an incredibly high accuracy, along with being fast.
 - **Multi Language Support** at present, only English.
 - **Supports hashes & encryptions** Which the alternatives such as CyberChef do not. 
-- 
+
 # Getting Started
 ## Installation
 ### Pip
@@ -41,28 +50,25 @@ It is also possible to pipe data into Ciphey, or to use Ciphey like `ciphey 'enc
 ### Importing Ciphey
 You can import Ciphey\'s __main__ and use it in your own programs and code.
 This is feature is expected to expand in the next version.
-### FAQ
+# FAQ
 
 <details>
   <summary>Click to expand!</summary>
   
-  ## Curious about the neural network or language checker? 
-	* The documentation is your friend
-  ## The Internal Data packet
-  * Passed around in the program, it is `{"lc": self.lc, "IsPlaintext?": True, "Plaintext": translated, "Cipher": "Caesar", "Extra Information": "The rotation used is {counter}"}
-`
-	## What new features were added?
-	* Read the changelog.md
+## Curious about the neural network or language checker? 
+* The documentation is your friend at /docs
+## The Internal Data packet
+* Passed around in the program, it is `{"lc": self.lc, "IsPlaintext?": True, "Plaintext": translated, "Cipher": "Caesar", "Extra Information": "The rotation used is {counter}"}`
+## What new features were added?
+* Read the [changelog.md](changelog.md)
 </details>
 
-
-MAKE THIS COLLAPSABLE
 
 # Contributors
 ## Contributing
 Please read the contributing file.
 ## Code Contributors
-Cyclic3
+[Cyclic3](https://github.com/Cyclic3)
 ## Financial Contributors
 
 <a target="_blank" href="https://icons8.com/icons/set/binoculars">iOS</a>, <a target="_blank" href="https://icons8.com/icons/set/binoculars">iOS Filled</a> and other icons by <a target="_blank" href="https://icons8.com">Icons8</a>
