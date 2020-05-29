@@ -10,15 +10,21 @@ Github: brandonskerritt
 This is Hashbuster but slightly modified to work with Ciphey
 why reivent the wheel?
 
+Changes (that I can remember)
+* timeout set, as hashbuster took AGES before timeout was set.
+
 https://github.com/s0md3v/Hash-Buster
 """
 
 
 import re
 import os
-import requests
 import argparse
+import requests
 import concurrent.futures
+
+from loguru import logger
+
 
 thread_count = 4
 
@@ -28,9 +34,12 @@ def alpha(hashvalue, hashtype):
 
 
 def beta(hashvalue, hashtype):
-    response = requests.get(
-        "https://hashtoolkit.com/reverse-hash/?hash=", hashvalue
-    ).text
+    try:
+        response = requests.get(
+            "https://hashtoolkit.com/reverse-hash/?hash=", hashvalue, timeout=5
+        ).text
+    except requests.exceptions.ReadTimeout as e:
+        logger.debug(f"Beta failed timeout {e}")
     match = re.search(r'/generate-hash/?text=.*?"', response)
     if match:
         return match.group(1)
@@ -39,7 +48,12 @@ def beta(hashvalue, hashtype):
 
 
 def gamma(hashvalue, hashtype):
-    response = requests.get("https://www.nitrxgen.net/md5db/" + hashvalue).text
+    try:
+        response = requests.get(
+            "https://www.nitrxgen.net/md5db/" + hashvalue, timeout=5
+        ).text
+    except requests.exceptions.ReadTimeout as e:
+        logger.debug(f"Gamma failed with {e}")
     if response:
         return response
     else:
@@ -57,10 +71,14 @@ def delta(hashvalue, hashtype):
 
 
 def theta(hashvalue, hashtype):
-    response = requests.get(
-        "https://md5decrypt.net/Api/api.php?hash=%s&hash_type=%s&email=deanna_abshire@proxymail.eu&code=1152464b80a61728"
-        % (hashvalue, hashtype)
-    ).text
+    try:
+        response = requests.get(
+            "https://md5decrypt.net/Api/api.php?hash=%s&hash_type=%s&email=deanna_abshire@proxymail.eu&code=1152464b80a61728"
+            % (hashvalue, hashtype),
+            timeout=5,
+        ).text
+    except requests.exceptions.ReadTimeout as e:
+        logger.debug(f"Gamma failed with {e}")
     if len(response) != 0:
         return response
     else:
@@ -75,11 +93,13 @@ sha512 = [alpha, beta, theta]
 
 
 def crack(hashvalue):
+    logger.debug(f"Starting to crack hashes")
     result = False
     if len(hashvalue) == 32:
         for api in md5:
             r = api(hashvalue, "md5")
             if r:
+                logger.debug(f"md5 returns true")
                 return {
                     "lc": None,
                     "IsPlaintext?": True,
@@ -91,6 +111,7 @@ def crack(hashvalue):
         for api in sha1:
             r = api(hashvalue, "sha1")
             if r:
+                logger.debug(f"sha1 returns true")
                 return {
                     "lc": None,
                     "IsPlaintext?": True,
@@ -102,6 +123,7 @@ def crack(hashvalue):
         for api in sha256:
             r = api(hashvalue, "sha256")
             if r:
+                logger.debug(f"sha256 returns true")
                 return {
                     "lc": None,
                     "IsPlaintext?": True,
@@ -113,6 +135,7 @@ def crack(hashvalue):
         for api in sha384:
             r = api(hashvalue, "sha384")
             if r:
+                logger.debug(f"sha384 returns true")
                 return {
                     "lc": None,
                     "IsPlaintext?": True,
@@ -124,6 +147,7 @@ def crack(hashvalue):
         for api in sha512:
             r = api(hashvalue, "sha512")
             if r:
+                logger.debug(f"sha512 returns true")
                 return {
                     "lc": None,
                     "IsPlaintext?": True,

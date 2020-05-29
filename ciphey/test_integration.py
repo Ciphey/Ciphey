@@ -1,7 +1,8 @@
 from languageCheckerMod import LanguageChecker
 
 import unittest
-
+from loguru import logger
+logger.remove()
 
 class testIntegration(unittest.TestCase):
     """
@@ -76,7 +77,7 @@ class testIntegration(unittest.TestCase):
             "Hi! I just checked this URL and it appeared to be unavailable or slow loading (Connection timed out after 8113 milliseconds). Here are some mirrors to try:"
         )
         result = lc.checkLanguage("The quick brown fox jumped over the lazy dog")
-        self.assertEqual(result, False)
+        self.assertEqual(result, True)
 
     def test_chi_maxima_false(self):
         lc = LanguageChecker.LanguageChecker()
@@ -118,7 +119,7 @@ class testIntegration(unittest.TestCase):
             "Hi! I just checked this URL and it appeared to be unavailable or slow loading (Connection timed out after 8113 milliseconds). Here are some mirrors to try:"
         )
         result = lc.checkLanguage("The quick brown fox jumped over the lazy dog")
-        self.assertEqual(result, False)
+        self.assertEqual(result, True)
 
     def test_chi_maxima_true(self):
         """
@@ -165,7 +166,7 @@ class testIntegration(unittest.TestCase):
         result = lc.checkLanguage(
             "There can only be one way to make this work for real and I really do enjoy the long thought out process of drinking milk"
         )
-        self.assertEqual(result, False)
+        self.assertEqual(result, True)
 
     def test_chi_maxima_true(self):
         """
@@ -259,3 +260,13 @@ class testIntegration(unittest.TestCase):
         lc3 = lc + lc2
 
         self.assertAlmostEqual(lc3.getChiScore(), temp3)
+
+    def test_integration_charlesBabbage(self):
+        """
+        I had a bug with this exact string
+        Bug is that chi squared does not score this as True
+       """
+        text = """Charles Babbage, FRS (26 December 1791 - 18 October 1871) was an English mathematician, philosopher, inventor and mechanical engineer who originated the concept of a programmable computer. Considered a "father of the computer", Babbage is credited with inventing the first mechanical computer that eventually led to more complex designs. Parts of his uncompleted mechanisms are on display in the London Science Museum. In 1991, a perfectly functioning difference engine was constructed from Babbage's original plans. Built to tolerances achievable in the 19th century, the success of the finished engine indicated that Babbage's machine would have worked. Nine years later, the Science Museum completed the printer Babbage had designed for the difference engine."""
+        lc = LanguageChecker.LanguageChecker()
+        result = lc.checkLanguage(text)
+        self.assertEqual(result, True)

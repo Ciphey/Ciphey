@@ -1,8 +1,8 @@
 from languageCheckerMod import LanguageChecker
 from Decryptor.Encoding.encodingParent import EncodingParent
 import unittest
-
-
+from loguru import logger
+logger.remove()
 class TestEncoding(unittest.TestCase):
     def test_english_yes(self):
         lc = LanguageChecker.LanguageChecker()
