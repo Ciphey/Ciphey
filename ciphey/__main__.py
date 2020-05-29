@@ -86,6 +86,11 @@ class Ciphey:
 
     def decrypt(self):
         # Read the documentation for more on this function.
+        # checks to see if inputted text is plaintext
+        result = self.lc.checkLanguage(self.text)
+        if result:
+            print("You inputted plain text!")
+        return None
         self.probabilityDistribution = self.ai.predictnn(self.text)[0]
         self.whatToChoose = {
             self.hash: {
@@ -285,7 +290,7 @@ def main():
         debug = False
 
     text = None
-    
+
     # the below text does:
     # if -t is supplied, use that
     # if ciphey is called like:
