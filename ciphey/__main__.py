@@ -90,7 +90,7 @@ class Ciphey:
         result = self.lc.checkLanguage(self.text)
         if result:
             print("You inputted plain text!")
-        return None
+            return None
         self.probabilityDistribution = self.ai.predictnn(self.text)[0]
         self.whatToChoose = {
             self.hash: {
