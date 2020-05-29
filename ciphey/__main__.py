@@ -27,6 +27,8 @@ from alive_progress import alive_bar
 from rich.console import Console
 from rich.table import Column, Table
 
+import click
+
 # Loguru is used for logging as it supprts
 # multi threading better
 from loguru import logger
@@ -233,6 +235,7 @@ class Ciphey:
 
 
 def main():
+
     parser = argparse.ArgumentParser(
         description="""Automated decryption tool. Put in the encrypted text and Ciphey will decrypt it.\n
         Examples:
@@ -245,6 +248,7 @@ def main():
         "-g",
         "--greppable",
         help="Only output the answer, no progress bars or information. Useful for grep",
+        action="store_true",
         required=False,
     )
     parser.add_argument("-t", "--text", help="Text to decrypt", required=False)
@@ -253,31 +257,50 @@ def main():
         "-c",
         "--printcipher",
         help="Do you want information on the cipher used?",
+        action="store_true",
         required=False,
     )
+    # fake argument to stop argparser complaining about no arguments
+    # allows sys.argv to be used
+    parser.add_argument("-m", action="store_false", default=True, required=False)
 
     parser.add_argument(
-        "-d", "--debug", help="Activates debug mode", required=False,
+        "-d",
+        "--debug",
+        help="Activates debug mode",
+        required=False,
+        action="store_true",
     )
+    parser.add_argument("rest", nargs=argparse.REMAINDER)
     args = vars(parser.parse_args())
-    if args["printcipher"] != None:
+    if args["printcipher"]:
         cipher = True
     else:
         cipher = False
-    if args["greppable"] != None:
+    if args["greppable"]:
         greppable = True
     else:
         greppable = False
-    if args["debug"] != None:
+    if args["debug"]:
         debug = True
     else:
         debug = False
 
+    text = None
+
     if args["text"]:
-        cipherObj = Ciphey(args["text"], greppable, cipher, debug)
-        cipherObj.decrypt()
-    else:
+        text = args["text"]
+    if len(sys.argv) == 1:
         print("No arguments were supplied. Look at the help menu with -h or --help")
+    elif args["text"] == None and len(sys.argv) > 1:
+        text = args["rest"][0]
+        print(f"text is {text}")
+    if not sys.stdin.isatty():
+        text = str(sys.stdin.read())
+        print(text)
+    if text != None:
+        cipherObj = Ciphey(text, greppable, cipher, debug)
+        cipherObj.decrypt()
 
 
 if __name__ == "__main__":

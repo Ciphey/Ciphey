@@ -32,17 +32,20 @@ To run ciphey
 To get rid of the progress bars, probability table, and all the noise use the grep mode.
 ```ciphey -t "encrypted text here" -g```
 For a full list of arguments, run `ciphey -h`.
-
+### Importing Ciphey
+You can import Ciphey\'s __main__ and use it in your own programs and code.
+This is feature is expected to expand in the next version.
 ### FAQ
 MAKE THIS COLLAPSABLE
 
 Curious about the neural network or language checker? Read /docs
 The Internal Data Packet
-
+Changelog.md
 # Contributors
 ## Contributing
 Please read the contributing file.
 ## Code Contributors
+Harlan ****
 None
 ## Financial Contributors
 
