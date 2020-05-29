@@ -287,17 +287,24 @@ def main():
         debug = False
 
     text = None
-
+    
+    # the below text does:
+    # if -t is supplied, use that
+    # if ciphey is called like:
+    # ciphey 'encrypted text' use that
+    # else if data is piped like:
+    # echo 'hello' | ciphey use that
+    # if no data is supplied, no arguments supplied.
     if args["text"]:
         text = args["text"]
-    if len(sys.argv) == 1:
-        print("No arguments were supplied. Look at the help menu with -h or --help")
-    elif args["text"] == None and len(sys.argv) > 1:
+    if args["text"] == None and len(sys.argv) > 1:
         text = args["rest"][0]
         print(f"text is {text}")
     if not sys.stdin.isatty():
         text = str(sys.stdin.read())
-        print(text)
+    if len(sys.argv) == 1 and text == None:
+        print("No arguments were supplied. Look at the help menu with -h or --help")
+
     if text != None:
         cipherObj = Ciphey(text, greppable, cipher, debug)
         cipherObj.decrypt()
