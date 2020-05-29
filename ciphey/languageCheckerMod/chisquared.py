@@ -18,6 +18,7 @@ try:
     import mathsHelper as mh
 except ModuleNotFoundError:
     import ciphey.mathsHelper as mh
+from loguru import logger
 
 # I had a bug where empty string was being added to letter freq dictionary
 # this solves it :)
@@ -94,6 +95,8 @@ class chiSquared:
         return addedObject
 
     def checkChi(self, text):
+        if text == None:
+            return False
         """Checks to see if the Chi score is good
         if it is, it returns True
         Call this when you want to determine whether something is likely to be Chi or not
@@ -105,7 +108,6 @@ class chiSquared:
             * True - if it has a significantly lower chi squared score
             * False - if it doesn't have a significantly lower chi squared score
         """
-        # TODO 20% isn't optimal
         # runs after every chi squared to see if it's 1 significantly lower than averae
         # the or statement is bc if the program has just started I don't want it to ignore the
         # ones at the start
@@ -113,15 +115,22 @@ class chiSquared:
         # If the latest chi squared is less than the standard deviation
         # or if not many chi squares have been calculated
         # or if every single letter in a text appears exactly once (pangram)
+        stdSignif = float(
+            self.average
+            - (self.oldstandarddeviation * self.chiSquaredSignificaneThreshold)
+        )
+        tempy = abs(
+            self.average
+            - (self.oldstandarddeviation * self.chiSquaredSignificaneThreshold)
+        )
         if (
-            self.chisAsaList[-1]
-            <= abs(
-                self.average
-                - (self.oldstandarddeviation * self.chiSquaredSignificaneThreshold)
-            )
+            self.chisAsaList[-1] <= abs(stdSignif)
             or self.totalDone < self.totalDoneThreshold
             or self.totalEqual
+            # or float(self.chisAsaList[-1]) < stdSignif + 0.1
+            # or float(self.chisAsaList[-1]) > stdSignif - 0.1
         ):
+            logger.debug(f"Chi squared returns true for {text}")
             return True
         else:
             return False
@@ -219,7 +228,7 @@ class chiSquared:
 
     def myChi(self, text, distribution):
         """My own implementation of Chi squared using the two resources mention in the comments on this definition as guidance"""
-        # chrome-extension://oemmndcbldboiebfnladdacbdfmadadm/https://cgi.csc.liv.ac.uk/~john/comp105resources/lecture10.pdf
+        # https://cgi.csc.liv.ac.uk/~john/comp105resources/lecture10.pdf
         # http://practicalcryptography.com/cryptanalysis/text-characterisation/chi-squared-statistic/
         # given a text frequency and a distribution, calculate it's Chi score
         chiScore = 0.0

@@ -1,6 +1,7 @@
 from languageCheckerMod.dictionaryChecker import dictionaryChecker
 import unittest
-
+from loguru import logger
+logger.remove()
 
 class testDictionary(unittest.TestCase):
     def test_english_yes(self):

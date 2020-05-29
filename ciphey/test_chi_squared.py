@@ -1,9 +1,13 @@
 from languageCheckerMod.chisquared import chiSquared
 import unittest
+from loguru import logger
+
+logger.remove()
 
 
 class testChi(unittest.TestCase):
     def test_chi_english_yes(self):
+
         """Checks to see if it returns True (it should)"""
         self.chi = chiSquared()
         """
@@ -284,6 +288,17 @@ class testChi(unittest.TestCase):
         )
         self.assertEqual(result, False)
 
+        def test_english_babbage(self):
+            self.chi = chiSquared()
+            """
+            Tests to see whether a sentene is classified as English or not
+            Returns False because exclamation marks aren't english
+            """
+            result = self.chi.checkChi(
+                """Charles Babbage, FRS (26 December 1791 - 18 October 1871) was an English mathematician, philosopher, inventor and mechanical engineer who originated the concept of a programmable computer. Considered a father of the computer, Babbage is credited with inventing the first mechanical computer that eventually led to more complex designs. Parts of his uncompleted mechanisms are on display in the London Science Museum. In 1991, a perfectly functioning difference engine was constructed from Babbage's original plans. Built to tolerances achievable in the 19th century, the success of the finished engine indicated that Babbage's machine would have worked. Nine years later, the Science Museum completed the printer Babbage had designed for the difference engine."""
+            )
+            self.assertEqual(result, True)
+
     def test_my_chi(self):
         self.chi = chiSquared()
         result = self.chi.myChi(
@@ -318,3 +333,31 @@ class testChi(unittest.TestCase):
             ],
         )
         self.assertEqual(result, 1424.8873999810571)
+
+    def tests_english_caesar_false(self):
+        self.chi = chiSquared()
+        result = self.chi.checkChi(
+            "Pm ol ohk hufaopun jvumpkluaphs av zhf, ol dyval pa pu jpwoly, aoha pz, if zv johunpun aol vykly vm aol slaalyz vm aol hswohila, aoha uva h dvyk jvbsk il thkl vba."
+        )
+        result = self.chi.checkChi("aolyl pz vusf ylhssf vul dhf mvy aopz av nv kvdu")
+        result = self.chi.checkChi("vul dhf vy aol opnodhf p ht nvpun av nla fvb")
+        self.assertEqual(result, True)
+
+    def tests_english_caesar_false(self):
+        self.chi = chiSquared()
+        result = self.chi.checkChi(
+            "Pm ol ohk hufaopun jvumpkluaphs av zhf, ol dyval pa pu jpwoly, aoha pz, if zv johunpun aol vykly vm aol slaalyz vm aol hswohila, aoha uva h dvyk jvbsk il thkl vba."
+        )
+
+        self.assertEqual(result, True)
+
+    def tests_english_caesar_true(self):
+        self.chi = chiSquared()
+        result = self.chi.checkChi(
+            "Pm ol ohk hufaopun jvumpkluaphs av zhf, ol dyval pa pu jpwoly, aoha pz, if zv johunpun aol vykly vm aol slaalyz vm aol hswohila, aoha uva h dvyk jvbsk il thkl vba."
+        )
+        result = self.chi.checkChi("aolyl pz vusf ylhssf vul dhf mvy aopz av nv kvdu")
+        result = self.chi.checkChi(
+            "According to all known laws of aviation, there is no way for a bee to be able to fly. Its wings are simply too small for its fat tiny body."
+        )
+        self.assertEqual(result, True)
