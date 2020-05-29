@@ -30,7 +30,8 @@ and what's being worked on first.
 program operate in real time.
 * [Bug / Feature] Timeouts are now implemented in the hash cracking module.
 * [Bug] Flags previously required arguments when it didn't make sense to have an argument. Now some flags can be ran without arguments.
-
+* [Feature] Ciphey now takes the first non flagged argument as the text to the input.
+* [Feature] It is now possible to pipe data into ciphey like `echo 'hello' | python3 ciphey`
 ## 3.0.7
 * [Feature] Added other bases
 * [Bug] Fixed program not installing via Pip
