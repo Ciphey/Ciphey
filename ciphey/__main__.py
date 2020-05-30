@@ -7,28 +7,12 @@
 © Brandon Skerritt
 https://github.com/brandonskerritt/ciphey
 """
-# Tensorflow always spams my terminal with so many warnings of things I can't change
-# so this tells them to shut up
 import warnings
-
-warnings.filterwarnings("ignore")
-
-# Rich is replacing alive progress
 import argparse
-import collections
-
-# needed for logger.add()
-# so logger can capture exceptions
 import sys
-
 from alive_progress import alive_bar
-
-# rich is used because of progress bars + prob table
 from rich.console import Console
 from rich.table import Column, Table
-
-# Loguru is used for logging as it supprts
-# multi threading better
 from loguru import logger
 
 logger.add(
@@ -39,6 +23,7 @@ logger.add(
     diagnose=True,
     backtrace=True,
 )
+warnings.filterwarnings("ignore")
 
 # Depening on whether ciphey is called, or ciphey/__main__
 # we need different imports to deal with both cases
@@ -48,7 +33,6 @@ try:
     from Decryptor.basicEncryption.basic_parent import BasicParent
     from Decryptor.Hash.hashParent import HashParent
     from Decryptor.Encoding.encodingParent import EncodingParent
-    from Decryptor.Hash.hashParent import HashParent
 except ModuleNotFoundError:
     from ciphey.languageCheckerMod import LanguageChecker as lc
     from ciphey.neuralNetworkMod.nn import NeuralNetwork
@@ -152,6 +136,7 @@ class Ciphey:
             for i in range(0, self.level):
                 # open file and go through each text item
                 pass
+        return None
 
     def produceProbTable(self, probTable):
         """Produces the probability table using Rich's API
