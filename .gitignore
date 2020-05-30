@@ -180,6 +180,5 @@ pip-selfcheck.json
 
 .vim/coc-settings.json
 
-.idea/
-
-.vim/
+# Build directory for core
+ciphey/Decryptor/core/
