@@ -9,7 +9,10 @@ These are taken from the GitHub Issues tab.
 * Killswitch - Ciphey kills itself after X seconds. Some decryptions take forever, so if Ciphey is used as a library, waiting 30 - 60 minutes for 1 decryption module to finish sucks. Ciphey will either find the answer in X minutes or seconds, or it will return False.
 * Add screenshots to readme.md (ascii cinema)
 * Creating a Flask version so Ciphey can be implemented as an API. Useful for creating phone / web apps.
-
+* Ciphey's core (the decryption modules) are now implemented in C++
+* The code is now pep8'd
+* Move to Poetry from setuptools.py
+* Moved to Pytest from unittest
 ## 3.1
 * [Feature] Added transposition cipher support
 * [Bug / Feature] Language checker's first phase is now augmented. There was a bug where chi
