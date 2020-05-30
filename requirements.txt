@@ -1,0 +1,7 @@
+requests~=2.23.0
+loguru~=0.5.0
+rich~=1.2.3
+tensorflow~=2.2.0
+numpy~=1.18.4
+scipy~=1.4.1
+setuptools~=46.1.3
