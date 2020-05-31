@@ -87,13 +87,14 @@ class BasicParent:
         result = self.callDecrypt(self.viginere)
         if result["IsPlaintext?"]:
             return result
+        """
         return {
             "lc": self.lc,
             "IsPlaintext?": False,
             "Plaintext": None,
             "Cipher": None,
             "Extra Information": None,
-        }"""
+        }
 
     def callDecrypt(self, obj):
         # i only exist to call decrypt
