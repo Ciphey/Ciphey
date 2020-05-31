@@ -10,7 +10,6 @@ https://github.com/brandonskerritt/ciphey
 import warnings
 import argparse
 import sys
-from alive_progress import alive_bar
 from rich.console import Console
 from rich.table import Column, Table
 from loguru import logger
@@ -208,9 +207,8 @@ class Ciphey:
             logger.debug("__main__ is running as greppable")
             self.decrypt_normal()
         else:
-            with alive_bar() as bar:
-                logger.debug("__main__ is running with progress bar")
-                self.decrypt_normal(bar)
+            logger.debug("__main__ is running with progress bar")
+            self.decrypt_normal()
         return None
 
     def decrypt_normal(self, bar=None) -> None:
