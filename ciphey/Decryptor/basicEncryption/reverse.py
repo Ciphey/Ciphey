@@ -14,7 +14,7 @@ class Reverse:
 
     def decrypt(self, message):
         logger.debug("In reverse")
-        message = self.mh.stripPuncuation(message)
+        message = self.mh.strip_puncuation(message)
 
         message = message[::-1]
         result = self.lc.checkLanguage(message)

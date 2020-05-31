@@ -170,13 +170,13 @@ class Viginere:
             # freqScores is a list of tuples like:
             # [(<letter>, <Eng. Freq. match score>), ... ]
             # List is sorted by match score. Higher score means better match.
-            # See the englishFreqMatchScore() comments in freqAnalysis.py.
+            # See the english_freq_match_score() comments in freqAnalysis.py.
             freqScores = []
             for possibleKey in self.LETTERS:
                 decryptedText = self.decryptMessage(possibleKey, nthLetters)
                 keyAndFreqMatchTuple = (
                     possibleKey,
-                    Decryptor.basicEncryption.freqAnalysis.englishFreqMatchScore(
+                    Decryptor.basicEncryption.freqAnalysis.english_freq_match_score(
                         decryptedText
                     ),
                 )
