@@ -1033,7 +1033,7 @@ class dictionaryChecker:
     def cleanText(self, text):
         # makes the text unique words and readable
         text = text.lower()
-        text = self.mh.stripPuncuation(text)
+        text = self.mh.strip_puncuation(text)
         text = text.split(" ")
         text = list(set(text))
         return text
