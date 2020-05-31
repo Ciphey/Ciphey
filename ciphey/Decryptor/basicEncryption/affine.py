@@ -62,7 +62,7 @@ class Affine:
         keyA, keyB = getKeyParts(key)
         self.checkKeys(keyA, keyB, "decrypt")
         plaintext = ""
-        modInverseOfKeyA = self.mh.findModInverse(keyA, len(SYMBOLS))
+        modInverseOfKeyA = self.mh.find_mod_inverse(keyA, len(SYMBOLS))
 
         for symbol in message:
             if symbol in self.SYMBOLS:
