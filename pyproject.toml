@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ciphey"
-version = "3.2"
+version = "3.2.3"
 description = "Automated Decryption Tool"
 authors = ["Brandon <brandon@skerritt.blog>"]
 license = "MIT"
@@ -12,23 +12,20 @@ keywords = ["Ciphey"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-tensorflow = "^2.2.0"
-rich = "^1.2.3"
-alive-progress = "^1.5.1"
 loguru = "^0.5.0"
 
 [tool.poetry.dev-depKendencies]
 pytest = "*"
-flake8 = "^3.8.2"
-pylint = "^2.5.2"
+flake8 = "*"
+pylint = "*"
 black = "*"
-
-[build-system]
-requires = ["poetry>=0.12"]
-build-backend = "poetry.masonry.api"
 
 [tool.poetry.scripts]
 run = "ciphey=ciphey.__main__:main"
 
 [tool.poetry.urls]
 issues = "https://github.com/Ciphey/Ciphey/issues" 
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
+
