@@ -1,3 +1,4 @@
+ 
 import pathlib
 from setuptools import setup, find_packages
 import io
@@ -19,7 +20,7 @@ with open("requirements.txt") as f:
 # This call to setup() does all the work
 setup(
     name="Ciphey",
-    version="3.0.7",
+    version="3.5.7",
     description="Automated decryption tool using machine learning & common sense",
     long_description=README,
     long_description_content_type="text/markdown",
