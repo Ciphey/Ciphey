@@ -10,7 +10,6 @@ https://github.com/brandonskerritt/ciphey
 import warnings
 import argparse
 import sys
-from alive_progress import alive_bar
 from rich.console import Console
 from rich.table import Column, Table
 from loguru import logger
@@ -182,21 +181,28 @@ class Ciphey:
             logger.debug("__main__ is running as greppable")
             self.decryptNormal()
         else:
-            with alive_bar() as bar:
-                logger.debug("__main__ is running with progress bar")
-                self.decryptNormal(bar)
+            logger.debug("__main__ is running with progress bar")
+            self.decryptNormal()
 
     def decryptNormal(self, bar=None):
         for key, val in self.whatToChoose.items():
             # https://stackoverflow.com/questions/4843173/how-to-check-if-type-of-a-variable-is-string
             if not isinstance(key, str):
                 key.setProbTable(val)
+                logger.debug(f"Running {key}")
                 ret = key.decrypt(self.text)
-                logger.debug(f"Decrypt normal in __main__ ret is {ret}")
-                logger.debug(
-                    f"The plaintext is {ret['Plaintext']} and the extra information is {ret['Cipher']} and {ret['Extra Information']}"
-                )
-
+                try:
+                    logger.debug(f"Decrypt normal in __main__ ret is {ret}")
+                except TypeError:
+                    logger.debug(f"********************************The key is {key}")
+                    exit(1)
+                try:
+                    logger.debug(
+                        f"The plaintext is {ret['Plaintext']} and the extra information is {ret['Cipher']} and {ret['Extra Information']}"
+                    )
+                except TypeError as e:
+                    logger.debug(f"**********The key is {key}")
+                    exit(1)
                 if ret["IsPlaintext?"]:
                     print(ret["Plaintext"])
                     if self.cipher:
@@ -210,8 +216,6 @@ class Ciphey:
                             print("The cipher used is " + ret["Cipher"] + ".")
                     return ret
 
-            if not self.greppable:
-                bar()
         logger.debug("No encryption found")
         print(
             """No encryption found. Here are some tips to help crack the cipher:
@@ -287,7 +291,6 @@ def main():
         text = args["text"]
     if args["text"] == None and len(sys.argv) > 1:
         text = args["rest"][0]
-        print(f"text is {text}")
     if not sys.stdin.isatty():
         text = str(sys.stdin.read())
     if len(sys.argv) == 1 and text == None:
@@ -296,6 +299,8 @@ def main():
     if text != None:
         cipherObj = Ciphey(text, greppable, cipher, debug)
         cipherObj.decrypt()
+    else:
+        print("You did not input any text")
 
 
 if __name__ == "__main__":
