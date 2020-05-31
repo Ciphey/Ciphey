@@ -174,7 +174,7 @@ class chiSquared:
                 # it's probably a different language so add it to the dict
                 if (
                     str(letter) not in punctuation
-                    and self.mh.isAscii(letter)
+                    and self.mh.is_ascii(letter)
                     and str(letter) not in NUMBERS
                 ):
                     letterFreq[letter] = 1
@@ -187,7 +187,7 @@ class chiSquared:
         # examples of this could be "the quick brown fox jumped over the lazy dog"
 
         letterFreq = self.getLetterFreq(text)
-        self.totalEqual = self.mh.checkEqual(list(letterFreq.values()))
+        self.totalEqual = self.mh.check_equal(list(letterFreq.values()))
 
         # so we dont have to calculate len more than once
         # turns them into probabilities (frequency distribution)
