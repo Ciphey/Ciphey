@@ -339,18 +339,24 @@ def arg_parsing() -> tuple:
     return (cipher, greppable, text, debug)
 
 
-def main(greppable=False, Cipher=False, text=None, debug=False, withArgs = False) -> dict:
+def main(greppable=False, Cipher=False, text=None, debug=False, withArgs=False) -> dict:
     # testing is if we run pytest
+    result = None
     if withArgs:
         result = parse_args()
+    else:
+        result = locals()
 
     output = None
-        return output
+    return output
 
-def call_encryption(greppable = False, Cipher=False, text=None, debug=False):
+
+def call_encryption(greppable=False, Cipher=False, text=None, debug=False):
+    output = None
     if text is not None:
         cipher_obj = Ciphey(text, greppable, Cipher, debug)
         output = cipher_obj.decrypt()
+
 
 if __name__ == "__main__":
     # withArgs because this function is only called
