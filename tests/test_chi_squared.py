@@ -1,4 +1,4 @@
-from languageCheckerMod.chisquared import chiSquared
+from Ciphey.ciphey.languageCheckerMod.chisquared import chiSquared
 import unittest
 from loguru import logger
 

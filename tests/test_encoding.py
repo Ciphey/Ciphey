@@ -1,5 +1,5 @@
-from languageCheckerMod import LanguageChecker
-from Decryptor.Encoding.encodingParent import EncodingParent
+from Ciphey.ciphey.languageCheckerMod import LanguageChecker
+from Ciphey.ciphey.Decryptor.Encoding.encodingParent import EncodingParent
 import unittest
 from loguru import logger
 logger.remove()
