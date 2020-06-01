@@ -260,7 +260,14 @@ class Ciphey:
         return None
 
 
-def main(greppable=False, Cipher=False, Text=None, debug=False):
+def arg_parsing() -> tuple:
+    """This function parses arguments.
+
+        Args:
+            None
+        Returns:
+            A tuple containing the arguments, which is unpacked in main()
+    """
     parser = argparse.ArgumentParser(
         description="""Automated decryption tool. Put in the encrypted text and Ciphey will decrypt it.\n
         Examples:
@@ -311,8 +318,6 @@ def main(greppable=False, Cipher=False, Text=None, debug=False):
     else:
         debug = False
 
-    text = None
-
     # the below text does:
     # if -t is supplied, use that
     # if ciphey is called like:
@@ -320,6 +325,7 @@ def main(greppable=False, Cipher=False, Text=None, debug=False):
     # else if data is piped like:
     # echo 'hello' | ciphey use that
     # if no data is supplied, no arguments supplied.
+    text = None
     if args["text"]:
         text = args["text"]
     if args["text"] is None and len(sys.argv) > 1:
@@ -329,13 +335,24 @@ def main(greppable=False, Cipher=False, Text=None, debug=False):
         text = str(sys.stdin.read())
     if len(sys.argv) == 1 and text == None:
         print("No arguments were supplied. Look at the help menu with -h or --help")
-    
-    output = None
 
+    return (cipher, greppable, text, debug)
+
+
+def main(greppable=False, Cipher=False, text=None, debug=False, withArgs = False) -> dict:
+    # testing is if we run pytest
+    if withArgs:
+        result = parse_args()
+
+    output = None
+        return output
+
+def call_encryption(greppable = False, Cipher=False, text=None, debug=False):
     if text is not None:
-        cipher_obj = Ciphey(text, greppable, cipher, debug)
+        cipher_obj = Ciphey(text, greppable, Cipher, debug)
         output = cipher_obj.decrypt()
-    return output
 
 if __name__ == "__main__":
-    main()
+    # withArgs because this function is only called
+    # if the program is run in terminal
+    main(withArgs=True)
