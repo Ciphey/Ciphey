@@ -1,4 +1,4 @@
-from neuralNetworkMod.nn import NeuralNetwork
+from Ciphey.ciphey.neuralNetworkMod.nn import NeuralNetwork
 import numpy
 
 import unittest
