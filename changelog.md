@@ -14,6 +14,7 @@ These are taken from the GitHub Issues tab.
 * Move to Poetry from setuptools.py
 * Moved to Pytest from unittest
 * Fixing PEP8 issues
+* x
 ## 3.1
 * [Feature] Added transposition cipher support
 * [Bug / Feature] Language checker's first phase is now augmented. There was a bug where chi
