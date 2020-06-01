@@ -135,18 +135,20 @@ class Ciphey:
          #   sort that dictionary
         #sort the overall dictionary by the first value of the new dictionary
         """
+        output = None
         if self.level <= 1:
-            self.one_level_of_decryption()
+            output = self.one_level_of_decryption()
         else:
             if self.sickomode:
                 print("Sicko mode entered")
             f = open("decryptionContents.txt", "w")
-            self.one_level_of_decryption(file=f)
+            output = self.one_level_of_decryption(file=f)
 
             for i in range(0, self.level):
                 # open file and go through each text item
                 pass
-        return None
+        logger.debug(f"decrypt is outputting {output}")
+        return output
 
     def produceprobtable(self, prob_table) -> None:
         """Produces the probability table using Rich's API
@@ -203,13 +205,14 @@ class Ciphey:
         """
         # Calls one level of decryption
         # mainly used to control the progress bar
+        output = None
         if self.greppable:
             logger.debug("__main__ is running as greppable")
-            self.decrypt_normal()
+            output = self.decrypt_normal()
         else:
             logger.debug("__main__ is running with progress bar")
-            self.decrypt_normal()
-        return None
+            output = self.decrypt_normal()
+        return output
 
     def decrypt_normal(self, bar=None) -> None:
         """Called by one_level_of_decryption
@@ -246,8 +249,6 @@ class Ciphey:
                             print("The cipher used is " + ret["Cipher"] + ".")
                     return ret
 
-            if not self.greppable:
-                bar()
         logger.debug("No encryption found")
         print(
             """No encryption found. Here are some tips to help crack the cipher:
@@ -259,7 +260,7 @@ class Ciphey:
         return None
 
 
-def main():
+def main(greppable=False, Cipher=False, Text=None, debug=False):
     parser = argparse.ArgumentParser(
         description="""Automated decryption tool. Put in the encrypted text and Ciphey will decrypt it.\n
         Examples:
@@ -328,11 +329,13 @@ def main():
         text = str(sys.stdin.read())
     if len(sys.argv) == 1 and text == None:
         print("No arguments were supplied. Look at the help menu with -h or --help")
+    
+    output = None
 
     if text is not None:
         cipher_obj = Ciphey(text, greppable, cipher, debug)
-        cipher_obj.decrypt()
-
+        output = cipher_obj.decrypt()
+    return output
 
 if __name__ == "__main__":
     main()
