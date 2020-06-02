@@ -9,7 +9,7 @@ Github: brandonskerritt
 """
 from loguru import logger
 import cipheycore
-from .. import cipheydists
+import cipheydists
 
 class Caesar:
     def __init__(self, lc):
