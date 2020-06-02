@@ -86,7 +86,8 @@ class Ciphey:
         self.probability_distribution: dict = {}
         self.what_to_choose: dict = {}
 
-    def decrypt(self) -> None:
+    def decrypt(self):
+        print("The decrypt method is called")
         """Performs the decryption of text
 
         Creates the probability table, calls one_level_of_decryption
@@ -100,9 +101,12 @@ class Ciphey:
         # Read the documentation for more on this function.
         # checks to see if inputted text is plaintext
         result = self.lc.checkLanguage(self.text)
+
+        print(result)
         if result:
             print("You inputted plain text!")
-            return None
+            print(f"Returning {self.text}")
+            return self.text
         self.probability_distribution: dict = self.ai.predictnn(self.text)[0]
         self.what_to_choose: dict = {
             self.hash: {
@@ -282,7 +286,7 @@ class Ciphey:
         return None
 
 
-def arg_parsing() -> tuple:
+def arg_parsing() -> dict:
     """This function parses arguments.
 
         Args:
@@ -309,14 +313,14 @@ def arg_parsing() -> tuple:
     # parser.add_argument('-s','--sicko-mode', help='If it is encrypted Ciphey WILL find it', required=False)
     parser.add_argument(
         "-c",
-        "--printcipher",
+        "--cipher",
         help="Do you want information on the cipher used?",
         action="store_true",
         required=False,
     )
     # fake argument to stop argparser complaining about no arguments
     # allows sys.argv to be used
-    parser.add_argument("-m", action="store_false", default=True, required=False)
+    # parser.add_argument("-m", action="store_false", default=True, required=False)
 
     parser.add_argument(
         "-d",
@@ -327,18 +331,6 @@ def arg_parsing() -> tuple:
     )
     parser.add_argument("rest", nargs=argparse.REMAINDER)
     args = vars(parser.parse_args())
-    if args["printcipher"]:
-        cipher = True
-    else:
-        cipher = False
-    if args["greppable"]:
-        greppable = True
-    else:
-        greppable = False
-    if args["debug"]:
-        debug = True
-    else:
-        debug = False
 
     # the below text does:
     # if -t is supplied, use that
@@ -347,18 +339,20 @@ def arg_parsing() -> tuple:
     # else if data is piped like:
     # echo 'hello' | ciphey use that
     # if no data is supplied, no arguments supplied.
+
     text = None
     if args["text"]:
         text = args["text"]
     if args["text"] is None and len(sys.argv) > 1:
         text = args["rest"][0]
-        print(f"text is {text}")
     if not sys.stdin.isatty():
         text = str(sys.stdin.read())
     if len(sys.argv) == 1 and text == None:
         print("No arguments were supplied. Look at the help menu with -h or --help")
-
-    return (cipher, greppable, text, debug)
+    args["text"] = text
+    if not args["rest"]:
+        args.pop("rest")
+    return args
 
 
 def main(greppable=False, Cipher=False, text=None, debug=False, withArgs=False) -> dict:
@@ -373,11 +367,13 @@ def main(greppable=False, Cipher=False, text=None, debug=False, withArgs=False) 
     result.pop("withArgs")
 
     output = call_encryption(**result)
-    print(f"Main(0) returning {output}")
     return output
 
 
-def call_encryption(greppable=False, Cipher=False, text=None, debug=False):
+def call_encryption(
+    greppable=False, Cipher=False, text=None, debug=False, cipher=False
+):
+    print("calling encryption")
     """Function to call Encryption, only used because of arguments.
     Basically, this is what Main used to be before I had to deal with arg parsing
         Returns:
@@ -385,9 +381,10 @@ def call_encryption(greppable=False, Cipher=False, text=None, debug=False):
     """
     output = None
     if text is not None:
+        print("calling ciphey")
         cipher_obj = Ciphey(text, greppable, Cipher, debug)
         output = cipher_obj.decrypt()
-    print(f"call_encryption returning {output}")
+    print(f"Ciphey returns {output}")
     return output
 
 
