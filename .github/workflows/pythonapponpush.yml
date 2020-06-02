@@ -23,7 +23,7 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install python3-flake8 python3-pytest -y
+        sudo apt-get install python3-flake8 python3-pytest pytest -y
         # if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Unit Test for Python
       run: |
