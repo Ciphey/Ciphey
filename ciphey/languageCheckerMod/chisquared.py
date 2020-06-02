@@ -69,10 +69,11 @@ class chiSquared:
         # the or statement is bc if the program has just started I don't want it to ignore the
         # ones at the start
         analysis = cipheycore.analyse_string(text)
-        # If the latest chi squared is less than the standard deviation
-        # or if not many chi squares have been calculated
-        # or if every single letter in a text appears exactly once (pangram)
-        return cipheycore.chisq_test(analysis, self.language) > 0.001
+        chisq = cipheycore.chisq_test(analysis, self.language)
+        logger.debug(
+            f"Chi-squared p-value is {chisq}"
+        )
+        return chisq > self.chiSquaredSignificanceThreshold
 
     def getMostLikelyLanguage(self):
         """Returns what the most likely language is
