@@ -42,7 +42,7 @@ class dictionaryChecker:
         return text
 
     def check1000Words(self, text):
-        if text == None:
+        if text is None:
             return False
         check = dict.fromkeys(self.top1000Words)
         logger.debug(f"text before cleaning is {text}")
@@ -57,8 +57,7 @@ class dictionaryChecker:
             if word in check:
                 logger.debug(f"Check 1000 words returns True for word {word}")
                 return True
-            else:
-                return False
+        return False
 
     def checkDictionary(self, text, language):
         """Compares a word with 
