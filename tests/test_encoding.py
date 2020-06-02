@@ -2,7 +2,10 @@ from Ciphey.ciphey.languageCheckerMod import LanguageChecker
 from Ciphey.ciphey.Decryptor.Encoding.encodingParent import EncodingParent
 import unittest
 from loguru import logger
+
 logger.remove()
+
+
 class TestEncoding(unittest.TestCase):
     def test_english_yes(self):
         lc = LanguageChecker.LanguageChecker()
@@ -58,12 +61,5 @@ class TestEncoding(unittest.TestCase):
         lc = LanguageChecker.LanguageChecker()
         ep = EncodingParent(lc)
         a = "NBSWY3DPEBWXSIDOMFWWKIDJOMQGEZLF"
-        result = ep.decrypt(a)
-        self.assertEqual(result["IsPlaintext?"], True)
-
-    def test_base85(self):
-        lc = LanguageChecker.LanguageChecker()
-        ep = EncodingParent(lc)
-        a = """BOu!rD]inB+DtV)AKY].+C\\nn"""
         result = ep.decrypt(a)
         self.assertEqual(result["IsPlaintext?"], True)
