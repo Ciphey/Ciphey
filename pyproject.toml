@@ -7,12 +7,13 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-tensorflow = "^2.2.0"
+tensorflow = "^2.1.0"
 rich = "^1.2.3"
 alive-progress = "^1.5.1"
 loguru = "^0.5.0"
 pylint = "^2.5.2"
 flake8 = "^3.8.2"
+cipheycore = "==0.1.1"
 
 [tool.poetry.dev-dependencies]
 
