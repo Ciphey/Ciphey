@@ -43,7 +43,7 @@ class TestBasicParent(unittest.TestCase):
     #     result = bp.decrypt("EONETEOHLYMSLHELMAIEPN")
     #     self.assertEqual(result["isplaintext?"], True)
 
-    def test_viginere_yes(self):
+    def test_vigenere_yes(self):
         self.assertEqual(True, True)
         # lc = lcm.LanguageChecker()
         # bp = BasicParent(lc)
