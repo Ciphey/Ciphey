@@ -1,6 +1,3 @@
-[submodule "ciphey/CipheyCore"]
-	path = ciphey/Decryptor/CipheyCore
-	url = https://github.com/Ciphey/CipheyCore
-[submodule "ciphey/Decryptor/CipheyDists"]
-	path = ciphey/Decryptor/CipheyDists
-	url = https://github.com/Ciphey/CipheyDists
+[submodule "ciphey/Decryptor/cipheydists"]
+	path = ciphey/Decryptor/cipheydists
+	url = https://github.com/Ciphey/cipheydists
