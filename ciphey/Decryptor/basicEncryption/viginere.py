@@ -1,6 +1,6 @@
 import itertools, re
 import cipheycore
-from .. import cipheydists
+import cipheydists
 
 try:
     import Decryptor.basicEncryption.freqAnalysis
