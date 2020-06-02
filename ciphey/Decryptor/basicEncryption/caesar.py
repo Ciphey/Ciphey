@@ -8,6 +8,8 @@
 Github: brandonskerritt
 """
 from loguru import logger
+import cipheycore
+from .. import cipheydists
 
 class Caesar:
     def __init__(self, lc):
@@ -18,33 +20,21 @@ class Caesar:
 
     def decrypt(self, message):
         logger.debug("Trying caesar Cipher")
-        """ Simple python program to bruteforce a caesar cipher"""
-
-        # Example string
+        # Convert it to lower case
+        #
+        # TODO: handle different alphabets
         message = message.lower()
-        # Everything we can encrypt
-        SYMBOLS = "abcdefghijklmnopqrstuvwxyz"
 
-        for counter, key in enumerate(range(len(SYMBOLS))):
-            # try again with each key attempt
-            translated = ""
+        # Hand it off to the core
+        group = cipheydists.get_charset("english")["lcase"]
+        expected = cipheydists.get_dist("lcase")
+        analysis = cipheycore.analyse_string(message)
+        possible_keys = cipheycore.caesar_crack(analysis, expected, group)
+        n_candidates = len(possible_keys)
+        logger.debug(f"Caesar cipher core heuristic returned {n_candidates} candidates")
 
-            for character in message:
-                if character in SYMBOLS:
-                    symbolIndex = SYMBOLS.find(character)
-                    translatedIndex = symbolIndex - key
-
-                    # In the event of wraparound
-                    if translatedIndex < 0:
-                        translatedIndex += len(SYMBOLS)
-
-                    translated += SYMBOLS[translatedIndex]
-
-                else:
-                    # Append the symbol without encrypting or decrypting
-                    translated += character
-
-            # Output each attempt
+        for candidate in possible_keys:
+            translated = cipheycore.caesar_decrypt(message, candidate.key, group)
             result = self.lc.checkLanguage(translated)
             if result:
                 logger.debug(f"Caesar cipher returns true {result}")
@@ -53,8 +43,9 @@ class Caesar:
                     "IsPlaintext?": True,
                     "Plaintext": translated,
                     "Cipher": "Caesar",
-                    "Extra Information": f"The rotation used is {counter}",
+                    "Extra Information": f"The rotation used is {candidate.key}",
                 }
+
         # if none of them match English, return false!
         logger.debug(f"Caesar cipher returns false")
         return {
