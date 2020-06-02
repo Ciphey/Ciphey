@@ -61,9 +61,3 @@ class TestEncoding(unittest.TestCase):
         result = ep.decrypt(a)
         self.assertEqual(result["IsPlaintext?"], True)
 
-    def test_base85(self):
-        lc = LanguageChecker.LanguageChecker()
-        ep = EncodingParent(lc)
-        a = """BOu!rD]inB+DtV)AKY].+C\\nn"""
-        result = ep.decrypt(a)
-        self.assertEqual(result["IsPlaintext?"], True)
