@@ -180,5 +180,6 @@ pip-selfcheck.json
 
 .vim/coc-settings.json
 
-# Build directory for core
-ciphey/Decryptor/core/
+# Poetry stuff
+dist/
+poetry.lock
