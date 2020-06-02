@@ -107,7 +107,7 @@ class NeuralNetwork:
             else:
                 # if letter is not puncuation, but it is still ascii
                 # it's probably a different language so add it to the dict
-                if letter not in punctuation and self.mh.isAscii(letter):
+                if letter not in punctuation and self.mh.is_ascii(letter):
                     letterFreq[letter] = 1
         return list(letterFreq.values())
 
