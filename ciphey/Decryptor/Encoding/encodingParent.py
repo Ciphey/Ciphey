@@ -37,7 +37,7 @@ class EncodingParent:
         for answer in answers:
             logger.debug(f"All answers are {answers}")
             # adds the LC objects together
-            self.lc = self.lc + answer["lc"]
+            # self.lc = self.lc + answer["lc"]
             if answer["IsPlaintext?"]:
                 logger.debug(f"Plaintext found {answer}")
                 return answer
