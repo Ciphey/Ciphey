@@ -344,11 +344,9 @@ def main(greppable=False, Cipher=False, text=None, debug=False, withArgs=False) 
     results = locals()
     result = None
     if withArgs:
-        result = parse_args()
-    else:
-        result = locals()
+        result.update(arg_parsing())
 
-    output = None
+    output = call_encryption(**result)
     return output
 
 
@@ -357,6 +355,7 @@ def call_encryption(greppable=False, Cipher=False, text=None, debug=False):
     if text is not None:
         cipher_obj = Ciphey(text, greppable, Cipher, debug)
         output = cipher_obj.decrypt()
+    return output
 
 
 if __name__ == "__main__":
