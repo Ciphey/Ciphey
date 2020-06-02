@@ -186,3 +186,6 @@ poetry.lock
 
 # Nano
 *.swp
+
+# PyCharm
+.idea/
