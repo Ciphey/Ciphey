@@ -68,7 +68,7 @@ class BasicParent:
         self.text = text
         from multiprocessing.dummy import Pool as ThreadPool
 
-        pool = ThreadPool(4)
+        pool = ThreadPool(16)
         answers = pool.map(self.callDecrypt, self.list_of_objects)
 
         """for item in self.list_of_objects:
@@ -76,7 +76,7 @@ class BasicParent:
             answers.append(result)"""
         for answer in answers:
             # adds the LC objects together
-            self.lc = self.lc + answer["lc"]
+            # self.lc = self.lc + answer["lc"]
             if answer["IsPlaintext?"]:
                 return answer
 
