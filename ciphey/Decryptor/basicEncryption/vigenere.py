@@ -1,4 +1,6 @@
 import itertools, re
+import cipheycore
+import cipheydists
 
 try:
     import Decryptor.basicEncryption.freqAnalysis
@@ -6,9 +8,9 @@ except ModuleNotFoundError:
     import ciphey.Decryptor.basicEncryption.freqAnalysis
 
 
-class Viginere:
+class Vigenere:
     def __init__(self, lc):
-        self.LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        self.LETTERS = "abcdefghijklmnopqrstuvwxyz"
         self.SILENT_MODE = True  # If set to True, program doesn't print anything.
         self.NUM_MOST_FREQ_LETTERS = 4  # Attempt this many letters per subkey.
         self.MAX_KEY_LENGTH = 16  # Will not attempt keys longer than this.
@@ -30,10 +32,16 @@ class Viginere:
 
     def decrypt(self, text):
         result = self.hackVigenere(text)
-        if result["IsPlaintext?"]:
-            return result
-        else:
-            return result
+        if result is None:
+            return {
+                "lc": self.lc,
+                "IsPlaintext?": False,
+                "Plaintext": None,
+                "Cipher": "Viginere",
+                "Extra Information": None,
+            }
+
+        return result
 
     def findRepeatSequencesSpacings(self, message):
         # Goes through the message and finds any 3 to 5 letter sequences
@@ -158,58 +166,25 @@ class Viginere:
 
     def attemptHackWithKeyLength(self, ciphertext, mostLikelyKeyLength):
         # Determine the most likely letters for each letter in the key:
-        ciphertextUp = ciphertext.upper()
-        # allFreqScores is a list of mostLikelyKeyLength number of lists.
-        # These inner lists are the freqScores lists.
-        allFreqScores = []
-        for nth in range(1, mostLikelyKeyLength + 1):
-            nthLetters = self.getNthSubkeysLetters(
-                nth, mostLikelyKeyLength, ciphertextUp
-            )
+        ciphertext = ciphertext.lower()
 
-            # freqScores is a list of tuples like:
-            # [(<letter>, <Eng. Freq. match score>), ... ]
-            # List is sorted by match score. Higher score means better match.
-            # See the english_freq_match_score() comments in freqAnalysis.py.
-            freqScores = []
-            for possibleKey in self.LETTERS:
-                decryptedText = self.decryptMessage(possibleKey, nthLetters)
-                keyAndFreqMatchTuple = (
-                    possibleKey,
-                    Decryptor.basicEncryption.freqAnalysis.english_freq_match_score(
-                        decryptedText
-                    ),
-                )
-                freqScores.append(keyAndFreqMatchTuple)
-            # Sort by match score:
-            freqScores.sort(key=self.getItemAtIndexOne, reverse=True)
+        # Do core work
+        group = cipheydists.get_charset("english")["lcase"]
+        expected = cipheydists.get_dist("lcase")
+        possible_keys = cipheycore.vigenere_crack(ciphertext, expected, group, mostLikelyKeyLength)
+        n_keys = len(possible_keys)
 
-            allFreqScores.append(freqScores[: self.NUM_MOST_FREQ_LETTERS])
-
-        if not self.SILENT_MODE:
-            for i in range(len(allFreqScores)):
-                # Use i + 1 so the first letter is not called the "0th" letter:
-                print("Possible letters for letter %s of the key: " % (i + 1), end="")
-                for freqScore in allFreqScores[i]:
-                    print("%s " % freqScore[0], end="")
-                print()  # Print a newline.
-
-        # Try every combination of the most likely letters for each position
-        # in the key:
-        for indexes in itertools.product(
-            range(self.NUM_MOST_FREQ_LETTERS), repeat=mostLikelyKeyLength
-        ):
+        # Try all the feasible keys
+        for candidate in possible_keys:
+            nice_key = list(candidate.key)
             # Create a possible key from the letters in allFreqScores:
-            possibleKey = ""
-            for i in range(mostLikelyKeyLength):
-                possibleKey += allFreqScores[i][indexes[i]][0]
-
             if not self.SILENT_MODE:
-                print("Attempting with key: %s" % (possibleKey))
+                print("Attempting with key: %s" % nice_key)
 
-            decryptedText = self.decryptMessage(possibleKey, ciphertextUp)
+            decryptedText = cipheycore.vigenere_decrypt(ciphertext, candidate.key, group)
 
             if self.lc.checkLanguage(decryptedText):
+                print(f"AAAAAAAAAAAA {decryptedText}")
                 # Set the hacked ciphertext to the original casing:
                 origCase = []
                 for i in range(len(ciphertext)):
@@ -225,7 +200,7 @@ class Viginere:
                     "IsPlaintext?": True,
                     "Plaintext": decryptedText,
                     "Cipher": "Viginere",
-                    "Extra Information": f"The key used is {possibleKey}",
+                    "Extra Information": f"The key used is {nice_key}",
                 }
 
         # No English-looking decryption found, so return None:
