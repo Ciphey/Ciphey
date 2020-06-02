@@ -8,8 +8,8 @@
 Github: brandonskerritt
 """
 from loguru import logger
-from .. import core
-from .. import CipheyDists
+import cipheycore
+from .. import cipheydists
 
 class Caesar:
     def __init__(self, lc):
@@ -26,13 +26,15 @@ class Caesar:
         message = message.lower()
 
         # Hand it off to the core
-        group = CipheyDists.get_charset("english")["lcase"]
-        expected = CipheyDists.get_dist("lcase")
-        analysis = core.analyse_string(message)
-        possible_keys = core.caesar_crack(analysis, expected, group, True)
+        group = cipheydists.get_charset("english")["lcase"]
+        expected = cipheydists.get_dist("lcase")
+        analysis = cipheycore.analyse_string(message)
+        possible_keys = cipheycore.caesar_crack(analysis, expected, group)
+        n_candidates = len(possible_keys)
+        logger.debug(f"Caesar cipher core heuristic returned {n_candidates} candidates")
 
         for candidate in possible_keys:
-            translated = core.caesar_decrypt(message, candidate.key, group)
+            translated = cipheycore.caesar_decrypt(message, candidate.key, group)
             result = self.lc.checkLanguage(translated)
             if result:
                 logger.debug(f"Caesar cipher returns true {result}")
