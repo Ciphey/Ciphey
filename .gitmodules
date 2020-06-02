@@ -1,0 +1,3 @@
+[submodule "ciphey/Decryptor/cipheydists"]
+	path = ciphey/Decryptor/cipheydists
+	url = https://github.com/Ciphey/cipheydists
