@@ -10,13 +10,13 @@ https://github.com/brandonskerritt/ciphey
 try:
     import Decryptor.basicEncryption.caesar as ca
     import Decryptor.basicEncryption.reverse as re
-    import Decryptor.basicEncryption.viginere as vi
+    import Decryptor.basicEncryption.vigenere as vi
     import Decryptor.basicEncryption.pigLatin as pi
     import Decryptor.basicEncryption.transposition as tr
 except ModuleNotFoundError:
     import ciphey.Decryptor.basicEncryption.caesar as ca
     import ciphey.Decryptor.basicEncryption.reverse as re
-    import ciphey.Decryptor.basicEncryption.viginere as vi
+    import ciphey.Decryptor.basicEncryption.vigenere as vi
     import ciphey.Decryptor.basicEncryption.pigLatin as pi
     import ciphey.Decryptor.basicEncryption.transposition as tr
 
@@ -58,7 +58,7 @@ class BasicParent:
         self.lc = lc
         self.caesar = ca.Caesar(self.lc)
         self.reverse = re.Reverse(self.lc)
-        self.viginere = vi.Viginere(self.lc)
+        self.vigenere = vi.Vigenere(self.lc)
         self.pig = pi.PigLatin(self.lc)
         self.trans = tr.Transposition(self.lc)
 
@@ -80,14 +80,16 @@ class BasicParent:
             if answer["IsPlaintext?"]:
                 return answer
 
-        # so viginere runs ages
+        # so vigenere runs ages
         # and you cant kill threads in a pool
         # so i just run it last lol]
-        """
-        result = self.callDecrypt(self.viginere)
+        #
+        # Not anymore! #basedcore
+
+        result = self.callDecrypt(self.vigenere)
         if result["IsPlaintext?"]:
             return result
-        """
+        
         return {
             "lc": self.lc,
             "IsPlaintext?": False,
