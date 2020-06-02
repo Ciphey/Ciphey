@@ -6,6 +6,24 @@
 ╚██████╗██║██║     ██║  ██║███████╗   ██║ 
 © Brandon Skerritt
 https://github.com/brandonskerritt/ciphey
+
+The cycle goes:
+main -> argparsing (if needed) -> call_encryption -> new Ciphey object -> decrypt() -> produceProbTable -> one_level_of_decryption -> decrypt_normal
+
+Ciphey can be called 3 ways:
+echo 'text' | ciphey
+ciphey 'text'
+ciphey -t 'text'
+main captures the first 2
+argparsing captures the last one (-t)
+it sends this to call_encryption, which can handle all 3 arguments using dict unpacking
+
+decrypt() creates the prob table and prints it.
+
+one_level_of_decryption() allows us to repeatedly call one_level_of_decryption on the inputs
+so if something is doubly encrypted, we can use this to find it.
+
+Decrypt_normal is one round of decryption. We need one_level_of_decryption to call it, as one_level_of_decryption handles progress bars and stuff. 
 """
 import warnings
 import argparse
@@ -175,9 +193,11 @@ class Ciphey:
                 # Prevents the table from showing pointless 0.01 probs as they're faked
                 if value == 0.01:
                     continue
+                # gets the string ready to print
                 logger.debug(f"Key is {str(key)} and value is {str(value)}")
                 val: int = round(self.mh.percentage(value, 1), 2)
                 key_str: str = str(key).capitalize()
+                # converts "Base64" to "Base"
                 if "Base" in key_str:
                     key_str = key_str[0:-2]
                 sorted_dic[key_str] = val
@@ -212,6 +232,7 @@ class Ciphey:
         else:
             logger.debug("__main__ is running with progress bar")
             output = self.decrypt_normal()
+        print(f"One level returning {output}")
         return output
 
     def decrypt_normal(self, bar=None) -> None:
@@ -247,6 +268,7 @@ class Ciphey:
                             )
                         else:
                             print("The cipher used is " + ret["Cipher"] + ".")
+                    print(f"Decryption returning {ret}")
                     return ret
 
         logger.debug("No encryption found")
@@ -340,20 +362,32 @@ def arg_parsing() -> tuple:
 
 
 def main(greppable=False, Cipher=False, text=None, debug=False, withArgs=False) -> dict:
+    """Function to deal with arguments. Either calls with args or not. Makes Pytest work.
+        Returns:
+            The output of the decryption.
+    """
     # testing is if we run pytest
     result = locals()
     if withArgs:
         result.update(arg_parsing())
+    result.pop("withArgs")
 
     output = call_encryption(**result)
+    print(f"Main(0) returning {output}")
     return output
 
 
 def call_encryption(greppable=False, Cipher=False, text=None, debug=False):
+    """Function to call Encryption, only used because of arguments.
+    Basically, this is what Main used to be before I had to deal with arg parsing
+        Returns:
+                The output of the decryption.
+    """
     output = None
     if text is not None:
         cipher_obj = Ciphey(text, greppable, Cipher, debug)
         output = cipher_obj.decrypt()
+    print(f"call_encryption returning {output}")
     return output
 
 
