@@ -22,8 +22,8 @@ jobs:
         python-version: 3.8
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install flake8 pytest
+        sudo apt-get update
+        sudo apt-get install python3-flake8 python3-pytest -y
         # if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Unit Test for Python
       run: |
