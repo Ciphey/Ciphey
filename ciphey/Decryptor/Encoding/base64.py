@@ -28,7 +28,7 @@ class Base64:
         except ValueError:
             None
         
-        if self.lc.checkLanguage(result):
+        if self.lc.checkLanguage(result) and result != "None":
             logger.debug(f"Base64 successful, returning {result}")
             return self.goodRet(result, cipher="Base64")
 
@@ -45,7 +45,7 @@ class Base64:
         except ValueError:
             None
 
-        if self.lc.checkLanguage(result):
+        if self.lc.checkLanguage(result) and result != "None":
             logger.debug(f"base32 successful, {result}")      
             return self.goodRet(result, cipher="Base32")
 
@@ -62,7 +62,7 @@ class Base64:
         except ValueError:
             None
 
-        if self.lc.checkLanguage(result):
+        if self.lc.checkLanguage(result) and result != "None":
             logger.debug(f"Base16 successful, {result}")
             return self.goodRet(result, cipher="Base16")
 
@@ -79,7 +79,7 @@ class Base64:
         except ValueError:
             None
 
-        if self.lc.checkLanguage(result):
+        if self.lc.checkLanguage(result) and result != "None":
             logger.debug(f"Base85 successful, {result}")
             return self.goodRet(result, cipher="Base85")
 
