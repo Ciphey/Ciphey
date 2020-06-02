@@ -180,6 +180,12 @@ pip-selfcheck.json
 
 .vim/coc-settings.json
 
-.idea/
+# Poetry stuff
+dist/
+poetry.lock
 
-.vim/
+# Nano
+*.swp
+
+# PyCharm
+.idea/
