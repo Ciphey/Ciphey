@@ -1,4 +1,6 @@
 import itertools, re
+import cipheycore
+from .. import cipheydists
 
 try:
     import Decryptor.basicEncryption.freqAnalysis
@@ -163,7 +165,7 @@ class Viginere:
         # Do core work
         group = CipheyDists.get_charset("english")["lcase"]
         expected = CipheyDists.get_dist("lcase")
-        possible_keys = core.vigerene_crack(ciphertext, expected, group, mostLikelyKeyLength)
+        possible_keys = cipheycore.vigerene_crack(ciphertext, expected, group, mostLikelyKeyLength)
 
         # Try all the feasible keys
         for candidate in possible_keys:
@@ -172,7 +174,7 @@ class Viginere:
             if not self.SILENT_MODE:
                 print("Attempting with key: %s" % nice_key)
 
-            decryptedText = core.vigerene_decrypt(ciphertext, candidate.key, group)
+            decryptedText = cipheycore.vigerene_decrypt(ciphertext, candidate.key, group)
 
             if self.lc.checkLanguage(decryptedText):
                 # Set the hacked ciphertext to the original casing:
