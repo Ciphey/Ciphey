@@ -341,8 +341,7 @@ def arg_parsing() -> tuple:
 
 def main(greppable=False, Cipher=False, text=None, debug=False, withArgs=False) -> dict:
     # testing is if we run pytest
-    results = locals()
-    result = None
+    result = locals()
     if withArgs:
         result.update(arg_parsing())
 
