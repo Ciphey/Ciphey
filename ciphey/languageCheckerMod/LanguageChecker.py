@@ -80,7 +80,7 @@ class LanguageChecker:
             logger.debug(
                 f"Phase 1 complete. Result is {result} and 1000 words is {wordsCheck}"
             )
-            result2 = self.dictionary.confirmlanguage(text, "English")
+            result2 = self.dictionary.confirmlanguage(text, "english")
             logger.debug(f"Result is, dictionary checker, is {result2}")
             if result2:
                 return True
