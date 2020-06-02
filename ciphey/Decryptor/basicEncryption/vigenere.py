@@ -8,7 +8,7 @@ except ModuleNotFoundError:
     import ciphey.Decryptor.basicEncryption.freqAnalysis
 
 
-class Viginere:
+class Vigenere:
     def __init__(self, lc):
         self.LETTERS = "abcdefghijklmnopqrstuvwxyz"
         self.SILENT_MODE = True  # If set to True, program doesn't print anything.
@@ -32,10 +32,16 @@ class Viginere:
 
     def decrypt(self, text):
         result = self.hackVigenere(text)
-        if result["IsPlaintext?"]:
-            return result
-        else:
-            return result
+        if result is None:
+            return {
+                "lc": self.lc,
+                "IsPlaintext?": False,
+                "Plaintext": None,
+                "Cipher": "Viginere",
+                "Extra Information": None,
+            }
+
+        return result
 
     def findRepeatSequencesSpacings(self, message):
         # Goes through the message and finds any 3 to 5 letter sequences
@@ -163,9 +169,10 @@ class Viginere:
         ciphertext = ciphertext.lower()
 
         # Do core work
-        group = CipheyDists.get_charset("english")["lcase"]
-        expected = CipheyDists.get_dist("lcase")
-        possible_keys = cipheycore.vigerene_crack(ciphertext, expected, group, mostLikelyKeyLength)
+        group = cipheydists.get_charset("english")["lcase"]
+        expected = cipheydists.get_dist("lcase")
+        possible_keys = cipheycore.vigenere_crack(ciphertext, expected, group, mostLikelyKeyLength)
+        n_keys = len(possible_keys)
 
         # Try all the feasible keys
         for candidate in possible_keys:
@@ -174,9 +181,10 @@ class Viginere:
             if not self.SILENT_MODE:
                 print("Attempting with key: %s" % nice_key)
 
-            decryptedText = cipheycore.vigerene_decrypt(ciphertext, candidate.key, group)
+            decryptedText = cipheycore.vigenere_decrypt(ciphertext, candidate.key, group)
 
             if self.lc.checkLanguage(decryptedText):
+                print(f"AAAAAAAAAAAA {decryptedText}")
                 # Set the hacked ciphertext to the original casing:
                 origCase = []
                 for i in range(len(ciphertext)):
