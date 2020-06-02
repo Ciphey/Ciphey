@@ -10,13 +10,13 @@ https://github.com/brandonskerritt/ciphey
 try:
     import Decryptor.basicEncryption.caesar as ca
     import Decryptor.basicEncryption.reverse as re
-    import Decryptor.basicEncryption.viginere as vi
+    import Decryptor.basicEncryption.vigenere as vi
     import Decryptor.basicEncryption.pigLatin as pi
     import Decryptor.basicEncryption.transposition as tr
 except ModuleNotFoundError:
     import ciphey.Decryptor.basicEncryption.caesar as ca
     import ciphey.Decryptor.basicEncryption.reverse as re
-    import ciphey.Decryptor.basicEncryption.viginere as vi
+    import ciphey.Decryptor.basicEncryption.vigenere as vi
     import ciphey.Decryptor.basicEncryption.pigLatin as pi
     import ciphey.Decryptor.basicEncryption.transposition as tr
 
@@ -58,7 +58,7 @@ class BasicParent:
         self.lc = lc
         self.caesar = ca.Caesar(self.lc)
         self.reverse = re.Reverse(self.lc)
-        self.viginere = vi.Viginere(self.lc)
+        self.vigenere = vi.Vigenere(self.lc)
         self.pig = pi.PigLatin(self.lc)
         self.trans = tr.Transposition(self.lc)
 
@@ -68,7 +68,7 @@ class BasicParent:
         self.text = text
         from multiprocessing.dummy import Pool as ThreadPool
 
-        pool = ThreadPool(4)
+        pool = ThreadPool(16)
         answers = pool.map(self.callDecrypt, self.list_of_objects)
 
         """for item in self.list_of_objects:
@@ -76,24 +76,27 @@ class BasicParent:
             answers.append(result)"""
         for answer in answers:
             # adds the LC objects together
-            self.lc = self.lc + answer["lc"]
+            # self.lc = self.lc + answer["lc"]
             if answer["IsPlaintext?"]:
                 return answer
 
-        # so viginere runs ages
+        # so vigenere runs ages
         # and you cant kill threads in a pool
         # so i just run it last lol]
-        """
-        result = self.callDecrypt(self.viginere)
+        #
+        # Not anymore! #basedcore
+
+        result = self.callDecrypt(self.vigenere)
         if result["IsPlaintext?"]:
             return result
+        
         return {
             "lc": self.lc,
             "IsPlaintext?": False,
             "Plaintext": None,
             "Cipher": None,
             "Extra Information": None,
-        }"""
+        }
 
     def callDecrypt(self, obj):
         # i only exist to call decrypt
