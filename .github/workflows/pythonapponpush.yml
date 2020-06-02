@@ -22,7 +22,8 @@ jobs:
         python-version: 3.8
     - name: Install dependencies
       run: |
-        sudo apt install libboost-math-dev cmake g++ python3-flake8 python3-pytest -y
+        sudo apt-get update
+        sudo apt-get install python3-flake8 python3-pytest -y
         # if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Unit Test for Python
       run: |
