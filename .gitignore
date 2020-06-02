@@ -183,3 +183,6 @@ pip-selfcheck.json
 # Poetry stuff
 dist/
 poetry.lock
+
+# Nano
+*.swp
