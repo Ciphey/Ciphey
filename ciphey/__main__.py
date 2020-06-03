@@ -364,7 +364,7 @@ def arg_parsing() -> dict:
     args["text"] = text
     if not args["rest"]:
         args.pop("rest")
-    if args["text"] < 3:
+    if len(args["text"]) < 3:
         print("Your inputted string is less than 3 chars, Ciphey cannot crack it.")
         return None
     return args
