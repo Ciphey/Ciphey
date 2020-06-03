@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ciphey"
-version = "4.1.0"
+version = "3.5.9"
 description = "Automated Decryption Tool"
 authors = ["Brandon <brandon@skerritt.blog>"]
 license = "MIT"
@@ -9,15 +9,17 @@ license = "MIT"
 python = "^3.8"
 tensorflow = "^2.1.0"
 rich = "^1.2.3"
-alive-progress = "^1.5.1"
 loguru = "^0.5.0"
 pylint = "^2.5.2"
 flake8 = "^3.8.2"
-cipheycore = "^0.1.4"
 cipheydists = "^0.1.2"
+cipheycore = {version = "^0.1.4", allow-prereleases = true}
 
 [tool.poetry.dev-dependencies]
 pytest-cov = "^2.9.0"
+pytest = "^5.4.3"
+black = "^19.10b0"
+neovim = "^0.3.1"
 
 [tool.poetry.scripts]
 ciphey = 'ciphey.__main__:main'

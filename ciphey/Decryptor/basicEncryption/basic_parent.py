@@ -63,7 +63,7 @@ class BasicParent:
         self.trans = tr.Transposition(self.lc)
 
         self.list_of_objects = [self.caesar, self.reverse, self.pig, self.trans]
-        
+
     def decrypt(self, text):
         self.text = text
         from multiprocessing.dummy import Pool as ThreadPool
@@ -89,7 +89,7 @@ class BasicParent:
         result = self.callDecrypt(self.vigenere)
         if result["IsPlaintext?"]:
             return result
-        
+
         return {
             "lc": self.lc,
             "IsPlaintext?": False,
