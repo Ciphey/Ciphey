@@ -39,7 +39,6 @@ class testIntegration(unittest.TestCase):
         result = lc.checkLanguage("The quick brown fox jumped over the lazy dog")
         self.assertEqual(result, True)
 
-
     def test_chi_maxima_true(self):
         """
         This returns false because s.d is not over 1 as all inputs are English
@@ -97,11 +96,6 @@ class testIntegration(unittest.TestCase):
     def test_integration_unusual_five(self):
         lc = LanguageChecker.LanguageChecker()
         result = lc.checkLanguage("#")
-        self.assertEqual(result, False)
-
-    def test_integration_unusual_6(self):
-        lc = LanguageChecker.LanguageChecker()
-        result = lc.checkLanguage('"')
         self.assertEqual(result, False)
 
     def test_integration_unusual_7(self):
