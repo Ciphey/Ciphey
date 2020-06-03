@@ -1,10 +1,11 @@
 absl-py==0.9.0
 astunparse==1.6.3
 attrs==19.3.0
+cachetools==4.1.0
 certifi==2020.4.5.1
 chardet==3.0.4
-cipheycore==0.1.1
-cipheydists==0.0.2
+cipheycore==0.1.4
+cipheydists==0.1.2
 colorama==0.4.3
 commonmark==0.9.1
 coverage==5.1
