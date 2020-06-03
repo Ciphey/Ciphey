@@ -14,9 +14,10 @@ loguru = "^0.5.0"
 pylint = "^2.5.2"
 flake8 = "^3.8.2"
 cipheydists = "^0.1.2"
-cipheycore = "^0.1.4"
+cipheycore = {version = "^0.1.4", allow-prereleases = true}
 [tool.poetry.dev-dependencies]
 pytest-cov = "^2.9.0"
+pytest = "^5.4.3"
 
 [tool.poetry.scripts]
 ciphey = 'ciphey.__main__:main'
