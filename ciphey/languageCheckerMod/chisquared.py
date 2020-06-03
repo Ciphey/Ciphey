@@ -46,14 +46,16 @@ class chiSquared:
         self.chisAsaList = []
 
         # these are settings that may impact how the program works overall
-        self.chiSquaredSignificanceThreshold = 0.001 # The p value that we reject below
+        self.chiSquaredSignificanceThreshold = 0.001  # The p value that we reject below
 
     def checkChi(self, text):
         if text is None:
             return False
         if type(text) is bytes:
-            try: text = text.decode()
-            except: return None
+            try:
+                text = text.decode()
+            except:
+                return None
         """Checks to see if the Chi score is good
         if it is, it returns True
         Call this when you want to determine whether something is likely to be Chi or not
@@ -70,9 +72,7 @@ class chiSquared:
         # ones at the start
         analysis = cipheycore.analyse_string(text)
         chisq = cipheycore.chisq_test(analysis, self.language)
-        logger.debug(
-            f"Chi-squared p-value is {chisq}"
-        )
+        logger.debug(f"Chi-squared p-value is {chisq}")
         return chisq > self.chiSquaredSignificanceThreshold
 
     def getMostLikelyLanguage(self):
