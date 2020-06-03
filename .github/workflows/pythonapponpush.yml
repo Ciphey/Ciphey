@@ -13,20 +13,24 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.6','3.7', '3.8']
+    name: Python ${{ matrix.python-version }}
 
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.8
       uses: actions/setup-python@v1
       with:
-        python-version: 3.8
+        python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
         python3 -m pip install --upgrade pip
-        pip3 install flake8 pytest
+        pip3 install flake8 pytest nox poetry
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Unit Test for Python
       run: |
+        nox
         # stop the build if there are Python syntax errors or undefined names
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        python3 -m pytest
