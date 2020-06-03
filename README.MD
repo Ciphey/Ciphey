@@ -16,8 +16,8 @@ That's the point. You don't know, you just know it's possibly encrypted. Ciphey 
 
 Ciphey uses a deep neural network to guess what something is encrypted with, and then a custom built natural language processing module to determine the output.
 
-Ciphey can solve most things in under 3 seconds.
-[![asciicast](https://asciinema.org/a/FBBM0tgBW86svZmjJzct73oln.svg)](https://asciinema.org/a/FBBM0tgBW86svZmjJzct73oln)
+Ciphey can solve most things in about 2 seconds.
+[![asciicast](https://asciinema.org/a/336257.svg)](https://asciinema.org/a/336257)
 
 # Features
 
