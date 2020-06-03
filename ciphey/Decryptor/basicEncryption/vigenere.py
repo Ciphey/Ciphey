@@ -171,7 +171,9 @@ class Vigenere:
         # Do core work
         group = cipheydists.get_charset("english")["lcase"]
         expected = cipheydists.get_dist("lcase")
-        possible_keys = cipheycore.vigenere_crack(ciphertext, expected, group, mostLikelyKeyLength)
+        possible_keys = cipheycore.vigenere_crack(
+            ciphertext, expected, group, mostLikelyKeyLength
+        )
         n_keys = len(possible_keys)
 
         # Try all the feasible keys
@@ -181,7 +183,9 @@ class Vigenere:
             if not self.SILENT_MODE:
                 print("Attempting with key: %s" % nice_key)
 
-            decryptedText = cipheycore.vigenere_decrypt(ciphertext, candidate.key, group)
+            decryptedText = cipheycore.vigenere_decrypt(
+                ciphertext, candidate.key, group
+            )
 
             if self.lc.checkLanguage(decryptedText):
                 print(f"AAAAAAAAAAAA {decryptedText}")

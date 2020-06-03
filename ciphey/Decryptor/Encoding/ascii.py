@@ -1,4 +1,6 @@
 from loguru import logger
+
+
 class Ascii:
     """
     turns ASCII numbers into strings
