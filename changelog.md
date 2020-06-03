@@ -16,11 +16,20 @@ These are taken from the GitHub Issues tab.
 ## 4.1
 #### Features
 * Vigenere is now enabled, due to massive performance gains from the C++ core
+* Pytest can now be run over the entire program, from main to the output. This means we can crate tests that test the whole of Ciphey, not just small unit tests.
+* Better input handling. Ciphey now supports pipes `echo 'hello' | ciphey` and text with no arguments `ciphey 'hello'.`
 #### Bug Fixes
 * Chi-squared calcuations are now done _correctly_
+* Fixed bug where __main__ didn't return the output.
+* Multiple debug statements were printed when not in debug mode.
 #### Maintenance
 * Offloaded lots of stuff onto C++ core to get much speed
 * Disabled addition of language checkers, as no-one could explain why it would make sense
+* Bases.py is refactored so users can manually call decryptions. The name has also changed from base64 to bases.
+* LanguageChecker now follows PEP8.
+* Main and MathsHelper now follow PEP8.
+* Now uses Nox to Pytest against multple Python versions.
+* Code coverage is now calculated and used.
 ## 3.1
 #### Features
 * Adding a logging library (Loguru) and implemented full logging of the
@@ -53,4 +62,4 @@ and what's being worked on first.
 * Fixed program not installing via Pip
 * Fixed basicEncryption module from crashing the program
 #### Maintenance
-* Added program to Pip
+* [Added](Added) program to Pip
