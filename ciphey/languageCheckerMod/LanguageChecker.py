@@ -102,25 +102,18 @@ class LanguageChecker:
             return False
         result: bool = self.chi.checkChi(text)
         if not result:
-            logger.debug(
-                f"Chi squared failed. Attempting 1000 words"
-            )
+            logger.debug(f"Chi squared failed. Attempting 1000 words")
             if not self.dictionary.check1000Words(text):
-                logger.debug(
-                    f"1000 words failed. This is not plaintext"
-                )
+                logger.debug(f"1000 words failed. This is not plaintext")
                 return False
 
-        logger.debug(
-            f"Language check phase 1 complete"
-        )
+        logger.debug(f"Language check phase 1 complete")
         result2: bool = self.dictionary.confirmlanguage(text, "english")
         logger.debug(f"Result is, dictionary checker, is {result2}")
         if not result2:
             logger.debug(f"Language check phase 2 returns false")
             return False
         return True
-
 
     def getChiSquaredObj(self):
         """Returns Chi squared object"""

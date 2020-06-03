@@ -46,7 +46,8 @@ class Transposition:
                 }
 
         # it is not found
-        return { "lc": self.lc,
+        return {
+            "lc": self.lc,
             "IsPlaintext?": False,
             "Plaintext": None,
             "Cipher": "Transposition",

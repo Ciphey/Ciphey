@@ -6,6 +6,7 @@ from .morsecode import MorseCode
 
 from loguru import logger
 
+
 class EncodingParent:
     def __init__(self, lc):
         self.lc = lc
