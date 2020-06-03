@@ -19,6 +19,7 @@ from loguru import logger
 
 class mathsHelper:
     """Class to provide helper functions for mathematics and other small things"""
+
     def __init__(self):
         # ETAOIN is the most popular letters in order
         self.ETAOIN = "ETAOINSHRDLCUMWFGYPBVKJXQZ"
@@ -199,7 +200,9 @@ class mathsHelper:
         """
         # (f"d is {d}")
         logger.debug(f"The old dictionary before new_sort() is {new_dict}")
-        sorted_i = OrderedDict(sorted(new_dict.items(), key=lambda x: x[1], reverse=True))
+        sorted_i = OrderedDict(
+            sorted(new_dict.items(), key=lambda x: x[1], reverse=True)
+        )
         logger.debug(f"The dictionary after new_sort() is {sorted_i}")
         # sortedI = sort_dictionary(x)
         return sorted_i
