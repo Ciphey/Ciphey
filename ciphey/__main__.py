@@ -89,7 +89,6 @@ class Ciphey:
         self.what_to_choose: dict = {}
 
     def decrypt(self):
-        print("The decrypt method is called")
         """Performs the decryption of text
 
         Creates the probability table, calls one_level_of_decryption
@@ -103,8 +102,6 @@ class Ciphey:
         # Read the documentation for more on this function.
         # checks to see if inputted text is plaintext
         result = self.lc.checkLanguage(self.text)
-
-        print(result)
         if result:
             print("You inputted plain text!")
             print(f"Returning {self.text}")
@@ -203,7 +200,7 @@ class Ciphey:
                 logger.debug(f"Key is {str(key)} and value is {str(value)}")
                 val: int = round(self.mh.percentage(value, 1), 2)
                 key_str: str = str(key).capitalize()
-                # converts "Base64" to "Base"
+                # converts "Bases" to "Base"
                 if "Base" in key_str:
                     key_str = key_str[0:-2]
                 sorted_dic[key_str] = val
@@ -238,7 +235,6 @@ class Ciphey:
         else:
             logger.debug("__main__ is running with progress bar")
             output = self.decrypt_normal()
-        print(f"One level returning {output}")
         return output
 
     def decrypt_normal(self, bar=None) -> None:
@@ -253,6 +249,7 @@ class Ciphey:
             None, but prints.
 
         """
+        logger.debug(f"In decrypt_normal")
         for key, val in self.what_to_choose.items():
             # https://stackoverflow.com/questions/4843173/how-to-check-if-type-of-a-variable-is-string
             if not isinstance(key, str):
@@ -264,7 +261,8 @@ class Ciphey:
                 )
 
                 if ret["IsPlaintext?"]:
-                    print(ret["Plaintext"])
+                    logger.debug(f"Ret is plaintext")
+                    print(ret['Plaintext'])
                     if self.cipher:
                         if ret["Extra Information"] is not None:
                             print(
@@ -274,7 +272,6 @@ class Ciphey:
                             )
                         else:
                             print("The cipher used is " + ret["Cipher"] + ".")
-                    print(f"Decryption returning {ret}")
                     return ret
 
         logger.debug("No encryption found")
@@ -381,7 +378,6 @@ def main(greppable=False, Cipher=False, text=None, debug=False, withArgs=False) 
 def call_encryption(
     greppable=False, Cipher=False, text=None, debug=False, cipher=False
 ):
-    print("calling encryption")
     """Function to call Encryption, only used because of arguments.
     Basically, this is what Main used to be before I had to deal with arg parsing
         Returns:
@@ -389,10 +385,8 @@ def call_encryption(
     """
     output = None
     if text is not None:
-        print("calling ciphey")
         cipher_obj = Ciphey(text, greppable, Cipher, debug)
         output = cipher_obj.decrypt()
-    print(f"Ciphey returns {output}")
     return output
 
 
