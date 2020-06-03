@@ -11,6 +11,7 @@ from loguru import logger
 import cipheycore
 import cipheydists
 
+
 class Caesar:
     def __init__(self, lc):
         self.lc = lc
