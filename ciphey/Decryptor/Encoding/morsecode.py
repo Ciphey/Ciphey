@@ -1,4 +1,6 @@
 from loguru import logger
+
+
 class MorseCode:
     def __init__(self, lc):
         self.lc = lc

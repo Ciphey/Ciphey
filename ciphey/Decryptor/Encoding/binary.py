@@ -2,6 +2,7 @@ import binascii
 
 from loguru import logger
 
+
 class Binary:
     def __init__(self, lc):
         self.lc = lc
