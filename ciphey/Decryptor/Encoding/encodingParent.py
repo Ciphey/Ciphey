@@ -1,4 +1,4 @@
-from .base64 import Base64
+from .bases import Bases
 from .binary import Binary
 from .hexadecimal import Hexadecimal
 from .ascii import Ascii
@@ -9,7 +9,7 @@ from loguru import logger
 class EncodingParent:
     def __init__(self, lc):
         self.lc = lc
-        self.base64 = Base64(self.lc)
+        self.base64 = Bases(self.lc)
         self.binary = Binary(self.lc)
         self.hex = Hexadecimal(self.lc)
         self.ascii = Ascii(self.lc)
