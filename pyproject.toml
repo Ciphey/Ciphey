@@ -13,9 +13,8 @@ alive-progress = "^1.5.1"
 loguru = "^0.5.0"
 pylint = "^2.5.2"
 flake8 = "^3.8.2"
-cipheycore = "^0.1.4"
 cipheydists = "^0.1.2"
-
+cipheycore = "^0.1.4"
 [tool.poetry.dev-dependencies]
 pytest-cov = "^2.9.0"
 
