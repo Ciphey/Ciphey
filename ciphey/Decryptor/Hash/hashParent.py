@@ -5,6 +5,7 @@ except ModuleNotFoundError:
 
 from loguru import logger
 
+
 class HashParent:
     def decrypt(self, text):
         logger.debug(f"Calling hash crackers")
