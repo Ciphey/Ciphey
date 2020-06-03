@@ -8,7 +8,8 @@
 https://github.com/brandonskerritt/ciphey
 
 The cycle goes:
-main -> argparsing (if needed) -> call_encryption -> new Ciphey object -> decrypt() -> produceProbTable -> one_level_of_decryption -> decrypt_normal
+main -> argparsing (if needed) -> call_encryption -> new Ciphey object -> decrypt() -> produceProbTable ->
+one_level_of_decryption -> decrypt_normal
 
 Ciphey can be called 3 ways:
 echo 'text' | ciphey
@@ -23,7 +24,8 @@ decrypt() creates the prob table and prints it.
 one_level_of_decryption() allows us to repeatedly call one_level_of_decryption on the inputs
 so if something is doubly encrypted, we can use this to find it.
 
-Decrypt_normal is one round of decryption. We need one_level_of_decryption to call it, as one_level_of_decryption handles progress bars and stuff. 
+Decrypt_normal is one round of decryption. We need one_level_of_decryption to call it, as
+one_level_of_decryption handles progress bars and stuff.
 """
 import warnings
 import argparse
@@ -279,9 +281,13 @@ class Ciphey:
         print(
             """No encryption found. Here are some tips to help crack the cipher:
                 * Use the probability table to work out what it could be. Base = base16, base32, base64 etc.
-                * If the probability table says 'Caesar Cipher' then it is a normal encryption that Ciphey cannot decrypt yet.
-                * If Ciphey think's it's a hash, try using hash-identifier to find out what hash it is, and then HashCat to crack the hash.
-                * The encryption may not contain normal English plaintext. It could be coordinates or another object no found in the dictionary. Use 'ciphey -d true > log.txt' to generate a log file of all attempted decryptions and manually search it."""
+                * If the probability table says 'Caesar Cipher' then it is a normal encryption that \
+                 Ciphey cannot decrypt yet.
+                * If Ciphey think's it's a hash, try using hash-identifier to find out what hash it is, \
+                and then HashCat to crack the hash.
+                * The encryption may not contain normal English plaintext. It could be coordinates or \
+                another object no found in the dictionary. Use 'ciphey -d true > log.txt' to generate a log \
+                file of all attempted decryptions and manually search it."""
         )
         return None
 
@@ -301,7 +307,9 @@ def arg_parsing() -> dict:
         """
     )
     # parser.add_argument('-f','--file', help='File you want to decrypt', required=False)
-    # parser.add_argument('-l','--level', help='How many levels of decryption you want (the more levels, the slower it is)', required=False)
+    # parser.add_argument('-l','--level', help='How many levels of decryption you want (the more levels,
+    # the slower it is)'
+    # required=False)
     parser.add_argument(
         "-g",
         "--greppable",
