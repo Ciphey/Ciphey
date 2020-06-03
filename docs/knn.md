@@ -23,7 +23,7 @@ Pros of KNN:
 * Super fast to use because its literally just comparing vectors to one another to see if they fall in the same range
 * Can be used for binary classification (if we get the dataset right)
 * No training time, because KNN isn't trained (which means its super fast for users to edit)
-* Possible for the user to add their own flag styles to a text file (maybe json? or something) which will get converted with the KNN
+* Possible for the user to add their own flag styles to a text file (maybe json? or something) which will get converted with the KNN. So everytime a user loads up the KNN, they have their own "settings" file of custom built flags
 
 Cons:
 * You can't save a KNN model as you can't train it, which means everytime it runs it has to re-create itself. If the user adds their own flag styles and they add lots of it, converting their flag styles into the appropriate vectors will slow things down (but they need to add ALOT of flag styles)
