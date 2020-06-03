@@ -249,6 +249,13 @@ class Ciphey:
             None, but prints.
 
         """
+        result = self.lc.checkLanguage(self.text)
+        print(result)
+        if result:
+            print("You inputted plain text!")
+            print(f"Returning {self.text}")
+            return self.text
+
         logger.debug(f"In decrypt_normal")
         for key, val in self.what_to_choose.items():
             # https://stackoverflow.com/questions/4843173/how-to-check-if-type-of-a-variable-is-string
@@ -357,6 +364,9 @@ def arg_parsing() -> dict:
     args["text"] = text
     if not args["rest"]:
         args.pop("rest")
+    if args["text"] < 3:
+        print("Your inputted string is less than 3 chars, Ciphey cannot crack it.")
+        return None
     return args
 
 
