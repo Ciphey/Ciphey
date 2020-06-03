@@ -261,6 +261,8 @@ class Ciphey:
                 )
 
                 if ret["IsPlaintext?"]:
+                    logger.debug(f"Ret is plaintext")
+                    print(ret['Plaintext'])
                     if self.cipher:
                         if ret["Extra Information"] is not None:
                             print(
