@@ -7,6 +7,7 @@ except ModuleNotFoundError:
     import ciphey.mathsHelper as mh
 from loguru import logger
 
+
 class Reverse:
     def __init__(self, lc):
         self.lc = lc

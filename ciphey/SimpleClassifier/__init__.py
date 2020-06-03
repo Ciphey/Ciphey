@@ -1,12 +1,14 @@
 from SimpleClassifier.encoding import all_encoding_classifiers, all_encodings
 from SimpleClassifier.hashes import all_hash_classifiers, all_hashes
 
-class filterResults():
+
+class filterResults:
     failed_encodings = set()
     failed_hashes = set()
     lengths = set()
 
-def filterOut(data:str) -> filterResults:
+
+def filterOut(data: str) -> filterResults:
     ret = filterResults()
     ret.lengths.add(len(data))
     # First, gather the encodings, so that we can get the lengths
