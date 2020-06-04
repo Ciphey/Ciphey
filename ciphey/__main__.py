@@ -24,7 +24,7 @@ try:
     from Decryptor.Hash.hashParent import HashParent
     from Decryptor.Encoding.encodingParent import EncodingParent
 except ModuleNotFoundError:
-    from ciphey.languageCheckerMod import LanguageChecker as lc
+    from ciphey.LanguageChecker import LanguageChecker as lc
     from ciphey.neuralNetworkMod.nn import NeuralNetwork
     from ciphey.Decryptor.basicEncryption.basic_parent import BasicParent
     from ciphey.Decryptor.Hash.hashParent import HashParent

@@ -39,7 +39,7 @@ setup(
         "ciphey.Decryptor.Encoding",
         "ciphey.Decryptor.basicEncryption",
         "ciphey.neuralNetworkMod",
-        "ciphey.languageCheckerMod",
+        "ciphey.LanguageChecker",
         "ciphey.Decryptor.Hash",
     ],
     include_package_data=True,
