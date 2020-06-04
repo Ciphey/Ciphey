@@ -89,6 +89,8 @@ Read the documentation if you want to learn more about the functions.
    :caption: Contents:
 
         References <reference.rst>
+        Language Checker <lc.rst>
+        Neural Network <nn.rst>
 
 Indices and tables
 ==================
