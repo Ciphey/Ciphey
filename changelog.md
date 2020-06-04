@@ -30,6 +30,8 @@ These are taken from the GitHub Issues tab.
 * Main and MathsHelper now follow PEP8.
 * Now uses Nox to Pytest against multple Python versions (3.6, 3.7, and 3.8).
 * Code coverage is now calculated and used.
+* Automatic application of Black formatter upon push.
+* Automatic uploading to PyPi testing.
 ## 3.1
 #### Features
 * Adding a logging library (Loguru) and implemented full logging of the
