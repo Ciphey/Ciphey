@@ -68,14 +68,6 @@ def coverage(session: Session) -> None:
     session.run("codecov", *session.posargs)
 
 
-@nox.session(python="3.7")
-def pytype(session: Session) -> None:
-    """Type-check using pytype."""
-    args = session.posargs or ["--disable=import-error", *locations]
-    install_with_constraints(session, "pytype")
-    session.run("pytype", *args)
-
-
 # python=["3.8", "3.7", "3.6"])
 @nox.session(python="3.8")
 def tests(session):
