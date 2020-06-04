@@ -28,7 +28,7 @@ These are taken from the GitHub Issues tab.
 * Bases.py is refactored so users can manually call decryptions. The name has also changed from base64 to bases.
 * LanguageChecker now follows PEP8.
 * Main and MathsHelper now follow PEP8.
-* Now uses Nox to Pytest against multple Python versions.
+* Now uses Nox to Pytest against multple Python versions (3.6, 3.7, and 3.8).
 * Code coverage is now calculated and used.
 ## 3.1
 #### Features
