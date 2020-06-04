@@ -372,6 +372,14 @@ def arg_parsing() -> dict:
 
 def main(greppable=False, Cipher=False, text=None, debug=False, withArgs=False) -> dict:
     """Function to deal with arguments. Either calls with args or not. Makes Pytest work.
+
+    It gets the arguments in the function definition using locals()
+    if withArgs is True, that means this is being called with command line args
+    so go to arg_parsing() to get those args
+    we then update locals() with the new command line args and remove "withArgs"
+    This function then calls call_encryption(**result) which passes our dict of args
+    to the function as its own arguments using dict unpacking.
+    
         Returns:
             The output of the decryption.
     """
