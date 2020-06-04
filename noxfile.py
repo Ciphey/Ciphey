@@ -68,7 +68,7 @@ def coverage(session: Session) -> None:
     session.run("codecov", *session.posargs)
 
 
-@nox.session(python="3.7")
+@nox.session(python="3.8")
 def pytype(session: Session) -> None:
     """Type-check using pytype."""
     args = session.posargs or ["--disable=import-error", *locations]
@@ -76,7 +76,8 @@ def pytype(session: Session) -> None:
     session.run("pytype", *args)
 
 
-@nox.session(python=["3.8", "3.7", "3.6"])
+# python=["3.8", "3.7", "3.6"])
+@nox.session(python="3.8")
 def tests(session):
     session.run("poetry", "install", external=True)
     session.run("pytest", "--cov=ciphey")
