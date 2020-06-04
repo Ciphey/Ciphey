@@ -7,7 +7,7 @@ from nox.sessions import Session
 import tempfile
 
 locations = "ciphey/", "tests/"
-nox.options.sessions = "safety", "pytype", "tests"
+nox.options.sessions = "safety", "tests"
 package = "ciphey"
 
 
