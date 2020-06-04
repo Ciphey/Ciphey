@@ -108,7 +108,6 @@ class testChi(unittest.TestCase):
         result = self.chi.checkChi("The quick brown fox jumped over the lazy dog")
         self.assertEqual(result, False)
 
-
     def test_english_same_letter(self):
         self.chi = chiSquared()
         """

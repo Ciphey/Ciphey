@@ -20,6 +20,8 @@ pytest-cov = "^2.9.0"
 pytest = "^5.4.3"
 black = "^19.10b0"
 neovim = "^0.3.1"
+codecov = "^2.1.4"
+safety = "^1.9.0"
 
 [tool.poetry.scripts]
 ciphey = 'ciphey.__main__:main'
