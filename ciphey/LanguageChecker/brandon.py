@@ -49,6 +49,8 @@ self.languages = {
 In alphabetical order
 And you're.... Done! Make sure the name of the two match up
 """
+from typing import Dict
+
 from .iface import LanguageChecker
 from string import punctuation
 
@@ -170,7 +172,7 @@ class Brandon(LanguageChecker):
         else:
             return False
 
-    def __init__(self, config):
+    def __init__(self, config: Dict[str, object]):
         # Suppresses warning
         super().__init__(config)
         self.mh = mh.mathsHelper()
@@ -211,7 +213,7 @@ class Brandon(LanguageChecker):
         return True
 
     @staticmethod
-    def getArgs(**kwargs) -> dict:
+    def getArgs() -> Dict[str, object]:
         return {
             "top1000": {"desc": "A json dictionary of the top 1000 words", "req": False},
             "threshold": {"desc": "The minimum proportion (between 0 and 1) that must be in the dictionary", "req": False}

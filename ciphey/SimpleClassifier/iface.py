@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
 
-"""Classifiers SHOULD be stateless, so all methods must be static"""
+
 class ClassifierBase(ABC):
+    """Classifiers SHOULD be stateless, so all methods must be static"""
     @staticmethod
     @abstractmethod
     def name() -> str: pass
