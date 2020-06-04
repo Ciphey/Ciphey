@@ -16,5 +16,4 @@ jobs:
     - run: pip install poetry==1.0.5
     - run: nox
     - run: poetry build
-    - run: poetry config repositories.testpypi https://test.pypi.org/legacy/
-    - run: poetry publish -r testpypi --username=__token__ --password=${{ secrets.PYPI_TOKEN }}
+    - run: poetry publish --username=__token__ --password=${{ secrets.PYPI_TOKEN }}

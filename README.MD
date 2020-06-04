@@ -9,6 +9,7 @@
   <img src="https://github.com/brandonskerritt/Ciphey/workflows/Python%20application/badge.svg?branch=master" alt="Ciphey">
   <img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/ciphey">
 <img src="https://codecov.io/gh/ciphey/ciphey/branch/master/graph/badge.svg">
+<a href="https://readthedocs.org/projects/ciphey/badge/"><img src="https://ciphey.readthedocs.io/"></a>
 </p>
 # What is this?
 Ciphey is an automated decryption tool. Input encrypted text, get the decrypted text back.
@@ -71,5 +72,4 @@ Please read the contributing file.
 ## Code Contributors
 [Cyclic3](https://github.com/Cyclic3)
 ## Financial Contributors
-
-<a target="_blank" href="https://icons8.com/icons/set/binoculars">iOS</a>, <a target="_blank" href="https://icons8.com/icons/set/binoculars">iOS Filled</a> and other icons by <a target="_blank" href="https://icons8.com">Icons8</a>
+Please donate to us, we're students and we want huel.
