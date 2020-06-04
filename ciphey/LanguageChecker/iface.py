@@ -14,4 +14,4 @@ class LanguageChecker(ABC):
     def checkLanguage(self, text: str) -> bool: pass
 
     @abstractmethod
-    def __init__(self, config, params): pass
+    def __init__(self, config): pass
