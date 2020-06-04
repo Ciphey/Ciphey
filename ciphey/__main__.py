@@ -440,7 +440,7 @@ def arg_parsing() -> Optional[dict]:
     # Try to locate language checker module
     # TODO: actually implement this (should be similar)
     import cipheydists
-    config["wordlist"] = cipheydists.get_list("english")
+    config["wordlist"] = set(cipheydists.get_list("english"))
     # Now we fill in the params *shudder*
     config["params"] = {}
     for i in args["param"]:
