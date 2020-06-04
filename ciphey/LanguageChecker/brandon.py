@@ -100,8 +100,8 @@ class Brandon(LanguageChecker):
         text = set(text)
         return text
 
-    def checkDictionary(self, text: str) -> int:
-        """Sorts & searches the dict
+    def checkWordlist(self, text: str) -> float:
+        """Sorts & searches the dict, and returns the proportion of the words that are in the dictionary
 
         Args:
             text -> The text we use to perform analysis on
@@ -115,7 +115,7 @@ class Brandon(LanguageChecker):
         # and calculates how much of that is in language
         text: set = self.cleanText(text)
 
-        return len(text.intersection(self.wordlist))
+        return len(text.intersection(self.wordlist)) // len(text)
 
     def check1000Words(self, text: str) -> bool:
         """Checks to see if word is in the list of 1000 words
@@ -135,24 +135,22 @@ class Brandon(LanguageChecker):
 
         if text is None:
             return False
-        logger.debug(f"text before cleaning is {text}")
+        logger.trace(f"text before cleaning is {text}")
         text = self.cleanText(text)
-        logger.debug(f"Check 1000 words text is {text}")
+        logger.trace(f"Check 1000 words text is {text}")
         # If any of the top 1000 words in the text appear
         # return true
         for word in text:
-            logger.debug(f"Word in check1000 is {word}")
             # I was debating using any() here, but I think they're the
             # same speed so it doesn't really matter too much
             if word in self.top1000Words:
-                logger.debug(f"Check 1000 words returns True for word {word}")
                 return True
         return False
 
     def confirmLanguage(self, text: str) -> True:
         """Confirms whether given text is language
 
-        If the languagePercentage (taken from checkDictionary) is higher than the language threshold, return True
+        If the proportion (taken from checkDictionary) is higher than the language threshold, return True
 
         Args:
             text -> The text we use to text (a word)
@@ -162,28 +160,26 @@ class Brandon(LanguageChecker):
             bool -> whether it's written in Language or not
 
         """
-        self.checkDictionary(text)
-        if self.languagePercentage >= self.languageThreshold:
-            logger.debug(
-                f"The language percentage {self.languagePercentage} is over the threshold {self.languageThreshold}"
+
+        proportion = self.checkWordlist(text)
+        if self.checkWordlist(text) >= self.languageThreshold:
+            logger.trace(
+                f"The language proportion {proportion} is over the threshold {self.languageThreshold}"
             )
             return True
         else:
             return False
 
-    def __init__(self, config, params):
-        # Supresses warning
-        super().__init__(config, params)
+    def __init__(self, config):
+        # Suppresses warning
+        super().__init__(config)
         self.mh = mh.mathsHelper()
-        self.languagePercentage: float = 0.0
-        self.languageWordsCounter: float = 0.0
-        self.languageThreshold = 55
-        self.top1000Words = params.get("top1000")
-        self.wordlist = config.get("wordlist")
+        self.languageThreshold = config["params"].get("threshold", 0.55)
+        self.top1000Words = config["params"].get("top1000")
+        self.wordlist = config["wordlist"]
 
     def checkLanguage(self, text: str) -> bool:
         """Checks to see if the text is in English
-        Uses chisqaured
 
         Performs a decryption, but mainly parses the internal data packet and prints useful information.
 
@@ -194,27 +190,33 @@ class Brandon(LanguageChecker):
             bool -> True if the text is English, False otherwise.
 
         """
-        logger.debug(f"In Language Checker with {text}")
+        logger.trace(f"In Language Checker with {text}")
         if text == "":
             return False
-        if not self.dictionary.check1000Words(text):
+        if not self.check1000Words(text):
             logger.debug(
                 f"1000 words failed. This is not plaintext"
             )
             return False
 
-        logger.debug(
-            f"Language check phase 1 complete"
+        logger.trace(
+            f"1000words check passed"
         )
-        result2: bool = self.dictionary.confirmLanguage(text, "english")
-        logger.debug(f"Result is, dictionary checker, is {result2}")
+        result2: bool = self.confirmLanguage(text)
         if not result2:
-            logger.debug(f"Language check phase 2 returns false")
+            logger.debug(f"Dictionary check failed. This is not plaintext")
             return False
+
+        logger.trace(f"Dictionary check passed. This is plaintext")
         return True
 
     @staticmethod
     def getArgs(**kwargs) -> dict:
         return {
-            "top1000": {"desc": "A path to a json dictionaty of the top 1000 words", "req": True}
+            "top1000": {"desc": "A json dictionary of the top 1000 words", "req": False},
+            "threshold": {"desc": "The minimum proportion (between 0 and 1) that must be in the dictionary", "req": False}
         }
+
+
+# Define alias
+ciphey_language_checker = Brandon
