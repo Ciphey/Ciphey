@@ -29,11 +29,5 @@ jobs:
         python3 -m pip install --upgrade pip
         pip3 install flake8 pytest nox poetry
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Nox and CodeCov 
-      run: |
-        nox --sessions tests-3.8 coverage
-        env:
-          CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
-
         # stop the build if there are Python syntax errors or undefined names
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
