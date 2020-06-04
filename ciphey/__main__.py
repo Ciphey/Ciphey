@@ -1,32 +1,3 @@
-"""
- ██████╗██╗██████╗ ██╗  ██╗███████╗██╗   ██╗
-██╔════╝██║██╔══██╗██║  ██║██╔════╝╚██╗ ██╔╝
-██║     ██║██████╔╝███████║█████╗   ╚████╔╝ 
-██║     ██║██╔═══╝ ██╔══██║██╔══╝    ╚██╔╝  
-╚██████╗██║██║     ██║  ██║███████╗   ██║ 
-© Brandon Skerritt
-https://github.com/brandonskerritt/ciphey
-
-The cycle goes:
-main -> argparsing (if needed) -> call_encryption -> new Ciphey object -> decrypt() -> produceProbTable ->
-one_level_of_decryption -> decrypt_normal
-
-Ciphey can be called 3 ways:
-echo 'text' | ciphey
-ciphey 'text'
-ciphey -t 'text'
-main captures the first 2
-argparsing captures the last one (-t)
-it sends this to call_encryption, which can handle all 3 arguments using dict unpacking
-
-decrypt() creates the prob table and prints it.
-
-one_level_of_decryption() allows us to repeatedly call one_level_of_decryption on the inputs
-so if something is doubly encrypted, we can use this to find it.
-
-Decrypt_normal is one round of decryption. We need one_level_of_decryption to call it, as
-one_level_of_decryption handles progress bars and stuff.
-"""
 import warnings
 import argparse
 import sys
@@ -98,6 +69,7 @@ class Ciphey:
 
         Returns:
             None
+
         """
         # Read the documentation for more on this function.
         # checks to see if inputted text is plaintext
@@ -303,6 +275,7 @@ def arg_parsing() -> dict:
             None
         Returns:
             A tuple containing the arguments, which is unpacked in main()
+
     """
     parser = argparse.ArgumentParser(
         description="""Automated decryption tool. Put in the encrypted text and Ciphey will decrypt it.\n
@@ -373,15 +346,16 @@ def arg_parsing() -> dict:
 def main(greppable=False, Cipher=False, text=None, debug=False, withArgs=False) -> dict:
     """Function to deal with arguments. Either calls with args or not. Makes Pytest work.
 
-    It gets the arguments in the function definition using locals()
-    if withArgs is True, that means this is being called with command line args
-    so go to arg_parsing() to get those args
-    we then update locals() with the new command line args and remove "withArgs"
-    This function then calls call_encryption(**result) which passes our dict of args
+    It gets the arguments in the function definition using locals().
+    if withArgs is True, that means this is being called with command line args.
+    so go to arg_parsing() to get those args.
+    we then update locals() with the new command line args and remove "withArgs".
+    This function then calls call_encryption(**result) which passes our dict of args.
     to the function as its own arguments using dict unpacking.
     
         Returns:
             The output of the decryption.
+
     """
     # testing is if we run pytest
     result = locals()
@@ -397,9 +371,12 @@ def call_encryption(
     greppable=False, Cipher=False, text=None, debug=False, cipher=False
 ):
     """Function to call Encryption, only used because of arguments.
+
     Basically, this is what Main used to be before I had to deal with arg parsing
+
         Returns:
                 The output of the decryption.
+
     """
     output = None
     if text is not None:
