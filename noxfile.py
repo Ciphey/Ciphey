@@ -7,6 +7,8 @@ from nox.sessions import Session
 import tempfile
 
 locations = "ciphey/", "tests/"
+nox.options.sessions = "safety", "pytype", "tests"
+package = "ciphey"
 
 
 def install_with_constraints(session: Session, *args: str, **kwargs: Any) -> None:
@@ -64,6 +66,14 @@ def coverage(session: Session) -> None:
     install_with_constraints(session, "coverage[toml]", "codecov")
     session.run("coverage", "xml", "--fail-under=0")
     session.run("codecov", *session.posargs)
+
+
+@nox.session(python="3.7")
+def pytype(session: Session) -> None:
+    """Type-check using pytype."""
+    args = session.posargs or ["--disable=import-error", *locations]
+    install_with_constraints(session, "pytype")
+    session.run("pytype", *args)
 
 
 @nox.session(python=["3.8", "3.7", "3.6"])
