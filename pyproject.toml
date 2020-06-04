@@ -4,7 +4,7 @@ version = "3.5.9"
 description = "Automated Decryption Tool"
 authors = ["Brandon <brandon@skerritt.blog>"]
 license = "MIT"
-
+documentation = "https://ciphey.readthedocs.io"
 [tool.poetry.dependencies]
 python = "^3.8"
 tensorflow = "^2.1.0"
@@ -23,6 +23,7 @@ neovim = "^0.3.1"
 codecov = "^2.1.4"
 safety = "^1.9.0"
 sphinx = "^3.0.4"
+sphinx-autodoc-typehints = "^1.10.3"
 
 [tool.poetry.scripts]
 ciphey = 'ciphey.__main__:main'
