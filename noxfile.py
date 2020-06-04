@@ -34,6 +34,12 @@ def install_with_constraints(session: Session, *args: str, **kwargs: Any) -> Non
         session.install(f"--constraint={requirements.name}", *args, **kwargs)
 
 
+@nox.session(python=["3.8", "3.7", "3.6"])
+def tests(session):
+    session.run("poetry", "install", external=True)
+    session.run("pytest", "--cov=ciphey")
+
+
 # noxfile.py
 @nox.session(python="3.8")
 def black(session):
@@ -56,12 +62,3 @@ def safety(session):
         )
         install_with_constraints(session, "safety")
         session.run("safety", "check", f"--file={requirements.name}", "--full-report")
-
-@nox.session(python=["3.8", "3.7"])
-def tests(session):
-    args = session.posargs or ["--cov", "-m", "not e2e"]
-    session.run("poetry", "install", "--no-dev", external=True)
-    install_with_constraints(
-        session, "coverage[toml]", "pytest", "pytest-cov" 
-    )
-    session.run("pytest", *args)
