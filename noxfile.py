@@ -6,7 +6,7 @@ from typing import Any
 from nox.sessions import Session
 import tempfile
 
-locations = "ciphey/", "tests/"
+locations = "ciphey/", "tests/", "docs/"
 nox.options.sessions = "safety", "tests"
 package = "ciphey"
 
@@ -67,6 +67,14 @@ def coverage(session: Session) -> None:
     session.run("coverage", "xml", "--fail-under=0")
     session.run("codecov", *session.posargs)
 
+
+
+# noxfile.py
+@nox.session(python="3.8")
+def docs(session: Session) -> None:
+    """Build the documentation."""
+    install_with_constraints(session, "sphinx")
+    session.run("sphinx-build", "docs", "docs/_build")
 
 # python=["3.8", "3.7", "3.6"])
 @nox.session(python="3.8")
