@@ -88,7 +88,7 @@ Read the documentation if you want to learn more about the functions.
    :maxdepth: 2
    :caption: Contents:
 
-
+        References <reference.rst>
 
 Indices and tables
 ==================
