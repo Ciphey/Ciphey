@@ -24,6 +24,7 @@ codecov = "^2.1.4"
 safety = "^1.9.0"
 sphinx = "^3.0.4"
 sphinx-autodoc-typehints = "^1.10.3"
+PyYAML = "^5.3.1"
 
 [tool.poetry.scripts]
 ciphey = 'ciphey.__main__:main'
