@@ -20,6 +20,7 @@ regexFile: # set to path to Regex file to run custom regex
         - /HTB{.*}/i
         - /THM{.*}/i
         - /FLAG{*.}/i
+        - /CTF{*.}/i
 
         
 
