@@ -5,7 +5,6 @@ description = "Automated Decryption Tool"
 authors = ["Brandon <brandon@skerritt.blog>"]
 license = "MIT"
 documentation = "https://ciphey.readthedocs.io"
-
 [tool.poetry.dependencies]
 python = "^3.8"
 tensorflow = "^2.1.0"
