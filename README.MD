@@ -69,7 +69,7 @@ This is feature is expected to expand in the next version.
 
 
 # Contributors
-Ciphey was invented by (Brandon Skerritt)[https://github.com/brandonskerritt] way back in 2008 (don't worry, the code has upgraded since then 😜) but it wouldn't be where it is today without [Cyclic3](https://github.com/Cyclic3).
+Ciphey was invented by [Brandon Skerritt](https://github.com/brandonskerritt) way back in 2008 (don't worry, the code has upgraded since then 😜) but it wouldn't be where it is today without [Cyclic3](https://github.com/Cyclic3).
 ## Contributing
 Please read the contributing file.
 ## Code Contributors
