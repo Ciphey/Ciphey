@@ -25,3 +25,32 @@ for i in range(1, 20000):
     '''
     file.append()
 """
+import uuid
+import enCiphey
+
+
+class test_generator:
+    def __init__(self):
+        self.HOW_MANY_TESTS = 20000
+
+    def main(self):
+        for i in range(1, self.HOW_MANY_TESTS):
+            x = enCiphey.randomSentence()
+
+    def make_test_true_template(self, cipher, id=uuid.uuid4()[0:7]):
+        return f"""
+        def test_{cipher['CipherUsed']}_{id}():
+            res = ciphey.main('{cipher['encryptedText']}')
+            assert(res == {cipher['PlainText']})
+        """
+
+    def make_test_lc_true_template(self, cipher, id=uuid.uuid4()[0:7]):
+        return f"""
+        def test_{cipher['CipherUsed']}_{id}():
+            res = ciphey.main('{cipher['encryptedText']}')
+            lc_res = lc.check(res)
+            assert lc['IsPlaintext'] == True
+    """
+
+
+# return {"PlainText": text, "EncryptedText": encryptedText, "CipherUsed": name}
