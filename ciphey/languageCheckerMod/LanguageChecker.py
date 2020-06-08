@@ -1,13 +1,14 @@
 from string import punctuation
 
 try:
-    import languageCheckerMod.dictionaryChecker as dc
-except ModuleNotFoundError:
     import ciphey.languageCheckerMod.dictionaryChecker as dc
-try:
-    import languageCheckerMod.chisquared as cs
 except ModuleNotFoundError:
+    import languageCheckerMod.dictionaryChecker as dc
+
+try:
     import ciphey.languageCheckerMod.chisquared as cs
+except ModuleNotFoundError:
+    import languageCheckerMod.chisquared as cs
 
 from loguru import logger
 
