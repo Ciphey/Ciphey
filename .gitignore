@@ -24,6 +24,9 @@ ENV/
 env.bak/
 venv.bak/
 pip-selfcheck.json
+ciphey.egg-info
+dist/
+dist
 
 # End of https://www.gitignore.io/api/venv
 
