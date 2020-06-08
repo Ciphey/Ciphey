@@ -45,7 +45,10 @@ class MorseCode:
         for word in text.split("/"):
             for char in word.strip().split():
                 # translates every letter
-                returnMsg += self.MORSE_CODE_DICT_INV[char]
-            # after every word add a space
+                m = self.MORSE_CODE_DICT_INV[char]
+                if m == None:
+                    m = ""
+                returnMsg += m
+                # after every word add a space
             returnMsg += " "
         return returnMsg.strip().capitalize()
