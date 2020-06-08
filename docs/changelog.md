@@ -22,6 +22,8 @@ These are taken from the GitHub Issues tab.
 * Chi-squared calcuations are now done _correctly_
 * Fixed bug where __main__ didn't return the output.
 * Multiple debug statements were printed when not in debug mode.
+* Morse Code now has a more complete alphabet.
+* Morse code now doesn't fail on letters that cannot be translated to Morse.
 #### Maintenance
 * Offloaded lots of stuff onto C++ core to get much speed
 * Disabled addition of language checkers, as no-one could explain why it would make sense
@@ -32,6 +34,8 @@ These are taken from the GitHub Issues tab.
 * Code coverage is now calculated and used.
 * Automatic application of Black formatter upon push.
 * Automatic uploading to PyPi testing.
+* Saftey, which checks for security issues, is now run with Nox.
+* Automatic uploding to Test PyPi and PyPi upon push to master, and GitHub release respectively.
 ## 3.1
 #### Features
 * Adding a logging library (Loguru) and implemented full logging of the
