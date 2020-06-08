@@ -7,10 +7,10 @@ import cipheydists
 
 sys.path.append("..")
 try:
-    import mathsHelper as mh
-except ModuleNotFoundError:
     import ciphey.mathsHelper as mh
-
+except ModuleNotFoundError:
+    import mathsHelper as mh
+    
 
 class dictionaryChecker:
     """
