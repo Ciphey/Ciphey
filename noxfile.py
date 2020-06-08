@@ -64,9 +64,9 @@ def safety(session):
 def coverage(session: Session) -> None:
     """Upload coverage data."""
     install_with_constraints(session, "coverage[toml]", "codecov")
+    session.run("pip3", "install", "cipheydists")
     session.run("coverage", "xml", "--fail-under=0")
     session.run("codecov", *session.posargs)
-
 
 
 # noxfile.py
@@ -76,8 +76,10 @@ def docs(session: Session) -> None:
     install_with_constraints(session, "sphinx")
     session.run("sphinx-build", "docs", "docs/_build")
 
+
 # python=["3.8", "3.7", "3.6"])
 @nox.session(python="3.8")
 def tests(session):
+    session.run("pip3", "install", "cipheydists")
     session.run("poetry", "install", external=True)
-    session.run("pytest", "--cov=ciphey")
+    session.run("poetry", "run", "pytest", "--cov=ciphey")
