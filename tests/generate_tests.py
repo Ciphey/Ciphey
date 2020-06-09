@@ -26,25 +26,26 @@ for i in range(1, 20000):
     file.append()
 """
 import uuid
-import enCiphey
+import enciphey
 
 
 class test_generator:
     def __init__(self):
         self.HOW_MANY_TESTS = 20000
-        self.enCiphey_obj = enCiphey.encipher()
+        self.enCiphey_obj = enciphey.encipher()
 
     def main(self):
-        with open("test_main.py", "w"):
+        with open("test_main.py", "w") as f:
             for i in range(1, self.HOW_MANY_TESTS):
                 x = self.enCiphey_obj.getRandomEncryptedSentence()
-                if x["CipherUsed"] == "MorseCode":
-                    self.make_test_lc_true_template(cipher=x)
-                else:
-                    self.make_test_true_template(cipher=x)
+                # if x["CipherUsed"] == "MorseCode":
+                # self.make_test_lc_true_template(cipher=x)
+                to_append = self.make_test_true_template(cipher=x)
+                f.write(to_append)
 
     def make_test_true_template(self, cipher, id=uuid.uuid4()[0:7]):
         return f"""
+        # {cipher}
         def test_{cipher['CipherUsed']}_{id}():
             res = ciphey.main('{cipher['encryptedText']}')
             assert(res == {cipher['PlainText']})
@@ -52,6 +53,7 @@ class test_generator:
 
     def make_test_lc_true_template(self, cipher, id=uuid.uuid4()[0:7]):
         return f"""
+        # {cipher}
         def test_{cipher['CipherUsed']}_{id}():
             res = ciphey.main('{cipher['encryptedText']}')
             assert lc.checkLanguage(res) == True
