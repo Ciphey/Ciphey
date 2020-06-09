@@ -9,9 +9,9 @@ def test_argument_grep_true():
 
 
 def test_main_base64_true():
-    cfg = make_default_config("It was the best of times, it was the worst of times")
+    cfg = make_default_config("SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN0IG9mIHRpbWVzLiBUaGVyZSBpcyBvbmx5IHNvIG11Y2ggcm9hZCBpbiBEb3ZlciBvbmUgY2FuIGxheS4=")
     cfg["debug"] = "TRACE"
-    result = main("SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN0IG9mIHRpbWVzLiBUaGVyZSBpcyBvbmx5IHNvIG11Y2ggcm9hZCBpbiBEb3ZlciBvbmUgY2FuIGxheS4")
+    result = main(cfg)
     assert (
         result == "It was the best of times, it was the worst of times. There is only so much road in Dover one can lay."
     )
