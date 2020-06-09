@@ -60,14 +60,14 @@ except ModuleNotFoundError:
     import ciphey.mathsHelper as mh
 
 
-def make_default_config(ctext: str) -> Dict[str, object]:
+def make_default_config(ctext: str, trace: bool = False) -> Dict[str, object]:
     from ciphey.LanguageChecker.brandon import ciphey_language_checker as brandon
     import cipheydists
     return {
         "ctext": ctext,
         "grep": False,
         "info": False,
-        "debug": "WARNING",
+        "debug": "TRACE" if trace else "WARNING",
         "checker": brandon,
         "wordlist": set(cipheydists.get_list("english")),
         "params": {}
