@@ -32,10 +32,16 @@ import enCiphey
 class test_generator:
     def __init__(self):
         self.HOW_MANY_TESTS = 20000
+        self.enCiphey_obj = enCiphey.encipher()
 
     def main(self):
-        for i in range(1, self.HOW_MANY_TESTS):
-            x = enCiphey.randomSentence()
+        with open("test_main.py", "w"):
+            for i in range(1, self.HOW_MANY_TESTS):
+                x = self.enCiphey_obj.getRandomEncryptedSentence()
+                if x["CipherUsed"] == "MorseCode":
+                    self.make_test_lc_true_template(cipher=x)
+                else:
+                    self.make_test_true_template(cipher=x)
 
     def make_test_true_template(self, cipher, id=uuid.uuid4()[0:7]):
         return f"""
@@ -48,8 +54,7 @@ class test_generator:
         return f"""
         def test_{cipher['CipherUsed']}_{id}():
             res = ciphey.main('{cipher['encryptedText']}')
-            lc_res = lc.check(res)
-            assert lc['IsPlaintext'] == True
+            assert lc.checkLanguage(res) == True
     """
 
 
