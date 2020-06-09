@@ -1,4 +1,4 @@
-from Ciphey.ciphey.languageCheckerMod import LanguageChecker
+from ciphey.LanguageChecker import LanguageChecker
 
 import unittest
 from loguru import logger
