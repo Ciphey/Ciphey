@@ -1,4 +1,4 @@
-from ciphey.languageCheckerMod import LanguageChecker
+from ciphey.LanguageChecker import LanguageChecker
 from ciphey.Decryptor.Encoding.encodingParent import EncodingParent
 import unittest
 from loguru import logger
