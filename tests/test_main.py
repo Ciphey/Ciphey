@@ -5,7 +5,7 @@ def test_argument_grep_true():
     cfg = make_default_config("It was the best of times, it was the worst of times")
     cfg["debug"] = "TRACE"
     result = main(cfg)
-    assert result == "It was the best of times, it was the worst of times"
+    assert result["Plaintext"] == "It was the best of times, it was the worst of times"
 
 
 def test_main_base64_true():
@@ -13,5 +13,5 @@ def test_main_base64_true():
     cfg["debug"] = "TRACE"
     result = main(cfg)
     assert (
-        result == "It was the best of times, it was the worst of times. There is only so much road in Dover one can lay."
+        result["Plaintext"] == "It was the best of times, it was the worst of times. There is only so much road in Dover one can lay."
     )
