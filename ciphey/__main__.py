@@ -46,19 +46,14 @@ try:
     from ciphey.Decryptor.basicEncryption.basic_parent import BasicParent
     from ciphey.Decryptor.Hash.hashParent import HashParent
     from ciphey.Decryptor.Encoding.encodingParent import EncodingParent
+    import ciphey.mathsHelper as mh
 except ModuleNotFoundError:
     from LanguageChecker import LanguageChecker as lc
     from neuralNetworkMod.nn import NeuralNetwork
     from Decryptor.basicEncryption.basic_parent import BasicParent
     from Decryptor.Hash.hashParent import HashParent
     from Decryptor.Encoding.encodingParent import EncodingParent
-
-
-try:
     import mathsHelper as mh
-except ModuleNotFoundError:
-    import ciphey.mathsHelper as mh
-
 
 def make_default_config(ctext: str, trace: bool = False) -> Dict[str, object]:
     from ciphey.LanguageChecker.brandon import ciphey_language_checker as brandon
@@ -100,7 +95,7 @@ class Ciphey:
         self.probability_distribution: dict = {}
         self.what_to_choose: dict = {}
 
-    def decrypt(self):
+    def decrypt(self) -> Optional[Dict]:
         """Performs the decryption of text
 
         Creates the probability table, calls one_level_of_decryption
@@ -117,7 +112,13 @@ class Ciphey:
         if result:
             print("You inputted plain text!")
             print(f"Returning {self.text}")
-            return self.text
+            return {
+                "lc": self.lc,
+                "IsPlaintext?": True,
+                "Plaintext": self.text,
+                "Cipher": None,
+                "Extra Information": None,
+            }
         self.probability_distribution: dict = self.ai.predictnn(self.text)[0]
         self.what_to_choose: dict = {
             self.hash: {
@@ -227,7 +228,7 @@ class Ciphey:
         self.console.print(table)
         return None
 
-    def one_level_of_decryption(self) -> Optional[str]:
+    def one_level_of_decryption(self) -> Optional[dict]:
         """Performs one level of encryption.
 
         Either uses alive_bar or not depending on if self.greppable is set.
@@ -247,7 +248,7 @@ class Ciphey:
             output = self.decrypt_normal()
         return output
 
-    def decrypt_normal(self, bar=None) -> Optional[str]:
+    def decrypt_normal(self, bar=None) -> Optional[dict]:
         """Called by one_level_of_decryption
 
         Performs a decryption, but mainly parses the internal data packet and prints useful information.
@@ -259,11 +260,12 @@ class Ciphey:
             str if found, or None if not
 
         """
-        result = self.lc.checkLanguage(self.text)
-        if result:
-            print("You inputted plain text!")
-            print(f"Returning {self.text}")
-            return self.text
+        # This is redundant
+        # result = self.lc.checkLanguage(self.text)
+        # if result:
+        #     print("You inputted plain text!")
+        #     print(f"Returning {self.text}")
+        #     return self.text
 
         logger.debug(f"In decrypt_normal")
         for key, val in self.what_to_choose.items():
@@ -463,7 +465,7 @@ def arg_parsing() -> Optional[dict]:
     return config
 
 
-def main(config: Dict[str, object] = None) -> Optional[str]:
+def main(config: Dict[str, object] = None) -> Optional[dict]:
     """Function to deal with arguments. Either calls with args or not. Makes Pytest work.
 
     It gets the arguments in the function definition using locals()
