@@ -33,7 +33,7 @@ class Bases:
         # if nothing works, it has failed.
         return self.badRet()
 
-    def _dispatch(self, decoder: Callable[[str], bytes], text: str):
+    def _dispatch(self, decoder: Callable[[str], bytes], text: str, cipher: str):
         logger.trace("Attempting base64")
         result = None
         try:
@@ -52,7 +52,7 @@ class Bases:
 
         if result is not None and self.lc.checkLanguage(result):
             logger.debug(f"Bases successful, returning {result}")
-            return self.goodRet(result, cipher="Bases")
+            return self.goodRet(result, cipher=cipher)
         else:
             return self.badRet()
 
@@ -65,7 +65,7 @@ class Bases:
                 the text decoded as base64
         """
         logger.trace("Attempting base64")
-        return self._dispatch(base64.b64decode, text)
+        return self._dispatch(base64.b64decode, text, "base64")
 
     def base32(self, text: str):
         """Base32 decode
@@ -76,7 +76,7 @@ class Bases:
                 the text decoded as base32
         """
         logger.trace("Attempting base32")
-        return self._dispatch(base64.b32decode, text)
+        return self._dispatch(base64.b32decode, text, "base32")
 
     def base16(self, text: str):
         """Base16 decode
@@ -87,7 +87,7 @@ class Bases:
                 the text decoded as base16
         """
         logger.trace("Attempting base16")
-        return self._dispatch(base64.b16decode, text)
+        return self._dispatch(base64.b16decode, text, "base16")
 
     def base85(self, text: str):
         """Base85 decode
@@ -99,7 +99,7 @@ class Bases:
         """
         logger.trace("Attempting base85")
         result = None
-        return self._dispatch(base64.b85decode, text)
+        return self._dispatch(base64.b85decode, text, "base85")
 
     def goodRet(self, result, cipher):
         logger.debug(f"Result for base is true, where result is {result}")
