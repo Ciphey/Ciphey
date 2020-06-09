@@ -29,20 +29,23 @@ import uuid
 import enciphey
 import string
 import random
+from rich.progress import track
 
 
 class test_generator:
     def __init__(self):
-        self.HOW_MANY_TESTS = 20000
+        self.HOW_MANY_TESTS = 1
         self.enCiphey_obj = enciphey.encipher()
 
     def main(self):
-        with open("test_main.py", "w") as f:
-            for i in range(1, self.HOW_MANY_TESTS):
+        with open("test_main_generated.py", "w") as f:
+            for i in track(range(1, self.HOW_MANY_TESTS)):
                 x = self.enCiphey_obj.getRandomEncryptedSentence()
+                print(x)
                 # if x["CipherUsed"] == "MorseCode":
                 # self.make_test_lc_true_template(cipher=x)
                 to_append = self.make_test_true_template(cipher=x)
+                print(f"Adding {to_append}")
                 f.write(to_append)
 
     def make_test_true_template(self, cipher):
@@ -66,6 +69,10 @@ class test_generator:
     def randomString(self, stringLength):
         letters = string.ascii_letters
         return "".join(random.choice(letters) for i in range(stringLength))
+
+
+t = test_generator()
+t.main()
 
 
 # return {"PlainText": text, "EncryptedText": encryptedText, "CipherUsed": name}

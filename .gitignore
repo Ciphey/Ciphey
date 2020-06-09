@@ -27,7 +27,8 @@ pip-selfcheck.json
 ciphey.egg-info
 dist/
 dist
-
+hansard.txt
+poetry.lock
 # End of https://www.gitignore.io/api/venv
 
 # Created by git when using merge tools for conflicts
