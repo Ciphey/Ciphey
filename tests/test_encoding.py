@@ -10,6 +10,7 @@ import cipheydists
 
 config = make_default_config("")
 
+
 class TestEncoding(unittest.TestCase):
     def test_english_yes(self):
         lc = Brandon(config)
@@ -61,12 +62,26 @@ class TestEncoding(unittest.TestCase):
         result = ep.decrypt(a)
         self.assertEqual(result["IsPlaintext?"], True)
 
-    def test_base32(self):
+    def test_morse(self):
+        lc = Brandon(config)
+        ep = EncodingParent(lc)
         logger.remove()
         logger.configure()
         logger.add(sink=sys.stderr, level="TRACE", colorize=True)
         logger.opt(colors=True)
         logger.error(f"""Debug level set to {config["debug"]}""")
+        a = "| .... . .-.. .-.. ---/../.- --/.-/-.-. .... .. .-.. -../..-. .-. --- --/--- ..- -/... .--. .- -.-. ./.- -. -../../.-.. .. -.- ./-.-. -.-- -... . .-./.- -. -../-.-. .- -"
+        result = ep.decrypt(a)
+        logger.debug(result)
+        logger.debug(result)
+        self.assertEqual(result["IsPlaintext?"], True)
+
+    def test_base32(self):
+
+        # logger.configure()
+        # logger.add(sink=sys.stderr, level="TRACE", colorize=True)
+        # logger.opt(colors=True)
+        # logger.error(f"""Debug level set to {config["debug"]}""")
 
         lc = Brandon(config)
         ep = EncodingParent(lc)

@@ -1,6 +1,7 @@
 from loguru import logger
 import cipheydists
 
+
 class MorseCode:
     def __init__(self, lc):
         self.lc = lc
@@ -38,18 +39,27 @@ class MorseCode:
         }
 
     def checkIfMorse(self, text):
-        return set(self.ALLOWED).issuperset(text)
+        # return set(self.ALLOWED).issuperset(text)
+        return "-" or "." in text
 
     def unmorse_it(self, text):
         returnMsg = ""
         for word in text.split("/"):
             for char in word.strip().split():
                 # translates every letter
-                m = self.MORSE_CODE_DICT_INV[char]
-                if m == None:
+                try:
+                    m = self.MORSE_CODE_DICT_INV[char]
+                except KeyError:
                     m = ""
-                returnMsg += m
+                returnMsg = returnMsg + m
                 # after every word add a space
             # after every word add a space
-            returnMsg += " "
+            returnMsg = returnMsg + " "
+        print(returnMsg)
         return returnMsg.strip().capitalize()
+
+
+x = MorseCode(lc=None)
+x.unmorse_it(
+    "| .... . .-.. .-.. ---/../.- --/.-/-.-. .... .. .-.. -../..-. .-. --- --/--- ..- -/... .--. .- -.-. ./.- -. -../../.-.. .. -.- ./-.-. -.-- -... . .-./.- -. -../-.-. .- -"
+)
