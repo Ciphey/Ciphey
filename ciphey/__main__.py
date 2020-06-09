@@ -224,7 +224,6 @@ class Ciphey:
 
         """
         result = self.lc.checkLanguage(self.text)
-        print(result)
         if result:
             print("You inputted plain text!")
             print(f"Returning {self.text}")
