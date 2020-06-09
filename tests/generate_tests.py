@@ -34,37 +34,40 @@ from rich.progress import track
 
 class test_generator:
     def __init__(self):
-        self.HOW_MANY_TESTS = 1
+        self.HOW_MANY_TESTS = 2
         self.enCiphey_obj = enciphey.encipher()
 
     def main(self):
         with open("test_main_generated.py", "w") as f:
+            print("Opened fild")
             for i in track(range(1, self.HOW_MANY_TESTS)):
+                print("In the for loop")
                 x = self.enCiphey_obj.getRandomEncryptedSentence()
                 print(x)
                 # if x["CipherUsed"] == "MorseCode":
                 # self.make_test_lc_true_template(cipher=x)
-                to_append = self.make_test_true_template(cipher=x)
+                to_append = self.make_test_lc_true_template(cipher=x)
                 print(f"Adding {to_append}")
                 f.write(to_append)
 
     def make_test_true_template(self, cipher):
         id = self.randomString(8)
         return f"""
-        # {cipher}
-        def test_{cipher['CipherUsed']}_{id}():
-            res = ciphey.main('{cipher['encryptedText']}')
-            assert(res == {cipher['PlainText']})
+def test_{cipher['Encrypted Texts']['CipherUsed']}_{id}():
+    # {cipher}
+    res = ciphey.main('{cipher['Encrypted Texts']['EncryptedText']}')
+    assert(res == {cipher['Encrypted Texts']['PlainText']})
         """
 
     def make_test_lc_true_template(self, cipher):
         id = self.randomString(8)
         return f"""
-        # {cipher}
-        def test_{cipher['CipherUsed']}_{id}():
-            res = ciphey.main('{cipher['encryptedText']}')
-            assert lc.checkLanguage(res) == True
-    """
+def test_{cipher['Encrypted Texts']['CipherUsed']}_{id}():
+    # {cipher}
+    res = ciphey.main('{cipher['Encrypted Texts']['EncryptedText']}')
+
+    assert lc.checkLanguage(res) == True
+"""
 
     def randomString(self, stringLength):
         letters = string.ascii_letters
