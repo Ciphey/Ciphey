@@ -5,6 +5,8 @@ description = "Automated Decryption Tool"
 authors = ["Brandon <brandon@skerritt.blog>"]
 license = "MIT"
 documentation = "https://ciphey.readthedocs.io"
+exclude = ["tests/hansard.txt"]
+
 
 [tool.poetry.dependencies]
 python = "^3.8"
