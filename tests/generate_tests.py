@@ -27,6 +27,8 @@ for i in range(1, 20000):
 """
 import uuid
 import enciphey
+import string
+import random
 
 
 class test_generator:
@@ -43,7 +45,8 @@ class test_generator:
                 to_append = self.make_test_true_template(cipher=x)
                 f.write(to_append)
 
-    def make_test_true_template(self, cipher, id=uuid.uuid4()[0:7]):
+    def make_test_true_template(self, cipher):
+        id = self.randomString(8)
         return f"""
         # {cipher}
         def test_{cipher['CipherUsed']}_{id}():
@@ -51,13 +54,18 @@ class test_generator:
             assert(res == {cipher['PlainText']})
         """
 
-    def make_test_lc_true_template(self, cipher, id=uuid.uuid4()[0:7]):
+    def make_test_lc_true_template(self, cipher):
+        id = self.randomString(8)
         return f"""
         # {cipher}
         def test_{cipher['CipherUsed']}_{id}():
             res = ciphey.main('{cipher['encryptedText']}')
             assert lc.checkLanguage(res) == True
     """
+
+    def randomString(self, stringLength):
+        letters = string.ascii_letters
+        return "".join(random.choice(letters) for i in range(stringLength))
 
 
 # return {"PlainText": text, "EncryptedText": encryptedText, "CipherUsed": name}
