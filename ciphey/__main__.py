@@ -30,7 +30,7 @@ one_level_of_decryption handles progress bars and stuff.
 import warnings
 import argparse
 import sys
-from typing import Optional, Tuple
+from typing import Optional, Tuple, Dict
 
 from rich.console import Console
 from rich.table import Column, Table
@@ -58,6 +58,20 @@ try:
     import mathsHelper as mh
 except ModuleNotFoundError:
     import ciphey.mathsHelper as mh
+
+
+def make_default_config(ctext: str) -> Dict[str, object]:
+    from ciphey.LanguageChecker.brandon import ciphey_language_checker as brandon
+    import cipheydists
+    return {
+        "ctext": ctext,
+        "grep": False,
+        "info": False,
+        "debug": "WARNING",
+        "checker": brandon,
+        "wordlist": set(cipheydists.get_list("english")),
+        "params": {}
+    }
 
 
 class Ciphey:
@@ -214,7 +228,7 @@ class Ciphey:
         self.console.print(table)
         return None
 
-    def one_level_of_decryption(self) -> None:
+    def one_level_of_decryption(self) -> Optional[str]:
         """Performs one level of encryption.
 
         Either uses alive_bar or not depending on if self.greppable is set.
@@ -234,7 +248,7 @@ class Ciphey:
             output = self.decrypt_normal()
         return output
 
-    def decrypt_normal(self, bar=None) -> None:
+    def decrypt_normal(self, bar=None) -> Optional[str]:
         """Called by one_level_of_decryption
 
         Performs a decryption, but mainly parses the internal data packet and prints useful information.
@@ -243,7 +257,7 @@ class Ciphey:
             bar -> whether or not to use alive_Bar
 
         Returns:
-            None, but prints.
+            str if found, or None if not
 
         """
         result = self.lc.checkLanguage(self.text)
@@ -450,7 +464,7 @@ def arg_parsing() -> Optional[dict]:
     return config
 
 
-def main(config: dict = None) -> Optional[str]:
+def main(config: Dict[str, object] = None) -> Optional[str]:
     """Function to deal with arguments. Either calls with args or not. Makes Pytest work.
 
     It gets the arguments in the function definition using locals()
@@ -465,13 +479,13 @@ def main(config: dict = None) -> Optional[str]:
     """
     # We must fill in the arguments if they are not provided
     if config is None:
-        args = arg_parsing()
+        config = arg_parsing()
         # Check if we errored out
-        if args is None:
+        if config is None:
             return None
 
     # Now we have working arguments, we can expand it and pass it to the Ciphey constructor
-    cipher_obj = Ciphey(args)
+    cipher_obj = Ciphey(config)
     return cipher_obj.decrypt()
 
 
