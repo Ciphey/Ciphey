@@ -41,15 +41,20 @@ class Bases:
             # yeet turning b strings into normal stringy bois
             result = result.decode("utf-8")
         except UnicodeDecodeError as e:
+            logger.trace("Bad unicode")
             result = None
         except binascii.Error as e:
+            logger.trace("binascii error")
             result = None
         except ValueError:
+            logger.trace("Failed to decode base")
             result = None
 
         if result is not None and self.lc.checkLanguage(result):
             logger.debug(f"Bases successful, returning {result}")
             return self.goodRet(result, cipher="Bases")
+        else:
+            return self.badRet()
 
     def base64(self, text: str):
         """Base64 decode
