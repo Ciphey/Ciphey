@@ -47,7 +47,7 @@ try:
     from ciphey.Decryptor.Hash.hashParent import HashParent
     from ciphey.Decryptor.Encoding.encodingParent import EncodingParent
 except ModuleNotFoundError:
-    from languageCheckerMod import LanguageChecker as lc
+    from LanguageChecker import LanguageChecker as lc
     from neuralNetworkMod.nn import NeuralNetwork
     from Decryptor.basicEncryption.basic_parent import BasicParent
     from Decryptor.Hash.hashParent import HashParent
@@ -83,7 +83,6 @@ class Ciphey:
         logger.configure()
         logger.add(sink=sys.stderr, level=config["debug"], colorize=sys.stderr.isatty())
         logger.opt(colors=True)
-        logger.trace(f"""Finished argument object is {config}""")
         logger.debug(f"""Debug level set to {config["debug"]}""")
         # general purpose modules
         self.ai = NeuralNetwork()

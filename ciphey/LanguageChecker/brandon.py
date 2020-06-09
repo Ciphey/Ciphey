@@ -49,7 +49,7 @@ self.languages = {
 In alphabetical order
 And you're.... Done! Make sure the name of the two match up
 """
-from typing import Dict
+from typing import Dict, Set
 
 from .iface import LanguageChecker
 from string import punctuation
@@ -83,6 +83,8 @@ class Brandon(LanguageChecker):
     if a string is 45% **language** words, then it's confirmed to be english
     """
 
+    wordlist: set
+
     def cleanText(self, text: str) -> set:
         """Cleans the text ready to be checked
 
@@ -102,7 +104,7 @@ class Brandon(LanguageChecker):
         text = set(text)
         return text
 
-    def checkWordlist(self, text: str) -> float:
+    def checkWordlist(self, text: Set[str]) -> float:
         """Sorts & searches the dict, and returns the proportion of the words that are in the dictionary
 
         Args:
@@ -115,11 +117,9 @@ class Brandon(LanguageChecker):
         """
         # reads through most common words / passwords
         # and calculates how much of that is in language
-        text: set = self.cleanText(text)
+        return len(text.intersection(self.wordlist)) / len(text)
 
-        return len(text.intersection(self.wordlist)) // len(text)
-
-    def check1000Words(self, text: str) -> bool:
+    def check1000Words(self, text: Set[str]) -> bool:
         """Checks to see if word is in the list of 1000 words
 
         the 1000words is a dict, so lookup is O(1)
@@ -137,9 +137,6 @@ class Brandon(LanguageChecker):
 
         if text is None:
             return False
-        logger.trace(f"text before cleaning is {text}")
-        text = self.cleanText(text)
-        logger.trace(f"Check 1000 words text is {text}")
         # If any of the top 1000 words in the text appear
         # return true
         for word in text:
@@ -149,7 +146,7 @@ class Brandon(LanguageChecker):
                 return True
         return False
 
-    def confirmLanguage(self, text: str) -> True:
+    def confirmLanguage(self, text: set) -> True:
         """Confirms whether given text is language
 
         If the proportion (taken from checkDictionary) is higher than the language threshold, return True
@@ -165,14 +162,13 @@ class Brandon(LanguageChecker):
 
         proportion = self.checkWordlist(text)
         if self.checkWordlist(text) >= self.languageThreshold:
-            logger.trace(
-                f"The language proportion {proportion} is over the threshold {self.languageThreshold}"
-            )
+            logger.trace(f"The language proportion {proportion} is over the threshold {self.languageThreshold}")
             return True
         else:
+            logger.trace(f"The language proportion {proportion} is under the threshold {self.languageThreshold}")
             return False
 
-    def __init__(self, config: Dict[str, object]):
+    def __init__(self, config: dict):
         # Suppresses warning
         super().__init__(config)
         self.mh = mh.mathsHelper()
@@ -192,7 +188,9 @@ class Brandon(LanguageChecker):
             bool -> True if the text is English, False otherwise.
 
         """
-        logger.trace(f"In Language Checker with {text}")
+        logger.trace(f"In Language Checker with \"{text}\"")
+        text = self.cleanText(text)
+        logger.trace(f"Text split to \"{text}\"")
         if text == "":
             return False
         if not self.check1000Words(text):
@@ -204,8 +202,7 @@ class Brandon(LanguageChecker):
         logger.trace(
             f"1000words check passed"
         )
-        result2: bool = self.confirmLanguage(text)
-        if not result2:
+        if not self.confirmLanguage(text):
             logger.debug(f"Dictionary check failed. This is not plaintext")
             return False
 
