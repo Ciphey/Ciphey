@@ -30,16 +30,17 @@ class EncodingParent:
         but the way it works is you apply text to every item in the array (function)
 
         """
-        from multiprocessing.dummy import Pool as ThreadPool
+        # from multiprocessing.dummy import Pool as ThreadPool
 
-        pool = ThreadPool(4)
-        answers = pool.map(self.callDecrypt, torun)
+        # pool = ThreadPool(4)
+        # answers = pool.map(self.callDecrypt, torun)  # It's not worth the thread overhead
+        answers = map(self.callDecrypt, torun)
 
         for answer in answers:
             logger.debug(f"All answers are {answers}")
             # adds the LC objects together
             # self.lc = self.lc + answer["lc"]
-            if answer["IsPlaintext?"]:
+            if answer is not None and answer["IsPlaintext?"]:
                 logger.debug(f"Plaintext found {answer}")
                 return answer
         return {
