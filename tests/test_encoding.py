@@ -1,3 +1,5 @@
+import sys
+
 from ciphey.LanguageChecker.brandon import Brandon
 from ciphey.Decryptor.Encoding.encodingParent import EncodingParent
 from ciphey.__main__ import make_default_config
@@ -5,10 +7,8 @@ import unittest
 from loguru import logger
 import cipheydists
 
-logger.remove()
 
 config = make_default_config("")
-
 
 class TestEncoding(unittest.TestCase):
     def test_english_yes(self):
@@ -62,6 +62,12 @@ class TestEncoding(unittest.TestCase):
         self.assertEqual(result["IsPlaintext?"], True)
 
     def test_base32(self):
+        logger.remove()
+        logger.configure()
+        logger.add(sink=sys.stderr, level="TRACE", colorize=True)
+        logger.opt(colors=True)
+        logger.error(f"""Debug level set to {config["debug"]}""")
+
         lc = Brandon(config)
         ep = EncodingParent(lc)
         a = "NBSWY3DPEBWXSIDOMFWWKIDJOMQGEZLF"
