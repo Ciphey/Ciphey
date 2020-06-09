@@ -76,7 +76,7 @@ class Bases:
                 the text decoded as base32
         """
         logger.trace("Attempting base32")
-        return self._dispatch(base64.b64decode, text)
+        return self._dispatch(base64.b32decode, text)
 
     def base16(self, text: str):
         """Base16 decode
