@@ -1,4 +1,4 @@
-from Ciphey.ciphey.languageCheckerMod.dictionaryChecker import dictionaryChecker
+from ciphey.LanguageChecker import dictionaryChecker
 import unittest
 from loguru import logger
 
