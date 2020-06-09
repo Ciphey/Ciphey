@@ -39,20 +39,20 @@ class Bases:
             returns:
                 the text decoded as base64
         """
-        logger.debug(f"Attempting base64")
+        logger.trace("Attempting base64")
         result = None
         try:
             result = base64.b64decode(text)
             # yeet turning b strings into normal stringy bois
             result = result.decode("utf-8")
         except UnicodeDecodeError as e:
-            None
+            return None
         except binascii.Error as e:
-            None
+            return None
         except ValueError:
-            None
+            return None
 
-        if self.lc.checkLanguage(result) and result != "None":
+        if result is not None and self.lc.checkLanguage(result):
             logger.debug(f"Bases successful, returning {result}")
             return self.goodRet(result, cipher="Bases")
 
@@ -64,20 +64,20 @@ class Bases:
             returns:
                 the text decoded as base32
         """
-        logger.debug("attempting base32")
+        logger.trace("Attempting base32")
         result = None
         try:
             result = base64.b32decode(text)
             # yeet turning b strings into normal stringy bois
             result = result.decode("utf-8")
         except UnicodeDecodeError as e:
-            None
+            return None
         except binascii.Error as e:
-            None
+            return None
         except ValueError:
-            None
+            return None
 
-        if self.lc.checkLanguage(result) and result != "None":
+        if result is not None and self.lc.checkLanguage(result):
             logger.debug(f"base32 successful, {result}")
             return self.goodRet(result, cipher="Base32")
 
@@ -89,19 +89,19 @@ class Bases:
             returns:
                 the text decoded as base16
         """
-        logger.debug("attempting base32")
+        logger.trace("Attempting base32")
         result = None
         try:
             result = base64.b16decode(text)
             # yeet turning b strings into normal stringy bois
             result = result.decode("utf-8")
         except UnicodeDecodeError as e:
-            None
+            return None
         except binascii.Error as e:
-            None
+            return None
         except ValueError:
-            None
-        if self.lc.checkLanguage(result) and result != "None":
+            return None
+        if result is not None and self.lc.checkLanguage(result):
             logger.debug(f"Base16 successful, {result}")
             return self.goodRet(result, cipher="Base16")
 
@@ -113,20 +113,20 @@ class Bases:
             returns:
                 the text decoded as base85
         """
-        logger.debug("Attempting base85")
+        logger.trace("Attempting base85")
         result = None
         try:
             result = base64.b85decode(text)
             # yeet turning b strings into normal stringy bois
             result = result.decode("utf-8")
         except UnicodeDecodeError as e:
-            None
+            return None
         except binascii.Error as e:
-            None
+            return None
         except ValueError:
-            None
+            return None
 
-        if self.lc.checkLanguage(result) and result != "None":
+        if result is not None and self.lc.checkLanguage(result):
             logger.debug(f"Base85 successful, {result}")
             return self.goodRet(result, cipher="Base85")
 
