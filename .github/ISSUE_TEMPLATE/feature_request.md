@@ -6,9 +6,8 @@ labels: enhancement
 assignees: brandonskerritt
 
 ---
+### Problem:
+_What exactly do you think is missing? How does it impact you? Are there any hacks that people use instead?_
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
-
-**Describe the feature you'd like**
-A clear and concise description of what you want to happen.
+### Solution:
+_How could this problem be solved? What could be added? How could it be integrated into the current system?_
