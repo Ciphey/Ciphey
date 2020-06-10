@@ -56,7 +56,7 @@ class test_generator:
         return f"""
 def test_{cipher['Encrypted Texts']['CipherUsed']}_{id}():
     # {cipher}
-    res = ciphey.main('{cipher['Encrypted Texts']['EncryptedText']}')
+    res = ciphey.main('''{cipher['Encrypted Texts']['EncryptedText']}''')
     assert(res == {cipher['Encrypted Texts']['PlainText']})
         """
 
@@ -65,7 +65,7 @@ def test_{cipher['Encrypted Texts']['CipherUsed']}_{id}():
         return f"""
 def test_{cipher['Encrypted Texts']['CipherUsed']}_{id}():
     # {cipher}
-    cfg = make_default_config({cipher['Encrypted Texts']['EncryptedText']})
+    cfg = make_default_config('''{cipher['Encrypted Texts']['EncryptedText']}''')
     cfg["debug"] = "TRACE"
     result = main(cfg)
 
