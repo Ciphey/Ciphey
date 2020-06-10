@@ -99,7 +99,7 @@ def crack(hashvalue, lc):
         for api in md5:
             r = api(hashvalue, "md5")
             result = lc.checkLanguage(r) if r is not None else None
-            if result and r is not None:
+            if result is not None or r is not None:
                 logger.debug(f"MD5 returns True {r}")
                 return {
                     "lc": None,
@@ -112,7 +112,7 @@ def crack(hashvalue, lc):
         for api in sha1:
             r = api(hashvalue, "sha1")
             result = lc.checkLanguage(r) if r is not None else None
-            if result and r is not None:
+            if result is not None and r is not None:
                 logger.debug(f"sha1 returns true")
                 return {
                     "lc": None,
@@ -125,7 +125,7 @@ def crack(hashvalue, lc):
         for api in sha256:
             r = api(hashvalue, "sha256")
             result = lc.checkLanguage(r) if r is not None else None
-            if result and r is not None:
+            if result is not None and r is not None:
                 logger.debug(f"sha256 returns true")
                 return {
                     "lc": None,
@@ -138,7 +138,7 @@ def crack(hashvalue, lc):
         for api in sha384:
             r = api(hashvalue, "sha384")
             result = lc.checkLanguage(r) if r is not None else None
-            if result and r is not None:
+            if result is not None and r is not None:
                 logger.debug(f"sha384 returns true")
                 return {
                     "lc": None,
@@ -151,7 +151,7 @@ def crack(hashvalue, lc):
         for api in sha512:
             r = api(hashvalue, "sha512")
             result = lc.checkLanguage(r) if r is not None else None
-            if result and r is not None:
+            if result is not None and r is not None:
                 logger.debug(f"sha512 returns true")
                 return {
                     "lc": None,
@@ -160,15 +160,15 @@ def crack(hashvalue, lc):
                     "Cipher": "sha512",
                     "Extra Information": None,
                 }
-    else:
-        logger.debug(f"Returnign None packet")
-        return {
-            "lc": None,
-            "IsPlaintext?": False,
-            "Plaintext": None,
-            "Cipher": None,
-            "Extra Information": "The hash wasn't found. Please try Hashkiller.co.uk first, then use Hashcat to manually crack the hash.",
-        }
+
+    logger.debug(f"Returning None packet")
+    return {
+        "lc": None,
+        "IsPlaintext?": False,
+        "Plaintext": None,
+        "Cipher": None,
+        "Extra Information": "The hash wasn't found. Please try Hashkiller.co.uk first, then use Hashcat to manually crack the hash.",
+    }
 
 
 result = {}
