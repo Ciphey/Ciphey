@@ -43,7 +43,7 @@ class MorseCode:
         for i in text:
             if i in self.ALLOWED:
                 count += 1
-        return count / len(text) > 0.625)
+        return count / len(text) > 0.625
 
     def unmorse_it(self, text):
         returnMsg = ""
