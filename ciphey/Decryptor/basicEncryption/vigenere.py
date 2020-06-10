@@ -219,40 +219,6 @@ class Vigenere:
                         break
         return hackedMessage
 
-    def decryptMessage(self, key, message):
-        return self.translateMessage(key, message, "decrypt")
-
     def getName(self):
         return "Viginere"
-
-    def translateMessage(self, key, message, mode):
-        translated = []  # Stores the encrypted/decrypted message string.
-
-        keyIndex = 0
-        key = key.upper()
-
-        for symbol in message:  # Loop through each symbol in message.
-            num = self.LETTERS.find(symbol.upper())
-            if num != -1:  # -1 means symbol.upper() was not found in LETTERS.
-                if mode == "encrypt":
-                    num += self.LETTERS.find(key[keyIndex])  # Add if encrypting.
-                elif mode == "decrypt":
-                    num -= self.LETTERS.find(key[keyIndex])  # Subtract if decrypting.
-
-                num %= len(self.LETTERS)  # Handle any wraparound.
-
-                # Add the encrypted/decrypted symbol to the end of translated:
-                if symbol.isupper():
-                    translated.append(self.LETTERS[num])
-                elif symbol.islower():
-                    translated.append(self.LETTERS[num].lower())
-
-                keyIndex += 1  # Move to the next letter in the key.
-                if keyIndex == len(key):
-                    keyIndex = 0
-            else:
-                # Append the symbol without encrypting/decrypting.
-                translated.append(symbol)
-
-        return "".join(translated)
 

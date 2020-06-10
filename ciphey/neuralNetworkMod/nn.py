@@ -19,6 +19,7 @@ from tensorflow.keras.models import Sequential, load_model
 from string import punctuation
 import numpy
 import sys
+import cipheydists
 
 sys.path.append("..")
 try:
@@ -38,9 +39,8 @@ class NeuralNetwork:
     def __init__(self):
         self.CATEGORIES = ["sha1", "md5", "sha256", "sha512", "caeser", "plaintext"]
         self.CATEGORIES = [1, 2, 3, 4, 5, 6]
-        script_dir = os.path.dirname(__file__)
-        file_path = os.path.join(script_dir, "NeuralNetworkModel.model")
-        self.MODEL = load_model(file_path)
+        # self.MODEL = load_model("cipher_detector.h5")
+        self.MODEL = load_model(cipheydists.get_model("cipher_detector"))
 
         self.mh = mh.mathsHelper()
 

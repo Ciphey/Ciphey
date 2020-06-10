@@ -20,6 +20,7 @@ class Bases:
             self.base32(text),
             self.base16(text),
             self.base64(text),
+            self.base85(text),
         ]
         for answer in bases:
             try:
@@ -47,6 +48,9 @@ class Bases:
             logger.trace("binascii error")
             result = None
         except ValueError:
+            logger.trace("Failed to decode base")
+            result = None
+        except:
             logger.trace("Failed to decode base")
             result = None
 

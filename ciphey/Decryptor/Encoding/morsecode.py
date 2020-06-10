@@ -57,9 +57,3 @@ class MorseCode:
             returnMsg = returnMsg + " "
         print(returnMsg)
         return returnMsg.strip().capitalize()
-
-
-x = MorseCode(lc=None)
-x.unmorse_it(
-    "| .... . .-.. .-.. ---/../.- --/.-/-.-. .... .. .-.. -../..-. .-. --- --/--- ..- -/... .--. .- -.-. ./.- -. -../../.-.. .. -.- ./-.-. -.-- -... . .-./.- -. -../-.-. .- -"
-)
