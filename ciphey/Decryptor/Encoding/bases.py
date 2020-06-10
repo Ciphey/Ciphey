@@ -21,6 +21,7 @@ class Bases:
             self.base16(text),
             self.base64(text),
             self.base85(text),
+            self.ascii85(text)
         ]
         for answer in bases:
             try:
@@ -102,8 +103,19 @@ class Bases:
                 the text decoded as base85
         """
         logger.trace("Attempting base85")
-        result = None
         return self._dispatch(base64.b85decode, text, "base85")
+
+    def ascii85(self, text: str):
+        """Base85 decode
+
+            args:
+                text -> text to decode
+            returns:
+                the text decoded as base85
+        """
+        logger.trace("Attempting ascii85")
+        result = None
+        return self._dispatch(base64.a85decode, text, "base85")
 
     def goodRet(self, result, cipher):
         logger.debug(f"Result for base is true, where result is {result}")
