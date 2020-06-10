@@ -30,7 +30,7 @@ thread_count = 4
 
 
 def alpha(hashvalue, hashtype):
-    return False
+    return None
 
 
 def beta(hashvalue, hashtype):
@@ -44,7 +44,7 @@ def beta(hashvalue, hashtype):
     if match:
         return match.group(1)
     else:
-        return False
+        return None
 
 
 def gamma(hashvalue, hashtype):
@@ -57,7 +57,7 @@ def gamma(hashvalue, hashtype):
     if response:
         return response
     else:
-        return False
+        return None
 
 
 def delta(hashvalue, hashtype):
@@ -67,7 +67,7 @@ def delta(hashvalue, hashtype):
     # if match:
     #    return match.group(1)
     # else:
-    return False
+    return None
 
 
 def theta(hashvalue, hashtype):
@@ -82,7 +82,7 @@ def theta(hashvalue, hashtype):
     if len(response) != 0:
         return response
     else:
-        return False
+        return None
 
 
 md5 = [gamma, alpha, beta, theta, delta]
@@ -98,8 +98,8 @@ def crack(hashvalue, lc):
     if len(hashvalue) == 32:
         for api in md5:
             r = api(hashvalue, "md5")
-            result = lc.checkLanguage(r)
-            if result:
+            result = lc.checkLanguage(r) if r is not None else None
+            if result and r is not None:
                 logger.debug(f"MD5 returns True {r}")
                 return {
                     "lc": None,
@@ -111,7 +111,8 @@ def crack(hashvalue, lc):
     elif len(hashvalue) == 40:
         for api in sha1:
             r = api(hashvalue, "sha1")
-            if r:
+            result = lc.checkLanguage(r) if r is not None else None
+            if result and r is not None:
                 logger.debug(f"sha1 returns true")
                 return {
                     "lc": None,
@@ -123,8 +124,8 @@ def crack(hashvalue, lc):
     elif len(hashvalue) == 64:
         for api in sha256:
             r = api(hashvalue, "sha256")
-            result = lc.checkLanguage(r)
-            if result:
+            result = lc.checkLanguage(r) if r is not None else None
+            if result and r is not None:
                 logger.debug(f"sha256 returns true")
                 return {
                     "lc": None,
@@ -136,8 +137,8 @@ def crack(hashvalue, lc):
     elif len(hashvalue) == 96:
         for api in sha384:
             r = api(hashvalue, "sha384")
-            result = lc.checkLanguage(r)
-            if result:
+            result = lc.checkLanguage(r) if r is not None else None
+            if result and r is not None:
                 logger.debug(f"sha384 returns true")
                 return {
                     "lc": None,
@@ -149,8 +150,8 @@ def crack(hashvalue, lc):
     elif len(hashvalue) == 128:
         for api in sha512:
             r = api(hashvalue, "sha512")
-            result = lc.checkLanguage(r)
-            if result:
+            result = lc.checkLanguage(r) if r is not None else None
+            if result and r is not None:
                 logger.debug(f"sha512 returns true")
                 return {
                     "lc": None,
@@ -160,6 +161,7 @@ def crack(hashvalue, lc):
                     "Extra Information": None,
                 }
     else:
+        logger.debug(f"Returnign None packet")
         return {
             "lc": None,
             "IsPlaintext?": False,
