@@ -24,6 +24,7 @@ These are taken from the GitHub Issues tab.
 * Multiple debug statements were printed when not in debug mode.
 * Morse Code now has a more complete alphabet.
 * Morse code now doesn't fail on letters that cannot be translated to Morse.
+* Fixed a bug where if any of the inputs were a certain size, it got classed as a hash and bypassed language checker despite it not being English.
 #### Maintenance
 * Offloaded lots of stuff onto C++ core to get much speed
 * Disabled addition of language checkers, as no-one could explain why it would make sense
