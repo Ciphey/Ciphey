@@ -5,6 +5,8 @@ description = "Automated Decryption Tool"
 authors = ["Brandon <brandon@skerritt.blog>"]
 license = "MIT"
 documentation = "https://ciphey.readthedocs.io"
+exclude = ["tests/hansard.txt"]
+
 [tool.poetry.dependencies]
 python = "^3.8"
 tensorflow = "^2.1.0"
@@ -25,6 +27,7 @@ safety = "^1.9.0"
 sphinx = "^3.0.4"
 sphinx-autodoc-typehints = "^1.10.3"
 cipheydists = "^0.1.3"
+nltk = "^3.5"
 
 [tool.poetry.scripts]
 ciphey = 'ciphey.__main__:main'

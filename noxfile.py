@@ -65,7 +65,7 @@ def coverage(session: Session) -> None:
     """Upload coverage data."""
     install_with_constraints(session, "coverage[toml]", "codecov")
     session.run("pip3", "install", "cipheydists")
-    session.run("coverage", "xml", "--fail-under=0")
+    session.run("coverage", "xml", "--fail-under=0", "--patch=off")
     session.run("codecov", *session.posargs)
 
 

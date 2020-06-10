@@ -17,8 +17,8 @@ Ciphey is an automated decryption tool. Input encrypted text, get the decrypted 
 > "What type of encryption?"
 
 That's the point. You don't know, you just know it's possibly encrypted. Ciphey will figure it out for you.
+Ciphey uses a deep neural network with a simple filtration system to approximate what something is encrypted with. And then a custom-built, customisable natural languge processing Language Checker Interface, which can detect when the given text becomes plaintext.
 
-Ciphey uses a deep neural network to guess what something is encrypted with, and then a custom built natural language processing module to determine the output.
 
 Ciphey can solve most things in about 2 seconds.
 <p align="center" href="https://asciinema.org/a/336257">
@@ -32,6 +32,8 @@ Ciphey can solve most things in about 2 seconds.
 - **Custom built natural language processing module** Ciphey can determine whether something is plaintext or not. It has an incredibly high accuracy, along with being fast.
 - **Multi Language Support** at present, only English.
 - **Supports hashes & encryptions** Which the alternatives such as CyberChef do not. 
+- **C++ core** Blazing fast speed.
+
 
 # Getting Started
 ## Installation
@@ -42,11 +44,12 @@ Ciphey can solve most things in about 2 seconds.
 To run ciphey.
 
 ### Cloning from GitHub
-```git clone https://github.com/brandonskerritt/ciphey```
+
+```git clone https://github.com/ciphey/ciphey```
 cd ciphey && python3 ciphey -t "encrypted text here"```
-To run ciphey
 ### Running Ciphey
 To get rid of the progress bars, probability table, and all the noise use the grep mode.
+
 ```ciphey -t "encrypted text here" -g```
 For a full list of arguments, run `ciphey -h`.
 
