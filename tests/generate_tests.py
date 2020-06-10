@@ -39,6 +39,7 @@ class test_generator:
 
     def main(self):
         with open("test_main_generated.py", "w") as f:
+            f.write("from ciphey.__main__ import main, make_default_config")
             print("Opened fild")
             for i in track(range(1, self.HOW_MANY_TESTS)):
                 print("In the for loop")
@@ -64,9 +65,11 @@ def test_{cipher['Encrypted Texts']['CipherUsed']}_{id}():
         return f"""
 def test_{cipher['Encrypted Texts']['CipherUsed']}_{id}():
     # {cipher}
-    res = ciphey.main('{cipher['Encrypted Texts']['EncryptedText']}')
+    cfg = make_default_config({cipher['Encrypted Texts']['EncryptedText']})
+    cfg["debug"] = "TRACE"
+    result = main(cfg)
 
-    assert lc.checkLanguage(res) == True
+    assert result["IsPlaintext?"] == True 
 """
 
     def randomString(self, stringLength):
