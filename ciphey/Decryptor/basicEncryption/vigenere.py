@@ -2,11 +2,6 @@ import itertools, re
 import cipheycore
 import cipheydists
 
-try:
-    import Decryptor.basicEncryption.freqAnalysis
-except ModuleNotFoundError:
-    import ciphey.Decryptor.basicEncryption.freqAnalysis
-
 
 class Vigenere:
     def __init__(self, lc):
