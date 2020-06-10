@@ -58,5 +58,4 @@ class MorseCode:
                 # after every word add a space
             # after every word add a space
             returnMsg = returnMsg + " "
-        print(returnMsg)
-        return returnMsg.strip().capitalize()
+        return returnMsg.strip().upper()
