@@ -57,18 +57,8 @@ It is also possible to pipe data into Ciphey, or to use Ciphey like `ciphey 'enc
 ### Importing Ciphey
 You can import Ciphey\'s __main__ and use it in your own programs and code.
 This is feature is expected to expand in the next version.
-# FAQ
-
-<details>
-  <summary>Click to expand!</summary>
-  
-## Curious about the neural network or language checker? 
-* The documentation is your friend at /docs
-## The Internal Data packet
-* Passed around in the program, it is `{"lc": self.lc, "IsPlaintext?": True, "Plaintext": translated, "Cipher": "Caesar", "Extra Information": "The rotation used is {counter}"}`
-## What new features were added?
-* Read the [changelog.md](changelog.md)
-</details>
+# Docs
+The docs are located at [ciphey.readthedocs.io](ciphey.readthedocs.io)
 
 
 # Contributors
@@ -76,6 +66,6 @@ Ciphey was invented by [Brandon Skerritt](https://github.com/brandonskerritt) wa
 ## Contributing
 Please read the contributing file.
 ## Code Contributors
-None, so far....
+[Michal](https://github.com/michalani)
 ## Financial Contributors
 Please donate to us, we're students and we want Huel.
