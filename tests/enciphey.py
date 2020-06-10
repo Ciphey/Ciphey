@@ -93,7 +93,7 @@ class encipher_crypto:  # pragma: no cover
 
             returns:
                 text -> as base 64"""
-        return base64.b64encode(bytes(text, "utf-8"))
+        return base64.b64encode(bytes(text, "utf-8")).decode("utf-8")
 
     def Caesar(self, s, k):  # pragma: no cover
         """Iterates through each letter and constructs the cipher text"""
@@ -118,7 +118,7 @@ class encipher_crypto:  # pragma: no cover
 
             returns:
                 text -> as base 64"""
-        return base64.b32encode(bytes(text, "utf-8"))
+        return base64.b32encode(bytes(text, "utf-8")).decode("utf-8")
 
     def Base16(self, text: str) -> str:  # pragma: no cover
         """Turns text in base64 using Python libray
@@ -128,7 +128,7 @@ class encipher_crypto:  # pragma: no cover
 
             returns:
                 text -> as base 64"""
-        return base64.b16encode(bytes(text, "utf-8"))
+        return base64.b16encode(bytes(text, "utf-8")).decode("utf-8")
 
     def Binary(self, text: str) -> str:  # pragma: no cover
         return " ".join(format(ord(x), "b") for x in text)
@@ -141,7 +141,7 @@ class encipher_crypto:  # pragma: no cover
     def Hex(self, text: str) -> str:  # pragma: no cover
         return binascii.hexlify(text.encode()).decode("utf-8")
 
-    def MorseCode(self, text: str) -> str:  # pragma: no cover
+    def MorseCode(self, text: str) -> str:  # pragma: :wno cover
         morse = []
         for i in text:
             m = self.morse_dict.get(i.upper())
