@@ -27,12 +27,12 @@ Ciphey can solve most things in about 2 seconds.
 
 # Features
 
-- **20+ encryptions supported** such as hashes, encodings (binary, base64) and normal encryptions like Caesar cipher, Transposition and more.
+- **20+ encryptions supported** such as hashes, encodings (binary, base64) and normal encryptions like Caesar cipher, Transposition and more. **[For the full list, click here](https://ciphey.readthedocs.io/en/latest/ciphers.html)**
 - **Deep neural network for targetting the right decryption** resulting in decryptions taking less than 3 seconds. If Ciphey cannot decrypt the text, Ciphey will use the neural network analysis to give you information on how to decrypt it yourself.
 - **Custom built natural language processing module** Ciphey can determine whether something is plaintext or not. It has an incredibly high accuracy, along with being fast.
 - **Multi Language Support** at present, only English.
 - **Supports hashes & encryptions** Which the alternatives such as CyberChef do not. 
-- **C++ core** Blazing fast speed.
+- **[C++ core](https://github.com/Ciphey/CipheyCore)** Blazingly fast.
 
 
 # Getting Started
