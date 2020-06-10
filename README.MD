@@ -66,7 +66,7 @@ Ciphey was invented by [Brandon Skerritt](https://github.com/brandonskerritt) wa
 ## Contributing
 Please read the contributing file.
 ## Code Contributors
-[Szymex73](https://github.com/szymex73/py-thmapi) for providing the TryHackMe answers dataset.
+[Szymex73](https://github.com/szymex73) for providing the TryHackMe answers dataset.
 
 [Michal](https://github.com/michalani) for helping with Base85 decoding.
 ## Financial Contributors
