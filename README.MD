@@ -58,7 +58,7 @@ It is also possible to pipe data into Ciphey, or to use Ciphey like `ciphey 'enc
 You can import Ciphey\'s __main__ and use it in your own programs and code.
 This is feature is expected to expand in the next version.
 # Docs
-The docs are located [here](ciphey.readthedocs.io)
+The docs are located at [https://ciphey.readthedocs.io/en/latest/](https://ciphey.readthedocs.io/en/latest/)
 
 
 # Contributors
