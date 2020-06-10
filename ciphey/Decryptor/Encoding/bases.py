@@ -102,7 +102,6 @@ class Bases:
                 the text decoded as base85
         """
         logger.trace("Attempting base85")
-        result = None
         return self._dispatch(base64.b85decode, text, "base85")
 
     def goodRet(self, result, cipher):
