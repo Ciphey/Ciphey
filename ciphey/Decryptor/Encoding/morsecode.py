@@ -5,7 +5,7 @@ import cipheydists
 class MorseCode:
     def __init__(self, lc):
         self.lc = lc
-        self.ALLOWED = [".", "-", " ", "/", "\n"]
+        self.ALLOWED = {".", "-", " ", "/", "\n"}
         self.MORSE_CODE_DICT = dict(cipheydists.get_charset("morse"))
         self.MORSE_CODE_DICT_INV = {v: k for k, v in self.MORSE_CODE_DICT.items()}
 
@@ -39,8 +39,11 @@ class MorseCode:
         }
 
     def checkIfMorse(self, text):
-        # return set(self.ALLOWED).issuperset(text)
-        return "-" or "." in text
+        count = 0
+        for i in text:
+            if i in self.ALLOWED:
+                count += 1
+        return count / len(text) > 0.625)
 
     def unmorse_it(self, text):
         returnMsg = ""
