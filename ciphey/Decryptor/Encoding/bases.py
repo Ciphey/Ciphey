@@ -103,7 +103,7 @@ class Bases:
         """
         logger.trace("Attempting base85")
         result = None
-        return self._dispatch(base64.b85decode, text, "base85")
+        return self._dispatch(base64.a85decode, text, "base85")
 
     def goodRet(self, result, cipher):
         logger.debug(f"Result for base is true, where result is {result}")
