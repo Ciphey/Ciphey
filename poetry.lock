@@ -134,7 +134,7 @@ description = ""
 name = "cipheycore"
 optional = false
 python-versions = ">=3.5,<4.0"
-version = "0.1.5rc3"
+version = "0.1.5rc4"
 
 [[package]]
 category = "main"
@@ -142,7 +142,7 @@ description = "A collection of distributions, character sets and dictionaries fo
 name = "cipheydists"
 optional = false
 python-versions = ">=3.5,<4.0"
-version = "0.1.3"
+version = "0.2.2"
 
 [[package]]
 category = "dev"
@@ -224,7 +224,7 @@ description = "the modular source code checker: pep8 pyflakes and co"
 name = "flake8"
 optional = false
 python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,>=2.7"
-version = "3.8.2"
+version = "3.8.3"
 
 [package.dependencies]
 mccabe = ">=0.6.0,<0.7.0"
@@ -825,7 +825,7 @@ description = "Python documentation generator"
 name = "sphinx"
 optional = false
 python-versions = ">=3.5"
-version = "3.0.4"
+version = "3.1.0"
 
 [package.dependencies]
 Jinja2 = ">=2.3"
@@ -848,7 +848,7 @@ sphinxcontrib-serializinghtml = "*"
 
 [package.extras]
 docs = ["sphinxcontrib-websupport"]
-lint = ["flake8 (>=3.5.0)", "flake8-import-order", "mypy (>=0.770)", "docutils-stubs"]
+lint = ["flake8 (>=3.5.0)", "flake8-import-order", "mypy (>=0.780)", "docutils-stubs"]
 test = ["pytest", "pytest-cov", "html5lib", "typed-ast", "cython"]
 
 [[package]]
@@ -1120,7 +1120,7 @@ python-versions = "*"
 version = "1.12.1"
 
 [metadata]
-content-hash = "4200c55e3ee6de51ac551d2d4e56490e50983341b7a20f7183f2960f7701c22a"
+content-hash = "6439117ac85974d7b825e1faad2584e3d55af66810bec4fc648fdb0869bce2ca"
 python-versions = "^3.8"
 
 [metadata.files]
@@ -1172,20 +1172,19 @@ chardet = [
     {file = "chardet-3.0.4.tar.gz", hash = "sha256:84ab92ed1c4d4f16916e05906b6b75a6c0fb5db821cc65e70cbd64a3e2a5eaae"},
 ]
 cipheycore = [
-    {file = "cipheycore-0.1.5rc3-cp35-cp35m-manylinux2014_x86_64.whl", hash = "sha256:0c634f0f7ba6d7b65a441544911ad38ca0078514d341990a0c9616c6a7fcb1dc"},
-    {file = "cipheycore-0.1.5rc3-cp35-cp35m-win_amd64.whl", hash = "sha256:172ef5e4849a1ac171b6d4d8dfa74c40eae5173b4f879ffcd3b546bdb4b1b877"},
-    {file = "cipheycore-0.1.5rc3-cp36-cp36m-manylinux2014_x86_64.whl", hash = "sha256:07f4896f3d26433196dd0a47cdc58392c0120fa743d19ef408a6ed7e51eeae98"},
-    {file = "cipheycore-0.1.5rc3-cp36-cp36m-win_amd64.whl", hash = "sha256:cbf7560ff8dd6c7ae1f95db5d891f7df90400c5dfb527801e0d7e5cc51f4daa5"},
-    {file = "cipheycore-0.1.5rc3-cp37-cp37m-macosx_10_15_x86_64.whl", hash = "sha256:f5149d04f7523933cf6fbcc4baec63f34c69070ef3816a1850f53360f978d989"},
-    {file = "cipheycore-0.1.5rc3-cp37-cp37m-manylinux2014_x86_64.whl", hash = "sha256:cfb2e5ae3bfba934e30763018dd3270271a9c29ee74b1c8312bc2b739a2503d7"},
-    {file = "cipheycore-0.1.5rc3-cp37-cp37m-win_amd64.whl", hash = "sha256:50e32392d5d7c00ebba287b36f23796c189469fe64a196fb7cc975db6b744cb4"},
-    {file = "cipheycore-0.1.5rc3-cp38-cp38-macosx_10_15_x86_64.whl", hash = "sha256:4c947e5d1ea84f5f232d6c3828c16c67582ff4140fbc8a2757f93d458857a691"},
-    {file = "cipheycore-0.1.5rc3-cp38-cp38-manylinux2014_x86_64.whl", hash = "sha256:0034d33513db5020ca7f1bbe86486c6e3738ebf00d77cb308491cad62425448f"},
-    {file = "cipheycore-0.1.5rc3-cp38-cp38-win_amd64.whl", hash = "sha256:627a374ed92212621c837416f64b7021d192f890b15623c883de598c3f88996c"},
+    {file = "cipheycore-0.1.5rc4-cp35-cp35m-manylinux2014_x86_64.whl", hash = "sha256:cf2f00b9b08c0a87536d6a36560bbff8809220d2e225796c4243287844a747d0"},
+    {file = "cipheycore-0.1.5rc4-cp35-cp35m-win_amd64.whl", hash = "sha256:b1c8682d3a4abad23e7c6a1b316b58a694a11823ef410070ff0492e69a4c434d"},
+    {file = "cipheycore-0.1.5rc4-cp36-cp36m-manylinux2014_x86_64.whl", hash = "sha256:d8006a771d7c775e31b1c9b61f6889b11b7ed8e61e2eff89a7b25c64cc9a89e0"},
+    {file = "cipheycore-0.1.5rc4-cp36-cp36m-win_amd64.whl", hash = "sha256:354ac7e9f0c7507f1bac6787654f939e6fa01d4c8eda871ed33200c814b01027"},
+    {file = "cipheycore-0.1.5rc4-cp37-cp37m-macosx_10_15_x86_64.whl", hash = "sha256:67e53eb3e04e0dd4462ae1c5ad563c7a1e3db6e811d481ba59e7d108add019bf"},
+    {file = "cipheycore-0.1.5rc4-cp37-cp37m-manylinux2014_x86_64.whl", hash = "sha256:6674570bb6851184e4f0f9547639a5ec64c871eaf0984b8df589f23cf95a3513"},
+    {file = "cipheycore-0.1.5rc4-cp37-cp37m-win_amd64.whl", hash = "sha256:44421ee4d63a86f26c2e4c3139f92fd704e1b9299c8d07259b44387e724498af"},
+    {file = "cipheycore-0.1.5rc4-cp38-cp38-macosx_10_15_x86_64.whl", hash = "sha256:34ff7430173c894afb3aed9c2efd3c29fa16d17fd59311fa8184a779d290a870"},
+    {file = "cipheycore-0.1.5rc4-cp38-cp38-manylinux2014_x86_64.whl", hash = "sha256:20b32e2791202ecb8a8ba348104d4ed145b60154e659e5c7e43752b828dc9791"},
+    {file = "cipheycore-0.1.5rc4-cp38-cp38-win_amd64.whl", hash = "sha256:4262d1ab898b024d1e262aedcfd42a960bb305b4277799ba2caaa3eec98844c0"},
 ]
 cipheydists = [
-    {file = "cipheydists-0.1.3-py3-none-any.whl", hash = "sha256:d6f2632b3cd895ae5b36a30a85d21c55157426a5371bd60f70a6f7af9a3edb15"},
-    {file = "cipheydists-0.1.3.tar.gz", hash = "sha256:54f913171d96e70d05348406bbb497cb32c25f31398a0aca7eb006d20110c852"},
+    {file = "cipheydists-0.2.2-py3-none-any.whl", hash = "sha256:ee5c8a9aeffb6f93d61905a63a1da0b51440f96d9c629a0e8e34adf8e759b4af"},
 ]
 click = [
     {file = "click-7.1.2-py2.py3-none-any.whl", hash = "sha256:dacca89f4bfadd5de3d7489b7c8a566eee0d3676333fbb50030263894c38c0dc"},
@@ -1246,8 +1245,8 @@ dparse = [
     {file = "dparse-0.5.1.tar.gz", hash = "sha256:a1b5f169102e1c894f9a7d5ccf6f9402a836a5d24be80a986c7ce9eaed78f367"},
 ]
 flake8 = [
-    {file = "flake8-3.8.2-py2.py3-none-any.whl", hash = "sha256:ccaa799ef9893cebe69fdfefed76865aeaefbb94cb8545617b2298786a4de9a5"},
-    {file = "flake8-3.8.2.tar.gz", hash = "sha256:c69ac1668e434d37a2d2880b3ca9aafd54b3a10a3ac1ab101d22f29e29cf8634"},
+    {file = "flake8-3.8.3-py2.py3-none-any.whl", hash = "sha256:15e351d19611c887e482fb960eae4d44845013cc142d42896e9862f775d8cf5c"},
+    {file = "flake8-3.8.3.tar.gz", hash = "sha256:f04b9fcbac03b0a3e58c0ab3a0ecc462e023a9faf046d57794184028123aa208"},
 ]
 gast = [
     {file = "gast-0.3.3-py2.py3-none-any.whl", hash = "sha256:8f46f5be57ae6889a4e16e2ca113b1703ef17f2b0abceb83793eaba9e1351a45"},
@@ -1698,8 +1697,8 @@ snowballstemmer = [
     {file = "snowballstemmer-2.0.0.tar.gz", hash = "sha256:df3bac3df4c2c01363f3dd2cfa78cce2840a79b9f1c2d2de9ce8d31683992f52"},
 ]
 sphinx = [
-    {file = "Sphinx-3.0.4-py3-none-any.whl", hash = "sha256:779a519adbd3a70fc7c468af08c5e74829868b0a5b34587b33340e010291856c"},
-    {file = "Sphinx-3.0.4.tar.gz", hash = "sha256:ea64df287958ee5aac46be7ac2b7277305b0381d213728c3a49d8bb9b8415807"},
+    {file = "Sphinx-3.1.0-py3-none-any.whl", hash = "sha256:7d3d5087e39ab5a031b75588e9859f011de70e213cd0080ccbc28079fb0786d1"},
+    {file = "Sphinx-3.1.0.tar.gz", hash = "sha256:1c445320a3310baa5ccb8d957267ef4a0fc930dc1234db5098b3d7af14fbb242"},
 ]
 sphinx-autodoc-typehints = [
     {file = "sphinx-autodoc-typehints-1.10.3.tar.gz", hash = "sha256:a6b3180167479aca2c4d1ed3b5cb044a70a76cccd6b38662d39288ebd9f0dff0"},
