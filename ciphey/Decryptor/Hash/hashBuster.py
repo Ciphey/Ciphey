@@ -92,14 +92,15 @@ sha384 = [alpha, beta, theta]
 sha512 = [alpha, beta, theta]
 
 
-def crack(hashvalue):
+def crack(hashvalue, lc):
     logger.debug(f"Starting to crack hashes")
     result = False
     if len(hashvalue) == 32:
         for api in md5:
             r = api(hashvalue, "md5")
-            if r:
-                logger.debug(f"md5 returns true")
+            result = lc.checkLanguage(r)
+            if result:
+                logger.debug(f"MD5 returns True {r}")
                 return {
                     "lc": None,
                     "IsPlaintext?": True,
@@ -122,7 +123,8 @@ def crack(hashvalue):
     elif len(hashvalue) == 64:
         for api in sha256:
             r = api(hashvalue, "sha256")
-            if r:
+            result = lc.checkLanguage(r)
+            if result:
                 logger.debug(f"sha256 returns true")
                 return {
                     "lc": None,
@@ -134,7 +136,8 @@ def crack(hashvalue):
     elif len(hashvalue) == 96:
         for api in sha384:
             r = api(hashvalue, "sha384")
-            if r:
+            result = lc.checkLanguage(r)
+            if result:
                 logger.debug(f"sha384 returns true")
                 return {
                     "lc": None,
@@ -146,7 +149,8 @@ def crack(hashvalue):
     elif len(hashvalue) == 128:
         for api in sha512:
             r = api(hashvalue, "sha512")
-            if r:
+            result = lc.checkLanguage(r)
+            if result:
                 logger.debug(f"sha512 returns true")
                 return {
                     "lc": None,
@@ -173,4 +177,3 @@ def threaded(hashvalue):
     if resp:
         print(hashvalue + " : " + resp)
         result[hashvalue] = resp
-

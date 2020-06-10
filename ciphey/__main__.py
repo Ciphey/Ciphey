@@ -86,7 +86,7 @@ class Ciphey:
         # the one bit of text given to us to decrypt
         self.text: str = config["ctext"]
         self.basic = BasicParent(self.lc)
-        self.hash = HashParent()
+        self.hash = HashParent(self.lc)
         self.encoding = EncodingParent(self.lc)
         self.level: int = 1
         self.greppable: bool = config["grep"]
