@@ -10,6 +10,7 @@ _supported_types = [str, bytes]
 _inverse_type = {str: bytes, bytes: str}
 T = TypeVar('T', str, bytes)
 
+global registry
 
 class ConfigurableModule(ABC):
     @staticmethod
@@ -30,8 +31,9 @@ class LanguageChecker(Generic[T], ConfigurableModule):
     @abstractmethod
     def checkLanguage(self, text: T) -> bool: pass
 
-    @abstractmethod
-    def __init__(self, config: Dict[str, object]): super().__init__(config)
+    def __init__(self, config: Dict[str, object]):
+        super().__init__(config)
+        registry.register()
 
 
 class Detector(Generic[T], ConfigurableModule):
@@ -137,10 +139,6 @@ class Registry:
     def __init__(self):
         for i in [LanguageChecker, Detector, Decoder, Cracker, Transcoder, Charset, Distribution, WordList]:
             self._reg[i] = {}
-
-
-
-
 
 registry = Registry()
 """
