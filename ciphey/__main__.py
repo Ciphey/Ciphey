@@ -55,9 +55,11 @@ except ModuleNotFoundError:
     from Decryptor.Encoding.encodingParent import EncodingParent
     import mathsHelper as mh
 
+
 def make_default_config(ctext: str, trace: bool = False) -> Dict[str, object]:
     from ciphey.LanguageChecker.brandon import ciphey_language_checker as brandon
     import cipheydists
+
     return {
         "ctext": ctext,
         "grep": False,
@@ -65,7 +67,7 @@ def make_default_config(ctext: str, trace: bool = False) -> Dict[str, object]:
         "debug": "TRACE" if trace else "WARNING",
         "checker": brandon,
         "wordlist": set(cipheydists.get_list("english")),
-        "params": {}
+        "params": {},
     }
 
 
@@ -111,7 +113,6 @@ class Ciphey:
         result = self.lc.checkLanguage(self.text)
         if result:
             print("You inputted plain text!")
-            print(f"Returning {self.text}")
             return {
                 "lc": self.lc,
                 "IsPlaintext?": True,
@@ -282,6 +283,7 @@ class Ciphey:
                     logger.debug(f"Ret is plaintext")
                     print(ret["Plaintext"])
                     if self.cipher_info:
+                        logger.trace("Self.cipher_info runs")
                         if ret["Extra Information"] is not None:
                             print(
                                 "The cipher used is",
@@ -327,7 +329,7 @@ def arg_parsing() -> Optional[dict]:
         help="Only output the answer, no progress bars or information. Useful for grep",
         action="store_true",
         required=False,
-        default=False
+        default=False,
     )
     parser.add_argument("-t", "--text", help="Text to decrypt", required=False)
     parser.add_argument(
@@ -336,7 +338,7 @@ def arg_parsing() -> Optional[dict]:
         help="Do you want information on the cipher used?",
         action="store_true",
         required=False,
-        default=False
+        default=False,
     )
     parser.add_argument(
         "-d",
@@ -353,11 +355,7 @@ def arg_parsing() -> Optional[dict]:
         action="store_true",
     )
     parser.add_argument(
-        "-q",
-        "--quiet",
-        help="Supress warnings",
-        required=False,
-        action="store_true",
+        "-q", "--quiet", help="Supress warnings", required=False, action="store_true",
     )
     parser.add_argument(
         "-a",
@@ -372,10 +370,7 @@ def arg_parsing() -> Optional[dict]:
         required=False,
     )
     parser.add_argument(
-        "-w",
-        "--wordlist",
-        help="Uses the given internal wordlist",
-        required=False,
+        "-w", "--wordlist", help="Uses the given internal wordlist", required=False,
     )
     parser.add_argument(
         "-W",
@@ -389,7 +384,7 @@ def arg_parsing() -> Optional[dict]:
         help="Passes a parameter to the language checker",
         action="append",
         required=False,
-        default=[]
+        default=[],
     )
     parser.add_argument(
         "-l",
@@ -451,15 +446,17 @@ def arg_parsing() -> Optional[dict]:
     # Try to locate language checker module
     # TODO: actually implement this
     from ciphey.LanguageChecker.brandon import ciphey_language_checker as brandon
+
     config["checker"] = brandon
     # Try to locate language checker module
     # TODO: actually implement this (should be similar)
     import cipheydists
+
     config["wordlist"] = set(cipheydists.get_list("english"))
     # Now we fill in the params *shudder*
     config["params"] = {}
     for i in args["param"]:
-        key, value = i.split('=', 1)
+        key, value = i.split("=", 1)
         config["params"][key] = value
 
     return config
