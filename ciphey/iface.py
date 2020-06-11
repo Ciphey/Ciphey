@@ -2,15 +2,14 @@ from abc import ABC, abstractmethod
 from typing import Dict, Optional, List, TypeVar, Generic, Type, Union
 
 from abc import ABC, abstractmethod
-from typing import Dict, Optional
 
 import typing
 
 _supported_types = [str, bytes]
 _inverse_type = {str: bytes, bytes: str}
 T = TypeVar('T', str, bytes)
-
 global registry
+
 
 class ConfigurableModule(ABC):
     @staticmethod
@@ -27,16 +26,38 @@ class ConfigurableModule(ABC):
     def __init__(self, config: Dict[str, object]): pass
 
 
+class KnownUtility(ABC):
+    @abstractmethod
+    def scoreUtility(self) -> int:
+        """
+            Return speed * reliability
+
+            Speed: for an average string
+            5. Runs in microseconds
+            4. Runs in milliseconds
+            3. Runs in less than a second
+            2. Runs in tens of seconds
+            1. Runs in minutes
+
+            Reliability:
+            5. Will definitely work (cracks all of it's cipher type, completely identifiers ciphers, etc)
+            4. Works in most cases
+            3. Works on some cases (specific versions of common libraries)
+            2. Works on a few cases (old patched bug, rare misconfiguration)
+            1. Exploits some extreme edge case
+        """
+        pass
+
+
 class LanguageChecker(Generic[T], ConfigurableModule):
     @abstractmethod
     def checkLanguage(self, text: T) -> bool: pass
 
     def __init__(self, config: Dict[str, object]):
         super().__init__(config)
-        registry.register()
 
 
-class Detector(Generic[T], ConfigurableModule):
+class Detector(Generic[T], ConfigurableModule, KnownUtility):
     @abstractmethod
     def what(self) -> str:
         """Returns the cipher that this object attempts to detect"""
@@ -45,11 +66,6 @@ class Detector(Generic[T], ConfigurableModule):
     @abstractmethod
     def scoreLikelihood(self, ctext: T, config: Dict[str, object]) -> Dict[str, float]:
         """Should return a dictionary of (cipher_name: score), using config["checker"] as appropriate"""
-        pass
-
-    @abstractmethod
-    def isIntensive(self) -> bool:
-        """Return True if this will take a significant amount of time by some metric"""
         pass
 
     @abstractmethod
@@ -66,7 +82,7 @@ class Decoder(Generic[T], ConfigurableModule):
     def __init__(self, config: Dict[str, object]): super().__init__(config)
 
 
-class Cracker(Generic[T], ConfigurableModule):
+class Cracker(Generic[T], ConfigurableModule, KnownUtility):
     @abstractmethod
     def what(self) -> str:
         """Return the cipher that this object attempts to crack"""
