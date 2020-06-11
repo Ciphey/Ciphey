@@ -176,7 +176,7 @@ class Brandon(LanguageChecker):
         self.top1000Words = config["params"].get("top1000")
         self.wordlist = config["wordlist"]
 
-    def checkLanguage(self, text: str) -> bool:
+    def checkLanguage(self, text: bytes) -> bool:
         """Checks to see if the text is in English
 
         Performs a decryption, but mainly parses the internal data packet and prints useful information.
