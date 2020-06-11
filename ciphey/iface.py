@@ -22,6 +22,14 @@ class ConfigurableModule(ABC):
         """
         pass
 
+    @staticmethod
+    @abstractmethod
+    def getName(**kwargs) -> str:
+        """
+            Prints the user-specifiable name
+        """
+        pass
+
     @abstractmethod
     def __init__(self, config: Dict[str, object]): pass
 

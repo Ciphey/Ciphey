@@ -30,7 +30,7 @@ one_level_of_decryption handles progress bars and stuff.
 import warnings
 import argparse
 import sys
-from typing import Optional, Tuple, Dict
+from typing import Optional, Tuple, Dict, Any, List
 
 from rich.console import Console
 from rich.table import Column, Table
@@ -41,14 +41,14 @@ warnings.filterwarnings("ignore")
 # Depending on whether Ciphey is called, or Ciphey/__main__
 # we need different imports to deal with both cases
 try:
-    from ciphey.LanguageChecker import LanguageChecker as lc
+    from ciphey.iface import LanguageChecker as lc
     from ciphey.neuralNetworkMod.nn import NeuralNetwork
     from ciphey.Decryptor.basicEncryption.basic_parent import BasicParent
     from ciphey.Decryptor.Hash.hashParent import HashParent
     from ciphey.Decryptor.Encoding.encodingParent import EncodingParent
     import ciphey.mathsHelper as mh
 except ModuleNotFoundError:
-    from LanguageChecker import LanguageChecker as lc
+    from ciphey.iface import LanguageChecker as lc
     from neuralNetworkMod.nn import NeuralNetwork
     from Decryptor.basicEncryption.basic_parent import BasicParent
     from Decryptor.Hash.hashParent import HashParent
@@ -71,16 +71,31 @@ def make_default_config(ctext: str, trace: bool = False) -> Dict[str, object]:
     }
 
 
+def update_log_levels(level: Optional[str]):
+    logger.remove()
+    if level is None:
+        return
+    logger.configure()
+    if level == "TRACE" or level == "DEBUG":
+        logger.add(sink=sys.stderr, level=level, colorize=sys.stderr.isatty())
+        logger.opt(colors=True)
+    else:
+        logger.add(sink=sys.stderr, level=level, colorize=False, format="{message}")
+    logger.debug(f"""Debug level set to {level}""")
+
+def load_modules(mods: List[str]):
+    import importlib.util
+    for i in mods:
+        spec = importlib.util.spec_from_file_location("ciphey.module_load_site", i)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+
 class Ciphey:
     config = dict()
     params = dict()
 
-    def __init__(self, config):
-        logger.remove()
-        logger.configure()
-        logger.add(sink=sys.stderr, level=config["debug"], colorize=sys.stderr.isatty())
-        logger.opt(colors=True)
-        logger.debug(f"""Debug level set to {config["debug"]}""")
+    def __init__(self, config: Dict[str, Any]):
+
         # general purpose modules
         self.ai = NeuralNetwork()
         self.lc = config["checker"](config)
@@ -91,7 +106,7 @@ class Ciphey:
         self.hash = HashParent(self.lc)
         self.encoding = EncodingParent(self.lc)
         self.level: int = 1
-        self.greppable: bool = config["grep"]
+        self.greppable: bool = config["debug"] is None
         self.cipher_info = config["info"]
         self.console = Console()
         self.probability_distribution: dict = {}
@@ -112,7 +127,7 @@ class Ciphey:
         # checks to see if inputted text is plaintext
         result = self.lc.checkLanguage(self.text)
         if result:
-            print("You inputted plain text!")
+            logger.critical("You inputted plain text!")
             return {
                 "lc": self.lc,
                 "IsPlaintext?": True,
@@ -261,12 +276,6 @@ class Ciphey:
             str if found, or None if not
 
         """
-        # This is redundant
-        # result = self.lc.checkLanguage(self.text)
-        # if result:
-        #     print("You inputted plain text!")
-        #     print(f"Returning {self.text}")
-        #     return self.text
 
         logger.debug(f"In decrypt_normal")
         for key, val in self.what_to_choose.items():
@@ -281,21 +290,19 @@ class Ciphey:
 
                 if ret["IsPlaintext?"]:
                     logger.debug(f"Ret is plaintext")
-                    print(ret["Plaintext"])
                     if self.cipher_info:
                         logger.trace("Self.cipher_info runs")
                         if ret["Extra Information"] is not None:
-                            print(
+                            logger.critical(
                                 "The cipher used is",
                                 ret["Cipher"] + ".",
                                 ret["Extra Information"] + ".",
                             )
                         else:
-                            print("The cipher used is " + ret["Cipher"] + ".")
+                            logger.critical("The cipher used is " + ret["Cipher"] + ".")
                     return ret
 
-        logger.debug("No encryption found")
-        print(
+        logger.critical(
             """No encryption found. Here are some tips to help crack the cipher:
                 * Use the probability table to work out what it could be. Base = base16, base32, base64 etc.
                 * If the probability table says 'Caesar Cipher' then it is a normal encryption that \
@@ -309,7 +316,7 @@ class Ciphey:
         return None
 
 
-def arg_parsing() -> Optional[dict]:
+def arg_parsing(config: Dict[str, Any]) -> bool:
     """This function parses arguments.
 
         Args:
@@ -324,82 +331,100 @@ def arg_parsing() -> Optional[dict]:
         """
     )
     parser.add_argument(
-        "-g",
-        "--greppable",
-        help="Only output the answer, no progress bars or information. Useful for grep",
-        action="store_true",
-        required=False,
-        default=False,
+        "-t",
+        "--text",
+        help="Text to decrypt",
     )
-    parser.add_argument("-t", "--text", help="Text to decrypt", required=False)
     parser.add_argument(
         "-i",
         "--info",
         help="Do you want information on the cipher used?",
-        action="store_true",
-        required=False,
-        default=False,
+        action="store_const",
+        const=True,
     )
     parser.add_argument(
         "-d",
         "--debug",
         help="Activates debug mode",  # Actually "INFO" level is used, but ¯\_(ツ)_/¯
-        required=False,
-        action="store_true",
+        action="store_const",
+        const=True,
     )
     parser.add_argument(
         "-D",
         "--trace",
         help="More verbose than debug mode. Shadows --debug",
-        required=False,
-        action="store_true",
+        action="store_const",
+        const=True,
     )
     parser.add_argument(
-        "-q", "--quiet", help="Supress warnings", required=False, action="store_true",
+        "-q",
+        "--quiet",
+        help="Supress warnings",
+        action="store_const",
+        const=True,
+    )
+    parser.add_argument(
+        "-Q",
+        "--silent",
+        help="Only output the answer, no progress bars or information. Useful for grep",
+        action="store_const",
+        const=True,
     )
     parser.add_argument(
         "-a",
         "--checker",
         help="Uses the given internal language checker. Defaults to brandon",
-        required=False,
+        action="store_const",
+        const=True,
     )
     parser.add_argument(
-        "-A",
-        "--checker-file",
-        help="Uses the language checker at the given path",
-        required=False,
-    )
-    parser.add_argument(
-        "-w", "--wordlist", help="Uses the given internal wordlist", required=False,
-    )
-    parser.add_argument(
-        "-W",
-        "--wordlist-file",
-        help="Uses the wordlist at the given path",
-        required=False,
+        "-w",
+        "--wordlist",
+        help="Uses the given wordlist module",
     )
     parser.add_argument(
         "-p",
         "--param",
         help="Passes a parameter to the language checker",
         action="append",
-        required=False,
-        default=[],
+        default=[]
     )
     parser.add_argument(
         "-l",
         "--list-params",
         help="Lists the parameters of the selected module",
-        action="store_true",
-        required=False,
+        action="store_const",
+        const=True,
     )
-    parser.add_argument("rest", nargs=argparse.REMAINDER)
+    parser.add_argument(
+        "-m",
+        "--module",
+        help="Adds a module from the given path",
+        action="append",
+        default=[]
+    )
+
     args = vars(parser.parse_args())
 
+    # First, we should work out how verbose we should be
+    if args["trace"]:
+        config["debug"] = "TRACE"
+    elif args["debug"]:
+        config["debug"] = "DEBUG"
+    elif args["quiet"]:
+        config["debug"] = "ERROR"
+    elif args["silent"]:
+        config["debug"] = None
+    else:
+        config.setdefault("debug", "WARNING")
+    update_log_levels(config["debug"])
+
+    logger.trace(f"Got arguments {args}")
+
     # the below text does:
-    # if -t is supplied, use that
-    # if ciphey is called like:
-    # ciphey 'encrypted text' use that
+    # * if -t is supplied, use that
+    # * if ciphey is called like:
+    # * REMOVED: ciphey 'encrypted text' use that
     # else if data is piped like:
     # echo 'hello' | ciphey use that
     # if no data is supplied, no arguments supplied.
@@ -407,42 +432,36 @@ def arg_parsing() -> Optional[dict]:
     text = None
     if args["text"] is not None:
         text = args["text"]
-    elif len(sys.argv) > 1:
-        text = args["rest"][0]
     elif not sys.stdin.isatty():
         text = str(sys.stdin.read())
     else:
-        print("No text input given!")
-        return None
+        logger.critical("No text input given!")
+        return False
 
     if len(sys.argv) == 1:
-        print("No arguments were supplied. Look at the help menu with -h or --help")
-        return None
+        logger.critical("No arguments were supplied. Look at the help menu with -h or --help")
+        return False
 
     args["text"] = text
-    if not args["rest"]:
-        args.pop("rest")
     if len(args["text"]) < 3:
-        print("A string of less than 3 chars cannot be interpreted by Ciphey.")
-        return None
-
-    config = dict()
+        logger.critical("A string of less than 3 chars cannot be interpreted by Ciphey.")
+        return False
 
     # Now we can walk through the arguments, expanding them into a canonical form
-    #
-    # First, we go over simple args
-    config["ctext"] = args["text"]
-    config["grep"] = args["greppable"]
-    config["info"] = args["info"]
-    # Try to work out how verbose we should be
-    if args["trace"]:
-        config["debug"] = "TRACE"
-    elif args["debug"]:
-        config["debug"] = "DEBUG"
-    elif args["quiet"]:
-        config["debug"] = "ERROR"
-    else:
-        config["debug"] = "WARNING"
+    config["ctext"] = args["text"]  # Squash config for ctext
+
+    def update_flag(name: str, cfg_name: Optional[str]):
+        arg = args["name"]
+        if arg is not None:
+            config[cfg_name if cfg_name is not None else name] = arg
+
+
+
+    # Append the module lists:
+    mods = config.setdefault("modules", [])
+    mods += args["module"]
+    load_modules(mods)
+
     # Try to locate language checker module
     # TODO: actually implement this
     from ciphey.LanguageChecker.brandon import ciphey_language_checker as brandon
@@ -459,10 +478,10 @@ def arg_parsing() -> Optional[dict]:
         key, value = i.split("=", 1)
         config["params"][key] = value
 
-    return config
+    return True
 
 
-def main(config: Dict[str, object] = None) -> Optional[dict]:
+def main(config: Dict[str, Any] = {}, parse_args: bool = True) -> Optional[dict]:
     """Function to deal with arguments. Either calls with args or not. Makes Pytest work.
 
     It gets the arguments in the function definition using locals()
@@ -476,10 +495,9 @@ def main(config: Dict[str, object] = None) -> Optional[dict]:
             The output of the decryption.
     """
     # We must fill in the arguments if they are not provided
-    if config is None:
-        config = arg_parsing()
+    if parse_args:
         # Check if we errored out
-        if config is None:
+        if not arg_parsing(config):
             return None
 
     # Now we have working arguments, we can expand it and pass it to the Ciphey constructor
@@ -490,4 +508,6 @@ def main(config: Dict[str, object] = None) -> Optional[dict]:
 if __name__ == "__main__":
     # withArgs because this function is only called
     # if the program is run in terminal
-    main()
+    result = main()
+    if result is not None:
+        print(result)
