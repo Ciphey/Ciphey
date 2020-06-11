@@ -38,7 +38,9 @@ Ciphey can solve most things in about 2 seconds.
 # Getting Started
 ## Installation
 ### Pip
-```pip3 install ciphey```
+```pip3 install ciphey -U```
+
+**The -U is needed, as sometimes PyPi installs an older version.**
 
 ```ciphey -t "encrypted text here"```
 To run ciphey.
