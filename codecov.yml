@@ -8,9 +8,11 @@ coverage:
   status:
     patch: no
     changes: no
-  threshold: 2%
-  paths: 
-  - "ciphey"
+    project:
+      default:
+        threshold: 2%
+        paths: 
+        - "ciphey"
 
 parsers:
   gcov:
