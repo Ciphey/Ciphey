@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Dict, Optional, List, TypeVar, Generic, Type
+from typing import Dict, Optional, List, TypeVar, Generic, Type, Union
 
 from abc import ABC, abstractmethod
 from typing import Dict, Optional
@@ -14,9 +14,11 @@ T = TypeVar('T', str, bytes)
 class ConfigurableModule(ABC):
     @staticmethod
     @abstractmethod
-    def getArgs(**kwargs) -> Dict[str, object]:
-        """The returned dictionary must be of the format:
-            {<name:string>: {"req": <required:bool>, "desc": <description:string>}, ...}
+    def getArgs(**kwargs) -> Optional[Dict[str, object]]:
+        """
+            The returned dictionary must be of the format:
+                {<name:string>: {"req": <required:bool>, "desc": <description:string>}, ...}
+            Return None if there are no arguments
         """
         pass
 
@@ -79,7 +81,35 @@ class Cracker(Generic[T], ConfigurableModule):
 
 class Transcoder(Generic[T], ConfigurableModule):
     @abstractmethod
-    def transcode(self, src: T, dst: _inverse_type[T]):
+    def transcode(self, src: T) -> Union[str, bytes]:
+        """MUST return either None, or a value of the opposite type to T"""
+        pass
+
+    @abstractmethod
+    def __init__(self, config: Dict[str, object]): super().__init__(config)
+
+
+class Charset(Generic[T], ConfigurableModule):
+    @abstractmethod
+    def get_charset(self) -> T:
+        pass
+
+    @abstractmethod
+    def __init__(self, config: Dict[str, object]): super().__init__(config)
+
+
+class Distribution(Generic[T], ConfigurableModule):
+    @abstractmethod
+    def get_distribution(self) -> T:
+        pass
+
+    @abstractmethod
+    def __init__(self, config: Dict[str, object]): super().__init__(config)
+
+
+class WordList(Generic[T], ConfigurableModule):
+    @abstractmethod
+    def get_wordlist(self) -> T:
         pass
 
     @abstractmethod
@@ -87,41 +117,36 @@ class Transcoder(Generic[T], ConfigurableModule):
 
 
 class Registry:
-    _lcs: Dict[Type, List[LanguageChecker]] = {}
-    _dct: Dict[Type, List[Detector]] = {}
-    _dcd: Dict[Type, List[Decoder]] = {}
-    _crk: Dict[Type, List[Cracker]] = {}
-    _tcd: Dict[Type, List[Transcoder]] = {}
+    _reg: Dict[Type, Dict[Type, List[Type]]] = {}
 
-    def registerLanguageChecker(self, i: LanguageChecker) -> None:
-        self._lcs.setdefault(typing.get_args(i)[0], []).append(i)
+    def register(self, i: type, *ts: type) -> None:
+        for base_type in ts:
+            target_type = typing.get_origin(base_type)
+            target_subtype = typing.get_args(base_type)[0]
+            target_list = self._reg[target_type].setdefault(target_subtype, [])
+            target_list.append(i)
 
-    def registerDetector(self, i: Detector) -> None:
-        self._dct.setdefault(typing.get_args(i)[0], []).append(i)
+    def __getitem__(self, i: type) -> typing.Any:
+        target_type = typing.get_origin(i)
+        # Check if this is a non-generic type, and return the dict if it is
+        if target_type is None:
+            return self._reg[i]
 
-    def registerDecoder(self, i: Decoder) -> None:
-        self._dcd.setdefault(typing.get_args(i)[0], []).append(i)
+        return self._reg[target_type][typing.get_args(i)[0]]
 
-    def registerCracker(self, i: Cracker) -> None:
-        self._crk.setdefault(typing.get_args(i)[0], []).append(i)
+    def __init__(self):
+        for i in [LanguageChecker, Detector, Decoder, Cracker, Transcoder, Charset, Distribution, WordList]:
+            self._reg[i] = {}
 
-    def registerTranscoder(self, i: Transcoder) -> None:
-        self._tcd.setdefault(typing.get_args(i)[0], []).append(i)
 
-    def getLanguageCheckers(self, t: Type) -> List[LanguageChecker]:
-        return self._lcs[t]
 
-    def getLanguageDetectors(self, t: Type) -> List[Detector]:
-        return self._dct[t]
-
-    def getDecoders(self, t: Type) -> List[Decoder]:
-        return self._dcd[t]
-
-    def getCracker(self, t: Type) -> List[Cracker]:
-        return self._crk[t]
-
-    def getTranscoder(self, t: Type) -> List[Transcoder]:
-        return self._tcd[t]
 
 
 registry = Registry()
+"""
+Example:
+class Foo(Cracker[str]): pass
+
+registry.register(Foo, Cracker[str])
+assert Foo in registry[Cracker[str]]
+"""
