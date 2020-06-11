@@ -8,6 +8,8 @@ coverage:
   status:
           patch: no
           changes: no
+  paths: 
+  - "ciphey"
 
 parsers:
   gcov:
