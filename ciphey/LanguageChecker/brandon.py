@@ -51,7 +51,7 @@ And you're.... Done! Make sure the name of the two match up
 """
 from typing import Dict, Set
 
-from .iface import LanguageChecker
+from ..iface.LanguageChecker import LanguageChecker
 from string import punctuation
 
 from loguru import logger
