@@ -1,3 +1,8 @@
+The lock file does not exist. Locking.
+Updating dependencies
+Resolving dependencies...
+
+Writing lock file
 absl-py==0.9.0 \
     --hash=sha256:75e737d6ce7723d9ff9b7aa1ba3233c34be62ef18d5859e706b8fdc828989830
 astroid==2.4.2 \
@@ -250,9 +255,8 @@ requests-oauthlib==1.3.0 \
 rich==1.3.1 \
     --hash=sha256:ae56e1d4762fe1aaf580f0462a231f9960353816d3e29188eb7e6ff9a15b9135 \
     --hash=sha256:6a6c338d5d015ca23e340fe8af5f0b9eedb527821c69c22b94acc76fe3cb2e51
-rsa==4.1 \
-    --hash=sha256:2c7c8624ef9b55bacc3be8bdcec5cefc381ddc156e968d6437fe0fd08af00eb0 \
-    --hash=sha256:6fa6a54eb72bfc0abca7f27880b978b14a643ba2a6ad9f4a56a95be82129ca1b
+rsa==4.1.1 \
+    --hash=sha256:1a7245638fa914ed6196b5e88fa5064cd95c7e65df800ec5d4f288e2b19fb4af
 scipy==1.4.1; python_version >= "3" \
     --hash=sha256:c5cac0c0387272ee0e789e94a570ac51deb01c796b37fb2aad1fb13f85e2f97d \
     --hash=sha256:a144811318853a23d32a07bc7fd5561ff0cac5da643d96ed94a4ffe967d89672 \
