@@ -1,11 +1,11 @@
 name: Tests
 on: [push, pull_request]
 jobs:
-  tests:
+  old-tests:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.6','3.7', '3.8']
+        python-version: ['3.6','3.7']
     name: Python ${{ matrix.python-version }}
     steps:
     - uses: actions/checkout@v2
@@ -16,3 +16,16 @@ jobs:
     - run: pip install nox==2019.11.9
     - run: pip install poetry==1.0.5
     - run: nox
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v1
+      with:
+        python-version: '3.8'
+        architecture: x64
+    - run: pip3 install nox==2019.11.9
+    - run: pip3 install poetry==1.0.5
+    - run: nox --sessions tests-3.8 coverage
+      env:
+        CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
