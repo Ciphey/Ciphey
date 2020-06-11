@@ -1,14 +1,10 @@
 from abc import ABC, abstractmethod
-from typing import Dict, Optional, List, TypeVar, Generic, Type, Union
-
-
+from typing import Dict, Optional, List, TypeVar, Generic, Type, Union, Tuple
 import typing
 
 _supported_types = [str, bytes]
 _inverse_type = {str: bytes, bytes: str}
 T = TypeVar('T', str, bytes)
-global registry
-
 
 class ConfigurableModule(ABC):
     @staticmethod
@@ -142,25 +138,25 @@ class WordList(Generic[T], ConfigurableModule):
 
 
 class Registry:
-    _reg: Dict[Type, Dict[Type, List[Type]]] = {}
+    _reg: Dict[Type, Dict[Tuple, List[Type]]] = {}
     _names: Dict[Type, Dict[str, Type]]
 
     def register(self, i: type, *ts: type) -> None:
         for base_type in ts:
             target_type = typing.get_origin(base_type)
-            target_subtype = typing.get_args(base_type)[0]
-            target_list = self._reg[target_type].setdefault(target_subtype, [])
+            target_subtypes = typing.get_args(base_type)
+            target_list = self._reg[target_type].setdefault(target_subtypes, [])
             target_list.append(i)
 
-            self._names[target_type][i.getName()].append(i)
+            self._names[target_type][i.getName()] = i
 
     def __getitem__(self, i: type) -> typing.Any:
         target_type = typing.get_origin(i)
-        # Check if this is a non-generic type, and return the dict if it is
+        # Check if this is a non-generic type, and return the whole dict if it is
         if target_type is None:
             return self._reg[i]
 
-        return self._reg[target_type][typing.get_args(i)[0]]
+        return self._reg[target_type][typing.get_args(i)]
 
     def get_named(self, name:str, i: type) -> Type:
 
