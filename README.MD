@@ -38,17 +38,20 @@ Ciphey can solve most things in about 2 seconds.
 # Getting Started
 ## Installation
 ### Pip
-```pip3 install ciphey -U```
+```python3 -m pip install -U ciphey```
 
-**The -U is needed, as sometimes PyPi installs an older version.**
+The -U is needed, as sometimes PyPi gets stuck on an older version.
 
 ```ciphey -t "encrypted text here"```
 To run ciphey.
 
 ### Cloning from GitHub
 
-```git clone https://github.com/ciphey/ciphey```
-cd ciphey && python3 ciphey -t "encrypted text here"```
+```
+  git clone https://github.com/Ciphey/Ciphey
+  cd Ciphey
+  python3 -m ciphey -t "encrypted text here"
+```
 ### Running Ciphey
 To get rid of the progress bars, probability table, and all the noise use the grep mode.
 
@@ -58,7 +61,7 @@ For a full list of arguments, run `ciphey -h`.
 It is also possible to pipe data into Ciphey, or to use Ciphey like `ciphey 'encrypted text here'`
 ### Importing Ciphey
 You can import Ciphey\'s __main__ and use it in your own programs and code.
-This is feature is expected to expand in the next version.
+This is feature is expected to expand in the next major version.
 # Docs
 The docs are located at [https://ciphey.readthedocs.io/en/latest/](https://ciphey.readthedocs.io/en/latest/)
 
@@ -68,8 +71,8 @@ Ciphey was invented by [Brandon Skerritt](https://github.com/brandonskerritt) wa
 ## Contributing
 Please read the contributing file.
 ## Code Contributors
-[Szymex73](https://github.com/szymex73) for providing the TryHackMe answers dataset.
-
-[Michal](https://github.com/michalani) for helping with Base85 decoding.
+* [Cyclic3](https://github.com/Cyclic3) for various refactorings and for the C++ core
+* [Szymex73](https://github.com/szymex73) for providing the TryHackMe answers dataset.
+* [Michal](https://github.com/michalani) for helping with Base85 decoding.
 ## Financial Contributors
 Please donate to us, we're students and we want Huel.
