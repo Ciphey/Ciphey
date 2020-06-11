@@ -143,6 +143,7 @@ class WordList(Generic[T], ConfigurableModule):
 
 class Registry:
     _reg: Dict[Type, Dict[Type, List[Type]]] = {}
+    _names: Dict[Type, Dict[str, Type]]
 
     def register(self, i: type, *ts: type) -> None:
         for base_type in ts:
@@ -150,6 +151,8 @@ class Registry:
             target_subtype = typing.get_args(base_type)[0]
             target_list = self._reg[target_type].setdefault(target_subtype, [])
             target_list.append(i)
+
+            self._names[target_type][i.getName()].append(i)
 
     def __getitem__(self, i: type) -> typing.Any:
         target_type = typing.get_origin(i)
@@ -159,9 +162,14 @@ class Registry:
 
         return self._reg[target_type][typing.get_args(i)[0]]
 
+    def get_named(self, name:str, i: type) -> Type:
+
+
     def __init__(self):
         for i in [LanguageChecker, Detector, Decoder, Cracker, Transcoder, Charset, Distribution, WordList]:
             self._reg[i] = {}
+            self._names[i] = {}
+
 
 registry = Registry()
 """

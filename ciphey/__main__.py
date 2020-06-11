@@ -41,14 +41,13 @@ warnings.filterwarnings("ignore")
 # Depending on whether Ciphey is called, or Ciphey/__main__
 # we need different imports to deal with both cases
 try:
-    from ciphey.iface import LanguageChecker as lc
+    from . import iface
     from ciphey.neuralNetworkMod.nn import NeuralNetwork
     from ciphey.Decryptor.basicEncryption.basic_parent import BasicParent
     from ciphey.Decryptor.Hash.hashParent import HashParent
     from ciphey.Decryptor.Encoding.encodingParent import EncodingParent
     import ciphey.mathsHelper as mh
 except ModuleNotFoundError:
-    from ciphey.iface import LanguageChecker as lc
     from neuralNetworkMod.nn import NeuralNetwork
     from Decryptor.basicEncryption.basic_parent import BasicParent
     from Decryptor.Hash.hashParent import HashParent
@@ -98,7 +97,7 @@ class Ciphey:
 
         # general purpose modules
         self.ai = NeuralNetwork()
-        self.lc = config["checker"](config)
+        self.lc = config["objs"]["checker"](config)
         self.mh = mh.mathsHelper()
         # the one bit of text given to us to decrypt
         self.text: str = config["ctext"]
@@ -421,6 +420,9 @@ def arg_parsing(config: Dict[str, Any]) -> bool:
 
     logger.trace(f"Got arguments {args}")
 
+    # Initialise the object list
+    config["objs"] = {}
+
     # the below text does:
     # * if -t is supplied, use that
     # * if ciphey is called like:
@@ -450,23 +452,22 @@ def arg_parsing(config: Dict[str, Any]) -> bool:
     # Now we can walk through the arguments, expanding them into a canonical form
     config["ctext"] = args["text"]  # Squash config for ctext
 
-    def update_flag(name: str, cfg_name: Optional[str]):
+    def update_flag(name: str, cfg_name: Optional[str] = None):
         arg = args["name"]
         if arg is not None:
             config[cfg_name if cfg_name is not None else name] = arg
-
-
 
     # Append the module lists:
     mods = config.setdefault("modules", [])
     mods += args["module"]
     load_modules(mods)
 
-    # Try to locate language checker module
-    # TODO: actually implement this
-    from ciphey.LanguageChecker.brandon import ciphey_language_checker as brandon
+    update_flag("checker")
+    config["objs"]["checker"] = iface.registry.get_named(iface.LanguageChecker, config["checker"])
 
-    config["checker"] = brandon
+    update_flag("wordlist")
+    config["objs"]["wordlist"] = iface.registry.get_named(iface.WordList, config["checker"])
+
     # Try to locate language checker module
     # TODO: actually implement this (should be similar)
     import cipheydists
