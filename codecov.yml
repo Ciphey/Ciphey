@@ -6,8 +6,9 @@ coverage:
   round: down
   range: "40...50"
   status:
-          patch: no
-          changes: no
+    patch: no
+    changes: no
+  threshold: 2%
   paths: 
   - "ciphey"
 
