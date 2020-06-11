@@ -1,7 +1,3 @@
-The lock file does not exist. Locking.
-Updating dependencies
-Resolving dependencies...
-
 Writing lock file
 absl-py==0.9.0 \
     --hash=sha256:75e737d6ce7723d9ff9b7aa1ba3233c34be62ef18d5859e706b8fdc828989830
