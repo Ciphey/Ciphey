@@ -56,16 +56,10 @@ except ModuleNotFoundError:
 
 
 def make_default_config(ctext: str, trace: bool = False) -> Dict[str, object]:
-    from ciphey.basemods.LC.brandon import ciphey_language_checker as brandon
     import cipheydists
 
     return {
         "ctext": ctext,
-        "grep": False,
-        "info": False,
-        "debug": "TRACE" if trace else "WARNING",
-        "checker": brandon,
-        "wordlist": set(cipheydists.get_list("english")),
         "params": {},
     }
 
@@ -518,7 +512,6 @@ def main(config: Dict[str, Any] = {}, parse_args: bool = True) -> Optional[dict]
     # Now we have working arguments, we can expand it and pass it to the Ciphey constructor
     cipher_obj = Ciphey(config)
     return cipher_obj.decrypt()
-
 
 if __name__ == "__main__":
     # withArgs because this function is only called
