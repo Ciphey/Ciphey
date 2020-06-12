@@ -37,14 +37,14 @@ def install_with_constraints(session: Session, *args: str, **kwargs: Any) -> Non
 
 
 # noxfile.py
-@nox.session(python="3.8")
+@nox.session
 def black(session):
     args = session.posargs or locations
     session.install("black")
     session.run("black", *args)
 
 
-@nox.session(python="3.8")
+@nox.session
 def safety(session):
     with tempfile.NamedTemporaryFile() as requirements:
         session.run(
@@ -70,15 +70,14 @@ def coverage(session: Session) -> None:
 
 
 # noxfile.py
-@nox.session(python="3.8")
+@nox.session
 def docs(session: Session) -> None:
     """Build the documentation."""
     install_with_constraints(session, "sphinx")
     session.run("sphinx-build", "docs", "docs/_build")
 
 
-# python=["3.8", "3.7", "3.6"])
-@nox.session(python="3.8")
+@nox.session
 def tests(session):
     session.run("pip3", "install", "cipheydists")
     session.run("poetry", "install", external=True)
