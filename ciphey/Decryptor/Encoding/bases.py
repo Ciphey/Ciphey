@@ -5,6 +5,7 @@ from typing import Callable
 from loguru import logger
 
 import base58
+import base62
 
 
 class Bases:
@@ -25,6 +26,7 @@ class Bases:
             self.base85(text),
             self.ascii85(text),
             self.base85_bitcoin(text),
+            self.b62(text),
         ]
         for answer in bases:
             try:
@@ -128,6 +130,10 @@ class Bases:
         return self._dispatch(
             base58.b58decode(alphabet=base58.RIPPLE_ALPHABET), text, "base58_bitcoin"
         )
+
+    def b62(self, text: str):
+        logger.trace("Attempting base62")
+        return self._dispatch(base62.decode, text, "base62")
 
     def goodRet(self, result, cipher):
         logger.debug(f"Result for base is true, where result is {result}")
