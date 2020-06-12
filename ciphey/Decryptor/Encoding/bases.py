@@ -6,6 +6,7 @@ from loguru import logger
 
 import base58
 
+
 class Bases:
     """
     turns base64 strings into normal strings
@@ -22,7 +23,7 @@ class Bases:
             self.base16(text),
             self.base64(text),
             self.base85(text),
-            self.ascii85(text)
+            self.ascii85(text),
         ]
         for answer in bases:
             try:
@@ -117,10 +118,13 @@ class Bases:
         logger.trace("Attempting ascii85")
         return self._dispatch(base64.a85decode, text, "base85")
 
-    def base85_bitcoin(self, text:str):
-        logger.trace("Attempting Base58 Bitcoin"
-                )
+    def base85_bitcoin(self, text: str):
+        logger.trace("Attempting Base58 Bitcoin")
         return self._dispatch(base58.b58decode, text, "base58_bitcoin")
+
+    def base85_ripple(self, text: str):
+        logger.trace("Attempting Base58 ripple alphabet")
+        return self._dispatch(base58.b58decode(alphabet=base58.RIPPLE_ALPHABET), text, "base58_bitcoin")
 
     def goodRet(self, result, cipher):
         logger.debug(f"Result for base is true, where result is {result}")
