@@ -24,6 +24,7 @@ class Bases:
             self.base64(text),
             self.base85(text),
             self.ascii85(text),
+            self.base85_bitcoin(text),
         ]
         for answer in bases:
             try:
@@ -124,7 +125,9 @@ class Bases:
 
     def base85_ripple(self, text: str):
         logger.trace("Attempting Base58 ripple alphabet")
-        return self._dispatch(base58.b58decode(alphabet=base58.RIPPLE_ALPHABET), text, "base58_bitcoin")
+        return self._dispatch(
+            base58.b58decode(alphabet=base58.RIPPLE_ALPHABET), text, "base58_bitcoin"
+        )
 
     def goodRet(self, result, cipher):
         logger.debug(f"Result for base is true, where result is {result}")
