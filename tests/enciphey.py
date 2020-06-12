@@ -10,6 +10,8 @@ import cipheycore
 import cipheydists
 import base58
 import base62
+import re
+
 
 class encipher:
 
@@ -185,7 +187,7 @@ class encipher_crypto:  # pragma: no cover
         ).decode("utf-8")
 
     def b62(self, text: str):
-        return base62.encode(bytes(text, "utf-8")).decode("utf-8")
+        return base62.decode(str(re.sub(r"\W+", "", text)))
 
 
 # obj = encipher()

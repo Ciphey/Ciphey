@@ -194,3 +194,6 @@ poetry.lock
 
 # PyCharm
 .idea/
+
+# Test Generator
+test_main_generated.py
