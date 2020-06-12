@@ -409,6 +409,13 @@ def arg_parsing(config: Dict[str, Any]) -> bool:
         action="append",
         default=[]
     )
+    parser.add_argument(
+        "-b",
+        "--bytes",
+        help="Forces ciphey to use binary mode. Rather experimental and may break things!",
+        action="store_const",
+        const=True,
+    )
 
     args = vars(parser.parse_args())
 
@@ -470,6 +477,7 @@ def arg_parsing(config: Dict[str, Any]) -> bool:
     config["ctext"] = args["text"]  # Squash config for ctext
     update_flag("checker", default="brandon")
     update_flag("info", default=False)
+    update_flag("bytes", default=False)
 
     # Append the module lists:
     mods = config.setdefault("modules", [])

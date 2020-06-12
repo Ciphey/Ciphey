@@ -1,6 +1,9 @@
 from abc import ABC, abstractmethod
 from typing import Any, Dict, Generic, Optional, List, TypeVar, Type, Tuple, Set
-import typing
+try:
+    from typing import get_origin, get_args
+except ImportError:
+    from typing_inspect import get_origin, get_args
 
 T = TypeVar('T')
 U = TypeVar('U')
@@ -157,10 +160,10 @@ class Registry:
 
     def register(self, i: type, *ts: type) -> None:
         for base_type in ts:
-            target_type = typing.get_origin(base_type)
+            target_type = get_origin(base_type)
             if target_type not in {LanguageChecker, Detector, Decoder, Cracker, Transcoder, CharSet, Distribution, WordList}:
                 raise TypeError("Invalid type passed to ciphey.iface.registry.register")
-            target_subtypes = typing.get_args(base_type)
+            target_subtypes = get_args(base_type)
             target_list = self._reg.setdefault(target_type, {}).setdefault(target_subtypes, [])
             target_list.append(i)
 
@@ -168,18 +171,18 @@ class Registry:
         print(self._reg)
         print(self._names)
 
-    def __getitem__(self, i: type) -> typing.Any:
-        target_type = typing.get_origin(i)
+    def __getitem__(self, i: type) -> Any:
+        target_type = get_origin(i)
         # Check if this is a non-generic type, and return the whole dict if it is
         if target_type is None:
             return self._reg[i]
 
-        return self._reg[target_type][typing.get_args(i)]
+        return self._reg[target_type][get_args(i)]
 
     def get_named(self, name: str, i: T) -> T:
-        target_type = typing.get_origin(i)
+        target_type = get_origin(i)
         if target_type is not None:
-            target_subtypes = typing.get_args(i)
+            target_subtypes = get_args(i)
             return self._names[target_type][target_subtypes][name]
         # If we were not given arguments, then we will have to find it in the list
         #

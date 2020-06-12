@@ -18,6 +18,7 @@ cipheydists = "^0.2.2"
 cipheycore = "^0.1.5"
 tflite = "^2.2.0"
 appdirs = "^1.4.4"
+typing_inspect = { version = "^0.6.0", python = "~3.6 || ~3.7" }
 
 [tool.poetry.dev-dependencies]
 pytest-cov = "^2.9.0"
