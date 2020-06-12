@@ -31,6 +31,7 @@ import warnings
 import argparse
 import sys
 from typing import Optional, Dict, Any, List
+import pydoc
 
 from rich.console import Console
 from rich.table import Table
@@ -55,13 +56,15 @@ except ModuleNotFoundError:
     import mathsHelper as mh
 
 
-def make_default_config(ctext: str, trace: bool = False) -> Dict[str, object]:
+def make_default_config(trace: bool = False) -> Dict[str, object]:
     import cipheydists
 
-    return {
-        "ctext": ctext,
-        "params": {},
-    }
+    return {"params": {}}
+
+
+def config_load_objs(config: iface.Config):
+    config["objs"]["format"] = {key: pydoc.locate(value) for key, value in config["format"].items()}
+    config["objs"]["checker"] = config(iface.registry.get_named(config["checker"], iface.LanguageChecker))
 
 
 def update_log_levels(level: Optional[str]):
@@ -76,6 +79,7 @@ def update_log_levels(level: Optional[str]):
         logger.add(sink=sys.stderr, level=level, colorize=False, format="{message}")
     logger.debug(f"""Debug level set to {level}""")
 
+
 def load_modules(mods: List[str]):
     import importlib.util
     for i in mods:
@@ -83,233 +87,29 @@ def load_modules(mods: List[str]):
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)
 
-class Ciphey:
-    config = dict()
-    params = dict()
 
-    def __init__(self, config: Dict[str, Any]):
+def decrypt(ctext: Any, config: iface.Config) -> Optional[Dict[str, Any]]:
+    # First, we grab all the decoder classes that apply to our data
+    decoder_classes = iface.registry[iface.Decoder][config["objs"]["format"]["in"]]
+    possible_decodings = []
 
-        # general purpose modules
-        self.ai = NeuralNetwork()
-        self.lc = config["objs"]["checker"](config)
-        self.mh = mh.mathsHelper()
-        # the one bit of text given to us to decrypt
-        self.text: str = config["ctext"]
-        self.basic = BasicParent(self.lc)
-        self.hash = HashParent(self.lc)
-        self.encoding = EncodingParent(self.lc)
-        self.level: int = 1
-        self.greppable: bool = config["debug"] is None
-        self.cipher_info = config["info"]
-        self.console = Console()
-        self.probability_distribution: dict = {}
-        self.what_to_choose: dict = {}
-
-    def decrypt(self) -> Optional[Dict]:
-        """Performs the decryption of text
-
-        Creates the probability table, calls one_level_of_decryption
-
-        Args:
-            None, it uses class variables.
-
-        Returns:
-            None
-        """
-        # Read the documentation for more on this function.
-        # checks to see if inputted text is plaintext
-        result = self.lc.checkLanguage(self.text)
-        if result:
-            logger.critical("You inputted plain text!")
-            return {
-                "lc": self.lc,
-                "IsPlaintext?": True,
-                "Plaintext": self.text,
-                "Cipher": None,
-                "Extra Information": None,
-            }
-        self.probability_distribution: dict = self.ai.predictnn(self.text)[0]
-        self.what_to_choose: dict = {
-            self.hash: {
-                "sha1": self.probability_distribution[0],
-                "md5": self.probability_distribution[1],
-                "sha256": self.probability_distribution[2],
-                "sha512": self.probability_distribution[3],
-            },
-            self.basic: {"caesar": self.probability_distribution[4]},
-            "plaintext": {"plaintext": self.probability_distribution[5]},
-            self.encoding: {
-                "reverse": self.probability_distribution[6],
-                "base64": self.probability_distribution[7],
-                "binary": self.probability_distribution[8],
-                "hexadecimal": self.probability_distribution[9],
-                "ascii": self.probability_distribution[10],
-                "morse": self.probability_distribution[11],
-            },
-        }
-
-        logger.trace(
-            f"The probability table before 0.1 in __main__ is {self.what_to_choose}"
-        )
-
-        # sorts each individual sub-dictionary
-        for key, value in self.what_to_choose.items():
-            for k, v in value.items():
-                # Sets all 0 probabilities to 0.01, we want Ciphey to try all decryptions.
-                if v < 0.01:
-                    self.what_to_choose[key][k] = 0.01
-        logger.trace(
-            f"The probability table after 0.1 in __main__ is {self.what_to_choose}"
-        )
-
-        self.what_to_choose: dict = self.mh.sort_prob_table(self.what_to_choose)
-
-        # Creates and prints the probability table
-        if not self.greppable:
-            self.produceprobtable(self.what_to_choose)
-
-        logger.debug(
-            f"The new probability table after sorting in __main__ is {self.what_to_choose}"
-        )
-
-        """
-        #for each dictionary in the dictionary
-         #   sort that dictionary
-        #sort the overall dictionary by the first value of the new dictionary
-        """
-        output = None
-        if self.level <= 1:
-            output = self.one_level_of_decryption()
-        else:
-            # TODO: make tmpfile
-            f = open("decryptionContents.txt", "w")
-            output = self.one_level_of_decryption(file=f)
-
-            for i in range(0, self.level):
-                # open file and go through each text item
-                pass
-        logger.debug(f"decrypt is outputting {output}")
-        return output
-
-    def produceprobtable(self, prob_table) -> None:
-        """Produces the probability table using Rich's API
-
-        Uses Rich's API to print the probability table.
-
-        Args:
-            prob_table -> the probability table generated by the neural network
-
-        Returns:
-            None, but prints the probability table.
-
-        """
-        logger.debug(f"Producing log table")
-        table = Table(show_header=True, header_style="bold magenta")
-        table.add_column("Name of Cipher")
-        table.add_column("Probability", justify="right")
-        # for every key, value in dict add a row
-        # I think key is self.caesarcipher and not "caesar cipher"
-        # i must callName() somewhere else in this code
-        sorted_dic: dict = {}
-        for k, v in prob_table.items():
-            for key, value in v.items():
-                # Prevents the table from showing pointless 0.01 probs as they're faked
-                if value == 0.01:
-                    continue
-                # gets the string ready to print
-                logger.debug(f"Key is {str(key)} and value is {str(value)}")
-                val: int = round(self.mh.percentage(value, 1), 2)
-                key_str: str = str(key).capitalize()
-                # converts "Bases" to "Base"
-                if "Base" in key_str:
-                    key_str = key_str[0:-2]
-                sorted_dic[key_str] = val
-                logger.debug(f"The value as percentage is {val} and key is {key_str}")
-        sorted_dic: dict = {
-            k: v
-            for k, v in sorted(
-                sorted_dic.items(), key=lambda item: item[1], reverse=True
-            )
-        }
-        for k, v in sorted_dic.items():
-            table.add_row(k, str(v) + "%")
-
-        self.console.print(table)
-        return None
-
-    def one_level_of_decryption(self) -> Optional[dict]:
-        """Performs one level of encryption.
-
-        Either uses alive_bar or not depending on if self.greppable is set.
-
-        Returns:
-            None.
-
-        """
-        # Calls one level of decryption
-        # mainly used to control the progress bar
-        output = None
-        if self.greppable:
-            logger.debug("__main__ is running as greppable")
-            output = self.decrypt_normal()
-        else:
-            logger.debug("__main__ is running with progress bar")
-            output = self.decrypt_normal()
-        return output
-
-    def decrypt_normal(self, bar=None) -> Optional[dict]:
-        """Called by one_level_of_decryption
-
-        Performs a decryption, but mainly parses the internal data packet and prints useful information.
-
-        Args:
-            bar -> whether or not to use alive_Bar
-
-        Returns:
-            str if found, or None if not
-
-        """
-
-        logger.debug(f"In decrypt_normal")
-        for key, val in self.what_to_choose.items():
-            # https://stackoverflow.com/questions/4843173/how-to-check-if-type-of-a-variable-is-string
-            if not isinstance(key, str):
-                key.setProbTable(val)
-                ret: dict = key.decrypt(self.text)
-                logger.debug(f"Decrypt normal in __main__ ret is {ret}")
-                logger.debug(
-                    f"The plaintext is {ret['Plaintext']} and the extra information is {ret['Cipher']} and {ret['Extra Information']}"
-                )
-
-                if ret["IsPlaintext?"]:
-                    logger.debug(f"Ret is plaintext")
-                    if self.cipher_info:
-                        logger.trace("Self.cipher_info runs")
-                        if ret["Extra Information"] is not None:
-                            logger.critical(
-                                "The cipher used is",
-                                ret["Cipher"] + ".",
-                                ret["Extra Information"] + ".",
-                            )
-                        else:
-                            logger.critical("The cipher used is " + ret["Cipher"] + ".")
-                    return ret
-
-        logger.critical(
-            """No encryption found. Here are some tips to help crack the cipher:
-                * Use the probability table to work out what it could be. Base = base16, base32, base64 etc.
-                * If the probability table says 'Caesar Cipher' then it is a normal encryption that \
-                 Ciphey cannot decrypt yet.
-                * If Ciphey think's it's a hash, try using hash-identifier to find out what hash it is, \
-                and then HashCat to crack the hash.
-                * The encryption may not contain normal English plaintext. It could be coordinates or \
-                another object no found in the dictionary. Use 'ciphey -d true > log.txt' to generate a log \
-                file of all attempted decryptions and manually search it."""
-        )
-        return None
+    for dst_type, decoders in decoder_classes.items():
+        for decoder in decoders:
+            decoder = config(decoder)
+            res = decoder.decode(ctext)
+            if res is not None:
+                possible_decodings.append(res)
+    print(possible_decodings)
+    # Now we iterate through the ones that apply to our type
+    return {
+        "IsPlaintext?": True,
+        "Plaintext": self.text,
+        "Cipher": None,
+        "Extra Information": None,
+    }
 
 
-def arg_parsing(config: Dict[str, Any]) -> bool:
+def arg_parsing(config: iface.Config) -> Optional[Dict[str, Any]]:
     """This function parses arguments.
 
         Args:
@@ -405,10 +205,19 @@ def arg_parsing(config: Dict[str, Any]) -> bool:
     )
     parser.add_argument(
         "-b",
-        "--bytes",
-        help="Forces ciphey to use binary mode. Rather experimental and may break things!",
+        "--bytes-input",
+        help="Forces ciphey to use binary mode for the input. Rather experimental and may break things!",
         action="store_const",
-        const=True,
+        const="bytes",
+        default="str"
+    )
+    parser.add_argument(
+        "-B",
+        "--bytes-output",
+        help="Forces ciphey to use binary mode for the output. Rather experimental and may break things!",
+        action="store_const",
+        const="bytes",
+        default="str"
     )
 
     args = vars(parser.parse_args())
@@ -439,46 +248,31 @@ def arg_parsing(config: Dict[str, Any]) -> bool:
     # echo 'hello' | ciphey use that
     # if no data is supplied, no arguments supplied.
 
-    text = None
-    if args["text"] is not None:
-        text = args["text"]
-    elif not sys.stdin.isatty():
-        text = str(sys.stdin.read())
-    else:
-        logger.critical("No text input given!")
-        return False
-
     if len(sys.argv) == 1:
         logger.critical("No arguments were supplied. Look at the help menu with -h or --help")
-        return False
+        return None
 
-    args["text"] = text
-    if len(args["text"]) < 3:
-        logger.critical("A string of less than 3 chars cannot be interpreted by Ciphey.")
-        return False
-
-    def update_flag(name: str, cfg_name: Optional[str] = None, default: Optional[Any] = None):
+    def update_flag(cfg: Dict[str, Any], name: str, cfg_name: Optional[str] = None, default: Optional[Any] = None):
         arg = args.get(name)
 
         if cfg_name is None:
             cfg_name = name
         if arg is not None:
-            config[cfg_name] = arg
+            cfg[cfg_name] = arg
         elif default is not None and cfg_name not in config:
-            config[cfg_name] = default
+            cfg[cfg_name] = default
 
     # Now we can walk through the arguments, expanding them into the config struct
-    config["ctext"] = args["text"]  # Squash config for ctext
-    update_flag("checker", default="brandon")
-    update_flag("info", default=False)
-    update_flag("bytes", default=False)
+    update_flag(config, "checker", default="brandon")
+    update_flag(config, "info", default=False)
+    formats = config.setdefault("format", {})
+    update_flag(formats, "bytes-input", "in", default='str')
+    update_flag(formats, "bytes-output", "out", default='str')
 
     # Append the module lists:
     mods = config.setdefault("modules", [])
     mods += args["module"]
     load_modules(mods)
-
-    config["objs"]["checker"] = iface.registry.get_named(config["checker"], iface.LanguageChecker)
 
     # Now we fill in the params *shudder*
     config["params"] = {}
@@ -487,10 +281,13 @@ def arg_parsing(config: Dict[str, Any]) -> bool:
         parent, name = key.split(".", 1)
         config["params"].setdefault(parent, [])[name] = value
 
-    return True
+    # Now we have parsed and loaded everything else, we can load the objects
+    config_load_objs(config)
+
+    return args
 
 
-def main(config: Dict[str, Any] = {}, parse_args: bool = True) -> Optional[dict]:
+def main(config: Optional[iface.Config] = None, ciphertext=None, parse_args: bool = True) -> Optional[dict]:
     """Function to deal with arguments. Either calls with args or not. Makes Pytest work.
 
     It gets the arguments in the function definition using locals()
@@ -503,15 +300,39 @@ def main(config: Dict[str, Any] = {}, parse_args: bool = True) -> Optional[dict]
         Returns:
             The output of the decryption.
     """
+    # If I don't do this, we end up with the default argument changing
+    if config is None:
+        config = iface.Config({})
+    else:
+        config = iface.Config(config)
+
+    args = None
     # We must fill in the arguments if they are not provided
     if parse_args:
         # Check if we errored out
-        if not arg_parsing(config):
+        args = arg_parsing(config)
+        if not args:
             return None
 
-    # Now we have working arguments, we can expand it and pass it to the Ciphey constructor
-    cipher_obj = Ciphey(config)
-    return cipher_obj.decrypt()
+    # We now load the ciphertext
+    if ciphertext is None:
+        if args is not None and "text" in args:
+            ciphertext = args["text"]
+        elif not sys.stdin.isatty():
+            ciphertext = sys.stdin.read()
+        else:
+            logger.critical("No text input given!")
+            return None
+
+    # Perform type conversion
+    ciphertext = config["objs"]["format"]["in"](ciphertext)
+
+    if len(ciphertext) < 3:
+        logger.critical("A string of less than 3 chars cannot be interpreted by Ciphey.")
+        return None
+
+    # Now we have working arguments, we can decrypt
+    return decrypt(ciphertext, config)
 
 if __name__ == "__main__":
     # withArgs because this function is only called

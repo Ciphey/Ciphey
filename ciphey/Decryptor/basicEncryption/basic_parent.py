@@ -75,7 +75,7 @@ class BasicParent:
             result = item.decrypt(text)
             answers.append(result)"""
         for answer in answers:
-            # adds the LC objects together
+            # adds the LCs objects together
             # self.lc = self.lc + answer["lc"]
             if answer["IsPlaintext?"]:
                 return answer

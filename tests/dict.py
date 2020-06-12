@@ -1,4 +1,4 @@
-from ciphey.basemods.LC.brandon import Brandon
+from ciphey.basemods.LCs.brandon import Brandon
 config = dict()
 lc = config["checker"](config)
 import unittest

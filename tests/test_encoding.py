@@ -1,6 +1,6 @@
 import sys
 
-from ciphey.basemods.LC.brandon import Brandon
+from ciphey.basemods.LCs.brandon import Brandon
 from ciphey.Decryptor.Encoding.encodingParent import EncodingParent
 from ciphey.__main__ import make_default_config
 import unittest

@@ -1,2 +1,1 @@
-from . import LC
-from . import WordLists
+from . import LCs, WordLists, Decoders

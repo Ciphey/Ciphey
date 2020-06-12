@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, Dict, Generic, Optional, List, TypeVar, Type, Tuple, Set
+from typing import Any, Dict, Generic, Optional, List, TypeVar, Type, Tuple, Union, Set
 try:
     from typing import get_origin, get_args
 except ImportError:
@@ -8,6 +8,29 @@ except ImportError:
 T = TypeVar('T')
 U = TypeVar('U')
 
+
+class Config(Dict[str, Any]):
+    def instantiate(self, t: type) -> Any:
+        """
+            Used to enable caching of a instantiated type after the configuration has settled
+        """
+        # We cannot use set default as that would construct it again, and throw away the result
+        res = self["inst"].get(t)
+        if res is not None:
+            return res
+        ret = t(self)
+        self["inst"][t] = ret
+        return ret
+
+    def __call__(self, t: type) -> Any:
+        return self.instantiate(t)
+
+    def __init__(self, config: Dict[str, Any] = None):
+        super().__init__(config if config is not None else {})
+        self["inst"] = {}
+
+    # I was planning on using __init_subclass__, but that is incompatible with dynamic type creation when we have
+    # generic keys
 
 class ConfigurableModule(ABC):
     @staticmethod
@@ -42,7 +65,7 @@ class ConfigurableModule(ABC):
             params[key] = value.get("default")
 
     @abstractmethod
-    def __init__(self, config: Dict[str, object]):
+    def __init__(self, config: Dict[str, Any]):
         pass
 
 
@@ -73,7 +96,7 @@ class LanguageChecker(Generic[T], ConfigurableModule):
     @abstractmethod
     def checkLanguage(self, text: T) -> bool: pass
 
-    def __init__(self, config: Dict[str, object]):
+    def __init__(self, config: Config):
         super().__init__(config)
 
 
@@ -84,22 +107,22 @@ class Detector(Generic[T], ConfigurableModule, KnownUtility):
         pass
 
     @abstractmethod
-    def scoreLikelihood(self, ctext: T, config: Dict[str, object]) -> Dict[str, float]:
+    def scoreLikelihood(self, ctext: T) -> Dict[str, float]:
         """Should return a dictionary of (cipher_name: score), using config["checker"] as appropriate"""
         pass
 
     @abstractmethod
-    def __init__(self, config: Dict[str, object]): super().__init__(config)
+    def __init__(self, config: Config): super().__init__(config)
 
 
-class Decoder(Generic[T], ConfigurableModule):
-    """Represents the undoing of some encoding"""
-
-    @abstractmethod
-    def decode(self, ctext: T, config: Dict[str, object]) -> Optional[T]: pass
+class Decoder(Generic[T, U], ConfigurableModule):
+    """Represents the undoing of some encoding into a different (or the same) type"""
 
     @abstractmethod
-    def __init__(self, config: Dict[str, object]): super().__init__(config)
+    def decode(self, ctext: T) -> Optional[U]: pass
+
+    @abstractmethod
+    def __init__(self, config: Config): super().__init__(config)
 
 
 class Cracker(Generic[T], ConfigurableModule, KnownUtility):
@@ -109,22 +132,12 @@ class Cracker(Generic[T], ConfigurableModule, KnownUtility):
         pass
 
     @abstractmethod
-    def attemptCrack(self, ctext: T, config: Dict[str, object]) -> Optional[T]:
+    def attemptCrack(self, ctext: T) -> Optional[T]:
         """This should attempt to crack the cipher, and use the config["checker"] where appropriate"""
         pass
 
     @abstractmethod
-    def __init__(self, config: Dict[str, object]): super().__init__(config)
-
-
-class Transcoder(Generic[T, U], ConfigurableModule):
-    @abstractmethod
-    def transcode(self, src: T) -> U:
-        """MUST return either None, or a value of the opposite type to T"""
-        pass
-
-    @abstractmethod
-    def __init__(self, config: Dict[str, object]): super().__init__(config)
+    def __init__(self, config: Config): super().__init__(config)
 
 
 class CharSet(Generic[T], ConfigurableModule):
@@ -133,7 +146,7 @@ class CharSet(Generic[T], ConfigurableModule):
         pass
 
     @abstractmethod
-    def __init__(self, config: Dict[str, object]): super().__init__(config)
+    def __init__(self, config: Config): super().__init__(config)
 
 
 class Distribution(Generic[T], ConfigurableModule):
@@ -142,7 +155,7 @@ class Distribution(Generic[T], ConfigurableModule):
         pass
 
     @abstractmethod
-    def __init__(self, config: Dict[str, object]): super().__init__(config)
+    def __init__(self, config: Config): super().__init__(config)
 
 
 class WordList(Generic[T], ConfigurableModule):
@@ -151,25 +164,31 @@ class WordList(Generic[T], ConfigurableModule):
         pass
 
     @abstractmethod
-    def __init__(self, config: Dict[str, object]): super().__init__(config)
+    def __init__(self, config: Config): super().__init__(config)
 
 
 class Registry:
-    _reg: Dict[Type, Dict[Tuple, List[Type]]] = {}
-    _names: Dict[Type, Dict[Tuple, Dict[str, Type]]] = {}
+    RegElem = Union[List[Type], Dict[Type, 'RegElem']]
+    NamesElem = Union[Dict[Type, 'NamesElem'], Dict[str, Type]]
+
+    _reg: Dict[Type, RegElem] = {}
+    _names: Dict[Type, NamesElem] = {}
 
     def register(self, i: type, *ts: type) -> None:
         for base_type in ts:
             target_type = get_origin(base_type)
-            if target_type not in {LanguageChecker, Detector, Decoder, Cracker, Transcoder, CharSet, Distribution, WordList}:
+            if target_type not in {LanguageChecker, Detector, Decoder, Cracker, CharSet, Distribution,
+                                   WordList}:
                 raise TypeError("Invalid type passed to ciphey.iface.registry.register")
             target_subtypes = get_args(base_type)
-            target_list = self._reg.setdefault(target_type, {}).setdefault(target_subtypes, [])
-            target_list.append(i)
-
-            self._names.setdefault(target_type, {}).setdefault(target_subtypes, {})[i.getName()] = i
-        print(self._reg)
-        print(self._names)
+            target_reg = self._reg.setdefault(target_type, {})
+            target_names = self._names.setdefault(target_type, {})
+            # Seek to the given type
+            for subtype in target_subtypes[0:-1]:
+                target_reg = target_reg.setdefault(subtype, {})
+                target_names = target_names.setdefault(subtype, {})
+            target_reg.setdefault(target_subtypes[-1], []).append(i)
+            target_names.setdefault(target_subtypes[-1], {})[i.getName()] = i
 
     def __getitem__(self, i: type) -> Any:
         target_type = get_origin(i)
@@ -177,13 +196,20 @@ class Registry:
         if target_type is None:
             return self._reg[i]
 
-        return self._reg[target_type][get_args(i)]
+        target_subtypes = get_args(i)
+        target_list = self._names[target_type]
+        for i in target_subtypes:
+            target_list = target_list[i]
+        return target_list
 
     def get_named(self, name: str, i: T) -> T:
         target_type = get_origin(i)
         if target_type is not None:
             target_subtypes = get_args(i)
-            return self._names[target_type][target_subtypes][name]
+            target_list = self._names[target_type]
+            for i in target_subtypes:
+                target_list = target_list[i]
+            return target_list[name]
         # If we were not given arguments, then we will have to find it in the list
         #
         # Because we are nice, we will throw an exception on duplicate keys
@@ -199,8 +225,14 @@ class Registry:
             raise KeyError(name)
         return ret_value
 
-
 registry = Registry()
+
+def id_lambda(value: Any):
+    """
+        A function used in dynamic class generation that abstracts away a constant return value (like in getName)
+    """
+    return lambda *args: value
+
 """
 Example:
 class Foo(Cracker[str]): pass

@@ -169,17 +169,19 @@ class Brandon(ciphey.iface.LanguageChecker[str]):
             logger.trace(f"The language proportion {proportion} is under the threshold {self.languageThreshold}")
             return False
 
-    def __init__(self, config: dict):
+    def __init__(self, config: ciphey.iface.Config):
         # Suppresses warning
         super().__init__(config)
         params = config["params"].setdefault(self.getName(), {})
         self.fillArgs(params)
         self.mh = mh.mathsHelper()
         self.languageThreshold = params["threshold"]
-        self.top1000Words = ciphey.iface.registry.get_named(params["top1000"], ciphey.iface.WordList[str])(config)
-        self.top1000Words = self.top1000Words.get_wordlist()
-        self.wordlist = ciphey.iface.registry.get_named(params["wordlist"], ciphey.iface.WordList[str])(config)
-        self.wordlist = self.wordlist.get_wordlist()
+        self.top1000Words = \
+            config(ciphey.iface.registry.get_named(params["top1000"], ciphey.iface.WordList[str]))\
+                .get_wordlist()
+        self.wordlist = \
+            config(ciphey.iface.registry.get_named(params["wordlist"], ciphey.iface.WordList[str]))\
+                .get_wordlist()
 
     def checkLanguage(self, text: str) -> bool:
         """Checks to see if the text is in English

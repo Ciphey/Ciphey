@@ -19,14 +19,14 @@ Structure
 .. code:: python
 
     {
-        "ctext": "str: The ciphertext that is being attacked. Any value will be clobbered on program start",
         "grep": "bool: The greppable flag",
         "info": "bool: The info flag",
         "debug": "str: The loguru debug level, one of ['TRACE', 'DEBUG', 'WARNING', 'ERROR', None/~]",
         "checker": "str: The name of the language checker class to be used",
         "params": "Dict[str, Dict[str, str]]: The given module parameters, indexed by the module name and the param name",
         "modules": "List[str]: Paths to modules that should be loaded",
-        "objs": "Dict[str, Any]: Various object instances for internal use"
+        "objs": "Dict[str, Any]: Various object instances for internal use. Objects have the same path as their configuration",
+        "format": "Dict[str, str]: formed of 'in' and 'out', which map to the name of their respective types"
     }
 
 These are the defaults, represented as a YAML config file.
@@ -38,6 +38,9 @@ An omission of any field will result in these values being used
     info: false
     debug: WARNING
     checker: brandon
+    format:
+      in: str
+      out: str
 
 The following internal modules are loaded by default, even if not specified:
 
