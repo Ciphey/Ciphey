@@ -1,10 +1,10 @@
 from abc import ABC, abstractmethod
-from typing import Dict, Optional, List, TypeVar, Generic, Type, Union, Tuple
+from typing import Dict, Optional, List, TypeVar, Generic, Type, Tuple, Set
 import typing
 
-_supported_types = [str, bytes]
-_inverse_type = {str: bytes, bytes: str}
-T = TypeVar('T', str, bytes)
+T = TypeVar('T')
+U = TypeVar('U')
+
 
 class ConfigurableModule(ABC):
     @staticmethod
@@ -21,12 +21,15 @@ class ConfigurableModule(ABC):
     @abstractmethod
     def getName(**kwargs) -> str:
         """
-            Prints the user-specifiable name
+            Prints the user-specifiable name. MUST NOT contain a '.'!
         """
         pass
 
+    """
     @abstractmethod
-    def __init__(self, config: Dict[str, object]): pass
+    def __init__(self, config: Dict[str, object]):
+        pass
+    """
 
 
 class KnownUtility(ABC):
@@ -100,9 +103,9 @@ class Cracker(Generic[T], ConfigurableModule, KnownUtility):
     def __init__(self, config: Dict[str, object]): super().__init__(config)
 
 
-class Transcoder(Generic[T], ConfigurableModule):
+class Transcoder(Generic[T, U], ConfigurableModule):
     @abstractmethod
-    def transcode(self, src: T) -> Union[str, bytes]:
+    def transcode(self, src: T) -> U:
         """MUST return either None, or a value of the opposite type to T"""
         pass
 
@@ -110,9 +113,9 @@ class Transcoder(Generic[T], ConfigurableModule):
     def __init__(self, config: Dict[str, object]): super().__init__(config)
 
 
-class Charset(Generic[T], ConfigurableModule):
+class CharSet(Generic[T], ConfigurableModule):
     @abstractmethod
-    def get_charset(self) -> T:
+    def get_charset(self) -> Set[T]:
         pass
 
     @abstractmethod
@@ -121,7 +124,7 @@ class Charset(Generic[T], ConfigurableModule):
 
 class Distribution(Generic[T], ConfigurableModule):
     @abstractmethod
-    def get_distribution(self) -> T:
+    def get_distribution(self) -> Dict[T, float]:
         pass
 
     @abstractmethod
@@ -158,11 +161,11 @@ class Registry:
 
         return self._reg[target_type][typing.get_args(i)]
 
-    def get_named(self, name:str, i: type) -> Type:
-
+    def get_named(self, i: type, name: str) -> Type:
+        return self._names[i][name]
 
     def __init__(self):
-        for i in [LanguageChecker, Detector, Decoder, Cracker, Transcoder, Charset, Distribution, WordList]:
+        for i in [LanguageChecker, Detector, Decoder, Cracker, Transcoder, CharSet, Distribution, WordList]:
             self._reg[i] = {}
             self._names[i] = {}
 

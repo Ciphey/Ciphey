@@ -319,7 +319,7 @@ def arg_parsing(config: Dict[str, Any]) -> bool:
     """This function parses arguments.
 
         Args:
-            None
+            config: The configuration object
         Returns:
             The config to be passed around for the rest of time
     """
@@ -344,7 +344,7 @@ def arg_parsing(config: Dict[str, Any]) -> bool:
     parser.add_argument(
         "-d",
         "--debug",
-        help="Activates debug mode",  # Actually "INFO" level is used, but ¯\_(ツ)_/¯
+        help="Activates debug mode",
         action="store_const",
         const=True,
     )
@@ -370,16 +370,23 @@ def arg_parsing(config: Dict[str, Any]) -> bool:
         const=True,
     )
     parser.add_argument(
-        "-a",
+        "-l",
         "--checker",
-        help="Uses the given internal language checker. Defaults to brandon",
+        help="Uses the given language checker. Defaults to brandon",
+        action="store_const",
+        const=True,
+    )
+    parser.add_argument(
+        "-c",
+        "--config",
+        help="Uses the given config file. Defaults to appdirs.user_config_dir('ciphey', 'ciphey')/'config.yml'",
         action="store_const",
         const=True,
     )
     parser.add_argument(
         "-w",
         "--wordlist",
-        help="Uses the given wordlist module",
+        help="Uses the given wordlist",
     )
     parser.add_argument(
         "-p",
@@ -465,19 +472,12 @@ def arg_parsing(config: Dict[str, Any]) -> bool:
     update_flag("checker")
     config["objs"]["checker"] = iface.registry.get_named(iface.LanguageChecker, config["checker"])
 
-    update_flag("wordlist")
-    config["objs"]["wordlist"] = iface.registry.get_named(iface.WordList, config["checker"])
-
-    # Try to locate language checker module
-    # TODO: actually implement this (should be similar)
-    import cipheydists
-
-    config["wordlist"] = set(cipheydists.get_list("english"))
     # Now we fill in the params *shudder*
     config["params"] = {}
     for i in args["param"]:
         key, value = i.split("=", 1)
-        config["params"][key] = value
+        parent, name = key.split(".", 1)
+        config["params"].setdefault(parent, [])[name] = value
 
     return True
 
