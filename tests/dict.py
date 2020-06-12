@@ -1,4 +1,4 @@
-from ciphey.LanguageChecker.brandon import Brandon
+from ciphey.basemods.LC.brandon import Brandon
 config = dict()
 lc = config["checker"](config)
 import unittest

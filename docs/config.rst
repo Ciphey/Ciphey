@@ -38,11 +38,6 @@ An omission of any field will result in these values being used
     info: false
     debug: WARNING
     checker: brandon
-    params:
-      brandon:
-        wordlist: english
-        top1000: english1000
-    modules: []
 
 The following internal modules are loaded by default, even if not specified:
 

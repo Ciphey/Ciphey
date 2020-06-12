@@ -8,7 +8,7 @@
 Github: brandonskerritt
 
 Class to determine whether somethine is English or not.
-1. Calculate the Chi Squared score of a sentence
+1. (SKIPPED) Calculate the Chi Squared score of a sentence
 2. If the score is significantly lower than the average score, it _might_ be English
     2.1. If the score _might_ be English, then take the text and compare it to the sorted dictionary
     in O(n log n) time.
@@ -49,9 +49,8 @@ self.languages = {
 In alphabetical order
 And you're.... Done! Make sure the name of the two match up
 """
-from typing import Dict, Set
-
-from ..iface import LanguageChecker
+from typing import Dict, Set, Optional, Any
+import ciphey
 from string import punctuation
 
 from loguru import logger
@@ -60,7 +59,6 @@ import string
 import os
 import sys
 from loguru import logger
-from .chisquared import chiSquared
 
 import cipheydists
 
@@ -71,7 +69,7 @@ except ModuleNotFoundError:
     import ciphey.mathsHelper as mh
 
 
-class Brandon(LanguageChecker):
+class Brandon(ciphey.iface.LanguageChecker[str]):
     """
     Class designed to confirm whether something is **language** based on how many words of **language** appears
     Call confirmLanguage(text, language)
@@ -84,6 +82,9 @@ class Brandon(LanguageChecker):
     """
 
     wordlist: set
+
+    @staticmethod
+    def getName() -> str: return "brandon"
 
     def cleanText(self, text: str) -> set:
         """Cleans the text ready to be checked
@@ -171,12 +172,16 @@ class Brandon(LanguageChecker):
     def __init__(self, config: dict):
         # Suppresses warning
         super().__init__(config)
+        params = config["params"].setdefault(self.getName(), {})
+        self.fillArgs(params)
         self.mh = mh.mathsHelper()
-        self.languageThreshold = config["params"].get("threshold", 0.55)
-        self.top1000Words = config["params"].get("top1000")
-        self.wordlist = config["wordlist"]
+        self.languageThreshold = params["threshold"]
+        self.top1000Words = ciphey.iface.registry.get_named(params["top1000"], ciphey.iface.WordList[str])(config)
+        self.top1000Words = self.top1000Words.get_wordlist()
+        self.wordlist = ciphey.iface.registry.get_named(params["wordlist"], ciphey.iface.WordList[str])(config)
+        self.wordlist = self.wordlist.get_wordlist()
 
-    def checkLanguage(self, text: bytes) -> bool:
+    def checkLanguage(self, text: str) -> bool:
         """Checks to see if the text is in English
 
         Performs a decryption, but mainly parses the internal data packet and prints useful information.
@@ -210,12 +215,16 @@ class Brandon(LanguageChecker):
         return True
 
     @staticmethod
-    def getArgs() -> Dict[str, object]:
+    def getArgs() -> Optional[Dict[str, Dict[str, Any]]]:
         return {
-            "top1000": {"desc": "A json dictionary of the top 1000 words", "req": False},
-            "threshold": {"desc": "The minimum proportion (between 0 and 1) that must be in the dictionary", "req": False}
+            "top1000": {"desc": "A wordlist of the top 1000 words", "req": False, "default": "cipheydists::english"},
+            "wordlist": {"desc": "A wordlist of all the words", "req": False, "default": "cipheydists::english1000"},
+            "threshold": {
+                "desc": "The minimum proportion (between 0 and 1) that must be in the dictionary",
+                "req": False,
+                "default": 0.45
+            }
         }
 
 
-# Define alias
-ciphey_language_checker = Brandon
+ciphey.iface.registry.register(Brandon, ciphey.iface.LanguageChecker[str])

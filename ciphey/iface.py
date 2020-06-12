@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Dict, Optional, List, TypeVar, Generic, Type, Tuple, Set
+from typing import Any, Dict, Generic, Optional, List, TypeVar, Type, Tuple, Set
 import typing
 
 T = TypeVar('T')
@@ -9,27 +9,38 @@ U = TypeVar('U')
 class ConfigurableModule(ABC):
     @staticmethod
     @abstractmethod
-    def getArgs(**kwargs) -> Optional[Dict[str, object]]:
+    def getArgs() -> Optional[Dict[str, Dict[str, Any]]]:
         """
             The returned dictionary must be of the format:
-                {<name:string>: {"req": <required:bool>, "desc": <description:string>}, ...}
+                {<name:string>: {"req": <required:bool>, "desc": <description:string>, "default": <default:Any>}, ...}
+            The "default" argument is not required, and is ignored if "req" is True
             Return None if there are no arguments
         """
         pass
 
     @staticmethod
     @abstractmethod
-    def getName(**kwargs) -> str:
+    def getName() -> str:
         """
-            Prints the user-specifiable name. MUST NOT contain a '.'!
+            Prints the user-specifiable name. MUST NOT contain a '.'; use "::" instead!
         """
         pass
 
-    """
+    def fillArgs(self, params: Dict[str, Any]):
+        """
+            Fills the given params dict with default values where arguments are not given,
+            using None as the default value for default values
+        """
+        for key, value in self.getArgs().items():
+            if key in params:
+                continue
+            if value["req"]:
+                raise KeyError(f'Missing required param {key} for {self.getName()}')
+            params[key] = value.get("default")
+
     @abstractmethod
     def __init__(self, config: Dict[str, object]):
         pass
-    """
 
 
 class KnownUtility(ABC):
@@ -142,16 +153,20 @@ class WordList(Generic[T], ConfigurableModule):
 
 class Registry:
     _reg: Dict[Type, Dict[Tuple, List[Type]]] = {}
-    _names: Dict[Type, Dict[str, Type]]
+    _names: Dict[Type, Dict[Tuple, Dict[str, Type]]] = {}
 
     def register(self, i: type, *ts: type) -> None:
         for base_type in ts:
             target_type = typing.get_origin(base_type)
+            if target_type not in {LanguageChecker, Detector, Decoder, Cracker, Transcoder, CharSet, Distribution, WordList}:
+                raise TypeError("Invalid type passed to ciphey.iface.registry.register")
             target_subtypes = typing.get_args(base_type)
-            target_list = self._reg[target_type].setdefault(target_subtypes, [])
+            target_list = self._reg.setdefault(target_type, {}).setdefault(target_subtypes, [])
             target_list.append(i)
 
-            self._names[target_type][i.getName()] = i
+            self._names.setdefault(target_type, {}).setdefault(target_subtypes, {})[i.getName()] = i
+        print(self._reg)
+        print(self._names)
 
     def __getitem__(self, i: type) -> typing.Any:
         target_type = typing.get_origin(i)
@@ -161,13 +176,25 @@ class Registry:
 
         return self._reg[target_type][typing.get_args(i)]
 
-    def get_named(self, i: type, name: str) -> Type:
-        return self._names[i][name]
-
-    def __init__(self):
-        for i in [LanguageChecker, Detector, Decoder, Cracker, Transcoder, CharSet, Distribution, WordList]:
-            self._reg[i] = {}
-            self._names[i] = {}
+    def get_named(self, name: str, i: T) -> T:
+        target_type = typing.get_origin(i)
+        if target_type is not None:
+            target_subtypes = typing.get_args(i)
+            return self._names[target_type][target_subtypes][name]
+        # If we were not given arguments, then we will have to find it in the list
+        #
+        # Because we are nice, we will throw an exception on duplicate keys
+        ret_value = None
+        for subtypes, d in self._names[i].items():
+            res = d.get(name)
+            if res is not None:
+                if ret_value is not None:
+                    raise KeyError("Duplicate name of ciphey registered type found!")
+                else:
+                    ret_value = res
+        if ret_value is None:
+            raise KeyError(name)
+        return ret_value
 
 
 registry = Registry()

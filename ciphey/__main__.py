@@ -30,10 +30,10 @@ one_level_of_decryption handles progress bars and stuff.
 import warnings
 import argparse
 import sys
-from typing import Optional, Tuple, Dict, Any, List
+from typing import Optional, Dict, Any, List
 
 from rich.console import Console
-from rich.table import Column, Table
+from rich.table import Table
 from loguru import logger
 
 warnings.filterwarnings("ignore")
@@ -56,7 +56,7 @@ except ModuleNotFoundError:
 
 
 def make_default_config(ctext: str, trace: bool = False) -> Dict[str, object]:
-    from ciphey.LanguageChecker.brandon import ciphey_language_checker as brandon
+    from ciphey.basemods.LC.brandon import ciphey_language_checker as brandon
     import cipheydists
 
     return {
@@ -370,7 +370,7 @@ def arg_parsing(config: Dict[str, Any]) -> bool:
         const=True,
     )
     parser.add_argument(
-        "-l",
+        "-C",
         "--checker",
         help="Uses the given language checker. Defaults to brandon",
         action="store_const",
@@ -456,21 +456,27 @@ def arg_parsing(config: Dict[str, Any]) -> bool:
         logger.critical("A string of less than 3 chars cannot be interpreted by Ciphey.")
         return False
 
-    # Now we can walk through the arguments, expanding them into a canonical form
-    config["ctext"] = args["text"]  # Squash config for ctext
+    def update_flag(name: str, cfg_name: Optional[str] = None, default: Optional[Any] = None):
+        arg = args.get(name)
 
-    def update_flag(name: str, cfg_name: Optional[str] = None):
-        arg = args["name"]
+        if cfg_name is None:
+            cfg_name = name
         if arg is not None:
-            config[cfg_name if cfg_name is not None else name] = arg
+            config[cfg_name] = arg
+        elif default is not None and cfg_name not in config:
+            config[cfg_name] = default
+
+    # Now we can walk through the arguments, expanding them into the config struct
+    config["ctext"] = args["text"]  # Squash config for ctext
+    update_flag("checker", default="brandon")
+    update_flag("info", default=False)
 
     # Append the module lists:
     mods = config.setdefault("modules", [])
     mods += args["module"]
     load_modules(mods)
 
-    update_flag("checker")
-    config["objs"]["checker"] = iface.registry.get_named(iface.LanguageChecker, config["checker"])
+    config["objs"]["checker"] = iface.registry.get_named(config["checker"], iface.LanguageChecker)
 
     # Now we fill in the params *shudder*
     config["params"] = {}
