@@ -1,1 +1,1 @@
-from . import LCs, WordLists, Decoders
+from . import Checkers, Resources, Decoders

@@ -31,6 +31,7 @@ import warnings
 import argparse
 import sys
 from typing import Optional, Dict, Any, List
+import bisect
 import pydoc
 
 from rich.console import Console
@@ -56,54 +57,68 @@ except ModuleNotFoundError:
     import mathsHelper as mh
 
 
-def make_default_config(trace: bool = False) -> Dict[str, object]:
-    import cipheydists
-
-    return {"params": {}}
-
-
-def config_load_objs(config: iface.Config):
-    config["objs"]["format"] = {key: pydoc.locate(value) for key, value in config["format"].items()}
-    config["objs"]["checker"] = config(iface.registry.get_named(config["checker"], iface.LanguageChecker))
-
-
-def update_log_levels(level: Optional[str]):
-    logger.remove()
-    if level is None:
-        return
-    logger.configure()
-    if level == "TRACE" or level == "DEBUG":
-        logger.add(sink=sys.stderr, level=level, colorize=sys.stderr.isatty())
-        logger.opt(colors=True)
-    else:
-        logger.add(sink=sys.stderr, level=level, colorize=False, format="{message}")
-    logger.debug(f"""Debug level set to {level}""")
-
-
-def load_modules(mods: List[str]):
-    import importlib.util
-    for i in mods:
-        spec = importlib.util.spec_from_file_location("ciphey.module_load_site", i)
-        mod = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(mod)
-
-
 def decrypt(ctext: Any, config: iface.Config) -> Optional[Dict[str, Any]]:
-    # First, we grab all the decoder classes that apply to our data
-    decoder_classes = iface.registry[iface.Decoder][config["objs"]["format"]["in"]]
-    possible_decodings = []
+    # First, we detect shenanigans
+    out_type = config.objs["format"]["in"]
+    if type(ctext) == out_type and config.objs["checker"](ctext):
+        return {
+            "IsPlaintext?": True,
+            "Plaintext": ctext,
+            "Cipher": "Plaintext",
+            "Extra Information": None
+        }
 
-    for dst_type, decoders in decoder_classes.items():
-        for decoder in decoders:
-            decoder = config(decoder)
-            res = decoder.decode(ctext)
-            if res is not None:
-                possible_decodings.append(res)
-    print(possible_decodings)
-    # Now we iterate through the ones that apply to our type
+    # Next, we grab all the decoder classes that apply to our data
+    decoder_classes = iface.registry[iface.Decoder].get(type(ctext))
+    possible_decodings = {}
+
+    if decoder_classes is not None:
+        for dst_type, decoders in decoder_classes.items():
+            target = possible_decodings[dst_type] = {}
+            for decoder in decoders:
+                decoder = config(decoder)
+                res = decoder.decode(ctext)
+                if res is None:
+                    continue
+                target[decoder] = dst_type(res)
+
+    # Now we check the decodings that link to our input
+    for decoder, i in possible_decodings.setdefault(out_type, {}).items():
+        if config.objs["checker"](i):
+            return {
+                "IsPlaintext?": True,
+                "Plaintext": i,
+                "Cipher": decoder.getName(),
+                "Extra Information": None
+            }
+
+    # With simple decodings out of the way, we now need to build our score dictionary
+    cracker_scores: Dict[iface.Cracker, float] = {}
+    cracker_held: List[iface.Cracker] = []
+
+    for i in iface.registry[iface.Cracker[type(ctext)]]:
+        # TODO: fix this
+        print(bisect.bisect_left(map(lambda x: x.getUtility(), cracker_held), i))
+        if utility_threshold():
+            if prob_threshold():
+                do_stuff()
+
+    # Now we have exhausted the easy options, try all the decoded versions
+    #
+    # XXX: remember to use Memo.test_and_set to stop infinite recursion!
+    for dst_type, elems in possible_decodings.items():
+        for decoder, val in elems.items():
+            res = decrypt(val, config)
+            if res["IsPlaintext?"]:
+                res["Cipher"] += " inside " + decoder.getName()
+                return res
+
+
+    # Now we do the rest of the cipher checks, executing as necessary
+
     return {
-        "IsPlaintext?": True,
-        "Plaintext": self.text,
+        "IsPlaintext?": False,
+        "Plaintext": None,
         "Cipher": None,
         "Extra Information": None,
     }
@@ -167,8 +182,7 @@ def arg_parsing(config: iface.Config) -> Optional[Dict[str, Any]]:
         "-C",
         "--checker",
         help="Uses the given language checker. Defaults to brandon",
-        action="store_const",
-        const=True,
+        action="store",
     )
     parser.add_argument(
         "-c",
@@ -224,21 +238,16 @@ def arg_parsing(config: iface.Config) -> Optional[Dict[str, Any]]:
 
     # First, we should work out how verbose we should be
     if args["trace"]:
-        config["debug"] = "TRACE"
+        config.update_log_level("TRACE")
     elif args["debug"]:
-        config["debug"] = "DEBUG"
+        config.update_log_level("DEBUG")
     elif args["quiet"]:
-        config["debug"] = "ERROR"
+        config.update_log_level("ERROR")
     elif args["silent"]:
-        config["debug"] = None
-    else:
-        config.setdefault("debug", "WARNING")
-    update_log_levels(config["debug"])
+        config.update_log_level(None)
 
+    # Now we have set the log level, we can start debugging
     logger.trace(f"Got arguments {args}")
-
-    # Initialise the object list
-    config["objs"] = {}
 
     # the below text does:
     # * if -t is supplied, use that
@@ -248,41 +257,28 @@ def arg_parsing(config: iface.Config) -> Optional[Dict[str, Any]]:
     # echo 'hello' | ciphey use that
     # if no data is supplied, no arguments supplied.
 
-    if len(sys.argv) == 1:
-        logger.critical("No arguments were supplied. Look at the help menu with -h or --help")
-        return None
-
-    def update_flag(cfg: Dict[str, Any], name: str, cfg_name: Optional[str] = None, default: Optional[Any] = None):
-        arg = args.get(name)
-
-        if cfg_name is None:
-            cfg_name = name
-        if arg is not None:
-            cfg[cfg_name] = arg
-        elif default is not None and cfg_name not in config:
-            cfg[cfg_name] = default
+    # if len(sys.argv) == 1:
+    #     logger.critical("No arguments were supplied. Look at the help menu with -h or --help")
+    #     return None
 
     # Now we can walk through the arguments, expanding them into the config struct
-    update_flag(config, "checker", default="brandon")
-    update_flag(config, "info", default=False)
-    formats = config.setdefault("format", {})
-    update_flag(formats, "bytes-input", "in", default='str')
-    update_flag(formats, "bytes-output", "out", default='str')
+    config.update("checker", args.get("checker"))
+    config.update("info", args.get("info"))
+    config.update_format("in", args.get("bytes-input"))
+    config.update_format("out", args.get("bytes-output"))
 
     # Append the module lists:
-    mods = config.setdefault("modules", [])
-    mods += args["module"]
-    load_modules(mods)
+    config.modules += args["module"]
+    config.load_modules()
 
     # Now we fill in the params *shudder*
-    config["params"] = {}
     for i in args["param"]:
         key, value = i.split("=", 1)
         parent, name = key.split(".", 1)
-        config["params"].setdefault(parent, [])[name] = value
+        config.update_param(parent, name, value)
 
     # Now we have parsed and loaded everything else, we can load the objects
-    config_load_objs(config)
+    config.load_objs()
 
     return args
 
@@ -302,9 +298,7 @@ def main(config: Optional[iface.Config] = None, ciphertext=None, parse_args: boo
     """
     # If I don't do this, we end up with the default argument changing
     if config is None:
-        config = iface.Config({})
-    else:
-        config = iface.Config(config)
+        config = iface.Config()
 
     args = None
     # We must fill in the arguments if they are not provided
@@ -316,7 +310,7 @@ def main(config: Optional[iface.Config] = None, ciphertext=None, parse_args: boo
 
     # We now load the ciphertext
     if ciphertext is None:
-        if args is not None and "text" in args:
+        if args is not None and args["text"] is not None:
             ciphertext = args["text"]
         elif not sys.stdin.isatty():
             ciphertext = sys.stdin.read()
@@ -325,7 +319,8 @@ def main(config: Optional[iface.Config] = None, ciphertext=None, parse_args: boo
             return None
 
     # Perform type conversion
-    ciphertext = config["objs"]["format"]["in"](ciphertext)
+    ciphertext = config.objs["format"]["in"](ciphertext)
+    logger.debug(f"Loaded ciphertext {ciphertext}")
 
     if len(ciphertext) < 3:
         logger.critical("A string of less than 3 chars cannot be interpreted by Ciphey.")
@@ -333,6 +328,7 @@ def main(config: Optional[iface.Config] = None, ciphertext=None, parse_args: boo
 
     # Now we have working arguments, we can decrypt
     return decrypt(ciphertext, config)
+
 
 if __name__ == "__main__":
     # withArgs because this function is only called

@@ -153,7 +153,7 @@ class Vigenere:
                 ciphertext, candidate.key, group
             )
 
-            if self.lc.checkLanguage(decryptedText):
+            if self.lc.check(decryptedText):
                 # Set the hacked ciphertext to the original casing:
                 origCase = []
                 for i in range(len(ciphertext)):

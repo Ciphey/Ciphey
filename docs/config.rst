@@ -23,9 +23,9 @@ Structure
         "info": "bool: The info flag",
         "debug": "str: The loguru debug level, one of ['TRACE', 'DEBUG', 'WARNING', 'ERROR', None/~]",
         "checker": "str: The name of the language checker class to be used",
-        "params": "Dict[str, Dict[str, str]]: The given module parameters, indexed by the module name and the param name",
+        "params": "Dict[str, Dict[str, Union[List[str], str]]]: The given module parameters, indexed by the module name and the param name",
         "modules": "List[str]: Paths to modules that should be loaded",
-        "objs": "Dict[str, Any]: Various object instances for internal use. Objects have the same path as their configuration",
+        "utility_threshold": "float: A value between 0 and 2 representing what Detectors should be used in the first pass",
         "format": "Dict[str, str]: formed of 'in' and 'out', which map to the name of their respective types"
     }
 
@@ -41,6 +41,8 @@ An omission of any field will result in these values being used
     format:
       in: str
       out: str
+    utility_threshold: 1.5
+    score_threshold: 0.8
 
 The following internal modules are loaded by default, even if not specified:
 

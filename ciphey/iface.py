@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
-from typing import Any, Dict, Generic, Optional, List, TypeVar, Type, Tuple, Union, Set
+from typing import Any, Dict, Generic, Optional, List, NamedTuple, TypeVar, Type, Union, Set
+import pydoc
 try:
     from typing import get_origin, get_args
 except ImportError:
@@ -8,39 +9,115 @@ except ImportError:
 T = TypeVar('T')
 U = TypeVar('U')
 
+class Memo:
+    """Used to track state between levels of recursion to stop infinite loops"""
+    _flags: Dict[str, bool] = {}
 
-class Config(Dict[str, Any]):
+    def test_and_set(self, flag_name: str):
+        # TODO: make this faster
+        prev = self._flags[flag_name]
+        self._flags[flag_name] = True
+        return prev
+
+class Config:
+    grep: bool = False
+    info: bool = False
+    debug: Optional[str] = "WARNING"
+    checker: str
+    params: Dict[str, Dict[str, Union[str, List[str]]]] = {}
+    format: Dict[str, str] = {"in": "str", "out": "str"}
+    modules: List[str] = []
+    checker: str = "brandon"
+    utility_threshold: float = 1.5
+    score_threshold: float = 0.8
+
+    _inst: Dict[type, Any] = {}
+    objs: Dict[str, Any] = {}
+    memo: Memo = Memo()
+
     def instantiate(self, t: type) -> Any:
         """
             Used to enable caching of a instantiated type after the configuration has settled
         """
         # We cannot use set default as that would construct it again, and throw away the result
-        res = self["inst"].get(t)
+        res = self._inst.get(t)
         if res is not None:
             return res
         ret = t(self)
-        self["inst"][t] = ret
+        self._inst[t] = ret
         return ret
 
     def __call__(self, t: type) -> Any:
         return self.instantiate(t)
 
-    def __init__(self, config: Dict[str, Any] = None):
-        super().__init__(config if config is not None else {})
-        self["inst"] = {}
+    def update(self, attrname: str, value: Optional[Any]):
+        if value is not None:
+            setattr(self, attrname, value)
 
-    # I was planning on using __init_subclass__, but that is incompatible with dynamic type creation when we have
-    # generic keys
+    def update_param(self, owner: str, name: str, value: Optional[Any]):
+        if value is not None:
+            self.params.setdefault(owner, {})[name] = value
+
+    def update_format(self, paramname: str, value: Optional[Any]):
+        if value is not None:
+            self.format[paramname] = value
+
+    def load_objs(self):
+        self.objs["format"] = {key: pydoc.locate(value) for key, value in self.format.items()}
+        self.objs["checker"] = self(registry.get_named(self.checker, Checker))
+
+    def update_log_level(self, level: Optional[str]):
+        self.debug = level
+
+        from loguru import logger
+        import sys
+
+        logger.remove()
+        if self.debug is None:
+            return
+        logger.configure()
+        if self.debug == "TRACE" or self.debug == "DEBUG":
+            logger.add(sink=sys.stderr, level=self.debug, colorize=sys.stderr.isatty())
+            logger.opt(colors=True)
+        else:
+            logger.add(sink=sys.stderr, level=self.debug, colorize=False, format="{message}")
+        logger.debug(f"""Debug level set to {self.debug}""")
+
+    def load_modules(self):
+        import importlib.util
+        for i in self.modules:
+            spec = importlib.util.spec_from_file_location("ciphey.module_load_site", i)
+            mod = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(mod)
+
+    def __init__(self):
+        self.update_log_level(self.debug)
+
+
+def split_resource_name(full_name: str) -> (str, str):
+    return full_name.split("::", 1)
+
+
+class ParamSpec(NamedTuple):
+    """
+    Attributes:
+        req         Whether this argument is required
+        desc        A description of what this argument does
+        default     The default value for this argument. Ignored if req == True
+        list        Whether this parameter is in the form of a list, and can therefore be specified more than once
+    """
+    req: bool
+    desc: str
+    default: Optional[Any] = None
+    list: bool = False
+
 
 class ConfigurableModule(ABC):
     @staticmethod
     @abstractmethod
-    def getArgs() -> Optional[Dict[str, Dict[str, Any]]]:
+    def getParams() -> Optional[Dict[str, ParamSpec]]:
         """
-            The returned dictionary must be of the format:
-                {<name:string>: {"req": <required:bool>, "desc": <description:string>, "default": <default:Any>}, ...}
-            The "default" argument is not required, and is ignored if "req" is True
-            Return None if there are no arguments
+            Returns a dictionary of `argument name: argument specification`
         """
         pass
 
@@ -48,54 +125,64 @@ class ConfigurableModule(ABC):
     @abstractmethod
     def getName() -> str:
         """
-            Prints the user-specifiable name. MUST NOT contain a '.'; use "::" instead!
+            Prints the user-specifiable name. MUST only be made up of alphanumeric chars and underscores
         """
         pass
 
-    def fillArgs(self, params: Dict[str, Any]):
+    def _checkParams(self, params: Dict[str, Any]):
         """
             Fills the given params dict with default values where arguments are not given,
             using None as the default value for default values
         """
-        for key, value in self.getArgs().items():
+        for key, value in self.getParams().items():
             if key in params:
                 continue
-            if value["req"]:
+            if value.req:
                 raise KeyError(f'Missing required param {key} for {self.getName()}')
-            params[key] = value.get("default")
+            params[key] = value.default
+
+    def _params(self):
+        return self._params_obj
 
     @abstractmethod
-    def __init__(self, config: Dict[str, Any]):
-        pass
+    def __init__(self, config: Config):
+        if self.getParams() is not None:
+            self._params_obj = config.params.setdefault(self.getName(), {})
+            self._checkParams(self._params_obj)
 
 
 class KnownUtility(ABC):
     @abstractmethod
     def scoreUtility(self) -> int:
         """
-            Return speed * reliability
+            Return speed^2 + reliability^2
 
             Speed: for an average string
-            5. Runs in microseconds
-            4. Runs in milliseconds
-            3. Runs in less than a second
-            2. Runs in tens of seconds
-            1. Runs in minutes
+            1.0: Runs in microseconds
+            0.8: Runs in milliseconds
+            0.6: Runs in less than a second
+            0.4: Runs in tens of seconds
+            0.2: Runs in minutes
+            0.0: Undecidable
 
             Reliability:
-            5. Will definitely work (cracks all of it's cipher type, completely identifiers ciphers, etc)
-            4. Works in most cases
-            3. Works on some cases (specific versions of common libraries)
-            2. Works on a few cases (old patched bug, rare misconfiguration)
-            1. Exploits some extreme edge case
+            1.0: Will definitely work (cracks all of it's cipher type, completely identifiers ciphers, etc)
+            0.8: Works in most cases
+            0.6: Works on some cases (specific versions of common libraries)
+            0.4: Works on a few cases (old patched bug, rare misconfiguration)
+            0.2: Exploits some extreme edge case
+            0.0: Never works
         """
         pass
 
 
-class LanguageChecker(Generic[T], ConfigurableModule):
+class Checker(Generic[T], ConfigurableModule):
     @abstractmethod
-    def checkLanguage(self, text: T) -> bool: pass
+    def check(self, text: T) -> bool: pass
 
+    def __call__(self, *args): return self.check(*args)
+
+    @abstractmethod
     def __init__(self, config: Config):
         super().__init__(config)
 
@@ -111,6 +198,8 @@ class Detector(Generic[T], ConfigurableModule, KnownUtility):
         """Should return a dictionary of (cipher_name: score), using config["checker"] as appropriate"""
         pass
 
+    def __call__(self, *args): return self.scoreLikelihood(*args)
+
     @abstractmethod
     def __init__(self, config: Config): super().__init__(config)
 
@@ -120,6 +209,8 @@ class Decoder(Generic[T, U], ConfigurableModule):
 
     @abstractmethod
     def decode(self, ctext: T) -> Optional[U]: pass
+
+    def __call__(self, *args): return self.decode(*args)
 
     @abstractmethod
     def __init__(self, config: Config): super().__init__(config)
@@ -136,38 +227,49 @@ class Cracker(Generic[T], ConfigurableModule, KnownUtility):
         """This should attempt to crack the cipher, and use the config["checker"] where appropriate"""
         pass
 
+    def __call__(self, *args): return self.attemptCrack(*args)
+
     @abstractmethod
     def __init__(self, config: Config): super().__init__(config)
 
 
-class CharSet(Generic[T], ConfigurableModule):
+class ResourceLoader(Generic[T], ConfigurableModule):
     @abstractmethod
-    def get_charset(self) -> Set[T]:
+    def what_resources(self) -> Set[str]:
+        """
+            Return a set of the names of instances T you can provide.
+            The names SHOULD be unique amongst ResourceLoaders of the same type
+
+            These names will be exposed as f"{getName()}::{name}", use split_resource_name to recover this
+        """
         pass
 
     @abstractmethod
-    def __init__(self, config: Config): super().__init__(config)
+    def get_resource(self, name: str) -> T:
+        """
+            Returns the requested distribution
 
-
-class Distribution(Generic[T], ConfigurableModule):
-    @abstractmethod
-    def get_distribution(self) -> Dict[T, float]:
+            The behaviour is undefined if `name not in self.what_resources()`
+        """
         pass
 
-    @abstractmethod
-    def __init__(self, config: Config): super().__init__(config)
+    def __call__(self, *args): return self.get_resource(*args)
 
-
-class WordList(Generic[T], ConfigurableModule):
-    @abstractmethod
-    def get_wordlist(self) -> T:
-        pass
+    def __getitem__(self, *args): return self.get_resource(*args)
 
     @abstractmethod
     def __init__(self, config: Config): super().__init__(config)
+
+
+# Some common collection types
+Distribution = Dict[str, float]
+WordList = Set[str]
 
 
 class Registry:
+    # I was planning on using __init_subclass__, but that is incompatible with dynamic type creation when we have
+    # generic keys
+
     RegElem = Union[List[Type], Dict[Type, 'RegElem']]
     NamesElem = Union[Dict[Type, 'NamesElem'], Dict[str, Type]]
 
@@ -177,8 +279,7 @@ class Registry:
     def register(self, i: type, *ts: type) -> None:
         for base_type in ts:
             target_type = get_origin(base_type)
-            if target_type not in {LanguageChecker, Detector, Decoder, Cracker, CharSet, Distribution,
-                                   WordList}:
+            if target_type not in {Checker, Detector, Decoder, Cracker, ResourceLoader}:
                 raise TypeError("Invalid type passed to ciphey.iface.registry.register")
             target_subtypes = get_args(base_type)
             target_reg = self._reg.setdefault(target_type, {})
@@ -190,19 +291,19 @@ class Registry:
             target_reg.setdefault(target_subtypes[-1], []).append(i)
             target_names.setdefault(target_subtypes[-1], {})[i.getName()] = i
 
-    def __getitem__(self, i: type) -> Any:
+    def __getitem__(self, i: type) -> Optional[Any]:
         target_type = get_origin(i)
         # Check if this is a non-generic type, and return the whole dict if it is
         if target_type is None:
             return self._reg[i]
 
         target_subtypes = get_args(i)
-        target_list = self._names[target_type]
-        for i in target_subtypes:
-            target_list = target_list[i]
+        target_list = self._reg.setdefault(target_type, {})
+        for subtype in target_subtypes:
+            target_list = target_list.setdefault(subtype, {})
         return target_list
 
-    def get_named(self, name: str, i: T) -> T:
+    def get_named(self, name: str, i: type) -> Any:
         target_type = get_origin(i)
         if target_type is not None:
             target_subtypes = get_args(i)
@@ -224,6 +325,7 @@ class Registry:
         if ret_value is None:
             raise KeyError(name)
         return ret_value
+
 
 registry = Registry()
 

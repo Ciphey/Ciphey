@@ -69,7 +69,7 @@ except ModuleNotFoundError:
     import ciphey.mathsHelper as mh
 
 
-class Brandon(ciphey.iface.LanguageChecker[str]):
+class Brandon(ciphey.iface.Checker[str]):
     """
     Class designed to confirm whether something is **language** based on how many words of **language** appears
     Call confirmLanguage(text, language)
@@ -133,7 +133,7 @@ class Brandon(ciphey.iface.LanguageChecker[str]):
 
         """
         # If we have no wordlist, then we can't reject the candidate on this basis
-        if self.top1000Words is None:
+        if self.top1000 is None:
             return True
 
         if text is None:
@@ -143,7 +143,7 @@ class Brandon(ciphey.iface.LanguageChecker[str]):
         for word in text:
             # I was debating using any() here, but I think they're the
             # same speed so it doesn't really matter too much
-            if word in self.top1000Words:
+            if word in self.top1000:
                 return True
         return False
 
@@ -170,20 +170,19 @@ class Brandon(ciphey.iface.LanguageChecker[str]):
             return False
 
     def __init__(self, config: ciphey.iface.Config):
-        # Suppresses warning
         super().__init__(config)
-        params = config["params"].setdefault(self.getName(), {})
-        self.fillArgs(params)
         self.mh = mh.mathsHelper()
-        self.languageThreshold = params["threshold"]
-        self.top1000Words = \
-            config(ciphey.iface.registry.get_named(params["top1000"], ciphey.iface.WordList[str]))\
-                .get_wordlist()
-        self.wordlist = \
-            config(ciphey.iface.registry.get_named(params["wordlist"], ciphey.iface.WordList[str]))\
-                .get_wordlist()
+        self.languageThreshold: float = float(self._params()["threshold"])
 
-    def checkLanguage(self, text: str) -> bool:
+        loader, name = ciphey.iface.split_resource_name(self._params()["wordlist"])
+        self.wordlist = \
+            config(ciphey.iface.registry.get_named(loader, ciphey.iface.ResourceLoader[ciphey.iface.WordList]))(name)
+
+        loader, name = ciphey.iface.split_resource_name(self._params()["top1000"])
+        self.top1000 = \
+            config(ciphey.iface.registry.get_named(loader, ciphey.iface.ResourceLoader[ciphey.iface.WordList]))(name)
+
+    def check(self, text: str) -> bool:
         """Checks to see if the text is in English
 
         Performs a decryption, but mainly parses the internal data packet and prints useful information.
@@ -217,16 +216,21 @@ class Brandon(ciphey.iface.LanguageChecker[str]):
         return True
 
     @staticmethod
-    def getArgs() -> Optional[Dict[str, Dict[str, Any]]]:
+    def getParams() -> Optional[Dict[str, ciphey.iface.ParamSpec]]:
         return {
-            "top1000": {"desc": "A wordlist of the top 1000 words", "req": False, "default": "cipheydists::english"},
-            "wordlist": {"desc": "A wordlist of all the words", "req": False, "default": "cipheydists::english1000"},
-            "threshold": {
-                "desc": "The minimum proportion (between 0 and 1) that must be in the dictionary",
-                "req": False,
-                "default": 0.45
-            }
+            "top1000": ciphey.iface.ParamSpec(
+                desc="A wordlist of the top 1000 words",
+                req=False,
+                default="cipheydists::english1000"),
+            "wordlist": ciphey.iface.ParamSpec(
+                desc="A wordlist of all the words",
+                req=False,
+                default="cipheydists::english"),
+            "threshold": ciphey.iface.ParamSpec(
+                desc="The minimum proportion (between 0 and 1) that must be in the dictionary",
+                req=False,
+                default=0.45),
         }
 
 
-ciphey.iface.registry.register(Brandon, ciphey.iface.LanguageChecker[str])
+ciphey.iface.registry.register(Brandon, ciphey.iface.Checker[str])

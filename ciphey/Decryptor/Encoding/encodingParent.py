@@ -34,7 +34,7 @@ class EncodingParent:
 
         for answer in answers:
             logger.debug(f"All answers are {answers}")
-            # adds the LCs objects together
+            # adds the Checkers objects together
             # self.lc = self.lc + answer["lc"]
             if answer is not None and answer["IsPlaintext?"]:
                 logger.debug(f"Plaintext found {answer}")

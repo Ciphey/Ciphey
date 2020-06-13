@@ -36,7 +36,7 @@ class Caesar:
 
         for candidate in possible_keys:
             translated = cipheycore.caesar_decrypt(message, candidate.key, group)
-            result = self.lc.checkLanguage(translated)
+            result = self.lc.check(translated)
             if result:
                 logger.debug(f"Caesar cipher returns true {result}")
                 return {

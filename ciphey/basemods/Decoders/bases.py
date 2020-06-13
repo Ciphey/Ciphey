@@ -8,7 +8,7 @@ from typing import Callable, Optional, Any, Dict
 from loguru import logger
 
 
-def _dispatch(self: Any, ctext: str, func: Callable[[bytes], str]) -> Optional[bytes]:
+def _dispatch(self: Any, ctext: str, func: Callable[[str], bytes]) -> Optional[bytes]:
     logger.trace(f"Attempting {self.getName()}")
 
     try:
@@ -30,7 +30,7 @@ for name, decoder in {"base16": base64.b16decode, "base32": base64.b32decode, "b
     t = type(name, (ciphey.iface.Decoder,), {
         "_get_func": ciphey.iface.id_lambda(decoder),
         "decode": lambda self, ctext: _dispatch(self, ctext, self._get_func()),
-        "getArgs": ciphey.iface.id_lambda(None),
+        "getParams": ciphey.iface.id_lambda(None),
         "getName": ciphey.iface.id_lambda(name),
         "__init__": lambda self, config: _init(self, config)
     })

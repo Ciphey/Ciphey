@@ -18,7 +18,7 @@ class Reverse:
         message = self.mh.strip_puncuation(message)
 
         message = message[::-1]
-        result = self.lc.checkLanguage(message)
+        result = self.lc.check(message)
         if result:
             logger.debug("Reverse returns True")
             return {

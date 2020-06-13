@@ -28,7 +28,7 @@ class Binary:
                 "Extra Information": None,
             }
 
-        if self.lc.checkLanguage(result):
+        if self.lc.check(result):
             logger.debug(f"Answer found for binary")
             return {
                 "lc": self.lc,
