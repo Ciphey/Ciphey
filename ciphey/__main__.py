@@ -32,7 +32,7 @@ import argparse
 import sys
 from typing import Optional, Dict, Any, List
 import bisect
-import pydoc
+from . import iface
 
 from rich.console import Console
 from rich.table import Table
@@ -40,21 +40,7 @@ from loguru import logger
 
 warnings.filterwarnings("ignore")
 
-# Depending on whether Ciphey is called, or Ciphey/__main__
-# we need different imports to deal with both cases
-try:
-    from . import iface
-    from ciphey.neuralNetworkMod.nn import NeuralNetwork
-    from ciphey.Decryptor.basicEncryption.basic_parent import BasicParent
-    from ciphey.Decryptor.Hash.hashParent import HashParent
-    from ciphey.Decryptor.Encoding.encodingParent import EncodingParent
-    import ciphey.mathsHelper as mh
-except ModuleNotFoundError:
-    from neuralNetworkMod.nn import NeuralNetwork
-    from Decryptor.basicEncryption.basic_parent import BasicParent
-    from Decryptor.Hash.hashParent import HashParent
-    from Decryptor.Encoding.encodingParent import EncodingParent
-    import mathsHelper as mh
+
 
 
 def decrypt(ctext: Any, config: iface.Config) -> Optional[Dict[str, Any]]:

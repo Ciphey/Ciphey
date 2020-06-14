@@ -6,7 +6,7 @@ import ciphey
 
 class MorseCode(ciphey.iface.Decoder[str, str]):
     # A priority list for char/word boundaries
-    BOUNDARIES = {' ': 1, '/': 2, '\n': 3}
+    BOUNDARIES = {' ': 1, '/': 2, '\n': 3, '.': -1, '-': -1}
     MAX_PRIORITY = 3
     ALLOWED = {".", "-", " ", "/", "\n"}
     MORSE_CODE_DICT = dict(cipheydists.get_charset("morse"))
@@ -26,8 +26,11 @@ class MorseCode(ciphey.iface.Decoder[str, str]):
         # Custom loop allows early break
         for i in text:
             i_priority = self.BOUNDARIES.get(i)
-            if i_priority is None or i_priority <= char_priority or\
-                    i == char_boundary or i == word_boundary:
+            if i_priority is None:
+                logger.trace(f"Non-morse char '{i}' found")
+                return None
+
+            if i_priority <= char_priority or i == char_boundary or i == word_boundary:
                 continue
             # Default to having a char boundary over a word boundary
             if i_priority > word_priority and word_boundary is None and char_boundary is not None:
