@@ -1,5 +1,5 @@
 ---
-
+# TODO usr appdirs to determine where to pyt the config yaml file
 # Change these to choose your default arguments.
 arguments:
         greppable: False # is the output grepped?
