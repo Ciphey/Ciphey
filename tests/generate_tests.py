@@ -34,7 +34,7 @@ from rich.progress import track
 
 class test_generator:
     def __init__(self):
-        self.HOW_MANY_TESTS = 2
+        self.HOW_MANY_TESTS = 50
         self.enCiphey_obj = enciphey.encipher()
 
     def main(self):

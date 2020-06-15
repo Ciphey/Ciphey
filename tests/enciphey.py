@@ -17,7 +17,7 @@ class encipher:
     def __init__(self):  # pragma: no cover
         """Inits the encipher object """
         self.text = self.read_text()
-        self.MAX_SENTENCE_LENGTH = 20
+        self.MAX_SENTENCE_LENGTH = 5
         # ntlk.download("punkt")
         self.crypto = encipher_crypto()
 
