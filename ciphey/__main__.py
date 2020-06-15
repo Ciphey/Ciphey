@@ -53,6 +53,9 @@ def decrypt(ctext: Any, config: iface.Config) -> Optional[Dict[str, Any]]:
             "Cipher": "Plaintext",
             "Extra Information": None
         }
+    if not config.memo.mark_str(ctext):
+        logger.debug("ctext seen before with this config!")
+        return None
 
     # Next, we grab all the decoder classes that apply to our data
     decoder_classes = iface.registry[iface.Decoder].get(type(ctext))
@@ -79,15 +82,33 @@ def decrypt(ctext: Any, config: iface.Config) -> Optional[Dict[str, Any]]:
             }
 
     # With simple decodings out of the way, we now need to build our score dictionary
-    cracker_scores: Dict[iface.Cracker, float] = {}
-    cracker_held: List[iface.Cracker] = []
+    #
+    # We keep a list, so that we can iterate through it at the end without having to convert it
+    cipher_scores: List[(float, iface.Cracker)] = []
+    decoder_utilities: List[(float, iface.Decoder)] = []
+    cracker_utilities: Dict[str, List[(float, iface.Cracker)]]
+    cipher_held: List[(float, iface.Cracker)] = []
+    """
+    for i in iface.registry[iface.Detector[type(ctext)]]:
+        inst = config(i)
+        utility = i.scoreUtility()
+        if utility < config.utility_threshold:
+            bisect.insort_left(decoder_utilities, (utility, i))
+
+        if utility >= config.utility_threshold:
+            inst: iface.Detector[type(ctext)] = config(i)
+            score = inst.scoreLikelihood(ctext)
 
     for i in iface.registry[iface.Cracker[type(ctext)]]:
+        utility = i.scoreUtility()
+        if utility >= config.utility_threshold:
+            inst: iface.Cracker[type(ctext)] = config(i)
         # TODO: fix this
         print(bisect.bisect_left(map(lambda x: x.getUtility(), cracker_held), i))
         if utility_threshold():
             if prob_threshold():
                 do_stuff()
+    """
 
     # Now we have exhausted the easy options, try all the decoded versions
     #
@@ -102,6 +123,7 @@ def decrypt(ctext: Any, config: iface.Config) -> Optional[Dict[str, Any]]:
 
     # Now we do the rest of the cipher checks, executing as necessary
 
+    # We failed, return as such
     return {
         "IsPlaintext?": False,
         "Plaintext": None,
@@ -218,6 +240,18 @@ def arg_parsing(config: iface.Config) -> Optional[Dict[str, Any]]:
         action="store_const",
         const="bytes",
         default="str"
+    )
+    parser.add_argument(
+        "--default-dist",
+        help="Sets the default character/byte distribution",
+        action="store",
+        default=None
+    )
+    parser.add_argument(
+        "--default-wordlist",
+        help="Sets the default wordlist",
+        action="store",
+        default=None
     )
 
     args = vars(parser.parse_args())

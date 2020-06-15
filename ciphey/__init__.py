@@ -1,3 +1,3 @@
-from . import __main__, iface
+from . import common
 
-from . import basemods
+from . import __main__, iface, basemods

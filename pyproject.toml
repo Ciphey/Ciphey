@@ -16,7 +16,14 @@ pylint = "^2.5.2"
 flake8 = "^3.8.2"
 cipheydists = "^0.2.2"
 cipheycore = "^0.1.5"
-tflite = "^2.2.0"
+tflite-runtime = [
+    {url = "https://dl.google.com/coral/python/tflite_runtime-2.1.0.post1-cp36-cp36m-linux_x86_64.whl", python="~3.6", markers="os_name == 'Linux'"},
+    {url = "https://dl.google.com/coral/python/tflite_runtime-2.1.0.post1-cp37-cp37m-linux_x86_64.whl", python="~3.7", markers="os_name == 'Linux'"},
+    {url = "https://dl.google.com/coral/python/tflite_runtime-2.1.0.post1-cp36-cp36m-macosx_10_14_x86_64.whl", python="~3.6", markers="os_name == 'Darwin'"},
+    {url = "https://dl.google.com/coral/python/tflite_runtime-2.1.0.post1-cp37-cp37m-macosx_10_14_x86_64.whl", python="~3.7", markers="os_name == 'Darwin'"},
+    {url = "https://dl.google.com/coral/python/tflite_runtime-2.1.0.post1-cp36-cp36m-win_amd64.whl", python="~3.6", markers="os_name == 'Windows'"},
+    {url = "https://dl.google.com/coral/python/tflite_runtime-2.1.0.post1-cp37-cp37m-win_amd64.whl", python="~3.7", markers="os_name == 'Windows'"},
+]
 appdirs = "^1.4.4"
 typing_inspect = { version = "^0.6.0", python = "~3.6 || ~3.7" }
 

@@ -3,7 +3,7 @@ from typing import Optional, Dict, Any, Set
 from functools import lru_cache
 import ciphey
 import cipheydists
-from ciphey.iface import T, id_lambda, ParamSpec, Config
+from ciphey.iface import T, ParamSpec, Config
 
 import json
 
@@ -57,5 +57,6 @@ class Json(ciphey.iface.ResourceLoader):
         super().__init__(config)
         self._paths = self._params()["path"]
         self._names = set(range(0, len(self._paths) - 1))
+
 
 ciphey.iface.registry.register(Json, ciphey.iface.ResourceLoader[ciphey.iface.WordList])

@@ -1,1 +1,1 @@
-from . import Checkers, Resources, Decoders
+from . import Checkers, Crackers, Decoders, Detectors, Resources

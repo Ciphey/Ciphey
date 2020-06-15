@@ -123,7 +123,7 @@ class Brandon(ciphey.iface.Checker[str]):
     def check1000Words(self, text: Set[str]) -> bool:
         """Checks to see if word is in the list of 1000 words
 
-        the 1000words is a dict, so lookup is O(1)
+        the 1000words is a dict, so lookup is on average O(1)
 
         Args:
             text -> The text we use to text (a word)

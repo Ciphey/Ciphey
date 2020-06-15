@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, Dict, Generic, Optional, List, NamedTuple, TypeVar, Type, Union, Set
+from typing import Any, Dict, Generic, Optional, List, NamedTuple, TypeVar, Type, Union, Set, Tuple
 import pydoc
 try:
     from typing import get_origin, get_args
@@ -9,15 +9,18 @@ except ImportError:
 T = TypeVar('T')
 U = TypeVar('U')
 
+
 class Memo:
     """Used to track state between levels of recursion to stop infinite loops"""
-    _flags: Dict[str, bool] = {}
+    _marked: Set[str] = set()
 
-    def test_and_set(self, flag_name: str):
-        # TODO: make this faster
-        prev = self._flags[flag_name]
-        self._flags[flag_name] = True
-        return prev
+    def mark_str(self, ctext: str) -> bool:
+        if ctext in self._marked:
+            return False
+
+        self._marked.add(ctext)
+        return True
+
 
 class Config:
     grep: bool = False
@@ -30,6 +33,7 @@ class Config:
     checker: str = "brandon"
     utility_threshold: float = 1.5
     score_threshold: float = 0.8
+    default_dist: str = "cipheydists::twist"
 
     _inst: Dict[type, Any] = {}
     objs: Dict[str, Any] = {}
@@ -55,8 +59,14 @@ class Config:
             setattr(self, attrname, value)
 
     def update_param(self, owner: str, name: str, value: Optional[Any]):
-        if value is not None:
-            self.params.setdefault(owner, {})[name] = value
+        if value is None:
+            return
+
+        target = self.params.setdefault(owner, {})
+        if registry.get_named(name).getParams()[name].list:
+            target.setdefault(name, []).append(value)
+        else:
+            target[name] = value
 
     def update_format(self, paramname: str, value: Optional[Any]):
         if value is not None:
@@ -103,13 +113,15 @@ class ParamSpec(NamedTuple):
     Attributes:
         req         Whether this argument is required
         desc        A description of what this argument does
-        default     The default value for this argument. Ignored if req == True
+        default     The default value for this argument. Ignored if req == True or configPath is not None
+        configPath  The path to the config that should be the default value
         list        Whether this parameter is in the form of a list, and can therefore be specified more than once
     """
     req: bool
     desc: str
     default: Optional[Any] = None
     list: bool = False
+    configPath: Optional[List[str]] = None
 
 
 class ConfigurableModule(ABC):
@@ -129,7 +141,7 @@ class ConfigurableModule(ABC):
         """
         pass
 
-    def _checkParams(self, params: Dict[str, Any]):
+    def _checkParams(self, params: Dict[str, Any], config: Config):
         """
             Fills the given params dict with default values where arguments are not given,
             using None as the default value for default values
@@ -139,7 +151,11 @@ class ConfigurableModule(ABC):
                 continue
             if value.req:
                 raise KeyError(f'Missing required param {key} for {self.getName()}')
-            params[key] = value.default
+            if value.configPath is not None:
+                tmp = getattr(config, value.configPath[0])
+                params[key] = tmp[value.configPath[1:]] if len(value.configPath) > 1 else tmp
+            else:
+                params[key] = value.default
 
     def _params(self):
         return self._params_obj
@@ -148,12 +164,13 @@ class ConfigurableModule(ABC):
     def __init__(self, config: Config):
         if self.getParams() is not None:
             self._params_obj = config.params.setdefault(self.getName(), {})
-            self._checkParams(self._params_obj)
+            self._checkParams(self._params_obj, config)
 
 
 class KnownUtility(ABC):
+    @staticmethod
     @abstractmethod
-    def scoreUtility(self) -> int:
+    def scoreUtility() -> float:
         """
             Return speed^2 + reliability^2
 
@@ -189,13 +206,13 @@ class Checker(Generic[T], ConfigurableModule):
 
 class Detector(Generic[T], ConfigurableModule, KnownUtility):
     @abstractmethod
-    def what(self) -> str:
+    def what(self) -> List[str]:
         """Returns the cipher that this object attempts to detect"""
         pass
 
     @abstractmethod
     def scoreLikelihood(self, ctext: T) -> Dict[str, float]:
-        """Should return a dictionary of (cipher_name: score), using config["checker"] as appropriate"""
+        """Should return a dictionary of (cipher_name: score)"""
         pass
 
     def __call__(self, *args): return self.scoreLikelihood(*args)
@@ -271,25 +288,25 @@ class Registry:
     # generic keys
 
     RegElem = Union[List[Type], Dict[Type, 'RegElem']]
-    NamesElem = Union[Dict[Type, 'NamesElem'], Dict[str, Type]]
 
     _reg: Dict[Type, RegElem] = {}
-    _names: Dict[Type, NamesElem] = {}
+    _names: Dict[str, Tuple[Type, Set[Type]]] = {}
 
     def register(self, i: type, *ts: type) -> None:
+        name_target = self._names[i.getName()] = (i, set())
+
         for base_type in ts:
             target_type = get_origin(base_type)
             if target_type not in {Checker, Detector, Decoder, Cracker, ResourceLoader}:
                 raise TypeError("Invalid type passed to ciphey.iface.registry.register")
             target_subtypes = get_args(base_type)
             target_reg = self._reg.setdefault(target_type, {})
-            target_names = self._names.setdefault(target_type, {})
             # Seek to the given type
             for subtype in target_subtypes[0:-1]:
                 target_reg = target_reg.setdefault(subtype, {})
-                target_names = target_names.setdefault(subtype, {})
             target_reg.setdefault(target_subtypes[-1], []).append(i)
-            target_names.setdefault(target_subtypes[-1], {})[i.getName()] = i
+            name_target[1].add(target_type)
+            name_target[1].add(base_type)
 
     def __getitem__(self, i: type) -> Optional[Any]:
         target_type = get_origin(i)
@@ -303,37 +320,14 @@ class Registry:
             target_list = target_list.setdefault(subtype, {})
         return target_list
 
-    def get_named(self, name: str, i: type) -> Any:
-        target_type = get_origin(i)
-        if target_type is not None:
-            target_subtypes = get_args(i)
-            target_list = self._names[target_type]
-            for i in target_subtypes:
-                target_list = target_list[i]
-            return target_list[name]
-        # If we were not given arguments, then we will have to find it in the list
-        #
-        # Because we are nice, we will throw an exception on duplicate keys
-        ret_value = None
-        for subtypes, d in self._names[i].items():
-            res = d.get(name)
-            if res is not None:
-                if ret_value is not None:
-                    raise KeyError("Duplicate name of ciphey registered type found!")
-                else:
-                    ret_value = res
-        if ret_value is None:
-            raise KeyError(name)
-        return ret_value
+    def get_named(self, name: str, type_constraint: Type = None) -> Any:
+        ret = self._names[name]
+        if type_constraint and type_constraint not in ret[1]:
+            raise TypeError(f"Type mismatch: wanted {type_constraint}, got {ret[1]}")
+        return ret[0]
 
 
 registry = Registry()
-
-def id_lambda(value: Any):
-    """
-        A function used in dynamic class generation that abstracts away a constant return value (like in getName)
-    """
-    return lambda *args: value
 
 """
 Example:
