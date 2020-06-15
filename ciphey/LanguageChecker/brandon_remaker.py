@@ -31,3 +31,18 @@ while i <= howMany:
     for token in doc:
         print(token.text)
         tokenised_text.append(token.text.lower())
+
+# TODO
+"""
+TODO
+* Strip it of puncuation
+remove empty objects (some words are just puncuation on its own)
+lemmisate it
+turn words into synomyns
+
+
+create the new dict of hansard.txt
+
+
+then do the same for the real dict
+"""
