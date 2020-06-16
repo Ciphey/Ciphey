@@ -2,14 +2,21 @@ import cipheydists
 from math import ceil
 from alive_progress import alive_bar
 
+import spacy
+
+# This is the spell check that Chrome, MacOS, Firefox, Libre & Open office and much more.
+# Basically, it should be good at itis job.
+from spacy_hunspell import spaCyHunSpell
+
 dictionary_old = set(cipheydists.get_list("english"))
 
 f = open("hansard.txt", encoding="ISO-8859-1").read()
 
-import spacy
 
 nlp = spacy.load("en_core_web_sm")
-
+# uses the mac os version
+hunspell = spaCyHunSpell(nlp, "linux")
+nlp.add_pipe(hunspell)
 # I want to work on f rn
 
 """
