@@ -4,6 +4,18 @@ from alive_progress import alive_bar
 
 import spacy
 
+"""
+This document:
+* opens the two dicts up
+* combines them together, as a set using union
+* turns all words lower case
+* filter all words less than or equal to 1 char
+* Lemmisatizes the words (greatly -> great)
+
+Phase 1 is O(n), except without the dict lookup (space complexity is O(n) instead of O(n + 1000))
+Phase 2 is O(n), with much, much lower space complexity and higher accuracy.
+"""
+
 # This is the spell check that Chrome, MacOS, Firefox, Libre & Open office and much more.
 # Basically, it should be good at itis job.
 dictionary_old = set(cipheydists.get_list("english"))
@@ -78,4 +90,3 @@ print(f"Lemmatised words is now size {len(lemmatised_words_set)}")
 
 # Now I need to group synomyns into one word
 # I heard that word2vec works well for this
-
