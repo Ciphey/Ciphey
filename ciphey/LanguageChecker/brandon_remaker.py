@@ -1,5 +1,6 @@
 import cipheydists
 from math import ceil
+from alive_progress import alive_bar
 
 dictionary_old = set(cipheydists.get_list("english"))
 
@@ -18,23 +19,29 @@ nlp.max_length = 86545000
 
 
 howMany = ceil(len(f) / 1000)
-i = 1
 current_location = 0
-while i <= howMany:
-    # TODO when we reach the end of the list, we need to +1 the list. How do?
-    doc = nlp(f[current_location : (howMany if i is not howMany else howMany + 1)])
+with alive_bar(howMany) as bar:
+    for i in range(0, howMany):
+        # TODO when we reach the end of the list, we need to +1 the list. How do?
+        doc = nlp(f[current_location : (howMany if i is not howMany else howMany + 1)])
 
-    i += 1
+        i += 1
+        current_location += howMany
+        bar()
 
-    tokenised_text = []
+        tokenised_text = []
 
-    for token in doc:
-        print(token.text)
-        tokenised_text.append(token.text.lower())
+        for token in doc:
+            print(token.text)
+            if len(token) > 1:
+                # so we dont add stuff like "(" to the dictionary or single letters
+                # as they are not useful
+                tokenised_text.append(token.text.lower())
 
 # TODO
 """
 TODO
+* spell check hansard.txt
 * Strip it of puncuation
 remove empty objects (some words are just puncuation on its own)
 lemmisate it
