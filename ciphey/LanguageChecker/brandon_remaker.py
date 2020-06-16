@@ -60,3 +60,11 @@ create the new dict of hansard.txt
 
 then do the same for the real dict
 """
+
+# since they are sets we get uniques only
+complete = f.union(dictionary_old)
+
+# turns it all into lowercase
+complete = [word.lower() for word in complete]
+
+
