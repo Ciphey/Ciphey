@@ -67,4 +67,7 @@ complete = f.union(dictionary_old)
 # turns it all into lowercase
 complete = [word.lower() for word in complete]
 
+# This shouldr remove all words that are of length 1
+complete = filter(len(word) <= 1 for word in complete)
+
 

@@ -198,3 +198,5 @@ poetry.lock
 ciphey/LanguageChecker/create\?max_size=60&spelling=US&spelling=GBs&max_variant=2&diacritic=both&special=hacker&special=roman-numerals&download=wordlist&encoding=utf-8&format=inline
 
 ciphey/LanguageChecker/create\?max_size=80&spelling=US&spelling=GBs&spelling=GBz&spelling=CA&spelling=AU&max_variant=2&diacritic=both&special=hacker&special=roman-numerals&download=wordlist&encoding=utf-8&format=inline
+
+ciphey/LanguageChecker/aspell.txt
