@@ -58,13 +58,24 @@ then do the same for the real dict
 """
 
 # since they are sets we get uniques only
-complete = f.union(dictionary_old)
+# TODO I think this is a bug?
+complete = set(f.union(dictionary_old))
 print(f"Complete before set union is size {len(f) + len(dictionary_old)}")
 print(f"Now complete size after union is {len(complete)}")
 print(f"The intersection is {f.intersection(dictionary_old)}")
 # turns it all into lowercase
-complete = [word.lower() for word in complete]
+complete = set([word.lower() for word in complete])
 
 # This shouldr remove all words that are of length 1
-complete = list(filter(lambda x: len(x) > 1, complete))
+complete = list(set(filter(lambda x: len(x) > 1, complete)))
 print(f"Complete size after removing small chars is {len(complete)}")
+
+# Lemmatization
+sentences = nlp(" ".join(complete[0:50000]))
+print(f"Length of sentences is {len(sentences)}")
+lemmatised_words_set = set([word.lemma_ for word in sentences])
+print(f"Lemmatised words is now size {len(lemmatised_words_set)}")
+
+# Now I need to group synomyns into one word
+# I heard that word2vec works well for this
+
