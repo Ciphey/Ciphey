@@ -34,6 +34,44 @@ enciph = enciphey.encipher()
 # all stopwords
 all_stopwords = nlp.Defaults.stop_words
 top1000Words = cipheydists.get_list("english1000")
+endings = [
+    "al",
+    "y",
+    "sion",
+    "tion",
+    "ize",
+    "ic",
+    "ious",
+    "ness",
+    "ment",
+    "ed",
+    "ify",
+    "ence",
+    "fy",
+    "less",
+    "ance",
+    "ship",
+    "ate",
+    "dom",
+    "ist",
+    "ish",
+    "ive",
+    "en",
+    "ical",
+    "ful",
+    "ible",
+    "ise",
+    "ing",
+    "ity",
+    "ism",
+    "able",
+    "ty",
+    "er",
+    "or",
+    "esque",
+    "acy",
+    "ous",
+]
 
 
 def lem(text):
@@ -71,7 +109,7 @@ def get_random_sentence():
     if random.randint(0, 1) == 0:
         x = None
         while x is None:
-            x = (True, " ".join(random.sample(f, k=random.randint(1, 50))))
+            x = (True, " ".join(random.sample(f, k=random.randint(1, 5))))
         return x
     else:
         x = None
@@ -79,6 +117,21 @@ def get_random_sentence():
             x = enciph.getRandomEncryptedSentence()
             x = x["Encrypted Texts"]["EncryptedText"]
         return (False, x)
+
+
+def get_words(text):
+    doc = nlp(text)
+    toReturn = []
+    for token in doc:
+        toReturn.append((token.text).lower())
+    return toReturn
+
+
+def word_endings(text):
+    percent = 0
+    for word in text:
+        if word.endswith(any(endings)):
+            print("hi")
 
 
 # Now to time it and take measurements
@@ -99,32 +152,26 @@ def perform():
     sent_size_list = []
     items = range(20000)
     with alive_bar(len(items)) as bar:
-        for i in range(0, 5):
+        for i in range(0, 20000):
             sent = get_random_sentence()
             text = sent[1]
             truthy = sent[0]
             sent_size_list.append(len(text))
 
             # should be length of chars
-            doc = nlp(text)
-            text = []
-            for token in doc:
-                text.append(token.text)
-            print(text)
-
+            text = get_words(text)
             old = len(text)
 
             # timing the function
             tic = time.perf_counter()
-            result = stop(text)
+            result = check1000Words(text)
             tok = time.perf_counter()
-            print(text)
+            # new = len(result)
             # print(
-                # f"The old text is \n {''.join(text)}\n and the new text is \n {''.join(result)} \n\n"
+            # f"The old text is \n {''.join(text)}\n and the new text is \n {''.join(result)} \n\n"
             # )
 
-            new = len(text)
-            result = new < old
+            # result = new < old
 
             # checking for accuracy
             # new = len(new)
