@@ -35,9 +35,11 @@ def lem(text):
 
 def get_random_sentence():
     if random.randint(0, 1) == 0:
-        return (True, " ".join(f[0 : random.randint(0, 15)]))
+        return (True, " ".join(f[0 : random.randint(1, 15)]))
     else:
-        return (False, enciph.getRandomEncryptedSentence()['Encrypted Texts'])
+        x = enciph.getRandomEncryptedSentence()
+        x = x["Encrypted Texts"]["EncryptedText"]
+        return (False, x)
 
 
 # Now to time it and take measurements
