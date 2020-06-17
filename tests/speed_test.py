@@ -1,12 +1,31 @@
+"""
+TL;DR
+
+Tested over 20,000 times
+
+Maximum sentence size is 15 sentences
+1/2 chance of getting 'gibberish' (encrypted text)
+1/2 chance of getting English text
+
+Each test is timed using Time module.
+The accuracy is calculated as to how many true positives we get over the entire run
+
+"""
+
+
 import spacy
 import random
 import time
 from statistics import mean
+import ciphey
+import enciphey
 
 nlp = spacy.load("en_core_web_sm")
 
 f = open("hansard.txt", encoding="ISO-8859-1").read()
 f = f.split(".")
+
+enciph = enciphey.encipher()
 
 
 def lem(text):
@@ -15,7 +34,10 @@ def lem(text):
 
 
 def get_random_sentence():
-    return " ".join(f[0 : random.randint(0, 15)])
+    if random.randint(0, 1) == 0:
+        return (True, " ".join(f[0 : random.randint(0, 15)]))
+    else:
+        return (False, enciph.getRandomEncryptedSentence()['Encrypted Texts'])
 
 
 # Now to time it and take measurements
@@ -32,21 +54,24 @@ def perform():
     # average sentance size
     sent_size_list = []
 
-    for i in range(0, 20000):
+    for i in range(0, 20):
         sent = get_random_sentence()
-        sent_size_list.append(len(sent))
+        text = sent[1]
+        truthy = sent[0]
+        sent_size_list.append(len(text))
 
         # should be length of chars
-        old = len(sent)
+        old = len(text)
 
         # timing the function
         tic = time.perf_counter()
-        new = lem(sent)
+        new = lem(text)
         tok = time.perf_counter()
 
         # checking for accuracy
         new = len(new)
-        if new < old:
+        # the and here means we only count True Positives
+        if new < old and truthy:
             true_returns += 1
         total += 1
 
@@ -55,7 +80,7 @@ def perform():
         time_list.append(t)
 
     print(
-            f"The accuracy is {str((true_returns / total) * 100)} \n and the time it took is {str(round(mean(time_list), 2))}. \n The average sentence siize was {str(mean(sent_size_list))}"
+        f"The accuracy is {str((true_returns / total) * 100)} \n and the time it took is {str(round(mean(time_list), 2))}. \n The average sentence siize was {str(mean(sent_size_list))}"
     )
 
 
