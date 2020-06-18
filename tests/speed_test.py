@@ -78,14 +78,15 @@ class tester:
         ]
         self.endings_3_letters = list(filter(lambda x: len(x) > 3, self.endings))
 
-    def lem(self, text):
+    def lem(self, text, thresold):
         sentences = self.nlp(text)
         return set([word.lemma_ for word in sentences])
 
-    def stop(self, text):
-        return [word for word in text if not word in self.all_stopwords]
+    def stop(self, text, threshold):
+        x = [word for word in text if not word in self.all_stopwords]
+        return True if len(x) < len(text) else False
 
-    def check1000Words(self, text):
+    def check1000Words(self, text, threshold):
         """Checks to see if word is in the list of 1000 words
         the 1000words is a dict, so lookup is O(1)
         Args:
@@ -126,7 +127,7 @@ class tester:
             toReturn.append((token.text).lower())
         return toReturn
 
-    def word_endings(self, text):
+    def word_endings(self, text, thresold):
         total = len(text)
         if total == 0:
             return False
@@ -141,9 +142,9 @@ class tester:
         # return False
         if positive == 0:
             return False
-        return True if positive / total > 0.20 else False
+        return True if positive / total > thresold else False
 
-    def word_endings_3(self, text):
+    def word_endings_3(self, text, threshold):
         """Word endings that only end in 3 chars, may be faster to compute"""
         positive = 0
         total = len(text)
@@ -153,13 +154,13 @@ class tester:
             if word[::-3] in self.endings_3_letters:
                 positive += 1
         if positive != 0:
-            return True if total / positive > 0.25 else False
+            return True if total / positive > threshold else False
         else:
             return False
 
     # Now to time it and take measurements
 
-    def perform(self, function, sent_size):
+    def perform(self, function, sent_size, threshold):
         # calculate accuracy
         total = 0
         true_positive_returns = 0
@@ -187,7 +188,7 @@ class tester:
 
                 # timing the function
                 tic = time.perf_counter()
-                result = function(text)
+                result = function(text, threshold)
                 tok = time.perf_counter()
                 # new = len(result)
                 # print(
@@ -230,6 +231,8 @@ class tester:
                 """
         )
         return {
+            "Name": function,
+            "Threshold": threshold,
             "Accuracy": (true_positive_returns + true_negative_returns) / total,
             "Average_time": mean(time_list),
             "Average_string_len": mean(sent_size_list),
@@ -239,9 +242,9 @@ class tester:
             ],
         }
 
-    def perform_3_sent_sizes(self):
-        # funcs = [obj.word_endings, obj.word_endings_3, obj.stop, obj.check1000Words]
-        funcs = [obj.word_endings]
+    def perform_3_sent_sizes(self, threshold):
+        funcs = [obj.word_endings, obj.word_endings_3, obj.stop, obj.check1000Words]
+        # funcs = [obj.word_endings]
         names = [
             "word endings",
             "word endsing with just 3 chars",
@@ -249,20 +252,26 @@ class tester:
             "check 1000 words",
         ]
         sent_sizes = [1, 5, 20]
-        x = []
+        x = {}
         for i in range(0, len(funcs)):
             func = funcs[i]
-            print(f"Running {names[i]}")
-            for i in sent_sizes:
-                print(f"The sentence size is {i}")
-                x.append(self.perform(func, i))
+            for y in sent_sizes:
+                x[names[i]] = self.perform(func, y, threshold)
         return x
 
     def perform_best_percentages(self):
+        best_thresholds = {
+            "Word Endings": {"Threshold": 0, "Accuracy": 0},
+            "Word Endings 3 chars": {"Threshold": 0, "Accuracy": 0},
+            "Stop words": {"Threshold": 0, "Accuracy": 0},
+            "Check 1000 Words": {"Threshold": 0, "Accuracy": 0},
+        }
         for i in range(1, 100):
-            None
+            x = self.perform_3_sent_sizes(threshold=i)
+            pprint.pprint(x)
+            exit(1)
 
 
 obj = tester()
-x = obj.perform_3_sent_sizes()
+x = obj.perform_best_percentages()
 pprint.pprint(x)
