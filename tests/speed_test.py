@@ -76,7 +76,7 @@ class tester:
             "acy",
             "ous",
         ]
-        self.endings_3_letters = list(filter(x > 3 for x in self.endings))
+        self.endings_3_letters = list(filter(lambda x: len(x) > 3, self.endings))
 
     def lem(self, text):
         sentences = self.nlp(text)
@@ -128,20 +128,32 @@ class tester:
 
     def word_endings(self, text):
         total = len(text)
-        positive = 0
-        for word in text:
-            if word.endswith(any(self.endings)):
-                positive += 1
+        positive = 1
+        # as soon as we hit 25%, we exit and return True
+        while total / positive < 0.25:
+            for word in text:
+                for word2 in self.endings:
+                    if word.endswith(word2):
+                        positive += 1
+        else:
+            return True
+        return False
+
         return True if total / positive > 0.25 else False
 
     def word_endings_3(self, text):
         """Word endings that only end in 3 chars, may be faster to compute"""
         positive = 0
         total = len(text)
+        if total == 0:
+            return False
         for word in text:
             if word[::-3] in self.endings_3_letters:
                 positive += 1
-        return True if total / positive > 0.25 else False
+        if positive != 0:
+            return True if total / positive > 0.25 else False
+        else:
+            return False
 
     # Now to time it and take measurements
 
@@ -225,7 +237,7 @@ class tester:
         }
 
     def perform_3_sent_sizes(self, func):
-        sent_sizes = [50, 5, 50]
+        sent_sizes = [1, 5, 50]
         x = []
         for i in sent_sizes:
             print(f"The sentence size is {i}")
@@ -234,5 +246,5 @@ class tester:
 
 
 obj = tester()
-x = obj.perform_3_sent_sizes(obj.stop)
+x = obj.perform_3_sent_sizes(obj.word_endings)
 pprint.pprint(x)

@@ -142,7 +142,7 @@ I will create a table of my results:
 | Stop word removal          | 3.05465052884756e-05 seconds | 96%      | 1596                      | 20,000 | 50                |
 | Check1000Words             | 0.0005 seconds               | 96%      | 1597                      | 20,000 | 50                |
 | Regex for numbers in words |
-| Word endings               |
+| Word endings               | 0.0009 seconds               | 95%      | 1597                      | 20,000 | 50                |
 | Expand contractions        |
 | Chi squared                |
 
@@ -154,19 +154,19 @@ I will create a table of my results:
 | Stop word removal          | 1.1574924453998391e-05 seconds | 93%      | 569                       | 20,000 | 5                 |
 | Check1000Words             | 0.0006 seconds                 | 95%      | 586                       | 20,000 | 5                 |
 | Regex for numbers in words |
-| Word endings               |
+| Word endings               | 0.0003 seconds                 | 92%      | 482                       | 20,000 | 5                 |
 | Expand contractions        |
 | Chi Squared                |
 
 ## Table of max sentence length == 1
 
-| Name                       | Speed                   | Accuracy | String Size Average Chars | Epochs | Max Sentence Size |
-| -------------------------- | ----------------------- | -------- | ------------------------- | ------ | ----------------- |
+| Name                       | Speed                           | Accuracy | String Size Average Chars | Epochs | Max Sentence Size |
+| -------------------------- | ------------------------------- | -------- | ------------------------- | ------ | ----------------- |
 | Lemmization (lem)          |
-| Stop word removal          | 1.2532061150591289e-05. | 50%      | 481                       | 20,000 | 1                 |
-| Check1000Words             | 0.0006 seconds          | 95%      | 586                       | 20,000 | 5                 |
+| Stop word removal          | 1.2532061150591289e-05. seconds | 50%      | 481                       | 20,000 | 1                 |
+| Check1000Words             | 0.0006 seconds                  | 95%      | 586                       | 20,000 | 5                 |
 | Regex for numbers in words |
-| Word endings               |
+| Word endings               | 0.0002 seconds                  | 86%      | 482                       | 20,000 | 1                 |
 | Expand contractions        |
 | Chi Squared                |
 
