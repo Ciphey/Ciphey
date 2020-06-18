@@ -174,50 +174,47 @@ class tester:
         # average sentance size
         sent_size_list = []
         test_range = 200
-        items = range(test_range)
-        with alive_bar(len(items)) as bar:
-            for i in range(0, test_range):
-                sent = self.get_random_sentence(sent_size)
-                text = sent[1]
-                truthy = sent[0]
-                sent_size_list.append(len(text))
+        for i in range(0, test_range):
+            sent = self.get_random_sentence(sent_size)
+            text = sent[1]
+            truthy = sent[0]
+            sent_size_list.append(len(text))
 
-                # should be length of chars
-                text = self.get_words(text)
-                old = len(text)
+            # should be length of chars
+            text = self.get_words(text)
+            old = len(text)
 
-                # timing the function
-                tic = time.perf_counter()
-                result = function(text, threshold)
-                tok = time.perf_counter()
-                # new = len(result)
-                # print(
-                # f"The old text is \n {''.join(text)}\n and the new text is \n {''.join(result)} \n\n"
-                # )
+            # timing the function
+            tic = time.perf_counter()
+            result = function(text, threshold)
+            tok = time.perf_counter()
+            # new = len(result)
+            # print(
+            # f"The old text is \n {''.join(text)}\n and the new text is \n {''.join(result)} \n\n"
+            # )
 
-                # result = new < old
+            # result = new < old
 
-                # checking for accuracy
-                # new = len(new)
-                # the and here means we only count True Positives
-                # result = new < old
-                if result and truthy:
-                    true_positive_returns += 1
-                elif result:
-                    false_positive_returns += 1
-                elif not result and truthy:
-                    false_negatives_returns += 1
-                elif not result:
-                    true_negative_returns += 1
-                else:
-                    print("ERROR")
+            # checking for accuracy
+            # new = len(new)
+            # the and here means we only count True Positives
+            # result = new < old
+            if result and truthy:
+                true_positive_returns += 1
+            elif result:
+                false_positive_returns += 1
+            elif not result and truthy:
+                false_negatives_returns += 1
+            elif not result:
+                true_negative_returns += 1
+            else:
+                print("ERROR")
 
-                total += 1
+            total += 1
 
-                # appending the time
-                t = tok - tic
-                time_list.append(t)
-                bar()
+            # appending the time
+            t = tok - tic
+            time_list.append(t)
 
         print(
             f"The accuracy is {str((true_positive_returns+true_negative_returns) / total)} \n and the time it took is {str(mean(time_list))}. \n The average string size was {str(mean(sent_size_list))}"
@@ -247,7 +244,7 @@ class tester:
         # funcs = [obj.word_endings]
         names = [
             "word endings",
-            "word endsing with just 3 chars",
+            "word endngs with just 3 chars",
             "stop words",
             "check 1000 words",
         ]
@@ -262,14 +259,18 @@ class tester:
     def perform_best_percentages(self):
         best_thresholds = {
             "Word Endings": {"Threshold": 0, "Accuracy": 0},
-            "Word Endings 3 chars": {"Threshold": 0, "Accuracy": 0},
-            "Stop words": {"Threshold": 0, "Accuracy": 0},
-            "Check 1000 Words": {"Threshold": 0, "Accuracy": 0},
+            "word endngs with just 3 chars": {"Threshold": 0, "Accuracy": 0},
+            "stop words'": {"Threshold": 0, "Accuracy": 0},
+            "check 1000 words": {"Threshold": 0, "Accuracy": 0},
         }
-        for i in range(1, 100):
-            x = self.perform_3_sent_sizes(threshold=i)
-            pprint.pprint(x)
-            exit(1)
+
+        items = range(100)
+        with alive_bar(len(items)) as bar:
+            for i in range(1, 100):
+                x = self.perform_3_sent_sizes(threshold=i)
+                pprint.pprint(x)
+                bar()
+                exit(1)
 
 
 obj = tester()
