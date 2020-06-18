@@ -128,16 +128,20 @@ class tester:
 
     def word_endings(self, text):
         total = len(text)
-        positive = 1
+        if total == 0:
+            return False
+        positive = 0
         # as soon as we hit 25%, we exit and return True
         for word in text:
             for word2 in self.endings:
                 if word.endswith(word2):
                     positive += 1
             # if total / positive >= 0.25:
-                # return True
+            # return True
         # return False
-        return True if total / positive > 0.25 else False
+        if positive == 0:
+            return False
+        return True if positive / total > 0.2 else False
 
     def word_endings_3(self, text):
         """Word endings that only end in 3 chars, may be faster to compute"""
@@ -235,11 +239,21 @@ class tester:
         }
 
     def perform_3_sent_sizes(self, func):
-        sent_sizes = [1, 5, 50]
+        funcs = [obj.word_endings, obj.word_endings_3, obj.stop, obj.check1000Words]
+        names = [
+            "word endings",
+            "word endsing with just 3 chars",
+            "stop words",
+            "check 1000 words",
+        ]
+        sent_sizes = [1, 5, 20]
         x = []
-        for i in sent_sizes:
-            print(f"The sentence size is {i}")
-            x.append(self.perform(func, i))
+        for i in range(0, len(funcs) - 1):
+            func = funcs[i]
+            print(f"Running {names[i]}")
+            for i in sent_sizes:
+                print(f"The sentence size is {i}")
+                x.append(self.perform(func, i))
         return x
 
 
