@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
-from typing import Any, Dict, Generic, Optional, List, NamedTuple, TypeVar, Type, Union, Set, Tuple
+from collections import defaultdict
+from typing import Any, Callable, Dict, Generic, Optional, List, NamedTuple, TypeVar, Type, Union, Set, \
+    Tuple
 import pydoc
 try:
     from typing import get_origin, get_args
@@ -10,16 +12,27 @@ T = TypeVar('T')
 U = TypeVar('U')
 
 
-class Memo:
-    """Used to track state between levels of recursion to stop infinite loops"""
-    _marked: Set[str] = set()
+class Cache:
+    """Used to track state between levels of recursion to stop infinite loops, and to optimise repeating actions"""
+    _cache: Dict[str, Dict[str, Any]] = {}
 
     def mark_str(self, ctext: str) -> bool:
-        if ctext in self._marked:
+        if ctext in self._cache:
             return False
 
-        self._marked.add(ctext)
+        self._cache[ctext] = defaultdict()
         return True
+
+    def get_or_update(self, ctext: str, keyname: str, get_value: Callable[[], Any]):
+        # Should have been marked first
+        target = self._cache[ctext]
+        res = target.get(keyname)
+        if res is not None:
+            return res
+
+        val = get_value()
+        target[keyname] = val
+        return val
 
 
 class Config:
@@ -37,7 +50,7 @@ class Config:
 
     _inst: Dict[type, Any] = {}
     objs: Dict[str, Any] = {}
-    memo: Memo = Memo()
+    cache: Cache = Cache()
 
     def instantiate(self, t: type) -> Any:
         """
@@ -193,6 +206,14 @@ class KnownUtility(ABC):
         pass
 
 
+class Targeted(ABC):
+    @staticmethod
+    @abstractmethod
+    def getTargets() -> Set[str]:
+        """Should return a list of targets that this object attacks/decodes"""
+        pass
+
+
 class Checker(Generic[T], ConfigurableModule):
     @abstractmethod
     def check(self, text: T) -> bool: pass
@@ -204,12 +225,7 @@ class Checker(Generic[T], ConfigurableModule):
         super().__init__(config)
 
 
-class Detector(Generic[T], ConfigurableModule, KnownUtility):
-    @abstractmethod
-    def what(self) -> List[str]:
-        """Returns the cipher that this object attempts to detect"""
-        pass
-
+class Detector(Generic[T], ConfigurableModule, KnownUtility, Targeted):
     @abstractmethod
     def scoreLikelihood(self, ctext: T) -> Dict[str, float]:
         """Should return a dictionary of (cipher_name: score)"""
@@ -221,7 +237,7 @@ class Detector(Generic[T], ConfigurableModule, KnownUtility):
     def __init__(self, config: Config): super().__init__(config)
 
 
-class Decoder(Generic[T, U], ConfigurableModule):
+class Decoder(Generic[T, U], ConfigurableModule, Targeted):
     """Represents the undoing of some encoding into a different (or the same) type"""
 
     @abstractmethod
@@ -233,14 +249,15 @@ class Decoder(Generic[T, U], ConfigurableModule):
     def __init__(self, config: Config): super().__init__(config)
 
 
-class Cracker(Generic[T], ConfigurableModule, KnownUtility):
-    @abstractmethod
-    def what(self) -> str:
-        """Return the cipher that this object attempts to crack"""
-        pass
+class CrackResults(NamedTuple):
+    plaintext: str
+    keyInfo: Optional[str] = None
+    miscInfo: Optional[str] = None
 
+
+class Cracker(Generic[T], ConfigurableModule, KnownUtility, Targeted):
     @abstractmethod
-    def attemptCrack(self, ctext: T) -> Optional[T]:
+    def attemptCrack(self, ctext: T) -> Optional[CrackResults]:
         """This should attempt to crack the cipher, and use the config["checker"] where appropriate"""
         pass
 
@@ -262,7 +279,7 @@ class ResourceLoader(Generic[T], ConfigurableModule):
         pass
 
     @abstractmethod
-    def get_resource(self, name: str) -> T:
+    def getResource(self, name: str) -> T:
         """
             Returns the requested distribution
 
@@ -291,9 +308,15 @@ class Registry:
 
     _reg: Dict[Type, RegElem] = {}
     _names: Dict[str, Tuple[Type, Set[Type]]] = {}
+    _targets: Dict[str, Dict[Type, List[Type]]] = {}
 
     def register(self, i: type, *ts: type) -> None:
         name_target = self._names[i.getName()] = (i, set())
+
+        targets = None
+
+        if issubclass(i, Targeted):
+            targets = i.getTargets()
 
         for base_type in ts:
             target_type = get_origin(base_type)
@@ -305,8 +328,13 @@ class Registry:
             for subtype in target_subtypes[0:-1]:
                 target_reg = target_reg.setdefault(subtype, {})
             target_reg.setdefault(target_subtypes[-1], []).append(i)
+
             name_target[1].add(target_type)
             name_target[1].add(base_type)
+
+            if targets is not None and issubclass(target_type, Targeted):
+                for target_name in targets:
+                    self._targets.setdefault(target_name, {}).setdefault(base_type, []).append(i)
 
     def __getitem__(self, i: type) -> Optional[Any]:
         target_type = get_origin(i)
@@ -325,6 +353,16 @@ class Registry:
         if type_constraint and type_constraint not in ret[1]:
             raise TypeError(f"Type mismatch: wanted {type_constraint}, got {ret[1]}")
         return ret[0]
+
+    def get_targeted(self, target: str, type_constraint: Type = None) \
+            -> Optional[Union[Dict[Type, Set[Type]], Set[Type]]]:
+        x = self._targets.get(target)
+        if x is None or type_constraint is None:
+            return x
+        return x.get(type_constraint)
+
+    def __str__(self):
+        return f"ciphey.iface.Registry {{\n_reg: {self._reg},\n_names: {self._names},\n_targets: {self._targets}\n}}"
 
 
 registry = Registry()

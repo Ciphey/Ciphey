@@ -1,20 +1,32 @@
-from typing import Optional, Dict, List
+from typing import Dict, Optional, Set
 
 import ciphey
 import cipheycore
-from ciphey.iface import ParamSpec, Config, T
+from ciphey.iface import ParamSpec, Config, registry
 
 
 class CaesarCoreDetect(ciphey.iface.Detector[str]):
-    def what(self) -> List[str]:
+    @staticmethod
+    def getTargets() -> Set[str]:
         return ["caesar"]
 
-    def scoreLikelihood(self, ctext: T) -> Dict[str, float]:
+    def scoreLikelihood(self, ctext: str) -> Dict[str, float]:
         # Match the distribution, and then run a chi-squared analysis
-        pass
+        analysis = self.cache.get_or_update(ctext, "cipheycore::simple_analysis",
+                                            lambda: cipheycore.analyse_string(ctext))
+        return cipheycore.caesar_detect(analysis, self.expected)
 
     def __init__(self, config: Config):
         super().__init__(config)
+        self.cache = config.cache
+        caesar = config.params.get("caesar")
+        if caesar is not None:
+            res = caesar.get("expected")
+            if res is not None:
+                self.expected = res
+                return
+        other_params: Dict[str, ParamSpec] = registry.get_named("caesar").getParams()
+        self.expected = other_params["expected"].default
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:

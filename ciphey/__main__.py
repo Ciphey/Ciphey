@@ -346,6 +346,9 @@ def main(config: Optional[iface.Config] = None, ciphertext=None, parse_args: boo
         logger.critical("A string of less than 3 chars cannot be interpreted by Ciphey.")
         return None
 
+    # Dump the registry
+    logger.trace(f"All modules: {iface.registry}")
+
     # Now we have working arguments, we can decrypt
     return decrypt(ciphertext, config)
 
