@@ -141,7 +141,7 @@ class tester:
         # return False
         if positive == 0:
             return False
-        return True if positive / total > 0.2 else False
+        return True if positive / total > 0.20 else False
 
     def word_endings_3(self, text):
         """Word endings that only end in 3 chars, may be faster to compute"""
@@ -172,9 +172,10 @@ class tester:
 
         # average sentance size
         sent_size_list = []
-        items = range(20000)
+        test_range = 1000
+        items = range(test_range)
         with alive_bar(len(items)) as bar:
-            for i in range(0, 20000):
+            for i in range(0, test_range):
                 sent = self.get_random_sentence(sent_size)
                 text = sent[1]
                 truthy = sent[0]
@@ -238,8 +239,9 @@ class tester:
             ],
         }
 
-    def perform_3_sent_sizes(self, func):
-        funcs = [obj.word_endings, obj.word_endings_3, obj.stop, obj.check1000Words]
+    def perform_3_sent_sizes(self):
+        # funcs = [obj.word_endings, obj.word_endings_3, obj.stop, obj.check1000Words]
+        funcs = [obj.word_endings]
         names = [
             "word endings",
             "word endsing with just 3 chars",
@@ -248,7 +250,7 @@ class tester:
         ]
         sent_sizes = [1, 5, 20]
         x = []
-        for i in range(0, len(funcs) - 1):
+        for i in range(0, len(funcs)):
             func = funcs[i]
             print(f"Running {names[i]}")
             for i in sent_sizes:
@@ -256,7 +258,11 @@ class tester:
                 x.append(self.perform(func, i))
         return x
 
+    def perform_best_percentages(self):
+        for i in range(1, 100):
+            None
+
 
 obj = tester()
-x = obj.perform_3_sent_sizes(obj.word_endings)
+x = obj.perform_3_sent_sizes()
 pprint.pprint(x)
