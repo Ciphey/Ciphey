@@ -31,7 +31,7 @@ class tester:
         self.nlp = spacy.load("en_core_web_sm")
 
         self.f = open("hansard.txt", encoding="ISO-8859-1").read()
-        self.f = f.split(".")
+        self.f = self.f.split(".")
 
         self.enciph = enciphey.encipher()
 
