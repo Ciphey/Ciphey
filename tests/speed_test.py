@@ -172,7 +172,7 @@ class tester:
 
         # average sentance size
         sent_size_list = []
-        test_range = 1000
+        test_range = 200
         items = range(test_range)
         with alive_bar(len(items)) as bar:
             for i in range(0, test_range):
