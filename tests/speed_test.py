@@ -268,6 +268,13 @@ class tester:
         with alive_bar(len(items)) as bar:
             for i in range(1, 100):
                 x = self.perform_3_sent_sizes(threshold=i)
+                for key, value in x:
+                    # getting max keys 
+                    temp1 = x[key]["Accuracy"]
+                    temp2 = best_thresholds[key]["Accuracy"]
+                    if temp1 > temp2:
+                        temp2 = temp1
+                        best_thresholds[key]["Threshold"] = i
                 pprint.pprint(x)
                 bar()
                 exit(1)
