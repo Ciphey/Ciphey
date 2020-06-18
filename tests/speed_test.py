@@ -76,6 +76,7 @@ class tester:
             "acy",
             "ous",
         ]
+        self.endings_3_letters = list(filter(x > 3 for x in self.endings))
 
     def lem(self, text):
         sentences = self.nlp(text)
@@ -105,16 +106,16 @@ class tester:
                 return True
         return False
 
-    def get_random_sentence(self):
+    def get_random_sentence(self, size):
         if random.randint(0, 1) == 0:
             x = None
             while x is None:
-                x = (True, " ".join(random.sample(f, k=random.randint(1, 5))))
+                x = (True, " ".join(random.sample(self.f, k=random.randint(1, size))))
             return x
         else:
             x = None
             while x is None:
-                x = enciph.getRandomEncryptedSentence()
+                x = self.enciph.getRandomEncryptedSentence()
                 x = x["Encrypted Texts"]["EncryptedText"]
             return (False, x)
 
@@ -130,6 +131,15 @@ class tester:
         positive = 0
         for word in text:
             if word.endswith(any(self.endings)):
+                positive += 1
+        return True if total / positive > 0.25 else False
+
+    def word_endings_3(self, text):
+        """Word endings that only end in 3 chars, may be faster to compute"""
+        positive = 0
+        total = len(text)
+        for word in text:
+            if word[::-3] in self.endings_3_letters:
                 positive += 1
         return True if total / positive > 0.25 else False
 
@@ -151,7 +161,7 @@ class tester:
         items = range(20000)
         with alive_bar(len(items)) as bar:
             for i in range(0, 20000):
-                sent = self.get_random_sentence()
+                sent = self.get_random_sentence(sent_size)
                 text = sent[1]
                 truthy = sent[0]
                 sent_size_list.append(len(text))
@@ -215,9 +225,10 @@ class tester:
         }
 
     def perform_3_sent_sizes(self, func):
-        sent_sizes = [1, 5, 50]
+        sent_sizes = [50, 5, 50]
         x = []
         for i in sent_sizes:
+            print(f"The sentence size is {i}")
             x.append(self.perform(func, i))
         return x
 
