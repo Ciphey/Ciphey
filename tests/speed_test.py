@@ -23,55 +23,57 @@ from alive_progress import alive_bar
 from spacy.lang.en.stop_words import STOP_WORDS
 import cipheydists
 
+class tester:
+    def __init__(self):
+            
+        self.nlp = spacy.load("en_core_web_sm")
 
-nlp = spacy.load("en_core_web_sm")
+        self.f = open("hansard.txt", encoding="ISO-8859-1").read()
+        self.f = f.split(".")
 
-f = open("hansard.txt", encoding="ISO-8859-1").read()
-f = f.split(".")
+        self.enciph = enciphey.encipher()
 
-enciph = enciphey.encipher()
-
-# all stopwords
-all_stopwords = nlp.Defaults.stop_words
-top1000Words = cipheydists.get_list("english1000")
-endings = [
-    "al",
-    "y",
-    "sion",
-    "tion",
-    "ize",
-    "ic",
-    "ious",
-    "ness",
-    "ment",
-    "ed",
-    "ify",
-    "ence",
-    "fy",
-    "less",
-    "ance",
-    "ship",
-    "ate",
-    "dom",
-    "ist",
-    "ish",
-    "ive",
-    "en",
-    "ical",
-    "ful",
-    "ible",
-    "ise",
-    "ing",
-    "ity",
-    "ism",
-    "able",
-    "ty",
-    "er",
-    "or",
-    "esque",
-    "acy",
-    "ous",
-]
+        # all stopwords
+        self.all_stopwords = nlp.Defaults.stop_words
+        self.top1000Words = cipheydists.get_list("english1000")
+        self.endings = [
+            "al",
+            "y",
+            "sion",
+            "tion",
+            "ize",
+            "ic",
+            "ious",
+            "ness",
+            "ment",
+            "ed",
+            "ify",
+            "ence",
+            "fy",
+            "less",
+            "ance",
+            "ship",
+            "ate",
+            "dom",
+            "ist",
+            "ish",
+            "ive",
+            "en",
+            "ical",
+            "ful",
+            "ible",
+            "ise",
+            "ing",
+            "ity",
+            "ism",
+            "able",
+            "ty",
+            "er",
+            "or",
+            "esque",
+            "acy",
+            "ous",
+        ]
 
 
 def lem(text):
@@ -128,10 +130,12 @@ def get_words(text):
 
 
 def word_endings(text):
-    percent = 0
+    total = len(text)
+    positive = 0
     for word in text:
         if word.endswith(any(endings)):
-            print("hi")
+            positive += 1
+    return True if total / positive > 0.25 else False
 
 
 # Now to time it and take measurements
