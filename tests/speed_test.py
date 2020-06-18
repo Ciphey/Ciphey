@@ -130,15 +130,13 @@ class tester:
         total = len(text)
         positive = 1
         # as soon as we hit 25%, we exit and return True
-        while total / positive < 0.25:
-            for word in text:
-                for word2 in self.endings:
-                    if word.endswith(word2):
-                        positive += 1
-        else:
-            return True
-        return False
-
+        for word in text:
+            for word2 in self.endings:
+                if word.endswith(word2):
+                    positive += 1
+            # if total / positive >= 0.25:
+                # return True
+        # return False
         return True if total / positive > 0.25 else False
 
     def word_endings_3(self, text):
