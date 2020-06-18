@@ -240,6 +240,9 @@ class tester:
         }
 
     def perform_3_sent_sizes(self, threshold):
+        """
+        Gives us the average accuracy and time etc
+        """
         funcs = [obj.word_endings, obj.word_endings_3, obj.stop, obj.check1000Words]
         # funcs = [obj.word_endings]
         names = [
@@ -257,6 +260,12 @@ class tester:
         return x
 
     def perform_best_percentages(self):
+        """
+        Tells us the optimal percentage thresholds
+        """
+        """
+        TODO I need to record thresholds for each length of text
+        """
         best_thresholds = {
             "Word Endings": {"Threshold": 0, "Accuracy": 0},
             "word endngs with just 3 chars": {"Threshold": 0, "Accuracy": 0},
@@ -269,7 +278,7 @@ class tester:
             for i in range(1, 100):
                 x = self.perform_3_sent_sizes(threshold=i)
                 for key, value in x:
-                    # getting max keys 
+                    # getting max keys
                     temp1 = x[key]["Accuracy"]
                     temp2 = best_thresholds[key]["Accuracy"]
                     if temp1 > temp2:
