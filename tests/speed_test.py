@@ -233,6 +233,7 @@ class tester:
             "Accuracy": (true_positive_returns + true_negative_returns) / total,
             "Average_time": mean(time_list),
             "Average_string_len": mean(sent_size_list),
+            "Sentence length": sent_size,
             "confusion_matrix": [
                 [true_positive_returns, false_positive_returns],
                 [false_negatives_returns, true_negative_returns],
@@ -267,18 +268,18 @@ class tester:
         TODO I need to record thresholds for each length of text
         """
         best_thresholds = {
-            "Word Endings": {"Threshold": 0, "Accuracy": 0},
+            "word endings": {"Threshold": 0, "Accuracy": 0},
             "word endngs with just 3 chars": {"Threshold": 0, "Accuracy": 0},
-            "stop words'": {"Threshold": 0, "Accuracy": 0},
+            "stop words": {"Threshold": 0, "Accuracy": 0},
             "check 1000 words": {"Threshold": 0, "Accuracy": 0},
         }
 
         items = range(100)
         with alive_bar(len(items)) as bar:
-            for i in range(1, 100):
+            for i in range(1, 5):
                 x = self.perform_3_sent_sizes(threshold=i)
-                print(x)
-                for key, value in x:
+                pprint.pprint(x)
+                for key, value in x.items():
                     # getting max keys
                     temp1 = x[key]["Accuracy"]
                     temp2 = best_thresholds[key]["Accuracy"]
@@ -287,7 +288,16 @@ class tester:
                         best_thresholds[key]["Threshold"] = i
                 pprint.pprint(x)
                 bar()
-                exit(1)
+        pprint.pprint(best_thresholds)
+
+    def calculate_average_sentence_size(self):
+        sent_sizes = [1]
+        lengths = []
+        for x in sent_sizes:
+            for i in range(0, 2000):
+                y = self.get_random_sentence(x)
+                lengths.append(y)
+        print(f"The mean is {mean(lengths)}")
 
 
 obj = tester()
