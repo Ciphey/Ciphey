@@ -277,6 +277,7 @@ class tester:
         with alive_bar(len(items)) as bar:
             for i in range(1, 100):
                 x = self.perform_3_sent_sizes(threshold=i)
+                print(x)
                 for key, value in x:
                     # getting max keys
                     temp1 = x[key]["Accuracy"]
