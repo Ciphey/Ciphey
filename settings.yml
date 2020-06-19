@@ -12,6 +12,7 @@ arguments:
         j: Fale # Do you want to run potential candidates against wordlist? Useful for when you think the output is a password. Must set wordlist to use.
         s: False # skip the neural network and only use simple filtration system
         printWorkingDirectory: False # tells you where this settings file is
+        dl: False # Disables Language Checker on the initial input. Useful for NATO phonetics etc.
 
 options:
         # These are options in the program that cannot be set by arguments.
