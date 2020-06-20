@@ -141,10 +141,7 @@ I will create a table of my results:
 | Lemmization (lem)          | 0.02 seconds                 | 50%      | 1580                      | 20,000 | 50                |
 | Stop word removal          | 3.05465052884756e-05 seconds | 96%      | 1596                      | 20,000 | 50                |
 | Check1000Words             | 0.0005 seconds               | 96%      | 1597                      | 20,000 | 50                |
-| Regex for numbers in words |
 | Word endings               | 0.0009 seconds               | 95%      | 1597                      | 20,000 | 50                |
-| Expand contractions        |
-| Chi squared                |
 
 ## Table of max sentence length == 5
 
@@ -153,11 +150,7 @@ I will create a table of my results:
 | Lemmization (lem)          |
 | Stop word removal          | 1.1574924453998391e-05 seconds | 93%      | 569                       | 20,000 | 5                 |
 | Check1000Words             | 0.0006 seconds                 | 95%      | 586                       | 20,000 | 5                 |
-| Regex for numbers in words |
 | Word endings               | 0.0003 seconds                 | 92%      | 482                       | 20,000 | 5                 |
-| Expand contractions        |
-| Chi Squared                |
-
 ## Table of max sentence length == 1
 
 | Name                       | Speed                           | Accuracy | Threshold | String Size Average Chars | Epochs | Max Sentence Size |
@@ -165,18 +158,18 @@ I will create a table of my results:
 | Lemmization (lem)          |
 | Stop word removal          | 1.2532061150591289e-05. seconds | 50%      | 481                       | 20,000 | 1                 |
 | Check1000Words             | 0.0006 seconds                  | 95%      | 586                       | 20,000 | 5                 |
-| Regex for numbers in words |
 | Word endings               | 0.0002 seconds                  | 86%      | 15| 482                       | 20,000 | 1                 |
-| Expand contractions        |
-| Chi Squared                |
+
 
 ## Confusion Matrices & Notes
 ### Lemization
+
 ```
                 Positive    Negative
 Positive     10031      9967
 Negative     2            0
 ```
+
 
 ### Stop Words
 This test was performed where the text was not `.lower()`, so the actual accuracy _may_ be a little tiny bit higher since the stop words list is all lowercase.
@@ -198,7 +191,9 @@ This test was performed where the text was not `.lower()`, so the actual accurac
 ```
 
 ### Check 1000 words
+
 50 sentence limit
+
 ```
                            Positive    Negative
             Positive     10008            552
@@ -206,6 +201,7 @@ This test was performed where the text was not `.lower()`, so the actual accurac
 ```
 
 5 sentence limit
+
 ```
                         Positive    Negative
             Positive     9563            597
@@ -215,7 +211,10 @@ This test was performed where the text was not `.lower()`, so the actual accurac
 # Analysis
 **I believe that the best Brandon checker will look at the length of the text, and adjust the % threshold and the exact phase 1 checker per text.**
 
-```{'check 1000 words': {1: {'Accuracy': 0.925, 'Threshold': 2},
+The below data is taken from calculations performed over many hours. it shows the best threshold % for the best phase 1 checker with the highest accuracy. These checkers were chosen as others showed a maximum accuracy of 58%.
+
+```
+{'check 1000 words': {1: {'Accuracy': 0.925, 'Threshold': 2},
                       2: {'Accuracy': 0.95, 'Threshold': 68},
                       3: {'Accuracy': 0.975, 'Threshold': 62},
                       4: {'Accuracy': 0.98, 'Threshold': 5},
@@ -224,11 +223,36 @@ This test was performed where the text was not `.lower()`, so the actual accurac
                 2: {'Accuracy': 0.93, 'Threshold': 19},
                 3: {'Accuracy': 0.965, 'Threshold': 15},
                 4: {'Accuracy': 0.97, 'Threshold': 28},
-                5: {'Accuracy': 0.985, 'Threshold': 29}},```
+                5: {'Accuracy': 0.985, 'Threshold': 29}}
+```
+
+Where the numbers are:
+
+```
+1 : The mean is 87.62
+2 : The mean is 110.47925
+3 : The mean is 132.20016666666666
+4 : The mean is 154.817125
+5 : The mean is 178.7297
+```
 
 Looking at this test, it is clear that stopwords is better than check 1000 words for speed, but the accuracy is a little bit slower. Stop words is incredibly faster than check 1k words, but on a smaller input the stopwords checker breaks.
 
 Therefore, we should use stopword checker on larger texts, and check 1k words on smaller texts.
+
+More specifically, stopwords checker for len == 110 has an optimal threshold of 19, whereas check 1k words has an optimal threshold of 68. This means that while stopwords can potentially end earlier and only search the first 19% of the list, check 1k words would search 68% of the list.
+
+Stopwords has a lower accuracy by 2%, but it is much, much faster and its optimal threshold is greatly reduced. 
+
+So ideally, we would have this algorithm:
+1. Sentence length less than 110:
+   1. Use check 1k words with threshold of 2%
+2. Sentence length > 110:
+   1. use Stopwords with threshold of 15
+3. Sentence length > 150:
+   1. Stopwords threshold increases to 28
+   
+This is the ideal optimal phase 1 algorithm for `brandon` checker.
 
 
 # TODO
