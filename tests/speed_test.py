@@ -36,46 +36,48 @@ class tester:
         self.enciph = enciphey.encipher()
 
         # all stopwords
-        self.all_stopwords = self.nlp.Defaults.stop_words
+        self.all_stopwords = set(self.nlp.Defaults.stop_words)
         self.top1000Words = cipheydists.get_list("english1000")
-        self.endings = [
-            "al",
-            "y",
-            "sion",
-            "tion",
-            "ize",
-            "ic",
-            "ious",
-            "ness",
-            "ment",
-            "ed",
-            "ify",
-            "ence",
-            "fy",
-            "less",
-            "ance",
-            "ship",
-            "ate",
-            "dom",
-            "ist",
-            "ish",
-            "ive",
-            "en",
-            "ical",
-            "ful",
-            "ible",
-            "ise",
-            "ing",
-            "ity",
-            "ism",
-            "able",
-            "ty",
-            "er",
-            "or",
-            "esque",
-            "acy",
-            "ous",
-        ]
+        self.endings = set(
+            [
+                "al",
+                "y",
+                "sion",
+                "tion",
+                "ize",
+                "ic",
+                "ious",
+                "ness",
+                "ment",
+                "ed",
+                "ify",
+                "ence",
+                "fy",
+                "less",
+                "ance",
+                "ship",
+                "ate",
+                "dom",
+                "ist",
+                "ish",
+                "ive",
+                "en",
+                "ical",
+                "ful",
+                "ible",
+                "ise",
+                "ing",
+                "ity",
+                "ism",
+                "able",
+                "ty",
+                "er",
+                "or",
+                "esque",
+                "acy",
+                "ous",
+            ]
+        )
         self.endings_3_letters = list(filter(lambda x: len(x) > 3, self.endings))
 
     def lem(self, text, thresold):
@@ -83,8 +85,13 @@ class tester:
         return set([word.lemma_ for word in sentences])
 
     def stop(self, text, threshold):
-        x = [word for word in text if not word in self.all_stopwords]
-        return True if len(x) < len(text) else False
+        for word in text:
+            if word in self.all_stopwords:
+                return True
+        else:
+            return False
+        # x = [word for word in text if not word in self.all_stopwords]
+        # return True if len(x) < len(text) else False
 
     def check1000Words(self, text, threshold):
         """Checks to see if word is in the list of 1000 words
@@ -268,24 +275,49 @@ class tester:
         TODO I need to record thresholds for each length of text
         """
         best_thresholds = {
-            "word endings": {"Threshold": 0, "Accuracy": 0},
-            "word endngs with just 3 chars": {"Threshold": 0, "Accuracy": 0},
-            "stop words": {"Threshold": 0, "Accuracy": 0},
-            "check 1000 words": {"Threshold": 0, "Accuracy": 0},
+            "word endings": {
+                1: {"Threshold": 0, "Accuracy": 0},
+                5: {"Threshold": 0, "Accuracy": 0},
+                20: {"Threshold": 0, "Accuracy": 0},
+            },
+            "word endngs with just 3 chars": {
+                1: {"Threshold": 0, "Accuracy": 0},
+                5: {"Threshold": 0, "Accuracy": 0},
+                20: {"Threshold": 0, "Accuracy": 0},
+            },
+            "stop words": {
+                1: {"Threshold": 0, "Accuracy": 0},
+                5: {"Threshold": 0, "Accuracy": 0},
+                20: {"Threshold": 0, "Accuracy": 0},
+            },
+            "check 1000 words": {
+                1: {"Threshold": 0, "Accuracy": 0},
+                5: {"Threshold": 0, "Accuracy": 0},
+                20: {"Threshold": 0, "Accuracy": 0},
+            },
         }
+
+        # "word endings with just 3 chars": {
+        #     "Sentence Size": {"Threshold": 0, "Accuracy": 0}
+        # },
+        # "stop words": {"Sentence Size": {"Threshold": 0, "Accuracy": 0}},
+        # "check 1000 words": {"Sentence Size": {"Threshold": 0, "Accuracy": 0}},
+        # }
 
         items = range(100)
         with alive_bar(len(items)) as bar:
-            for i in range(1, 5):
+            for i in range(1, 2):
                 x = self.perform_3_sent_sizes(threshold=i)
                 pprint.pprint(x)
                 for key, value in x.items():
                     # getting max keys
+                    size = x[key]["Sentence length"]
                     temp1 = x[key]["Accuracy"]
-                    temp2 = best_thresholds[key]["Accuracy"]
+                    temp2 = best_thresholds[key][size]["Accuracy"]
                     if temp1 > temp2:
                         temp2 = temp1
-                        best_thresholds[key]["Threshold"] = i
+                        best_thresholds[key][size]["Threshold"] = i
+                        best_thresholds[key][size]["Accuracy"] = temp1
                 pprint.pprint(x)
                 bar()
         pprint.pprint(best_thresholds)
