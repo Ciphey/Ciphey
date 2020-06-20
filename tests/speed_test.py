@@ -145,17 +145,17 @@ class tester:
         return False
 
     def get_random_sentence(self, size):
-        if random.randint(0, 1) == 0:
-            x = None
-            while x is None:
-                x = (True, " ".join(random.sample(self.f, k=random.randint(1, size))))
-            return x
-        else:
-            x = None
-            while x is None:
-                x = self.enciph.getRandomEncryptedSentence()
-                x = x["Encrypted Texts"]["EncryptedText"]
-            return (False, x)
+        # if random.randint(0, 1) == 0:
+        x = None
+        while x is None:
+            x = (True, " ".join(random.sample(self.f, k=random.randint(1, size))))
+        return x
+        # else:
+        #     x = None
+        #     while x is None:
+        #         x = self.enciph.getRandomEncryptedSentence(size)
+        #         x = x["Encrypted Texts"]["EncryptedText"]
+        #     return (False, x)
 
     def get_words(self, text):
         doc = self.nlp(text)
@@ -339,16 +339,17 @@ class tester:
         pprint.pprint(self.best_thresholds)
 
     def calculate_average_sentence_size(self):
-        sent_sizes = [1]
+        sent_sizes = [1, 2, 3, 4, 5]
         lengths = []
         for x in sent_sizes:
             for i in range(0, 2000):
                 y = self.get_random_sentence(x)
-                lengths.append(y)
-        print(f"The mean is {mean(lengths)}")
+                lengths.append(len(y[1]))
+            print(f"{x} : The mean is {mean(lengths)}")
 
 
 obj = tester()
 # X = obj.perform_3_sent_sizes(50)
-x = obj.perform_best_percentages()
+# x = obj.perform_best_percentages()
+x = obj.calculate_average_sentence_size()
 pprint.pprint(x)

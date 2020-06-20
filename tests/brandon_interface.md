@@ -215,18 +215,16 @@ This test was performed where the text was not `.lower()`, so the actual accurac
 # Analysis
 **I believe that the best Brandon checker will look at the length of the text, and adjust the % threshold and the exact phase 1 checker per text.**
 
-```{'check 1000 words': {1: {'Accuracy': 0.935, 'Threshold': 18},
-                      5: {'Accuracy': 0.975, 'Threshold': 27},
-                      20: {'Accuracy': 0.995, 'Threshold': 71}},
- 'stop words': {1: {'Accuracy': 0.915, 'Threshold': 55},
-                5: {'Accuracy': 0.975, 'Threshold': 45},
-                20: {'Accuracy': 0.985, 'Threshold': 9}},
- 'word endings': {1: {'Accuracy': 0.57, 'Threshold': 73},
-                  5: {'Accuracy': 0.57, 'Threshold': 53},
-                  20: {'Accuracy': 0.585, 'Threshold': 46}},
- 'word endngs with just 3 chars': {1: {'Accuracy': 0.575, 'Threshold': 21},
-                                   5: {'Accuracy': 0.565, 'Threshold': 28},
-                                   20: {'Accuracy': 0.59, 'Threshold': 59}}}```
+```{'check 1000 words': {1: {'Accuracy': 0.925, 'Threshold': 2},
+                      2: {'Accuracy': 0.95, 'Threshold': 68},
+                      3: {'Accuracy': 0.975, 'Threshold': 62},
+                      4: {'Accuracy': 0.98, 'Threshold': 5},
+                      5: {'Accuracy': 0.985, 'Threshold': 54}},
+ 'stop words': {1: {'Accuracy': 0.865, 'Threshold': 50},
+                2: {'Accuracy': 0.93, 'Threshold': 19},
+                3: {'Accuracy': 0.965, 'Threshold': 15},
+                4: {'Accuracy': 0.97, 'Threshold': 28},
+                5: {'Accuracy': 0.985, 'Threshold': 29}},```
 
 Looking at this test, it is clear that stopwords is better than check 1000 words for speed, but the accuracy is a little bit slower. Stop words is incredibly faster than check 1k words, but on a smaller input the stopwords checker breaks.
 
