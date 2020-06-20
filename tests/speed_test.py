@@ -79,6 +79,28 @@ class tester:
             ]
         )
         self.endings_3_letters = list(filter(lambda x: len(x) > 3, self.endings))
+        self.best_thresholds = {
+            "word endings": {
+                1: {"Threshold": 0, "Accuracy": 0},
+                5: {"Threshold": 0, "Accuracy": 0},
+                20: {"Threshold": 0, "Accuracy": 0},
+            },
+            "word endngs with just 3 chars": {
+                1: {"Threshold": 0, "Accuracy": 0},
+                5: {"Threshold": 0, "Accuracy": 0},
+                20: {"Threshold": 0, "Accuracy": 0},
+            },
+            "stop words": {
+                1: {"Threshold": 0, "Accuracy": 0},
+                5: {"Threshold": 0, "Accuracy": 0},
+                20: {"Threshold": 0, "Accuracy": 0},
+            },
+            "check 1000 words": {
+                1: {"Threshold": 0, "Accuracy": 0},
+                5: {"Threshold": 0, "Accuracy": 0},
+                20: {"Threshold": 0, "Accuracy": 0},
+            },
+        }
 
     def lem(self, text, thresold):
         sentences = self.nlp(text)
@@ -260,12 +282,19 @@ class tester:
             "check 1000 words",
         ]
         sent_sizes = [1, 5, 20]
-        x = {}
+        x = {
+            "word endings": {1: None, 5: None, 20: None},
+            "word endngs with just 3 chars": {1: None, 5: None, 20: None},
+            "stop words": {1: None, 5: None, 20: None},
+            "check 1000 words": {1: None, 5: None, 20: None},
+        }
         for i in range(0, len(funcs)):
             func = funcs[i]
+            print("I also run")
             for y in sent_sizes:
-                x[names[i]] = self.perform(func, y, threshold)
-        return x
+                print("Hello this runsss")
+                x[names[i]][y] = self.perform(func, y, threshold)
+            return x
 
     def perform_best_percentages(self):
         """
@@ -274,28 +303,6 @@ class tester:
         """
         TODO I need to record thresholds for each length of text
         """
-        best_thresholds = {
-            "word endings": {
-                1: {"Threshold": 0, "Accuracy": 0},
-                5: {"Threshold": 0, "Accuracy": 0},
-                20: {"Threshold": 0, "Accuracy": 0},
-            },
-            "word endngs with just 3 chars": {
-                1: {"Threshold": 0, "Accuracy": 0},
-                5: {"Threshold": 0, "Accuracy": 0},
-                20: {"Threshold": 0, "Accuracy": 0},
-            },
-            "stop words": {
-                1: {"Threshold": 0, "Accuracy": 0},
-                5: {"Threshold": 0, "Accuracy": 0},
-                20: {"Threshold": 0, "Accuracy": 0},
-            },
-            "check 1000 words": {
-                1: {"Threshold": 0, "Accuracy": 0},
-                5: {"Threshold": 0, "Accuracy": 0},
-                20: {"Threshold": 0, "Accuracy": 0},
-            },
-        }
 
         # "word endings with just 3 chars": {
         #     "Sentence Size": {"Threshold": 0, "Accuracy": 0}
@@ -304,7 +311,7 @@ class tester:
         # "check 1000 words": {"Sentence Size": {"Threshold": 0, "Accuracy": 0}},
         # }
 
-        items = range(100)
+        items = range(75)
         with alive_bar(len(items)) as bar:
             for i in range(1, 2):
                 x = self.perform_3_sent_sizes(threshold=i)
@@ -313,14 +320,14 @@ class tester:
                     # getting max keys
                     size = x[key]["Sentence length"]
                     temp1 = x[key]["Accuracy"]
-                    temp2 = best_thresholds[key][size]["Accuracy"]
+                    temp2 = self.best_thresholds[key][size]["Accuracy"]
                     if temp1 > temp2:
                         temp2 = temp1
-                        best_thresholds[key][size]["Threshold"] = i
-                        best_thresholds[key][size]["Accuracy"] = temp1
+                        self.best_thresholds[key][size]["Threshold"] = i
+                        self.best_thresholds[key][size]["Accuracy"] = temp1
                 pprint.pprint(x)
                 bar()
-        pprint.pprint(best_thresholds)
+        pprint.pprint(self.best_thresholds)
 
     def calculate_average_sentence_size(self):
         sent_sizes = [1]
@@ -333,5 +340,6 @@ class tester:
 
 
 obj = tester()
-x = obj.perform_best_percentages()
-pprint.pprint(x)
+X = obj.perform_3_sent_sizes(50)
+# x = obj.perform_best_percentages()
+pprint.pprint(X)
