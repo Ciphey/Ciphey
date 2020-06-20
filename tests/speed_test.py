@@ -82,23 +82,31 @@ class tester:
         self.best_thresholds = {
             "word endings": {
                 1: {"Threshold": 0, "Accuracy": 0},
+                2: {"Threshold": 0, "Accuracy": 0},
+                3: {"Threshold": 0, "Accuracy": 0},
+                4: {"Threshold": 0, "Accuracy": 0},
                 5: {"Threshold": 0, "Accuracy": 0},
-                20: {"Threshold": 0, "Accuracy": 0},
             },
             "word endngs with just 3 chars": {
                 1: {"Threshold": 0, "Accuracy": 0},
+                2: {"Threshold": 0, "Accuracy": 0},
+                3: {"Threshold": 0, "Accuracy": 0},
+                4: {"Threshold": 0, "Accuracy": 0},
                 5: {"Threshold": 0, "Accuracy": 0},
-                20: {"Threshold": 0, "Accuracy": 0},
             },
             "stop words": {
                 1: {"Threshold": 0, "Accuracy": 0},
+                2: {"Threshold": 0, "Accuracy": 0},
+                3: {"Threshold": 0, "Accuracy": 0},
+                4: {"Threshold": 0, "Accuracy": 0},
                 5: {"Threshold": 0, "Accuracy": 0},
-                20: {"Threshold": 0, "Accuracy": 0},
             },
             "check 1000 words": {
                 1: {"Threshold": 0, "Accuracy": 0},
+                2: {"Threshold": 0, "Accuracy": 0},
+                3: {"Threshold": 0, "Accuracy": 0},
+                4: {"Threshold": 0, "Accuracy": 0},
                 5: {"Threshold": 0, "Accuracy": 0},
-                20: {"Threshold": 0, "Accuracy": 0},
             },
         }
 
@@ -273,28 +281,23 @@ class tester:
         """
         Gives us the average accuracy and time etc
         """
-        funcs = [obj.word_endings, obj.word_endings_3, obj.stop, obj.check1000Words]
+        funcs = [obj.stop, obj.check1000Words]
         # funcs = [obj.word_endings]
         names = [
-            "word endings",
-            "word endngs with just 3 chars",
             "stop words",
             "check 1000 words",
         ]
-        sent_sizes = [1, 5, 20]
+        sent_sizes = [1, 2, 3, 4, 5]
         x = {
-            "word endings": {1: None, 5: None, 20: None},
-            "word endngs with just 3 chars": {1: None, 5: None, 20: None},
-            "stop words": {1: None, 5: None, 20: None},
-            "check 1000 words": {1: None, 5: None, 20: None},
+            "stop words": {1: None, 2: None, 3: None, 4: None, 5: None, 20: None},
+            "check 1000 words": {1: None, 2: None, 3: None, 4: None, 5: None, 20: None},
         }
         for i in range(0, len(funcs)):
             func = funcs[i]
-            print("I also run")
             for y in sent_sizes:
-                print("Hello this runsss")
+                # print("Hello this runsss")
                 x[names[i]][y] = self.perform(func, y, threshold)
-            return x
+        return x
 
     def perform_best_percentages(self):
         """
@@ -313,18 +316,24 @@ class tester:
 
         items = range(75)
         with alive_bar(len(items)) as bar:
-            for i in range(1, 2):
+            for i in range(1, 76):
                 x = self.perform_3_sent_sizes(threshold=i)
                 pprint.pprint(x)
                 for key, value in x.items():
-                    # getting max keys
-                    size = x[key]["Sentence length"]
-                    temp1 = x[key]["Accuracy"]
-                    temp2 = self.best_thresholds[key][size]["Accuracy"]
-                    if temp1 > temp2:
-                        temp2 = temp1
-                        self.best_thresholds[key][size]["Threshold"] = i
-                        self.best_thresholds[key][size]["Accuracy"] = temp1
+                    # getting max keyLs
+                    for y in [1, 2, 3, 4, 5]:
+                        pprint.pprint(x[key])
+                        # size = x[key][y]
+                        size = y
+                        # print(f"**** Size is {size}")
+                        temp1 = x[key][y]["Accuracy"]
+                        # print(f"Accuracy is {temp1}")
+                        temp2 = self.best_thresholds[key][size]["Accuracy"]
+                        if temp1 > temp2:
+                            temp2 = temp1
+                            # print(f"Self best is {self.best_thresholds[key][size]}")
+                            self.best_thresholds[key][size]["Threshold"] = i
+                            self.best_thresholds[key][size]["Accuracy"] = temp1
                 pprint.pprint(x)
                 bar()
         pprint.pprint(self.best_thresholds)
@@ -340,6 +349,6 @@ class tester:
 
 
 obj = tester()
-X = obj.perform_3_sent_sizes(50)
-# x = obj.perform_best_percentages()
-pprint.pprint(X)
+# X = obj.perform_3_sent_sizes(50)
+x = obj.perform_best_percentages()
+pprint.pprint(x)

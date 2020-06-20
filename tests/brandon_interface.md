@@ -160,13 +160,13 @@ I will create a table of my results:
 
 ## Table of max sentence length == 1
 
-| Name                       | Speed                           | Accuracy | String Size Average Chars | Epochs | Max Sentence Size |
-| -------------------------- | ------------------------------- | -------- | ------------------------- | ------ | ----------------- |
+| Name                       | Speed                           | Accuracy | Threshold | String Size Average Chars | Epochs | Max Sentence Size |
+| -------------------------- | ------------------------------- | -------- | ------ |------------------------- | ------ | ----------------- |
 | Lemmization (lem)          |
 | Stop word removal          | 1.2532061150591289e-05. seconds | 50%      | 481                       | 20,000 | 1                 |
 | Check1000Words             | 0.0006 seconds                  | 95%      | 586                       | 20,000 | 5                 |
 | Regex for numbers in words |
-| Word endings               | 0.0002 seconds                  | 86%      | 482                       | 20,000 | 1                 |
+| Word endings               | 0.0002 seconds                  | 86%      | 15| 482                       | 20,000 | 1                 |
 | Expand contractions        |
 | Chi Squared                |
 
@@ -214,6 +214,24 @@ This test was performed where the text was not `.lower()`, so the actual accurac
 
 # Analysis
 **I believe that the best Brandon checker will look at the length of the text, and adjust the % threshold and the exact phase 1 checker per text.**
+
+```{'check 1000 words': {1: {'Accuracy': 0.935, 'Threshold': 18},
+                      5: {'Accuracy': 0.975, 'Threshold': 27},
+                      20: {'Accuracy': 0.995, 'Threshold': 71}},
+ 'stop words': {1: {'Accuracy': 0.915, 'Threshold': 55},
+                5: {'Accuracy': 0.975, 'Threshold': 45},
+                20: {'Accuracy': 0.985, 'Threshold': 9}},
+ 'word endings': {1: {'Accuracy': 0.57, 'Threshold': 73},
+                  5: {'Accuracy': 0.57, 'Threshold': 53},
+                  20: {'Accuracy': 0.585, 'Threshold': 46}},
+ 'word endngs with just 3 chars': {1: {'Accuracy': 0.575, 'Threshold': 21},
+                                   5: {'Accuracy': 0.565, 'Threshold': 28},
+                                   20: {'Accuracy': 0.59, 'Threshold': 59}}}```
+
+Looking at this test, it is clear that stopwords is better than check 1000 words for speed, but the accuracy is a little bit slower. Stop words is incredibly faster than check 1k words, but on a smaller input the stopwords checker breaks.
+
+Therefore, we should use stopword checker on larger texts, and check 1k words on smaller texts.
+
 
 # TODO
 * [ ] Use the testing system in place to find the optimal percentage thresholds for each phase of language checker. I can use the confusion matrices to help work this out.
