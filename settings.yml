@@ -15,12 +15,15 @@ arguments:
         dl: False # Disables Language Checker on the initial input. Useful for NATO phonetics etc.
 
 options:
-        # These are options in the program that cannot be set by arguments.
-        brandon_checker_threshold_stage_1: 25% # How many word endings ("ing, nd") do we see before we go to stage 2?
-        brandon_checker_threshold_stage_2: 65% # How much of the sentence should be in the target language before we return True?
-        target_language: "English"
-        
 
+language_checker_options:
+        # The English LC options
+        english:
+                # These are options in the program that cannot be set by arguments.
+                brandon_checker_threshold_stage_1: 25% # How many word endings ("ing, nd") do we see before we go to stage 2?
+                brandon_checker_threshold_stage_2: 65% # How much of the sentence should be in the target language before we return True?
+                dict_name: english # the name of the dict in cipheyDists
+                stopwords_name: english # The name of the stopwords set in cipheyDists
 regexFile: # set to path to Regex file to run custom regex
         # Put your custom REGEX here
         # These 3 REGEX's cover the most popular CTF flag formats.

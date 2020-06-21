@@ -60,6 +60,7 @@ import string
 import os
 import sys
 from loguru import logger
+import pyyaml
 from .chisquared import chiSquared
 
 import cipheydists
@@ -85,7 +86,7 @@ class Brandon(LanguageChecker):
 
     wordlist: set
 
-    def cleanText(self, text: str) -> set:
+    def clean_text(self, text: str) -> set:
         """Cleans the text ready to be checked
 
         Strips punctuation, makes it lower case, turns it into a set separated by spaces, removes duplicate words
@@ -101,10 +102,9 @@ class Brandon(LanguageChecker):
         text = text.lower()
         text = self.mh.strip_puncuation(text)
         text = text.split(" ")
-        text = set(text)
-        return text
+        return set(text)
 
-    def checkWordlist(self, text: Set[str]) -> float:
+    def check_word_list(self, text: Set[str]) -> float:
         """Sorts & searches the dict, and returns the proportion of the words that are in the dictionary
 
         Args:
@@ -119,7 +119,7 @@ class Brandon(LanguageChecker):
         # and calculates how much of that is in language
         return len(text.intersection(self.wordlist)) / len(text)
 
-    def check1000Words(self, text: Set[str]) -> bool:
+    def check_1000_words(self, text: Set[str]) -> bool:
         """Checks to see if word is in the list of 1000 words
 
         the 1000words is a dict, so lookup is O(1)
@@ -146,6 +146,11 @@ class Brandon(LanguageChecker):
                 return True
         return False
 
+    def stopwords(self, text: set, threshold: float) -> True:
+        """The Stop Words checker text
+
+        If THRESHOlD % of text is a stopword, return True."""
+
     def confirmLanguage(self, text: set) -> True:
         """Confirms whether given text is language
 
@@ -162,17 +167,20 @@ class Brandon(LanguageChecker):
 
         proportion = self.checkWordlist(text)
         if self.checkWordlist(text) >= self.languageThreshold:
-            logger.trace(f"The language proportion {proportion} is over the threshold {self.languageThreshold}")
+            logger.trace(
+                f"The language proportion {proportion} is over the threshold {self.languageThreshold}"
+            )
             return True
         else:
-            logger.trace(f"The language proportion {proportion} is under the threshold {self.languageThreshold}")
+            logger.trace(
+                f"The language proportion {proportion} is under the threshold {self.languageThreshold}"
+            )
             return False
 
     def __init__(self, config: dict):
         # Suppresses warning
         super().__init__(config)
         self.mh = mh.mathsHelper()
-        # ******************** CHANGE THE THRESHOLD TODO 
         self.languageThreshold = config["params"].get("threshold", 0.55)
         self.top1000Words = config["params"].get("top1000")
         self.wordlist = config["wordlist"]
@@ -189,20 +197,16 @@ class Brandon(LanguageChecker):
             bool -> True if the text is English, False otherwise.
 
         """
-        logger.trace(f"In Language Checker with \"{text}\"")
+        logger.trace(f'In Language Checker with "{text}"')
         text = self.cleanText(text)
-        logger.trace(f"Text split to \"{text}\"")
+        logger.trace(f'Text split to "{text}"')
         if text == "":
             return False
         if not self.check1000Words(text):
-            logger.debug(
-                f"1000 words failed. This is not plaintext"
-            )
+            logger.debug(f"1000 words failed. This is not plaintext")
             return False
 
-        logger.trace(
-            f"1000words check passed"
-        )
+        logger.trace(f"1000words check passed")
         if not self.confirmLanguage(text):
             logger.debug(f"Dictionary check failed. This is not plaintext")
             return False
@@ -213,8 +217,14 @@ class Brandon(LanguageChecker):
     @staticmethod
     def getArgs() -> Dict[str, object]:
         return {
-            "top1000": {"desc": "A json dictionary of the top 1000 words", "req": False},
-            "threshold": {"desc": "The minimum proportion (between 0 and 1) that must be in the dictionary", "req": False}
+            "top1000": {
+                "desc": "A json dictionary of the top 1000 words",
+                "req": False,
+            },
+            "threshold": {
+                "desc": "The minimum proportion (between 0 and 1) that must be in the dictionary",
+                "req": False,
+            },
         }
 
 
