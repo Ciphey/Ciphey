@@ -96,6 +96,8 @@ class Ciphey:
         self.console = Console()
         self.probability_distribution: dict = {}
         self.what_to_choose: dict = {}
+        print(config)
+        exit(1)
 
     def decrypt(self) -> Optional[Dict]:
         """Performs the decryption of text
@@ -387,11 +389,18 @@ def arg_parsing() -> Optional[dict]:
         default=[],
     )
     parser.add_argument(
-        "-l",
+        "-ls",
         "--list-params",
         help="Lists the parameters of the selected module",
         action="store_true",
         required=False,
+    )
+    parser.add_argument(
+        "-l",
+        "--language",
+        help="What language do you want to use Ciphey with? English for English, German for German etc",
+        required=False,
+        action="store_true",
     )
     parser.add_argument("rest", nargs=argparse.REMAINDER)
     args = vars(parser.parse_args())
@@ -452,7 +461,7 @@ def arg_parsing() -> Optional[dict]:
     # TODO: actually implement this (should be similar)
     import cipheydists
 
-    config["wordlist"] = set(cipheydists.get_list("english"))
+    config["wordlist"] = set(cipheydists.get_list(args["language"].lower()))
     # Now we fill in the params *shudder*
     config["params"] = {}
     for i in args["param"]:
