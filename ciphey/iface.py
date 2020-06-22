@@ -257,8 +257,10 @@ class CrackResults(NamedTuple):
 
 class Cracker(Generic[T], ConfigurableModule, KnownUtility, Targeted):
     @abstractmethod
-    def attemptCrack(self, ctext: T) -> Optional[CrackResults]:
-        """This should attempt to crack the cipher, and use the config["checker"] where appropriate"""
+    def attemptCrack(self, ctext: T, target: str) -> Optional[CrackResults]:
+        """
+            This should attempt to crack the cipher `target`, and use the config["checker"] where appropriate
+        """
         pass
 
     def __call__(self, *args): return self.attemptCrack(*args)
