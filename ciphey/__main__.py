@@ -437,7 +437,7 @@ def arg_parsing() -> Optional[dict]:
 
     config = dict()
 
-    # Now we can walk through the arguments, expanding them into a canonical form
+    # We can walk through the arguments expanding them into a canonical form
     #
     # First, we go over simple args
     config["ctext"] = args["text"]
@@ -461,7 +461,11 @@ def arg_parsing() -> Optional[dict]:
     # TODO: actually implement this (should be similar)
     import cipheydists
 
-    config["wordlist"] = set(cipheydists.get_list(args["language"].lower()))
+    # what is language is being used?
+    # TODO what if language isnt set does it default to english
+    config["language"] = args["language"].lower(0)
+
+    config["wordlist"] = set(cipheydists.get_list(config["language"]))
     # Now we fill in the params *shudder*
     config["params"] = {}
     for i in args["param"]:

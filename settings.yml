@@ -14,8 +14,6 @@ arguments:
         printWorkingDirectory: False # tells you where this settings file is
         dl: False # Disables Language Checker on the initial input. Useful for NATO phonetics etc.
 
-options:
-
 language_checker_options:
         default_language: "english" # What language do you want to use?
         # The English LC options
