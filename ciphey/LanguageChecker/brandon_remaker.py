@@ -2,7 +2,7 @@ import cipheydists
 from math import ceil
 from alive_progress import alive_bar
 
-import spacy
+import json
 
 """
 This document:
@@ -23,7 +23,6 @@ dictionary_old = set(cipheydists.get_list("english"))
 # f = open("hansard.txt", encoding="ISO-8859-1").read()
 f = set(open("aspell.txt", "r").readlines())
 
-nlp = spacy.load("en_core_web_sm")
 # uses the mac os version
 # I want to work on f rn
 
@@ -69,24 +68,51 @@ create the new dict of hansard.txt
 then do the same for the real dict
 """
 
+
+# remove plurality
+x = []
+for word in f:
+    # poor mans lemisation
+    # removes 's from the dict'
+    if word.endswith("'s"):
+        x.append(word[0:-2])
+
 # since they are sets we get uniques only
 # TODO I think this is a bug?
-complete = set(f.union(dictionary_old))
-print(f"Complete before set union is size {len(f) + len(dictionary_old)}")
-print(f"Now complete size after union is {len(complete)}")
-print(f"The intersection is {f.intersection(dictionary_old)}")
+# print(f"Complete before set union is size {len(f) + len(dictionary_old)}")
+# print(f"Now complete size after union is {len(complete)}")
+# print(f"The intersection is {f.intersection(dictionary_old)}")
 # turns it all into lowercase
-complete = set([word.lower() for word in complete])
+complete = set([word.lower() for word in x])
 
+complete = dict.fromkeys(complete, 1)
+
+with open("words_dictionary.json") as json_file:
+    data = json.load(json_file)
+    data = dict(data)
+    complete.update(data)
+
+with open("english.json", "w") as outfile:
+    json.dump(data, outfile)
 # This shouldr remove all words that are of length 1
-complete = list(set(filter(lambda x: len(x) > 1, complete)))
-print(f"Complete size after removing small chars is {len(complete)}")
+# complete = list(set(filter(lambda x: len(x) > 1, complete)))
+# # print(f"Complete size after removing small chars is {len(complete)}")
+# output = []
+# for i in complete:
+#     if i.rstrip() or not i == "\n" or not i == " " or not i == "":
+#         output.append(i)
+
+# x = "\n".join(output)
+# print(x)
+# f = open("dictionary.txt", "w")
+# f.write(x)
+# f.close()
 
 # Lemmatization
-sentences = nlp(" ".join(complete[0:50000]))
-print(f"Length of sentences is {len(sentences)}")
-lemmatised_words_set = set([word.lemma_ for word in sentences])
-print(f"Lemmatised words is now size {len(lemmatised_words_set)}")
+# sentences = nlp(" ".join(complete[0:50000]))
+# print(f"Length of sentences is {len(sentences)}")
+# lemmatised_words_set = set([word.lemma_ for word in sentences])
+# print(f"Lemmatised words is now size {len(lemmatised_words_set)}")
 
 # Now I need to group synomyns into one word
 # I heard that word2vec works well for this

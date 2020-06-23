@@ -3,21 +3,24 @@
 # Change these to choose your default arguments.
 language_checker_options:
         default_language: "english" # What language do you want to use?
+        default_checker: "brandon"
         # The English LC options
         english:
                 # These are options in the program that cannot be set by arguments.
                 dict_name: english # the name of the dict in cipheyDists
                 stopwords_name: english # The name of the stopwords set in cipheyDists
-                thresholds:
-                        # Sentence length: {Checker: percentage threshold}
-                        # Want to know how these numbers were selected? Read the docs here TODO
-                        1: {0: {"check": 0.02}, 110: {"stop": 0.15}, 150: {"stop": 0.28}}
-                        2: 0.55 # phase 2 threshold
+                brandon: # The brandon checker, the default checker
+                        thresholds:
+                                # Sentence length: {Checker: percentage threshold}
+                                # Want to know how these numbers were selected? Read the docs here TODO
+                                "Phase 1": {0: {"check": 0.02}, 110: {"stop": 0.15}, 150: {"stop": 0.28}}
+                                "Phase 2": {0: 0.55} # phase 2 threshold
         german:
-                dict_name: german
-                stopwords_name: german
-                thresholds:
-                        0.55
+                brandon:
+                        dict_name: german
+                        stopwords_name: german
+                        thresholds:
+                                0.55
 
 regexFile: # set to path to Regex file to run custom regex
         # Put your custom REGEX here

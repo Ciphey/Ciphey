@@ -401,7 +401,6 @@ def arg_parsing() -> Optional[dict]:
     parser.add_argument(
         "-l",
         "--language",
-        default="english",
         help="What language do you want to use Ciphey with? English for English, German for German",
         required=False,
     )
@@ -476,13 +475,15 @@ def arg_parsing() -> Optional[dict]:
     settings_config = settings_collector()
 
     # Has the user requested a language in an argument?
-    if config["language"]:
+    if args["language"]:
+        # TODO does this break if the rg doesnt exist
         config["language"] = args["language"].lower()
     # if not, use the default from settings
     elif settings_config:
         config["language"] = settings_config["language_checker_options"][
             "default_language"
         ].lower()
+        print("***** this no this one!!!!")
     # if that doesn't exist, default to english
     else:
         config["language"] = "english"
@@ -490,12 +491,25 @@ def arg_parsing() -> Optional[dict]:
     config["wordlist"] = set(cipheydists.get_list(config["language"]))
 
     if settings_config:
-        # if settings.yml does not exist, try to use the default 
-        from ciphey.LanguageChecker.brandon import ciphey_language_checker as lc 
-    else:
-        default_checker = settings_config['language_checker_options']['default_checker']
-        if default_checker.lower() == "brandon"
+        # if settings.yml does exists, try to use the default
+        default_checker = settings_config["language_checker_options"]["default_checker"]
+        if default_checker.lower() == "brandon":
             from ciphey.LanguageChecker.brandon import ciphey_language_checker as lc
+    else:
+        from ciphey.LanguageChecker.brandon import ciphey_language_checker as lc
+
+    if lc.__name__.lower() == "brandon":
+        print("lc.name is brandon")
+        thresholds = settings_config["language_checker_options"][config["language"]][
+            "brandon"
+        ]["thresholds"]
+
+        print(thresholds)
+
+        config["thresholds_phase1"] = thresholds["Phase 1"]
+        config["thresholds_phase2"] = thresholds["Phase 2"]
+    print(config["thresholds_phase1"])
+    print(config["thresholds_phase2"])
 
     config["checker"] = lc
     # Now we fill in the params *shudder*
@@ -550,6 +564,4 @@ def main(config: Dict[str, object] = None) -> Optional[dict]:
 if __name__ == "__main__":
     # withArgs because this function is only called
     # if the program is run in terminal
-    settings_collector()
-    exit(1)
     main()

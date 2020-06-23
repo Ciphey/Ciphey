@@ -60,7 +60,7 @@ import string
 import os
 import sys
 from loguru import logger
-import pyyaml
+
 from .chisquared import chiSquared
 
 import cipheydists
@@ -103,6 +103,9 @@ class Brandon(LanguageChecker):
         text = self.mh.strip_puncuation(text)
         text = text.split(" ")
         return set(text)
+
+    def __name__(self):
+        return "brandon"
 
     def check_word_list(self, text: Set[str]) -> float:
         """Sorts & searches the dict, and returns the proportion of the words that are in the dictionary
