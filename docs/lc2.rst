@@ -2,6 +2,18 @@ Brandon Interface
 ==================
 The Brandon interface is the default language checking interface for Ciphey. So named because it is an algorithm created by Brandon, and we couldn't come up with any clever names for it at the time.
 
+
+Contributing your own language
+------------------------------
+1. Get a dictionary of your language
+2. Get stop words of your language
+3. Get the top 1000 words of your language
+4. Get the alphabet of your language
+5. Get the frequency distribution of your language. We suggest taking a very popular large text (for English we used Charles Dickens' complete works) and calculating the frequency distribution yourself.
+6. Add these to CipheyDists with the appropriate names and in appropriate folders.
+7. Calculate the thresholds / sentence lengths using the program detailed in the secion in this document.
+8. Pull requestr and you're done!
+
 How were the thresholds / sentence lengths chosen?
 --------------------------------------------------
 
