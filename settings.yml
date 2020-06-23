@@ -1,19 +1,6 @@
 ---
 # TODO usr appdirs to determine where to pyt the config yaml file
 # Change these to choose your default arguments.
-arguments:
-        greppable: False # is the output grepped?
-        cipher: False # Do you want extra information on the cipher used?
-        a: 'brandon' # the default language detection interface
-        A: None # The script / module at <path> containing _ciphey_accecptor_ variable
-        p: "value" # Sets the kwarg <param> to <value> when the is_acceptable method is called
-        wordlist: None # Default wordlist file. Set None to a path such as "/usr/share/wordlists/rockyou.txt"
-        t: None # The text you want to decrypt
-        j: Fale # Do you want to run potential candidates against wordlist? Useful for when you think the output is a password. Must set wordlist to use.
-        s: False # skip the neural network and only use simple filtration system
-        printWorkingDirectory: False # tells you where this settings file is
-        dl: False # Disables Language Checker on the initial input. Useful for NATO phonetics etc.
-
 language_checker_options:
         default_language: "english" # What language do you want to use?
         # The English LC options
@@ -35,7 +22,7 @@ language_checker_options:
 regexFile: # set to path to Regex file to run custom regex
         # Put your custom REGEX here
         # These 3 REGEX's cover the most popular CTF flag formats.
-        - /HTB{.*}/i
+        - /HTB{.*}/i # TODO HTB strings are just md5s
         - /THM{.*}/i
         - /FLAG{*.}/i
         - /CTF{*.}/i

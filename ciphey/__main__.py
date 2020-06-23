@@ -457,9 +457,7 @@ def arg_parsing() -> Optional[dict]:
         config["debug"] = "WARNING"
     # Try to locate language checker module
     # TODO: actually implement this
-    from ciphey.LanguageChecker.brandon import ciphey_language_checker as brandon
 
-    config["checker"] = brandon
     # Try to locate language checker module
     # TODO: actually implement this (should be similar)
     import cipheydists
@@ -473,18 +471,39 @@ def arg_parsing() -> Optional[dict]:
 
     # TODO I need to write some code to parse language argument, allow default english, and to also parse the yml file
 
+    # ** THE SETTINGS.YML PARSING IS BELOW **
+
     settings_config = settings_collector()
 
+    # Has the user requested a language in an argument?
     if config["language"]:
-        config["language"] = args["language"].lower(0)
+        config["language"] = args["language"].lower()
+    # if not, use the default from settings
+    elif settings_config:
+        config["language"] = settings_config["language_checker_options"][
+            "default_language"
+        ].lower()
+    # if that doesn't exist, default to english
+    else:
+        config["language"] = "english"
 
     config["wordlist"] = set(cipheydists.get_list(config["language"]))
+
+    if settings_config:
+        # if settings.yml does not exist, try to use the default 
+        from ciphey.LanguageChecker.brandon import ciphey_language_checker as lc 
+    else:
+        default_checker = settings_config['language_checker_options']['default_checker']
+        if default_checker.lower() == "brandon"
+            from ciphey.LanguageChecker.brandon import ciphey_language_checker as lc
+
+    config["checker"] = lc
     # Now we fill in the params *shudder*
 
     return config
 
 
-def settings_collector() -> dict:
+def settings_collector() -> Optional[dict]:
     """Loads the settings.yml file
 
         Returns:
@@ -495,7 +514,7 @@ def settings_collector() -> dict:
         with open(os.path.join(directory, "settings.yml")) as file:
             config = yaml.load(file, Loader=yaml.FullLoader)
     except FileNotFoundError:
-        return {}
+        return None
 
     import pprint
 
