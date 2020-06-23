@@ -30,11 +30,14 @@ one_level_of_decryption handles progress bars and stuff.
 import warnings
 import argparse
 import sys
+import os
+from appdirs import AppDirs
 from typing import Optional, Tuple, Dict
 
 from rich.console import Console
 from rich.table import Column, Table
 from loguru import logger
+import yaml
 
 warnings.filterwarnings("ignore")
 
@@ -398,9 +401,9 @@ def arg_parsing() -> Optional[dict]:
     parser.add_argument(
         "-l",
         "--language",
-        help="What language do you want to use Ciphey with? English for English, German for German etc",
+        default="english",
+        help="What language do you want to use Ciphey with? English for English, German for German",
         required=False,
-        action="store_true",
     )
     parser.add_argument("rest", nargs=argparse.REMAINDER)
     args = vars(parser.parse_args())
@@ -463,15 +466,40 @@ def arg_parsing() -> Optional[dict]:
 
     # what is language is being used?
     # TODO what if language isnt set does it default to english
-    config["language"] = args["language"].lower(0)
-
-    config["wordlist"] = set(cipheydists.get_list(config["language"]))
-    # Now we fill in the params *shudder*
     config["params"] = {}
     for i in args["param"]:
         key, value = i.split("=", 1)
         config["params"][key] = value
 
+    # TODO I need to write some code to parse language argument, allow default english, and to also parse the yml file
+
+    settings_config = settings_collector()
+
+    if config["language"]:
+        config["language"] = args["language"].lower(0)
+
+    config["wordlist"] = set(cipheydists.get_list(config["language"]))
+    # Now we fill in the params *shudder*
+
+    return config
+
+
+def settings_collector() -> dict:
+    """Loads the settings.yml file
+
+        Returns:
+            The config object from the settings.yml file"""
+    appdir = AppDirs("ciphey", "ciphey")
+    directory = appdir.user_config_dir
+    try:
+        with open(os.path.join(directory, "settings.yml")) as file:
+            config = yaml.load(file, Loader=yaml.FullLoader)
+    except FileNotFoundError:
+        return {}
+
+    import pprint
+
+    pprint.pprint(config)
     return config
 
 
@@ -503,4 +531,6 @@ def main(config: Dict[str, object] = None) -> Optional[dict]:
 if __name__ == "__main__":
     # withArgs because this function is only called
     # if the program is run in terminal
+    settings_collector()
+    exit(1)
     main()
