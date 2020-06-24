@@ -149,10 +149,17 @@ class Brandon(LanguageChecker):
                 return True
         return False
 
-    def stopwords(self, text: set, threshold: float) -> True:
+    def stopWords(self, text: set, threshold: float) -> bool:
         """The Stop Words checker text
 
-        If THRESHOlD % of text is a stopword, return True."""
+        If THRESHOlD % of text is a stopword, return True.
+
+            Args:
+                text -> the text to decrypt
+                threshold -> at what % should we return True?
+
+            Returns:
+                bool -> whether it passes the test (True) or not (False)"""
 
     def confirmLanguage(self, text: set) -> True:
         """Confirms whether given text is language
@@ -187,6 +194,7 @@ class Brandon(LanguageChecker):
         self.languageThreshold = config["params"].get("threshold", 0.55)
         self.top1000Words = config["params"].get("top1000")
         self.wordlist = config["wordlist"]
+        self.stopwords = config["params"].get("stopwords")
 
     def checkLanguage(self, text: str) -> bool:
         """Checks to see if the text is in English
