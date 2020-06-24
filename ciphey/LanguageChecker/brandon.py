@@ -167,8 +167,8 @@ class Brandon(LanguageChecker):
         # Suppresses warning
         super().__init__(config)
         self.mh = mh.mathsHelper()
-        self.thresholds_phase1 = config[""]
-        self.thresholds_phase2 = config[""]
+        self.thresholds_phase1 = config["thresholds_phase1"]
+        self.thresholds_phase2 = config["thresholds_phase2"]
         self.top1000Words = config["params"].get("top1000")
         self.wordlist = config["wordlist"]
         self.stopwords = config["params"].get("stopwords")
