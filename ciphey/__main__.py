@@ -99,7 +99,6 @@ class Ciphey:
         self.console = Console()
         self.probability_distribution: dict = {}
         self.what_to_choose: dict = {}
-        print(config)
         exit(1)
 
     def decrypt(self) -> Optional[Dict]:
