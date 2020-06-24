@@ -404,8 +404,24 @@ def arg_parsing() -> Optional[dict]:
         help="What language do you want to use Ciphey with? English for English, German for German",
         required=False,
     )
+
+    parser.add_argument(
+        "-where",
+        "--where",
+        help="Find out where the settings file should be",
+        required=False,
+        action="store_true",
+        default=False,
+    )
+
     parser.add_argument("rest", nargs=argparse.REMAINDER)
     args = vars(parser.parse_args())
+
+    if args["where"]:
+        appdir = AppDirs("ciphey", "ciphey")
+        directory = appdir.user_config_dir
+        print(f"settings.yml should be placed in {directory}")
+        exit(1)
 
     # the below text does:
     # if -t is supplied, use that
@@ -508,7 +524,6 @@ def arg_parsing() -> Optional[dict]:
 
         config["thresholds_phase1"] = thresholds["Phase 1"]
         config["thresholds_phase2"] = thresholds["Phase 2"]
-    
 
     # regex file
     if settings_config:
