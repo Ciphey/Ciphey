@@ -123,7 +123,7 @@ class Brandon(LanguageChecker):
         # and calculates how much of that is in language
         return len(text.intersection(self.wordlist)) / len(text)
 
-    def check_1000_words(self, text: Set[str]) -> bool:
+    def check_1000_words(self, text: Set[str], threshold: float, text_length: int) -> bool:
         """Checks to see if word is in the list of 1000 words
 
         the 1000words is a dict, so lookup is O(1)
@@ -143,14 +143,23 @@ class Brandon(LanguageChecker):
             return False
         # If any of the top 1000 words in the text appear
         # return true
-        for word in text:
-            # I was debating using any() here, but I think they're the
-            # same speed so it doesn't really matter too much
-            if word in self.top1000Words:
-                return True
+        percent = ceil(text_length * threshold)
+        meet_threshold = 0
+        location = 0
+        end = percent
+
+        while location <= text_length:
+            to_analyse = text[location:end]
+            for word in to_analyse:
+                if word in self.top1000Words:
+                    meet_threshold += 1
+                if meet_threshold / text_length >= threshold:
+                    return True
+
         return False
 
-    def stopWords(self, text: set, threshold: float) -> bool:
+
+    def stopWords(self, text: set, threshold: float, text_length: int) -> bool:
         """The Stop Words checker text
 
         If THRESHOlD % of text is a stopword, return True.
@@ -162,26 +171,25 @@ class Brandon(LanguageChecker):
             Returns:
                 bool -> whether it passes the test (True) or not (False)"""
 
-    length = len(text)
-    percent = ceil(length * threshold)
-    meet_threshold = 0
-    location = 0
-    end = percent
+        percent = ceil(text_length * threshold)
+        meet_threshold = 0
+        location = 0
+        end = percent
 
-    while location <= length:
-        # chunks the text, so only gets THRESHOLD chunks of text at a time
-        to_analyse = text[location:end]
-        for word in to_analyse:
-            # if word is a stopword, + 1 to the counter
-            if word in self.stopwords:
-                meet_threshold += 1
-            if meet_threshold / length >= threshold:
-                # if we meet the threshold, return True
-                # otherwise, go over again until we do
-                # We do this in the for loop because if we're at 24% and THRESHOLD is 25
-                # we don't want to wait THRESHOLD to return true, we want to return True ASAP
-                return True
-    return False
+        while location <= text_length:
+            # chunks the text, so only gets THRESHOLD chunks of text at a time
+            to_analyse = text[location:end]
+            for word in to_analyse:
+                # if word is a stopword, + 1 to the counter
+                if word in self.stopwords:
+                    meet_threshold += 1
+                if meet_threshold / text_length >= threshold:
+                    # if we meet the threshold, return True
+                    # otherwise, go over again until we do
+                    # We do this in the for loop because if we're at 24% and THRESHOLD is 25
+                    # we don't want to wait THRESHOLD to return true, we want to return True ASAP
+                    return True
+        return False
 
     def confirmLanguage(self, text: set) -> True:
         """Confirms whether given text is language
