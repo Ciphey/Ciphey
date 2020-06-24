@@ -49,3 +49,10 @@ Next, the question of percentage thresholds.
 
 Brandon realised that hard coding in thresholds (such as 55%) was a stupid idea. Surely there exists ideal thresholds that optimise the accuracy of the checker. And surely these thresholds change over the sentence length (stopwords would need a higher threshold for smaller texts but as the text size inceases it can use a lower threshold).
 
+This means that the threshold & checker changes depending on the text size.
+
+What languags are supported?
+----------------------------
+* English
+* German
+

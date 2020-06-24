@@ -101,29 +101,20 @@ class Brandon(LanguageChecker):
         """
         # makes the text unique words and readable
         text = text.lower()
-        text = self.mh.strip_puncuation(text)
         text = text.split(" ")
+        new_text = []
+        # TODO how did I do this in the other class.....
+        for i in text:
+            if i.endswith("'s"):
+                new_text.append()
+        text = self.mh.strip_puncuation(text)
+
         return set(text)
 
     def __name__(self):
         return "brandon"
 
-    def check_word_list(self, text: Set[str]) -> float:
-        """Sorts & searches the dict, and returns the proportion of the words that are in the dictionary
-
-        Args:
-            text -> The text we use to perform analysis on
-            language -> the language we want to check
-
-        Returns:
-            counter -> how many words in text, are in the dict of language
-
-        """
-        # reads through most common words / passwords
-        # and calculates how much of that is in language
-        return len(text.intersection(self.wordlist)) / len(text)
-
-    def checker(self, text: str, threshold: float, text_length: int, var) -> bool:
+    def checker(self, text: str, threshold: float, text_length: int, var: set) -> bool:
         """Given text determine if it passes checker
 
         The checker uses the vairable passed to it. I.E. Stopwords list, 1k words, dictionary
@@ -167,14 +158,17 @@ class Brandon(LanguageChecker):
                     # We do this in the for loop because if we're at 24% and THRESHOLD is 25
                     # we don't want to wait THRESHOLD to return true, we want to return True ASAP
                     return True
-        logger.trace(f"The language proportion {meet_threshold} is under the threshold {threshold}")
+        logger.trace(
+            f"The language proportion {meet_threshold} is under the threshold {threshold}"
+        )
         return False
 
     def __init__(self, config: dict):
         # Suppresses warning
         super().__init__(config)
         self.mh = mh.mathsHelper()
-        self.languageThreshold = config["params"].get("threshold", 0.55)
+        self.thresholds_phase1 = config[""]
+        self.thresholds_phase2 = config[""]
         self.top1000Words = config["params"].get("top1000")
         self.wordlist = config["wordlist"]
         self.stopwords = config["params"].get("stopwords")
