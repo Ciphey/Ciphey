@@ -508,8 +508,11 @@ def arg_parsing() -> Optional[dict]:
 
         config["thresholds_phase1"] = thresholds["Phase 1"]
         config["thresholds_phase2"] = thresholds["Phase 2"]
-    print(config["thresholds_phase1"])
-    print(config["thresholds_phase2"])
+    
+
+    # regex file
+    if settings_config:
+        config["regex"] = settings_config["regexFile"]
 
     config["checker"] = lc
     # Now we fill in the params *shudder*
