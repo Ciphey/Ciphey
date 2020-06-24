@@ -123,55 +123,27 @@ class Brandon(LanguageChecker):
         # and calculates how much of that is in language
         return len(text.intersection(self.wordlist)) / len(text)
 
-    def check_1000_words(self, text: Set[str], threshold: float, text_length: int) -> bool:
-        """Checks to see if word is in the list of 1000 words
+    def checker(self, text: str, threshold: float, text_length: int, var) -> bool:
+        """Given text determine if it passes checker
 
-        the 1000words is a dict, so lookup is O(1)
+        The checker uses the vairable passed to it. I.E. Stopwords list, 1k words, dictionary
 
         Args:
-            text -> The text we use to text (a word)
-
+            text -> The text to check
+            threshold -> at what point do we return True? The percentage of text that is in var before we return True
+            text_length -> the length of the text
+            var -> the variable we are checking against. Stopwords list, 1k words list, dictionray list.
         Returns:
-            bool -> whether it's in the dict or not.
-
-        """
-        # If we have no wordlist, then we can't reject the candidate on this basis
-        if self.top1000Words is None:
-            return True
-
+            boolean -> True for it passes the test, False for it fails the test."""
         if text is None:
+            logger.trace(f"Checker's text is None, so returning False")
             return False
-        # If any of the top 1000 words in the text appear
-        # return true
-        percent = ceil(text_length * threshold)
-        meet_threshold = 0
-        location = 0
-        end = percent
-
-        while location <= text_length:
-            to_analyse = text[location:end]
-            for word in to_analyse:
-                if word in self.top1000Words:
-                    meet_threshold += 1
-                if meet_threshold / text_length >= threshold:
-                    return True
-
-        return False
-
-
-    def stopWords(self, text: set, threshold: float, text_length: int) -> bool:
-        """The Stop Words checker text
-
-        If THRESHOlD % of text is a stopword, return True.
-
-            Args:
-                text -> the text to decrypt
-                threshold -> at what % should we return True?
-
-            Returns:
-                bool -> whether it passes the test (True) or not (False)"""
+        if var is None:
+            logger.trace(f"Checker's input var is None, so returning False")
+            return False
 
         percent = ceil(text_length * threshold)
+        logger.trace(f"Checker's chunks are size {percent}")
         meet_threshold = 0
         location = 0
         end = percent
@@ -181,41 +153,22 @@ class Brandon(LanguageChecker):
             to_analyse = text[location:end]
             for word in to_analyse:
                 # if word is a stopword, + 1 to the counter
-                if word in self.stopwords:
+                if word in var:
+                    logger.trace(
+                        f"{word} is in var, which means I am +=1 to the meet_threshold which is {meet_threshold}"
+                    )
                     meet_threshold += 1
                 if meet_threshold / text_length >= threshold:
+                    logger.trace(
+                        f"Returning true since the percentage is {meet_threshold / text_length} and the threshold is {threshold}"
+                    )
                     # if we meet the threshold, return True
                     # otherwise, go over again until we do
                     # We do this in the for loop because if we're at 24% and THRESHOLD is 25
                     # we don't want to wait THRESHOLD to return true, we want to return True ASAP
                     return True
+        logger.trace(f"The language proportion {meet_threshold} is under the threshold {threshold}")
         return False
-
-    def confirmLanguage(self, text: set) -> True:
-        """Confirms whether given text is language
-
-        If the proportion (taken from checkDictionary) is higher than the language threshold, return True
-
-        Args:
-            text -> The text we use to text (a word)
-            language -> the language we use to check
-
-        Returns:
-            bool -> whether it's written in Language or not
-
-        """
-
-        proportion = self.checkWordlist(text)
-        if self.checkWordlist(text) >= self.languageThreshold:
-            logger.trace(
-                f"The language proportion {proportion} is over the threshold {self.languageThreshold}"
-            )
-            return True
-        else:
-            logger.trace(
-                f"The language proportion {proportion} is under the threshold {self.languageThreshold}"
-            )
-            return False
 
     def __init__(self, config: dict):
         # Suppresses warning
