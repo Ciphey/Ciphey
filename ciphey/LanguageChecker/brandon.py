@@ -60,6 +60,7 @@ import string
 import os
 import sys
 from loguru import logger
+from math import ceil
 
 from .chisquared import chiSquared
 
@@ -160,6 +161,27 @@ class Brandon(LanguageChecker):
 
             Returns:
                 bool -> whether it passes the test (True) or not (False)"""
+
+    length = len(text)
+    percent = ceil(length * threshold)
+    meet_threshold = 0
+    location = 0
+    end = percent
+
+    while location <= length:
+        # chunks the text, so only gets THRESHOLD chunks of text at a time
+        to_analyse = text[location:end]
+        for word in to_analyse:
+            # if word is a stopword, + 1 to the counter
+            if word in self.stopwords:
+                meet_threshold += 1
+            if meet_threshold / length >= threshold:
+                # if we meet the threshold, return True
+                # otherwise, go over again until we do
+                # We do this in the for loop because if we're at 24% and THRESHOLD is 25
+                # we don't want to wait THRESHOLD to return true, we want to return True ASAP
+                return True
+    return False
 
     def confirmLanguage(self, text: set) -> True:
         """Confirms whether given text is language
