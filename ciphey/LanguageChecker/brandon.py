@@ -173,6 +173,9 @@ class Brandon(LanguageChecker):
         self.wordlist = config["wordlist"]
         self.stopwords = config["params"].get("stopwords")
 
+        self.len_phase1 = len(self.thresholds_phase1)
+        self.len_phase2 = len(self.thresholds_phase2)
+
     def checkLanguage(self, text: str) -> bool:
         """Checks to see if the text is in English
 
@@ -190,6 +193,26 @@ class Brandon(LanguageChecker):
         logger.trace(f'Text split to "{text}"')
         if text == "":
             return False
+
+        length_text = len(text)
+
+        # "Phase 1": {0: {"check": 0.02}, 110: {"stop": 0.15}, 150: {"stop": 0.28}}
+
+        # Phase 1 checking
+
+        what_to_use = {}
+
+        # if text is over or equal to maximum size, just use the maximum possible checker
+        _keys = list(self.thresholds_phase1.keys())
+        if length_text >= _keys[-1]:
+            what_to_use = self.thresholds_phase1[_keys[-1]]
+        what_to_use = {}
+        for counter, i in reversed(enumerate(self.thresholds_phase2.keys())):
+
+        for counter, i in enumerate(self.thresholds_phase1.keys()):
+            if counter == self.len_phase1:
+                what_to_use = self.thresholds_phase1[i]
+
         if not self.check1000Words(text):
             logger.debug(f"1000 words failed. This is not plaintext")
             return False

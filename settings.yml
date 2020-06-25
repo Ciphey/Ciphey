@@ -1,11 +1,12 @@
 ---
 language_checker_options:
         # The language checking options. Basically, this detects plaintext.
-        default_language: "english" # What language do you want to use?
-        default_checker: "brandon"
+        default_language: cipheydists::english # What language do you want to use?
+        default_checker: brandon
         english:
-                dict_name: english # the name of the dict in cipheyDists
-                stopwords_name: english # The name of the stopwords set in cipheyDists
+                dict_name: cipheydists::english # the name of the dict in cipheyDists
+                stopwords_name: ciphetdists::englishStopWords # The name of the stopwords set in cipheyDists
+                top1000: cipheydists::english1000
                 brandon: # The brandon checker, the default checker
                         thresholds:
                                 # Sentence length: {Checker: percentage threshold}
@@ -29,5 +30,4 @@ regexFile:
         - /FLAG{*.}/i
         - /CTF{*.}/i
 
-        
 

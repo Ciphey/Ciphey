@@ -481,13 +481,10 @@ def arg_parsing() -> Optional[dict]:
     config["params"] = {}
     import pprint
 
-    print("args param is")
     pprint.pprint(args["param"])
     for i in args["param"]:
         key, value = i.split("=", 1)
         config["params"][key] = value
-    print(f"config param is {config['params']}")
-    exit(1)
     # ** THE SETTINGS.YML PARSING IS BELOW **
 
     settings_config = settings_collector()
@@ -506,6 +503,9 @@ def arg_parsing() -> Optional[dict]:
     else:
         config["language"] = "english"
 
+    _language = config["language"]
+
+    config["dictionary"]
     config["dictionary"] = set(cipheydists.get_list(config["language"]))
     config["1kwords"] = set(cipheydists.get_list(config[f"{config['language']}1000"]))
     config["stopwords"] = set(
