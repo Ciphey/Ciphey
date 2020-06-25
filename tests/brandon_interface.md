@@ -254,11 +254,23 @@ So ideally, we would have this algorithm:
    
 This is the ideal optimal phase 1 algorithm for `brandon` checker.
 
+# Phase 2
 
-# TODO
-* [ ] Use the testing system in place to find the optimal percentage thresholds for each phase of language checker. I can use the confusion matrices to help work this out.
-* [ ] Only perform phase 1 on {THRESHOLD}% of list etc
-* [ ] Look at using different threshold numbers for different lengths of text, and wether or not that dramatically increases accuracy.
-* [ ] Calculate speed / accuracy of old language Checker
-* [ ] Calculate speed / accuracy of Harlan's neural network
-* [ ] Clean this issue into documentation after I'm done
+Phase 2 is the dictionary checker.
+
+The dictionary was created from 2 dictionaries. `dictionary.txt` found on GitHub and `aspell.txt`, the aspell dictionary.
+
+This was because dictionary.txt contained words that aspell didn't, and vice-versa. 
+
+Using the dictionary checker, these are the best thresholds for the accuracy:
+```
+'checker': {1: {'Accuracy': 1.0, 'Threshold': 87},
+             2: {'Accuracy': 1.0, 'Threshold': 88},
+             3: {'Accuracy': 1.0, 'Threshold': 84},
+             4: {'Accuracy': 1.0, 'Threshold': 68},
+             5: {'Accuracy': 1.0, 'Threshold': 70}},
+```
+
+
+As we can see, as long as the threshold is matched we have 100% accuracy.
+

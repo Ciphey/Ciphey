@@ -110,7 +110,18 @@ class tester:
                 4: {"Threshold": 0, "Accuracy": 0},
                 5: {"Threshold": 0, "Accuracy": 0},
             },
+            "checker": {
+                1: {"Threshold": 0, "Accuracy": 0},
+                2: {"Threshold": 0, "Accuracy": 0},
+                3: {"Threshold": 0, "Accuracy": 0},
+                4: {"Threshold": 0, "Accuracy": 0},
+                5: {"Threshold": 0, "Accuracy": 0},
+            },
         }
+
+        # text = "hello my name is Bee and I really like flowers"
+        # def checker(self, text: str, threshold: float, text_length: int) -> bool:
+        # x = self.checker(text=text, threshold=0.55, text_length=len(text))
 
     def lem(self, text, thresold):
         sentences = self.nlp(text)
@@ -365,8 +376,6 @@ class tester:
             var -> the variable we are checking against. Stopwords list, 1k words list, dictionray list.
         Returns:
             boolean -> True for it passes the test, False for it fails the test."""
-        if text is None:
-            return False
 
         percent = ceil(text_length * threshold)
         meet_threshold = 0
@@ -386,6 +395,7 @@ class tester:
                     # We do this in the for loop because if we're at 24% and THRESHOLD is 25
                     # we don't want to wait THRESHOLD to return true, we want to return True ASAP
                     return True
+            location += 1
         return False
 
 
@@ -393,4 +403,3 @@ obj = tester()
 # X = obj.perform_3_sent_sizes(50)
 x = obj.perform_best_percentages()
 # x = obj.calculate_average_sentence_size()
-pprint.pprint(x)
