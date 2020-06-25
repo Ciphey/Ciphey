@@ -113,6 +113,10 @@ class Config:
             mod = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(mod)
 
+    def get_resource(self, res_name: str, t: Type) -> Any:  # Actually returns obj of type `t`, but python is bad
+        loader, name = split_resource_name(res_name)
+        return self(registry.get_named(loader, ResourceLoader[t]))(name)
+
     def __init__(self):
         self.update_log_level(self.debug)
 

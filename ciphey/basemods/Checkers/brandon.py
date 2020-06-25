@@ -173,14 +173,8 @@ class Brandon(ciphey.iface.Checker[str]):
         super().__init__(config)
         self.mh = mh.mathsHelper()
         self.languageThreshold: float = float(self._params()["threshold"])
-
-        loader, name = ciphey.iface.split_resource_name(self._params()["wordlist"])
-        self.wordlist = \
-            config(ciphey.iface.registry.get_named(loader, ciphey.iface.ResourceLoader[ciphey.iface.WordList]))(name)
-
-        loader, name = ciphey.iface.split_resource_name(self._params()["top1000"])
-        self.top1000 = \
-            config(ciphey.iface.registry.get_named(loader, ciphey.iface.ResourceLoader[ciphey.iface.WordList]))(name)
+        self.wordlist = config.get_resource(self._params()["wordlist"], ciphey.iface.WordList)
+        self.top1000 = config.get_resource(self._params()["top1000"], ciphey.iface.WordList)
 
     def check(self, text: str) -> bool:
         """Checks to see if the text is in English
