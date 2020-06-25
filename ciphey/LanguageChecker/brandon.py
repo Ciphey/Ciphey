@@ -202,28 +202,44 @@ class Brandon(LanguageChecker):
 
         what_to_use = {}
 
+        # this code decides what checker / threshold to use
         # if text is over or equal to maximum size, just use the maximum possible checker
         _keys = list(self.thresholds_phase1.keys())
         if length_text >= _keys[-1]:
             what_to_use = self.thresholds_phase1[_keys[-1]]
-        what_to_use = {}
-        for counter, i in reversed(enumerate(self.thresholds_phase2.keys())):
+        else:
+            # this algorithm finds the smallest possible fit for the text
+            for counter, i in reversed(enumerate(_keys)):
+                if counter != 0:
+                    if _keys[counter - 1] <= length_text <= i:
+                        what_to_use = i
+        what_to_use = self.thresholds_phase1[what_to_use]
+        # def checker(self, text: str, threshold: float, text_length: int, var: set) -> bool:
+        if "check" in what_to_use:
+            # perform check 1k words
+            result = self.checker(
+                text, what_to_use["check"], length_text, self.top1000Words
+            )
+            logger.trace(f"The result from check 1k words is {result}")
+        elif "stop" in what_to_use:
+            # perform stopwords
+            result = self.checker(
+                text, what_to_use["check"], length_text, self.stopwords
+            )
+            logger.trace(f"The result from check stopwords is {result}")
+        else:
+            logger.debug(f"It is neither stop or check, but instead {what_to_use}")
 
-        for counter, i in enumerate(self.thresholds_phase1.keys()):
-            if counter == self.len_phase1:
-                what_to_use = self.thresholds_phase1[i]
-
-        if not self.check1000Words(text):
-            logger.debug(f"1000 words failed. This is not plaintext")
+        # return False if phase 1 fails
+        if not result:
             return False
-
-        logger.trace(f"1000words check passed")
-        if not self.confirmLanguage(text):
-            logger.debug(f"Dictionary check failed. This is not plaintext")
-            return False
-
-        logger.trace(f"Dictionary check passed. This is plaintext")
-        return True
+        else:
+            # TODO this needs its own threshold percentage
+            result = self.checker(
+                text, what_to_use["check"], length_text, self.wordlist
+            )
+        logger.trace(f"Result of dictionary checker is {result}")
+        return result
 
     @staticmethod
     def getArgs() -> Dict[str, object]:
