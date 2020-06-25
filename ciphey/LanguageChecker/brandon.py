@@ -102,14 +102,18 @@ class Brandon(LanguageChecker):
         # makes the text unique words and readable
         text = text.lower()
         text = text.split(" ")
-        new_text = []
-        # TODO how did I do this in the other class.....
-        for i in text:
-            if i.endswith("'s"):
-                new_text.append()
-        text = self.mh.strip_puncuation(text)
 
-        return set(text)
+        x = []
+        for word in text:
+            # poor mans lemisation
+            # removes 's from the dict'
+            if word.endswith("'s"):
+                x.append(word[0:-2])
+        text = self.mh.strip_puncuation(x)
+        # turns it all into lowercase and as a set
+        complete = set([word.lower() for word in x])
+
+        return complete
 
     def __name__(self):
         return "brandon"

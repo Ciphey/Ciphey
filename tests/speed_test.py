@@ -23,6 +23,7 @@ from alive_progress import alive_bar
 from spacy.lang.en.stop_words import STOP_WORDS
 import cipheydists
 import pprint
+from math import ceil
 
 
 class tester:
@@ -38,6 +39,7 @@ class tester:
         # all stopwords
         self.all_stopwords = set(self.nlp.Defaults.stop_words)
         self.top1000Words = cipheydists.get_list("english1000")
+        self.wordlist = cipheydists.get_list("english")
         self.endings = set(
             [
                 "al",
@@ -222,8 +224,9 @@ class tester:
             old = len(text)
 
             # timing the function
+            # def checker(self, text: str, threshold: float, text_length: int, var: set) -> bool:
             tic = time.perf_counter()
-            result = function(text, threshold)
+            result = function(text=text, threshold=threshold, text_length=old)
             tok = time.perf_counter()
             # new = len(result)
             # print(
@@ -281,16 +284,19 @@ class tester:
         """
         Gives us the average accuracy and time etc
         """
-        funcs = [obj.stop, obj.check1000Words]
+        # funcs = [obj.stop, obj.check1000Words]
+        funcs = [obj.checker]
         # funcs = [obj.word_endings]
-        names = [
-            "stop words",
-            "check 1000 words",
-        ]
+        # names = [
+        #     "stop words",
+        #     "check 1000 words",
+        # ]
+        names = ["checker"]
         sent_sizes = [1, 2, 3, 4, 5]
         x = {
-            "stop words": {1: None, 2: None, 3: None, 4: None, 5: None, 20: None},
-            "check 1000 words": {1: None, 2: None, 3: None, 4: None, 5: None, 20: None},
+            # "stop words": {1: None, 2: None, 3: None, 4: None, 5: None, 20: None},
+            # "check 1000 words": {1: None, 2: None, 3: None, 4: None, 5: None, 20: None},
+            "checker": {1: None, 2: None, 3: None, 4: None, 5: None, 20: None},
         }
         for i in range(0, len(funcs)):
             func = funcs[i]
@@ -314,9 +320,9 @@ class tester:
         # "check 1000 words": {"Sentence Size": {"Threshold": 0, "Accuracy": 0}},
         # }
 
-        items = range(75)
+        items = range(100)
         with alive_bar(len(items)) as bar:
-            for i in range(1, 76):
+            for i in range(1, 100):
                 x = self.perform_3_sent_sizes(threshold=i)
                 pprint.pprint(x)
                 for key, value in x.items():
@@ -347,9 +353,44 @@ class tester:
                 lengths.append(len(y[1]))
             print(f"{x} : The mean is {mean(lengths)}")
 
+    def checker(self, text: str, threshold: float, text_length: int) -> bool:
+        """Given text determine if it passes checker
+
+        The checker uses the vairable passed to it. I.E. Stopwords list, 1k words, dictionary
+
+        Args:
+            text -> The text to check
+            threshold -> at what point do we return True? The percentage of text that is in var before we return True
+            text_length -> the length of the text
+            var -> the variable we are checking against. Stopwords list, 1k words list, dictionray list.
+        Returns:
+            boolean -> True for it passes the test, False for it fails the test."""
+        if text is None:
+            return False
+
+        percent = ceil(text_length * threshold)
+        meet_threshold = 0
+        location = 0
+        end = percent
+
+        while location <= text_length:
+            # chunks the text, so only gets THRESHOLD chunks of text at a time
+            to_analyse = text[location:end]
+            for word in to_analyse:
+                # if word is a stopword, + 1 to the counter
+                if word in self.wordlist:
+                    meet_threshold += 1
+                if meet_threshold / text_length >= threshold:
+                    # if we meet the threshold, return True
+                    # otherwise, go over again until we do
+                    # We do this in the for loop because if we're at 24% and THRESHOLD is 25
+                    # we don't want to wait THRESHOLD to return true, we want to return True ASAP
+                    return True
+        return False
+
 
 obj = tester()
 # X = obj.perform_3_sent_sizes(50)
-# x = obj.perform_best_percentages()
-x = obj.calculate_average_sentence_size()
+x = obj.perform_best_percentages()
+# x = obj.calculate_average_sentence_size()
 pprint.pprint(x)
