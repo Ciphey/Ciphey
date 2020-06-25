@@ -479,19 +479,22 @@ def arg_parsing() -> Optional[dict]:
     # what is language is being used?
     # TODO what if language isnt set does it default to english
     config["params"] = {}
+    import pprint
+
+    print("args param is")
+    pprint.pprint(args["param"])
     for i in args["param"]:
         key, value = i.split("=", 1)
         config["params"][key] = value
-
-    # TODO I need to write some code to parse language argument, allow default english, and to also parse the yml file
-
+    print(f"config param is {config['params']}")
+    exit(1)
     # ** THE SETTINGS.YML PARSING IS BELOW **
 
     settings_config = settings_collector()
 
     # Has the user requested a language in an argument?
     if args["language"]:
-        # TODO does this break if the rg doesnt exist
+        # TODO does this break if the lc doesnt exist
         config["language"] = args["language"].lower()
     # if not, use the default from settings
     elif settings_config:
@@ -503,7 +506,11 @@ def arg_parsing() -> Optional[dict]:
     else:
         config["language"] = "english"
 
-    config["wordlist"] = set(cipheydists.get_list(config["language"]))
+    config["dictionary"] = set(cipheydists.get_list(config["language"]))
+    config["1kwords"] = set(cipheydists.get_list(config[f"{config['language']}1000"]))
+    config["stopwords"] = set(
+        cipheydists.get_list(config[f"{config['language']}StopWords"])
+    )
 
     if settings_config:
         # if settings.yml does exists, try to use the default
