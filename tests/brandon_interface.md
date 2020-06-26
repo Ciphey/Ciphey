@@ -258,19 +258,97 @@ This is the ideal optimal phase 1 algorithm for `brandon` checker.
 
 Phase 2 is the dictionary checker.
 
-The dictionary was created from 2 dictionaries. `dictionary.txt` found on GitHub and `aspell.txt`, the aspell dictionary.
+Firstly, we check to find the best thresholds for the dictionary checker. 
 
-This was because dictionary.txt contained words that aspell didn't, and vice-versa. 
-
-Using the dictionary checker, these are the best thresholds for the accuracy:
 ```
-'checker': {1: {'Accuracy': 1.0, 'Threshold': 87},
-             2: {'Accuracy': 1.0, 'Threshold': 88},
-             3: {'Accuracy': 1.0, 'Threshold': 84},
-             4: {'Accuracy': 1.0, 'Threshold': 68},
-             5: {'Accuracy': 1.0, 'Threshold': 70}},
+'checker': {1: {'Accuracy': 0.97, 'Threshold': 99},
+             2: {'Accuracy': 0.98, 'Threshold': 98},
+             3: {'Accuracy': 0.965, 'Threshold': 68},
+             4: {'Accuracy': 0.99, 'Threshold': 93},
+             5: {'Accuracy': 0.97, 'Threshold': 92}},
+```
+The accuracies are good, but the thresholds are simply too high. We're overfitting!
+
+To fix this, I thought that because the dictionary contained chars <= 2 such as "a" or "an" it was setting off the completion too much, resulting in a much higher threshold.
+
+To fix this, I only let the checker consider words that are more then 2 chars.
+
+This is the result:
+```
+ 'checker': {1: {'Accuracy': 0.965, 'Threshold': 60},
+             2: {'Accuracy': 0.98, 'Threshold': 77},
+             3: {'Accuracy': 0.985, 'Threshold': 67},
+             4: {'Accuracy': 0.985, 'Threshold': 99},
+             5: {'Accuracy': 0.98, 'Threshold': 47}},
+```
+The accuracy stayed around the same, but the threshold went down. Although the threshold was still kind of high. 99% threshold for 4? I restricted the threshold to 75% and:
+
+```
+'checker': {1: {'Accuracy': 0.945, 'Threshold': 66},
+             2: {'accuracy': 0.975, 'threshold': 69},
+             3: {'accuracy': 0.98, 'threshold': 71},
+             4: {'accuracy': 0.99, 'threshold': 65},
+             5: {'accuracy': 0.98, 'threshold': 38}},
 ```
 
+We can see that the accuracy stayed roughly the same, but the threshold went down a lot. The mean appears to be 66% (from just looking at it).
 
-As we can see, as long as the threshold is matched we have 100% accuracy.
+However, the accuracy for smaller sentence sizes tanked.
+
+The highest accuracy we had was with the original one. Words <= 2 chars and no limit on threshold. 
+
+If possible, we want to combine the high accuracy on smaller texts while maintaining the generalisation found in the latter checker results.
+
+The reason we want a smaller threshold is that due to the chunking procedure, it will be much faster on larger texts. The lower the sentence length the higher the threshold is allowed to be.
+
+For phase 2, we are not concerned with speed. We are however concerned with accuracy.
+
+I believe that threshold > 90% is overfitting. I cannot reasonably see this successfully working within Ciphey itself.
+
+My next test will be max threshold of 100% with no chars less than or equal to 1.
+
+```
+ 'checker': {1: {'Accuracy': 0.97, 'Threshold': 93},
+             2: {'Accuracy': 0.975, 'Threshold': 82},
+             3: {'Accuracy': 0.97, 'Threshold': 96},
+             4: {'Accuracy': 0.965, 'Threshold': 31},
+             5: {'Accuracy': 0.965, 'Threshold': 74}},
+```
+the accuracy is 97% with a threshold of 93. This is much higher than the latter test. I think for lower texts, since we don't care about speed, we should use a higher threshold. This test was ran 20,000 times. I will run the tests once much to see if the threshold significantly changes.
+
+The test results were:
+```
+ 'checker': {1: {'Accuracy': 0.96, 'Threshold': 92},
+             2: {'Accuracy': 0.97, 'Threshold': 95},
+             3: {'Accuracy': 0.965, 'Threshold': 81},
+             4: {'Accuracy': 0.96, 'Threshold': 38},
+             5: {'Accuracy': 0.975, 'Threshold': 52}},
+```
+
+One last test. No threshold limit with no char limit.
+```
+ 'checker': {1: {'Accuracy': 0.98, 'Threshold': 92},
+             2: {'Accuracy': 0.99, 'Threshold': 91},
+             3: {'Accuracy': 0.97, 'Threshold': 83},
+             4: {'Accuracy': 0.97, 'Threshold': 71},
+             5: {'Accuracy': 0.975, 'Threshold': 74}},
+```
+
+In total, we want these ones:
+
+```
+{1: {'Accuracy': 0.98, 'Threshold': 92},
+2: {'accuracy': 0.975, 'threshold': 69},
+3: {'accuracy': 0.98, 'threshold': 71},
+4: {'accuracy': 0.99, 'threshold': 65},
+5: {'accuracy': 0.98, 'threshold': 38}},
+^^ with 75% threshold limit
+```
+
+Lower thresholds, accuracies look good too.
+
+
+	
+
+ 
 

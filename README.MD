@@ -1,3 +1,4 @@
+[Install](https://github.com/Ciphey/Ciphey#Installation) | [TL;DR](https://github.com/Ciphey/Ciphey#what-is-this) | [Features](https://github.com/Ciphey/Ciphey#features) | [Docs](https://ciphey.readthedocs.io/en/latest/)
 <p align="center">
   <img src="Pictures_for_README/binoculars.png" alt="Ciphey">
 </p>
@@ -11,6 +12,12 @@
 <img src="https://codecov.io/gh/ciphey/ciphey/branch/master/graph/badge.svg">
 <a href="https://ciphey.readthedocs.io/"><img src="https://readthedocs.org/projects/ciphey/badge/"></a>
 </p>
+
+| Testing |
+| --------|
+| This is a test|
+
+> Fully automated decryption tool using natural language processing & artifical intelligence, along with some common sense.
 
 # What is this?
 Ciphey is an automated decryption tool. Input encrypted text, get the decrypted text back.

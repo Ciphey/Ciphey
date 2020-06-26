@@ -22,6 +22,7 @@ import enciphey
 from alive_progress import alive_bar
 from spacy.lang.en.stop_words import STOP_WORDS
 import cipheydists
+import cipheycore
 import pprint
 from math import ceil
 
@@ -33,6 +34,11 @@ class tester:
 
         self.f = open("hansard.txt", encoding="ISO-8859-1").read()
         self.f = self.f.split(".")
+
+        # self.analysis = cipheycore.start_analysis()
+        # for word in self.f:
+        #     cipheycore.continue_analysis(self.analysis, word)
+        # cipheycore.finish_analysis(self.analysis)
 
         self.enciph = enciphey.encipher()
 
@@ -158,17 +164,17 @@ class tester:
         return False
 
     def get_random_sentence(self, size):
-        # if random.randint(0, 1) == 0:
-        x = None
-        while x is None:
-            x = (True, " ".join(random.sample(self.f, k=random.randint(1, size))))
-        return x
-        # else:
-        #     x = None
-        #     while x is None:
-        #         x = self.enciph.getRandomEncryptedSentence(size)
-        #         x = x["Encrypted Texts"]["EncryptedText"]
-        #     return (False, x)
+        if random.randint(0, 1) == 0:
+            x = None
+            while x is None:
+                x = (True, " ".join(random.sample(self.f, k=random.randint(1, size))))
+            return x
+        else:
+            x = None
+            while x is None:
+                x = self.enciph.getRandomEncryptedSentence(size)
+                x = x["Encrypted Texts"]["EncryptedText"]
+            return (False, x)
 
     def get_words(self, text):
         doc = self.nlp(text)
@@ -211,6 +217,7 @@ class tester:
     # Now to time it and take measurements
 
     def perform(self, function, sent_size, threshold):
+        threshold = threshold / 100
         # calculate accuracy
         total = 0
         true_positive_returns = 0
@@ -295,14 +302,15 @@ class tester:
         """
         Gives us the average accuracy and time etc
         """
-        # funcs = [obj.stop, obj.check1000Words]
+        # funcs = [obj.checker, obj.stop, obj.check1000Words]
         funcs = [obj.checker]
         # funcs = [obj.word_endings]
-        # names = [
-        #     "stop words",
-        #     "check 1000 words",
-        # ]
-        names = ["checker"]
+        names = [
+            "checker",
+            # "stop words",
+            # "check 1000 words",
+        ]
+        # names = ["checker"]
         sent_sizes = [1, 2, 3, 4, 5]
         x = {
             # "stop words": {1: None, 2: None, 3: None, 4: None, 5: None, 20: None},
@@ -333,7 +341,7 @@ class tester:
 
         items = range(100)
         with alive_bar(len(items)) as bar:
-            for i in range(1, 100):
+            for i in range(1, 101):
                 x = self.perform_3_sent_sizes(threshold=i)
                 pprint.pprint(x)
                 for key, value in x.items():
@@ -386,6 +394,8 @@ class tester:
             # chunks the text, so only gets THRESHOLD chunks of text at a time
             to_analyse = text[location:end]
             for word in to_analyse:
+                # if len(word) <= 1:
+                #     continue
                 # if word is a stopword, + 1 to the counter
                 if word in self.wordlist:
                     meet_threshold += 1
