@@ -6,10 +6,6 @@
   "commit": false,
   "contributors": [
     {
-      "login": "brandonskerritt",
-      "name": "Brandon",
-      "avatar_url": "https://avatars3.githubusercontent.com/u/10378052?v=4",
-      "profile": "https://skerritt.blog",
       "login": "cyclic3",
       "name": "cyclic3",
       "avatar_url": "https://avatars1.githubusercontent.com/u/15613874?v=4",
@@ -19,6 +15,15 @@
         "maintenance",
         "code",
         "ideas"
+      ]
+    },
+    {
+      "login": "michalani",
+      "name": "michalani",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/27767884?v=4",
+      "profile": "https://github.com/michalani",
+      "contributions": [
+        "code"
       ]
     }
   ],
