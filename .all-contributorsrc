@@ -1,0 +1,27 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "brandonskerritt",
+      "name": "Brandon",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/10378052?v=4",
+      "profile": "https://skerritt.blog",
+      "contributions": [
+        "design",
+        "maintenance",
+        "code",
+        "ideas"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "Ciphey",
+  "projectOwner": "Ciphey",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
