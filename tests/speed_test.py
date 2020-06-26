@@ -164,17 +164,19 @@ class tester:
         return False
 
     def get_random_sentence(self, size):
-        if random.randint(0, 1) == 0:
-            x = None
-            while x is None:
-                x = (True, " ".join(random.sample(self.f, k=random.randint(1, size))))
-            return x
-        else:
-            x = None
-            while x is None:
-                x = self.enciph.getRandomEncryptedSentence(size)
-                x = x["Encrypted Texts"]["EncryptedText"]
-            return (False, x)
+        # if random.randint(0, 1) == 0:
+        #     x = None
+        #     while x is None:
+        #         x = (True, " ".join(random.sample(self.f, k=random.randint(1, size))))
+        #     return x
+        # else:
+        #     x = None
+        #     while x is None:
+        #         x = self.enciph.getRandomEncryptedSentence(size)
+        #         x = x["Encrypted Texts"]["EncryptedText"]
+        #     return (False, x)
+         x = (True, " ".join(random.sample(self.f, k=random.randint(1, size))))
+         return x
 
     def get_words(self, text):
         doc = self.nlp(text)
@@ -411,5 +413,5 @@ class tester:
 
 obj = tester()
 # X = obj.perform_3_sent_sizes(50)
-x = obj.perform_best_percentages()
-# x = obj.calculate_average_sentence_size()
+# x = obj.perform_best_percentages()
+x = obj.calculate_average_sentence_size()

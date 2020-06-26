@@ -5,14 +5,16 @@ language_checker_options:
         default_checker: brandon
         english:
                 dict_name: cipheydists::english # the name of the dict in cipheyDists
-                stopwords_name: ciphetdists::englishStopWords # The name of the stopwords set in cipheyDists
+
+                stopwords_name: cipheydists::englishStopWords # The name of the stopwords set in cipheyDists
                 top1000: cipheydists::english1000
                 brandon: # The brandon checker, the default checker
                         thresholds:
                                 # Sentence length: {Checker: percentage threshold}
                                 # Want to know how these numbers were selected? Read the docs here TODO
                                 "Phase 1": {0: {"check": 0.02}, 110: {"stop": 0.15}, 150: {"stop": 0.28}}
-                                "Phase 2": {0: 0.55} # phase 2 threshold
+                                "Phase 2": {0: {"dict": 0.92}, 75: {"dict": 0.80}, 110: {"dict": 0.65}, 150: {"dict": 0.55}, 190: {"dict": 0.38}} # phase 2 threshold
+
         german:
                 brandon:
                         dict_name: german
@@ -29,5 +31,4 @@ regexFile:
         - /THM{.*}/i
         - /FLAG{*.}/i
         - /CTF{*.}/i
-
 

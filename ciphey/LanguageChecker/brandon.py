@@ -208,15 +208,9 @@ class Brandon(LanguageChecker):
 
         # this code decides what checker / threshold to use
         # if text is over or equal to maximum size, just use the maximum possible checker
-        _keys = list(self.thresholds_phase1.keys())
-        if length_text >= _keys[-1]:
-            what_to_use = self.thresholds_phase1[_keys[-1]]
-        else:
-            # this algorithm finds the smallest possible fit for the text
-            for counter, i in reversed(enumerate(_keys)):
-                if counter != 0:
-                    if _keys[counter - 1] <= length_text <= i:
-                        what_to_use = i
+        what_to_use = self.calculateWhatChecker(
+            length_text, self.thresholds_phase1.keys()
+        )
         what_to_use = self.thresholds_phase1[what_to_use]
         # def checker(self, text: str, threshold: float, text_length: int, var: set) -> bool:
         if "check" in what_to_use:
@@ -238,12 +232,42 @@ class Brandon(LanguageChecker):
         if not result:
             return False
         else:
-            # TODO this needs its own threshold percentage
+            what_to_use = self.calculateWhatChecker(
+                length_text, self.thresholds_phase2.keys()
+            )
+            what_to_use = self.thresholds_phase2[what_to_use]
             result = self.checker(
                 text, what_to_use["check"], length_text, self.wordlist
             )
         logger.trace(f"Result of dictionary checker is {result}")
         return result
+
+    def calculateWhatChecker(self, length_text, key):
+        """Calculates what threshold / checker to use
+
+        If the length of the text is over the maximum sentence length, use the last checker / threshold
+        Otherwise, traverse the keys backwards until we find a key range that does not fit.
+        So we traverse backwards and see if the sentence length is between current - 1 and current
+        In this way, we find the absolute lowest checker / percentage threshold. 
+        We traverse backwards because if the text is longer than the max sentence length, we already know.
+        In total, the keys are only 5 items long or so. It is not expensive to move backwards, nor is it expensive to move forwards.
+
+        Args:
+            length_text -> The length of the text
+            key -> What key we want to use. I.E. Phase1 keys, Phase2 keys.
+        Returns:
+            what_to_use -> the key of the lowest checker."""
+
+        _keys = list(key)
+        if length_text >= _keys[-1]:
+            what_to_use = key[_keys[-1]]
+        else:
+            # this algorithm finds the smallest possible fit for the text
+            for counter, i in reversed(enumerate(_keys)):
+                if counter != 0:
+                    if _keys[counter - 1] <= length_text <= i:
+                        what_to_use = i
+        return what_to_use
 
     @staticmethod
     def getArgs() -> Dict[str, object]:

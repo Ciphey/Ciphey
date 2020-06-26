@@ -71,6 +71,14 @@ def make_default_config(ctext: str, trace: bool = False) -> Dict[str, object]:
         "checker": brandon,
         "wordlist": set(cipheydists.get_list("english")),
         "params": {},
+        "Phase 1": {0: {"check": 0.02}, 110: {"stop": 0.15}, 150: {"stop": 0.28}},
+        "Phase 2": {
+            0: {"dict": 0.92},
+            75: {"dict": 0.80},
+            110: {"dict": 0.65},
+            150: {"dict": 0.55},
+            190: {"dict": 0.38},
+        },
     }
 
 
@@ -452,7 +460,7 @@ def arg_parsing() -> Optional[dict]:
         print("A string of less than 3 chars cannot be interpreted by Ciphey.")
         return None
 
-    config = dict()
+    config = make_default_config(args["text"], False)
 
     # We can walk through the arguments expanding them into a canonical form
     #
@@ -479,9 +487,7 @@ def arg_parsing() -> Optional[dict]:
     # what is language is being used?
     # TODO what if language isnt set does it default to english
     config["params"] = {}
-    import pprint
 
-    pprint.pprint(args["param"])
     for i in args["param"]:
         key, value = i.split("=", 1)
         config["params"][key] = value
@@ -498,19 +504,15 @@ def arg_parsing() -> Optional[dict]:
         config["language"] = settings_config["language_checker_options"][
             "default_language"
         ].lower()
-        print("***** this no this one!!!!")
     # if that doesn't exist, default to english
     else:
         config["language"] = "english"
 
     _language = config["language"]
 
-    config["dictionary"]
-    config["dictionary"] = set(cipheydists.get_list(config["language"]))
-    config["1kwords"] = set(cipheydists.get_list(config[f"{config['language']}1000"]))
-    config["stopwords"] = set(
-        cipheydists.get_list(config[f"{config['language']}StopWords"])
-    )
+    config["dictionary"] = set(cipheydists.get_list(config["_language"]))
+    config["1kwords"] = set(cipheydists.get_list(config[f"{_language}1000"]))
+    config["stopwords"] = set(cipheydists.get_list(config[f"{_language}StopWords"]))
 
     if settings_config:
         # if settings.yml does exists, try to use the default
@@ -521,13 +523,17 @@ def arg_parsing() -> Optional[dict]:
         from ciphey.LanguageChecker.brandon import ciphey_language_checker as lc
 
     if lc.__name__.lower() == "brandon":
-        print("lc.name is brandon")
-        thresholds = settings_config["language_checker_options"][config["language"]][
-            "brandon"
-        ]["thresholds"]
+        if settings_config:
+            # if settings file exists, use those defaults
+            thresholds = settings_config["language_checker_options"][
+                config["language"]
+            ]["brandon"]["thresholds"]
+        else:
+            None
+            # English defaults taken from settings.py
+            # nothing because we import the thresholds from make_default_config
 
-        print(thresholds)
-
+        # adds defaults to config file
         config["thresholds_phase1"] = thresholds["Phase 1"]
         config["thresholds_phase2"] = thresholds["Phase 2"]
 
