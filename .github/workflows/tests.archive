@@ -1,4 +1,4 @@
-name: Tests
+name: tests
 on: [push, pull_request]
 jobs:
   build:
@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-python@v1
+    - uses: actions/setup-python@v2
       with:
         python-version: '3.8'
         architecture: x64
