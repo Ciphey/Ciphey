@@ -29,6 +29,9 @@ _The Great Refactor_ is version 5 of Ciphey. The entire program was refactored.
 * Brandon checker's dictionary checker has 99% accuracy on average across all sentence lengths and compeltes in 0.002 seconds.
 * Added a regex checker, so the user can enter a regex like `THM{*}` and the checker will find it.
 * Added a neural network that can detect English.
+* Created `settings.yml`, a settings file which lets the user change how Ciphey works internally.
+* Added flag `--where`, which tells you where Ciphey expects the `settings.yml` file to be.
+* Added `regexFile` to `settings.yml`, which is where the user can sotre all the regexes they want the regex checker to check against.
 #### Bug Fixes
 * Morse code is now better optimised and works across multiple different Morse alphabets.
 * Fixed issue where Vigenere broke on inputs of equal signs.
@@ -44,6 +47,7 @@ _The Great Refactor_ is version 5 of Ciphey. The entire program was refactored.
 * The Ciphey main dictionary now supports UK, USA, AU, CAN dialects of English.
 * Many, many more tests were added to the program.
 * Targetting system added to main(), now Ciphey can internally target any cipher instead of previously where the cipher couldn't be manually chosen.
+* The settings file is automatically searched for in APPDIRS.
 ## 4.1
 #### Features
 * Vigenere is now enabled, due to massive performance gains from the C++ core
