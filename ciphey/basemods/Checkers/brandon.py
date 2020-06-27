@@ -339,4 +339,4 @@ class Brandon(ciphey.iface.Checker[str]):
 
 
 # Define alias
-ciphey_language_checker = Brandon
+ciphey.iface.registry.register(Brandon, ciphey.iface.Checker[str])

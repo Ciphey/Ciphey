@@ -53,7 +53,7 @@ def decrypt(ctext: Any, config: iface.Config) -> Optional[Dict[str, Any]]:
             "Cipher": "Plaintext",
             "Extra Information": None
         }
-    if not config.memo.mark_str(ctext):
+    if not config.cache.mark_str(ctext):
         logger.debug("ctext seen before with this config!")
         return None
 
