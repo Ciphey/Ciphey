@@ -49,9 +49,8 @@ self.languages = {
 In alphabetical order
 And you're.... Done! Make sure the name of the two match up
 """
-from typing import Dict, Set
-
-from .iface import LanguageChecker
+from typing import Dict, Set, Optional, Any
+import ciphey
 from string import punctuation
 
 from loguru import logger
@@ -65,8 +64,6 @@ from math import ceil
 from .chisquared import chiSquared
 
 import cipheydists
-import ciphey
-from typing import Optional
 
 sys.path.append("..")
 try:
@@ -75,7 +72,7 @@ except ModuleNotFoundError:
     import ciphey.mathsHelper as mh
 
 
-class Brandon(LanguageChecker):
+class Brandon(ciphey.iface.Checker[str]):
     """
     Class designed to confirm whether something is **language** based on how many words of **language** appears
     Call confirmLanguage(text, language)
@@ -103,7 +100,10 @@ class Brandon(LanguageChecker):
         """
         # makes the text unique words and readable
         text = text.lower()
+        text = self.mh.strip_puncuation(text)
         text = text.split(" ")
+        text = set(text)
+        return text
 
         x = []
         for word in text:

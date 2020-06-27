@@ -1,8 +1,6 @@
-from .bases import Bases
 from .binary import Binary
 from .hexadecimal import Hexadecimal
 from .ascii import Ascii
-from .morsecode import MorseCode
 
 from loguru import logger
 
@@ -10,18 +8,16 @@ from loguru import logger
 class EncodingParent:
     def __init__(self, lc):
         self.lc = lc
-        self.base64 = Bases(self.lc)
         self.binary = Binary(self.lc)
         self.hex = Hexadecimal(self.lc)
         self.ascii = Ascii(self.lc)
-        self.morse = MorseCode(self.lc)
 
     def setProbTable(self, table):
         pass
 
     def decrypt(self, text):
         self.text = text
-        torun = [self.base64, self.binary, self.hex, self.ascii, self.morse]
+        torun = [self.binary, self.hex, self.ascii]
         logger.debug(f"Encoding parent is running {torun}")
         """
         ok so I have an array of functions
@@ -38,7 +34,7 @@ class EncodingParent:
 
         for answer in answers:
             logger.debug(f"All answers are {answers}")
-            # adds the LC objects together
+            # adds the Checkers objects together
             # self.lc = self.lc + answer["lc"]
             if answer is not None and answer["IsPlaintext?"]:
                 logger.debug(f"Plaintext found {answer}")
