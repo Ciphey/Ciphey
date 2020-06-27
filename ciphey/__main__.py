@@ -71,14 +71,6 @@ def make_default_config(ctext: str, trace: bool = False) -> Dict[str, object]:
         "checker": brandon,
         "wordlist": set(cipheydists.get_list("english")),
         "params": {},
-        "Phase 1": {0: {"check": 0.02}, 110: {"stop": 0.15}, 150: {"stop": 0.28}},
-        "Phase 2": {
-            0: {"dict": 0.92},
-            75: {"dict": 0.80},
-            110: {"dict": 0.65},
-            150: {"dict": 0.55},
-            190: {"dict": 0.38},
-        },
     }
 
 
@@ -107,7 +99,6 @@ class Ciphey:
         self.console = Console()
         self.probability_distribution: dict = {}
         self.what_to_choose: dict = {}
-        exit(1)
 
     def decrypt(self) -> Optional[Dict]:
         """Performs the decryption of text
@@ -460,8 +451,7 @@ def arg_parsing() -> Optional[dict]:
         print("A string of less than 3 chars cannot be interpreted by Ciphey.")
         return None
 
-    config = make_default_config(args["text"], False)
-
+    config = {}
     # We can walk through the arguments expanding them into a canonical form
     #
     # First, we go over simple args

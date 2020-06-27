@@ -171,8 +171,12 @@ class Brandon(LanguageChecker):
         # Suppresses warning
         super().__init__(config)
         self.mh = mh.mathsHelper()
-        self.thresholds_phase1 = config["thresholds_phase1"]
-        self.thresholds_phase2 = config["thresholds_phase2"]
+        if "thresholds_phase1" not in config:
+            self.thresholds_phase1 = self._params()["thresholds_phase1"]
+            self.thresholds_phase2 = self._params()["thresholds_phase2"]
+        else:
+            self.thresholds_phase1 = config["thresholds_phase1"]
+            self.thresholds_phase2 = config["thresholds_phase2"]
         self.top1000Words = config["params"].get("top1000")
         self.wordlist = config["wordlist"]
         self.stopwords = config["params"].get("stopwords")
@@ -269,6 +273,34 @@ class Brandon(LanguageChecker):
                         what_to_use = i
         return what_to_use
 
+    # @staticmethod
+    # def getParams() -> Optional[Dict[str, ciphey.iface.ParamSpec]]:
+    #     return {
+    #         "top1000": ciphey.iface.ParamSpec(
+    #             desc="A wordlist of the top 1000 words",
+    #             req=False,
+    #             default="cipheydists::english1000",
+    #         ),
+    #         "wordlist": ciphey.iface.ParamSpec(
+    #             desc="A wordlist of all the words",
+    #             req=False,
+    #             default="cipheydists::english",
+    #         ),
+    #         "threshold": ciphey.iface.ParamSpec(
+    #             desc="The minimum proportion (between 0 and 1) that must be in the dictionary",
+    #             req=False,
+    #             default=0.45,
+    #         ),
+    #         "Phase 1": {0: {"check": 0.02}, 110: {"stop": 0.15}, 150: {"stop": 0.28}},
+    #         "Phase 2": {
+    #             0: {"dict": 0.92},
+    #             75: {"dict": 0.80},
+    #             110: {"dict": 0.65},
+    #             150: {"dict": 0.55},
+    #             190: {"dict": 0.38},
+    #         },
+    #     }
+
     @staticmethod
     def getArgs() -> Dict[str, object]:
         return {
@@ -279,6 +311,14 @@ class Brandon(LanguageChecker):
             "threshold": {
                 "desc": "The minimum proportion (between 0 and 1) that must be in the dictionary",
                 "req": False,
+            },
+            "Phase 1": {0: {"check": 0.02}, 110: {"stop": 0.15}, 150: {"stop": 0.28}},
+            "Phase 2": {
+                0: {"dict": 0.92},
+                75: {"dict": 0.80},
+                110: {"dict": 0.65},
+                150: {"dict": 0.55},
+                190: {"dict": 0.38},
             },
         }
 

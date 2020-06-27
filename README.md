@@ -13,13 +13,19 @@
 <a href="https://ciphey.readthedocs.io/"><img src="https://readthedocs.org/projects/ciphey/badge/"></a>
 </p>
 
-| Testing |
-| --------|
-| This is a test|
+|        Testing |
+|       -------- |
+| This is a test |
+|                |
+
+| 🐍 Python (Universal) | Arch | Windows | Mac OS
+| --------------------                    | ---- | ----- | ----
+| Image | image | image | image
+| python3 -m pip install ciphey --upgrade |
 
 > Fully automated decryption tool using natural language processing & artifical intelligence, along with some common sense.
 
-# What is this?
+# 🤔 What is this?
 Ciphey is an automated decryption tool. Input encrypted text, get the decrypted text back.
 > "What type of encryption?"
 
@@ -32,7 +38,7 @@ Ciphey can solve most things in about 2 seconds.
   <img src="Pictures_for_README/index.gif" alt="Ciphey demo">
 </p>
 
-# Features
+# ✨ Features
 
 - **20+ encryptions supported** such as hashes, encodings (binary, base64) and normal encryptions like Caesar cipher, Transposition and more. **[For the full list, click here](https://ciphey.readthedocs.io/en/latest/ciphers.html)**
 - **Deep neural network for targetting the right decryption** resulting in decryptions taking less than 3 seconds. If Ciphey cannot decrypt the text, Ciphey will use the neural network analysis to give you information on how to decrypt it yourself.
@@ -42,8 +48,8 @@ Ciphey can solve most things in about 2 seconds.
 - **[C++ core](https://github.com/Ciphey/CipheyCore)** Blazingly fast.
 
 
-# Getting Started
-## Installation
+# 🎬 Getting Started
+## 👍 Installation
 ### Pip
 ```python3 -m pip install -U ciphey```
 
