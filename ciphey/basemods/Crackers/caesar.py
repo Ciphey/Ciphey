@@ -13,7 +13,6 @@ from typing import Optional, Dict, Union, Set
 from loguru import logger
 import ciphey
 import cipheycore
-import cipheydists
 
 from ciphey.iface import ParamSpec, CrackResults
 

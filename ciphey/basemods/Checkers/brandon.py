@@ -61,10 +61,6 @@ import sys
 from loguru import logger
 from math import ceil
 
-from .chisquared import chiSquared
-
-import cipheydists
-
 sys.path.append("..")
 try:
     import mathsHelper as mh
@@ -169,7 +165,7 @@ class Brandon(ciphey.iface.Checker[str]):
         )
         return False
 
-    def __init__(self, config: dict):
+    def __init__(self, config: ciphey.iface.Config):
         # Suppresses warning
         super().__init__(config)
         self.mh = mh.mathsHelper()

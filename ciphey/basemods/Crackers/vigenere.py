@@ -1,7 +1,3 @@
-import itertools, re
-import cipheycore
-import cipheydists
-
 """
  ██████╗██╗██████╗ ██╗  ██╗███████╗██╗   ██╗
 ██╔════╝██║██╔══██╗██║  ██║██╔════╝╚██╗ ██╔╝
@@ -14,12 +10,13 @@ Github: brandonskerritt
 from distutils import util
 from typing import Optional, Dict, Union, Set
 
+import re
+
 from loguru import logger
 import ciphey
 import cipheycore
-import cipheydists
 
-from ciphey.iface import ParamSpec, CrackResults
+from ciphey.iface import ParamSpec, CrackResults, Cracker
 
 
 class Vigenere(ciphey.iface.Cracker[str], ciphey.iface.Detector[str]):

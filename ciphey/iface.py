@@ -117,10 +117,12 @@ class Config:
         loader, name = split_resource_name(res_name)
         return self(registry.get_named(loader, ResourceLoader[t]))(name)
 
-    def merge_dict(self, input: Dict[str, Any]):
+    def merge_dict(self, config_file: Dict[str, Any]):
+        pass
 
     def __init__(self):
         self.update_log_level(self.debug)
+
 
 def split_resource_name(full_name: str) -> (str, str):
     return full_name.split("::", 1)
@@ -141,7 +143,7 @@ class ParamSpec(NamedTuple):
     default: Optional[Any] = None
     list: bool = False
     configPath: Optional[List[str]] = None
-    visible: bool = Flase
+    visible: bool = False
 
 
 class ConfigurableModule(ABC):
@@ -278,7 +280,7 @@ class Cracker(Generic[T], ConfigurableModule, KnownUtility, Targeted):
 
 class ResourceLoader(Generic[T], ConfigurableModule):
     @abstractmethod
-    def what_resources(self) -> Set[str]:
+    def whatResources(self) -> Set[str]:
         """
             Return a set of the names of instances T you can provide.
             The names SHOULD be unique amongst ResourceLoaders of the same type
@@ -296,9 +298,9 @@ class ResourceLoader(Generic[T], ConfigurableModule):
         """
         pass
 
-    def __call__(self, *args): return self.get_resource(*args)
+    def __call__(self, *args): return self.getResource(*args)
 
-    def __getitem__(self, *args): return self.get_resource(*args)
+    def __getitem__(self, *args): return self.getResource(*args)
 
     @abstractmethod
     def __init__(self, config: Config): super().__init__(config)

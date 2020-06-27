@@ -1,16 +1,16 @@
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, List
 import re
 from loguru import logger
-import cipheydists
 import ciphey
+
 
 class MorseCode(ciphey.iface.Decoder[str, str]):
     # A priority list for char/word boundaries
     BOUNDARIES = {' ': 1, '/': 2, '\n': 3, '.': -1, '-': -1}
     MAX_PRIORITY = 3
     ALLOWED = {".", "-", " ", "/", "\n"}
-    MORSE_CODE_DICT = dict(cipheydists.get_charset("morse"))
-    MORSE_CODE_DICT_INV = {v: k for k, v in MORSE_CODE_DICT.items()}
+    MORSE_CODE_DICT: Dict[str, str]
+    MORSE_CODE_DICT_INV: Dict[str, str]
 
     def decode(self, text: str) -> Optional[str]:
         # Trim end
@@ -64,8 +64,14 @@ class MorseCode(ciphey.iface.Decoder[str, str]):
         return result.strip().upper()
 
     @staticmethod
-    def getParams() -> Optional[Dict[str, Dict[str, Any]]]:
-        pass
+    def getParams() -> Optional[Dict[str, ciphey.iface.ParamSpec]]:
+        return {
+            "dict": ciphey.iface.ParamSpec(
+                desc="The morse code dictionary to use",
+                req=False,
+                default="cipheydists::morse"
+            )
+        }
 
     @staticmethod
     def getName() -> str: return "morse"
@@ -73,6 +79,8 @@ class MorseCode(ciphey.iface.Decoder[str, str]):
     def __init__(self, config: ciphey.iface.Config):
         super().__init__(config)
         self.lc = config.objs["checker"]
+        self.MORSE_CODE_DICT = config.get_resource(self._params()["dict"], ciphey.iface.WordList)
+        self.MORSE_CODE_DICT_INV = {v: k for k, v in self.MORSE_CODE_DICT.items()}
 
 
 ciphey.iface.registry.register(MorseCode, ciphey.iface.Decoder[str, str])

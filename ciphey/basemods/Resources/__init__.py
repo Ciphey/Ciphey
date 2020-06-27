@@ -11,11 +11,11 @@ import json
 class CipheyDistsWordLists(ciphey.iface.ResourceLoader[ciphey.iface.WordList]):
     _names: Set[str] = {"english", "english1000"}
 
-    def what_resources(self) -> Set[str]:
+    def whatResources(self) -> Set[str]:
         return self._names
 
     @lru_cache
-    def get_resource(self, name: str) -> T:
+    def getResource(self, name: str) -> T:
         x = cipheydists.get_list(name)
         return cipheydists.get_list(name)
 
@@ -36,11 +36,11 @@ ciphey.iface.registry.register(CipheyDistsWordLists, ciphey.iface.ResourceLoader
 
 # We can use a generic resource loader here, as we can instantiate it later
 class Json(ciphey.iface.ResourceLoader):
-    def what_resources(self) -> T:
+    def whatResources(self) -> T:
         return self._names
 
     @lru_cache
-    def get_resource(self, name: str) -> T:
+    def getResource(self, name: str) -> T:
         return T(json.load(self._paths[int(name)]))
 
     @staticmethod
