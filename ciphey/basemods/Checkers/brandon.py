@@ -224,6 +224,18 @@ class Brandon(ciphey.iface.Checker[str]):
                 desc="The minimum proportion (between 0 and 1) that must be in the dictionary",
                 req=False,
                 default=0.45),
+            "phase2": ciphey.iface.ParamSpec(
+                desc="Tweakables",
+                req=False,
+                visible=False,
+                default={
+                    0: {"dict": 0.92},
+                    75: {"dict": 0.80},
+                    110: {"dict": 0.65},
+                    150: {"dict": 0.55},
+                    190: {"dict": 0.38},
+                },
+            )
         }
 
 

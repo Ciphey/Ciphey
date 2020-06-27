@@ -117,9 +117,10 @@ class Config:
         loader, name = split_resource_name(res_name)
         return self(registry.get_named(loader, ResourceLoader[t]))(name)
 
+    def merge_dict(self, input: Dict[str, Any]):
+
     def __init__(self):
         self.update_log_level(self.debug)
-
 
 def split_resource_name(full_name: str) -> (str, str):
     return full_name.split("::", 1)
@@ -133,12 +134,14 @@ class ParamSpec(NamedTuple):
         default     The default value for this argument. Ignored if req == True or configPath is not None
         configPath  The path to the config that should be the default value
         list        Whether this parameter is in the form of a list, and can therefore be specified more than once
+        visible     Whether the user can tweak this via the command line
     """
     req: bool
     desc: str
     default: Optional[Any] = None
     list: bool = False
     configPath: Optional[List[str]] = None
+    visible: bool = Flase
 
 
 class ConfigurableModule(ABC):
