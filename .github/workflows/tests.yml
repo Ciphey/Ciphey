@@ -1,22 +1,27 @@
 name: Tests
 on: [push, pull_request]
 jobs:
-  old-tests:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: ['3.6','3.7']
-    name: Python ${{ matrix.python-version }}
+        python-version: [3.6, 3.7, pypy3]
+        # exclude:
+        #   - os: macos-latest
+        #     python-version: 3.8
+        #   - os: windows-latest
+        #     python-version: 3.6
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-python@v1
-      with:
-        python-version: ${{ matrix.python-version }}
-        architecture: x64
-    - run: pip install nox==2019.11.9
-    - run: pip install poetry==1.0.5
-    - run: nox
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Tests with Nox
+        run: pip install nox==2019.11.9
+        run: pip install poetry==1.0.5
+        run: nox
   coverage:
     runs-on: ubuntu-latest
     steps:
@@ -30,3 +35,5 @@ jobs:
     - run: nox --sessions tests coverage
       env:
         CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
+
+
