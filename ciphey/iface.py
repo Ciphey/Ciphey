@@ -113,7 +113,7 @@ class Config:
             mod = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(mod)
 
-    def get_resource(self, res_name: str, t: Type) -> Any:  # Actually returns obj of type `t`, but python is bad
+    def get_resource(self, res_name: str, t: Optional[Type] = None) -> Any:  # Actually returns obj of type `t`, but python is bad
         loader, name = split_resource_name(res_name)
         return self(registry.get_named(loader, ResourceLoader[t]))(name)
 
@@ -177,7 +177,7 @@ class ConfigurableModule(ABC):
     @abstractmethod
     def __init__(self, config: Config):
         if self.getParams() is not None:
-            self._params_obj = config.params.setdefault(self.__name__, {})
+            self._params_obj = config.params.setdefault(type(self).__name__, {})
             self._checkParams(self._params_obj, config)
 
 

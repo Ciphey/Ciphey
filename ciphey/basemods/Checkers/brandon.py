@@ -168,12 +168,11 @@ class Brandon(ciphey.iface.Checker[str]):
         # Suppresses warning
         super().__init__(config)
         self.mh = mh.mathsHelper()
-        if "thresholds_phase1" not in config:
-            self.thresholds_phase1 = self._params()["thresholds_phase1"]
-            self.thresholds_phase2 = self._params()["thresholds_phase2"]
-        else:
-            self.thresholds_phase1 = self._params()["phase1"]
-            self.thresholds_phase2 = self._params()["phase2"] 
+
+        phases = config.get_resource(self._params()["phases"], ciphey.iface.Dict)
+
+        self.thresholds_phase1 = self._params()["phase1"]
+        self.thresholds_phase2 = self._params()["phase2"]
         self.top1000Words = self._params().get("top1000")
         self.wordlist = self._params()
         self.stopwords = self._params().get("stopwords")
