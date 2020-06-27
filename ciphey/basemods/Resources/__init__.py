@@ -8,16 +8,19 @@ from ciphey.iface import T, ParamSpec, Config
 import json
 
 
-class CipheyDistsWordLists(ciphey.iface.ResourceLoader[ciphey.iface.WordList]):
-    _names: Set[str] = {"english", "english1000"}
+class CipheyDists(ciphey.iface.ResourceLoader):
+    _wordlists: Set[str] = frozenset({"english", "english1000", "englishStopWords"})
+    _brandons: Set[str] = frozenset({"english"})
 
     def whatResources(self) -> Set[str]:
-        return self._names
+        return self._wordlists | self._brandons
 
     @lru_cache
     def getResource(self, name: str) -> T:
-        x = cipheydists.get_list(name)
-        return cipheydists.get_list(name)
+        if name in self._wordlists:
+            return cipheydists.get_list(name)
+        elif name.startswith("brandon_") and name[len("brandon_"):] in self._brandons:
+            return cipheydists.get_brandon(name[len("brandon_"):])
 
     def __init__(self, config: Config):
         super().__init__(config)
@@ -26,12 +29,8 @@ class CipheyDistsWordLists(ciphey.iface.ResourceLoader[ciphey.iface.WordList]):
     def getParams() -> Optional[Dict[str, ParamSpec]]:
         pass
 
-    @staticmethod
-    def getName() -> str:
-        return "cipheydists"
 
-
-ciphey.iface.registry.register(CipheyDistsWordLists, ciphey.iface.ResourceLoader[ciphey.iface.WordList])
+ciphey.iface.registry.register(CipheyDists, ciphey.iface.ResourceLoader[ciphey.iface.WordList],  ciphey.iface.ResourceLoader[ciphey.iface.Dict])
 
 
 # We can use a generic resource loader here, as we can instantiate it later

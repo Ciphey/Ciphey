@@ -171,8 +171,8 @@ class Brandon(ciphey.iface.Checker[str]):
 
         phases = config.get_resource(self._params()["phases"], ciphey.iface.Dict)
 
-        self.thresholds_phase1 = self._params()["phase1"]
-        self.thresholds_phase2 = self._params()["phase2"]
+        self.thresholds_phase1 = phases["1"]
+        self.thresholds_phase2 = phases["2"]
         self.top1000Words = self._params().get("top1000")
         self.wordlist = self._params()
         self.stopwords = self._params().get("stopwords")
@@ -297,26 +297,6 @@ class Brandon(ciphey.iface.Checker[str]):
                 req=False,
                 default="cipheydists::brandon_english"
             )
-            # "phase2": ciphey.iface.ParamSpec(
-            #     desc="Tweakables",
-            #     req=False,
-            #     visible=False,
-            #     default={
-            #         0: {"dict": 0.92},
-            #         75: {"dict": 0.80},
-            #         110: {"dict": 0.65},
-            #         150: {"dict": 0.55},
-            #         190: {"dict": 0.38},
-            #     },
-            # ),
-            # "phase1": ciphey.iface.ParamSpec(
-            #     desc="Tweakables",
-            #     req=False,
-            #     visible=False,
-            #     default={
-            #         {0: {"check": 0.02}, 110: {"stop": 0.15}, 150: {"stop": 0.28}}
-            #     },
-            # ),
         }
 
 
