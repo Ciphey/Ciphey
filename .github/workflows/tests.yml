@@ -19,9 +19,9 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Tests with Nox
-        run: pip install nox==2019.11.9
-        run: pip install poetry==1.0.5
-        run: nox
+      - run: pip install nox==2019.11.9
+      - run: pip install poetry==1.0.5
+      - run: nox
   coverage:
     runs-on: ubuntu-latest
     steps:
