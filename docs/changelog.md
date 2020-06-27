@@ -32,6 +32,8 @@ _The Great Refactor_ is version 5 of Ciphey. The entire program was refactored.
 * Created `settings.yml`, a settings file which lets the user change how Ciphey works internally.
 * Added flag `--where`, which tells you where Ciphey expects the `settings.yml` file to be.
 * Added `regexFile` to `settings.yml`, which is where the user can sotre all the regexes they want the regex checker to check against.
+* Now on Homebrew for Mac OS
+* Now on the Arch User Respository
 #### Bug Fixes
 * Morse code is now better optimised and works across multiple different Morse alphabets.
 * Fixed issue where Vigenere broke on inputs of equal signs.
