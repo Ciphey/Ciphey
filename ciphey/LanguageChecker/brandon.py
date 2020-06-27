@@ -65,6 +65,8 @@ from math import ceil
 from .chisquared import chiSquared
 
 import cipheydists
+import ciphey
+from typing import Optional
 
 sys.path.append("..")
 try:
@@ -273,45 +275,29 @@ class Brandon(LanguageChecker):
                         what_to_use = i
         return what_to_use
 
-    # @staticmethod
-    # def getParams() -> Optional[Dict[str, ciphey.iface.ParamSpec]]:
-    #     return {
-    #         "top1000": ciphey.iface.ParamSpec(
-    #             desc="A wordlist of the top 1000 words",
-    #             req=False,
-    #             default="cipheydists::english1000",
-    #         ),
-    #         "wordlist": ciphey.iface.ParamSpec(
-    #             desc="A wordlist of all the words",
-    #             req=False,
-    #             default="cipheydists::english",
-    #         ),
-    #         "threshold": ciphey.iface.ParamSpec(
-    #             desc="The minimum proportion (between 0 and 1) that must be in the dictionary",
-    #             req=False,
-    #             default=0.45,
-    #         ),
-    #         "Phase 1": {0: {"check": 0.02}, 110: {"stop": 0.15}, 150: {"stop": 0.28}},
-    #         "Phase 2": {
-    #             0: {"dict": 0.92},
-    #             75: {"dict": 0.80},
-    #             110: {"dict": 0.65},
-    #             150: {"dict": 0.55},
-    #             190: {"dict": 0.38},
-    #         },
-    #     }
-
     @staticmethod
-    def getArgs() -> Dict[str, object]:
+    def getParams() -> Optional[Dict[str, ciphey.iface.ParamSpec]]:
         return {
-            "top1000": {
-                "desc": "A json dictionary of the top 1000 words",
-                "req": False,
-            },
-            "threshold": {
-                "desc": "The minimum proportion (between 0 and 1) that must be in the dictionary",
-                "req": False,
-            },
+            "top1000": ciphey.iface.ParamSpec(
+                desc="A wordlist of the top 1000 words",
+                req=False,
+                default="cipheydists::english1000",
+            ),
+            "wordlist": ciphey.iface.ParamSpec(
+                desc="A wordlist of all the words",
+                req=False,
+                default="cipheydists::english",
+            ),
+            "stopwords": ciphey.iface.ParamSpec(
+                desc="A wordlist of StopWords",
+                req=False,
+                default="cipheydists::englishStopWords"
+                ),
+            "threshold": ciphey.iface.ParamSpec(
+                desc="The minimum proportion (between 0 and 1) that must be in the dictionary",
+                req=False,
+                default=0.45,
+            ),
             "Phase 1": {0: {"check": 0.02}, 110: {"stop": 0.15}, 150: {"stop": 0.28}},
             "Phase 2": {
                 0: {"dict": 0.92},
@@ -321,6 +307,27 @@ class Brandon(LanguageChecker):
                 190: {"dict": 0.38},
             },
         }
+
+    # @staticmethod
+    # def getArgs() -> Dict[str, object]:
+    #     return {
+    #         "top1000": {
+    #             "desc": "A json dictionary of the top 1000 words",
+    #             "req": False,
+    #         },
+    #         "threshold": {
+    #             "desc": "The minimum proportion (between 0 and 1) that must be in the dictionary",
+    #             "req": False,
+    #         },
+    #         "Phase 1": {0: {"check": 0.02}, 110: {"stop": 0.15}, 150: {"stop": 0.28}},
+    #         "Phase 2": {
+    #             0: {"dict": 0.92},
+    #             75: {"dict": 0.80},
+    #             110: {"dict": 0.65},
+    #             150: {"dict": 0.55},
+    #             190: {"dict": 0.38},
+    #         },
+    #     }
 
 
 # Define alias
