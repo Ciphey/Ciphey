@@ -61,6 +61,8 @@ import sys
 from loguru import logger
 from math import ceil
 
+from ciphey.iface import T
+
 sys.path.append("..")
 try:
     import mathsHelper as mh
@@ -112,9 +114,6 @@ class Brandon(ciphey.iface.Checker[str]):
         complete = set([word.lower() for word in x])
 
         return complete
-
-    def __name__(self):
-        return "brandon"
 
     def checker(self, text: str, threshold: float, text_length: int, var: set) -> bool:
         """Given text determine if it passes checker
@@ -173,16 +172,16 @@ class Brandon(ciphey.iface.Checker[str]):
             self.thresholds_phase1 = self._params()["thresholds_phase1"]
             self.thresholds_phase2 = self._params()["thresholds_phase2"]
         else:
-            self.thresholds_phase1 =  self._params()["phase1"]
+            self.thresholds_phase1 = self._params()["phase1"]
             self.thresholds_phase2 = self._params()["phase2"] 
-        self.top1000Words = config["params"].get("top1000")
-        self.wordlist = config["wordlist"]
-        self.stopwords = config["params"].get("stopwords")
+        self.top1000Words = self._params().get("top1000")
+        self.wordlist = self._params()
+        self.stopwords = self._params().get("stopwords")
 
         self.len_phase1 = len(self.thresholds_phase1)
         self.len_phase2 = len(self.thresholds_phase2)
 
-    def checkLanguage(self, text: str) -> bool:
+    def check(self, text: str) -> bool:
         """Checks to see if the text is in English
 
         Performs a decryption, but mainly parses the internal data packet and prints useful information.
@@ -195,7 +194,7 @@ class Brandon(ciphey.iface.Checker[str]):
 
         """
         logger.trace(f'In Language Checker with "{text}"')
-        text = self.cleanText(text)
+        text = self.clean_text(text)
         logger.trace(f'Text split to "{text}"')
         if text == "":
             return False
@@ -294,48 +293,32 @@ class Brandon(ciphey.iface.Checker[str]):
                 req=False,
                 default=0.45,
             ),
-            "phase2": ciphey.iface.ParamSpec(
-                desc="Tweakables",
+            "phases": ciphey.iface.ParamSpec(
+                desc="Language-specific phase thresholds",
                 req=False,
-                visible=False,
-                default={
-                    0: {"dict": 0.92},
-                    75: {"dict": 0.80},
-                    110: {"dict": 0.65},
-                    150: {"dict": 0.55},
-                    190: {"dict": 0.38},
-                },
-            ),
-            "phase1": ciphey.iface.ParamSpec(
-                desc="Tweakables",
-                req=False,
-                visible=False,
-                default={
-                    {0: {"check": 0.02}, 110: {"stop": 0.15}, 150: {"stop": 0.28}}
-                },
-            ),
+                default="cipheydists::brandon_english"
+            )
+            # "phase2": ciphey.iface.ParamSpec(
+            #     desc="Tweakables",
+            #     req=False,
+            #     visible=False,
+            #     default={
+            #         0: {"dict": 0.92},
+            #         75: {"dict": 0.80},
+            #         110: {"dict": 0.65},
+            #         150: {"dict": 0.55},
+            #         190: {"dict": 0.38},
+            #     },
+            # ),
+            # "phase1": ciphey.iface.ParamSpec(
+            #     desc="Tweakables",
+            #     req=False,
+            #     visible=False,
+            #     default={
+            #         {0: {"check": 0.02}, 110: {"stop": 0.15}, 150: {"stop": 0.28}}
+            #     },
+            # ),
         }
-
-    # @staticmethod
-    # def getArgs() -> Dict[str, object]:
-    #     return {
-    #         "top1000": {
-    #             "desc": "A json dictionary of the top 1000 words",
-    #             "req": False,
-    #         },
-    #         "threshold": {
-    #             "desc": "The minimum proportion (between 0 and 1) that must be in the dictionary",
-    #             "req": False,
-    #         },
-    #         "Phase 1": {0: {"check": 0.02}, 110: {"stop": 0.15}, 150: {"stop": 0.28}},
-    #         "Phase 2": {
-    #             0: {"dict": 0.92},
-    #             75: {"dict": 0.80},
-    #             110: {"dict": 0.65},
-    #             150: {"dict": 0.55},
-    #             190: {"dict": 0.38},
-    #         },
-    #     }
 
 
 # Define alias

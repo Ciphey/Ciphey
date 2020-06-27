@@ -155,14 +155,6 @@ class ConfigurableModule(ABC):
         """
         pass
 
-    @staticmethod
-    @abstractmethod
-    def getName() -> str:
-        """
-            Prints the user-specifiable name. MUST only be made up of alphanumeric chars and underscores
-        """
-        pass
-
     def _checkParams(self, params: Dict[str, Any], config: Config):
         """
             Fills the given params dict with default values where arguments are not given,
@@ -172,7 +164,7 @@ class ConfigurableModule(ABC):
             if key in params:
                 continue
             if value.req:
-                raise KeyError(f'Missing required param {key} for {self.getName()}')
+                raise KeyError(f'Missing required param {key} for {self.__name__}')
             if value.configPath is not None:
                 tmp = getattr(config, value.configPath[0])
                 params[key] = tmp[value.configPath[1:]] if len(value.configPath) > 1 else tmp
@@ -185,7 +177,7 @@ class ConfigurableModule(ABC):
     @abstractmethod
     def __init__(self, config: Config):
         if self.getParams() is not None:
-            self._params_obj = config.params.setdefault(self.getName(), {})
+            self._params_obj = config.params.setdefault(self.__name__, {})
             self._checkParams(self._params_obj, config)
 
 
@@ -285,7 +277,7 @@ class ResourceLoader(Generic[T], ConfigurableModule):
             Return a set of the names of instances T you can provide.
             The names SHOULD be unique amongst ResourceLoaders of the same type
 
-            These names will be exposed as f"{getName()}::{name}", use split_resource_name to recover this
+            These names will be exposed as f"{self.__name__}::{name}", use split_resource_name to recover this
         """
         pass
 
@@ -322,7 +314,7 @@ class Registry:
     _targets: Dict[str, Dict[Type, List[Type]]] = {}
 
     def register(self, i: type, *ts: type) -> None:
-        name_target = self._names[i.getName()] = (i, set())
+        name_target = self._names[i.__name__.lower()] = (i, set())
 
         targets = None
 
@@ -360,7 +352,7 @@ class Registry:
         return target_list
 
     def get_named(self, name: str, type_constraint: Type = None) -> Any:
-        ret = self._names[name]
+        ret = self._names[name.lower()]
         if type_constraint and type_constraint not in ret[1]:
             raise TypeError(f"Type mismatch: wanted {type_constraint}, got {ret[1]}")
         return ret[0]
