@@ -21,6 +21,6 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Tests 
         # run: pip install nox==2019.11.9 && pip install poetry==1.0.5 && nox
-      - run: pip install nox
-      - run: pip install poetry
-      - run: nox
+        run: pip install nox
+        run: pip install poetry
+        run: nox
