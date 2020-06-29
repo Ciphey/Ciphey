@@ -3,6 +3,7 @@ from .binary import Binary
 from .hexadecimal import Hexadecimal
 from .ascii import Ascii
 from .morsecode import MorseCode
+from .octal import Octal
 
 from loguru import logger
 
@@ -15,13 +16,14 @@ class EncodingParent:
         self.hex = Hexadecimal(self.lc)
         self.ascii = Ascii(self.lc)
         self.morse = MorseCode(self.lc)
+        self.octal = Octal(self.lc)
 
     def setProbTable(self, table):
         pass
 
     def decrypt(self, text):
         self.text = text
-        torun = [self.base64, self.binary, self.hex, self.ascii, self.morse]
+        torun = [self.base64, self.binary, self.hex, self.ascii, self.morse, self.octal]
         logger.debug(f"Encoding parent is running {torun}")
         """
         ok so I have an array of functions
