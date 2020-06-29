@@ -4,8 +4,7 @@
 ██║     ██║██████╔╝███████║█████╗   ╚████╔╝ 
 ██║     ██║██╔═══╝ ██╔══██║██╔══╝    ╚██╔╝  
 ╚██████╗██║██║     ██║  ██║███████╗   ██║ 
-© Brandon Skerritt
-https://github.com/brandonskerritt/ciphey
+https://github.com/ciphey
 
 The cycle goes:
 main -> argparsing (if needed) -> call_encryption -> new Ciphey object -> decrypt() -> produceProbTable ->
@@ -41,8 +40,6 @@ from loguru import logger
 warnings.filterwarnings("ignore")
 
 
-
-
 def decrypt(ctext: Any, config: iface.Config) -> Optional[Dict[str, Any]]:
     # First, we detect shenanigans
     out_type = config.objs["format"]["in"]
@@ -51,8 +48,9 @@ def decrypt(ctext: Any, config: iface.Config) -> Optional[Dict[str, Any]]:
             "IsPlaintext?": True,
             "Plaintext": ctext,
             "Cipher": "Plaintext",
-            "Extra Information": None
+            "Extra Information": None,
         }
+    # @TODO does this mean the user cant decrypt the same thing twice?
     if not config.cache.mark_str(ctext):
         logger.debug("ctext seen before with this config!")
         return None
@@ -61,6 +59,8 @@ def decrypt(ctext: Any, config: iface.Config) -> Optional[Dict[str, Any]]:
     decoder_classes = iface.registry[iface.Decoder].get(type(ctext))
     possible_decodings = {}
 
+    # @TODO I think this decrypts them?
+    # its simple decodings
     if decoder_classes is not None:
         for dst_type, decoders in decoder_classes.items():
             target = possible_decodings[dst_type] = {}
@@ -78,7 +78,7 @@ def decrypt(ctext: Any, config: iface.Config) -> Optional[Dict[str, Any]]:
                 "IsPlaintext?": True,
                 "Plaintext": i,
                 "Cipher": decoder.getName(),
-                "Extra Information": None
+                "Extra Information": None,
             }
 
     # With simple decodings out of the way, we now need to build our score dictionary
@@ -120,7 +120,6 @@ def decrypt(ctext: Any, config: iface.Config) -> Optional[Dict[str, Any]]:
                 res["Cipher"] += " inside " + decoder.getName()
                 return res
 
-
     # Now we do the rest of the cipher checks, executing as necessary
 
     # We failed, return as such
@@ -147,9 +146,7 @@ def arg_parsing(config: iface.Config) -> Optional[Dict[str, Any]]:
         """
     )
     parser.add_argument(
-        "-t",
-        "--text",
-        help="Text to decrypt",
+        "-t", "--text", help="Text to decrypt",
     )
     parser.add_argument(
         "-i",
@@ -159,11 +156,7 @@ def arg_parsing(config: iface.Config) -> Optional[Dict[str, Any]]:
         const=True,
     )
     parser.add_argument(
-        "-d",
-        "--debug",
-        help="Activates debug mode",
-        action="store_const",
-        const=True,
+        "-d", "--debug", help="Activates debug mode", action="store_const", const=True,
     )
     parser.add_argument(
         "-D",
@@ -173,11 +166,7 @@ def arg_parsing(config: iface.Config) -> Optional[Dict[str, Any]]:
         const=True,
     )
     parser.add_argument(
-        "-q",
-        "--quiet",
-        help="Supress warnings",
-        action="store_const",
-        const=True,
+        "-q", "--quiet", help="Supress warnings", action="store_const", const=True,
     )
     parser.add_argument(
         "-Q",
@@ -200,16 +189,14 @@ def arg_parsing(config: iface.Config) -> Optional[Dict[str, Any]]:
         const=True,
     )
     parser.add_argument(
-        "-w",
-        "--wordlist",
-        help="Uses the given wordlist",
+        "-w", "--wordlist", help="Uses the given wordlist",
     )
     parser.add_argument(
         "-p",
         "--param",
         help="Passes a parameter to the language checker",
         action="append",
-        default=[]
+        default=[],
     )
     parser.add_argument(
         "-l",
@@ -223,7 +210,7 @@ def arg_parsing(config: iface.Config) -> Optional[Dict[str, Any]]:
         "--module",
         help="Adds a module from the given path",
         action="append",
-        default=[]
+        default=[],
     )
     parser.add_argument(
         "-b",
@@ -231,7 +218,7 @@ def arg_parsing(config: iface.Config) -> Optional[Dict[str, Any]]:
         help="Forces ciphey to use binary mode for the input. Rather experimental and may break things!",
         action="store_const",
         const="bytes",
-        default="str"
+        default="str",
     )
     parser.add_argument(
         "-B",
@@ -239,19 +226,19 @@ def arg_parsing(config: iface.Config) -> Optional[Dict[str, Any]]:
         help="Forces ciphey to use binary mode for the output. Rather experimental and may break things!",
         action="store_const",
         const="bytes",
-        default="str"
+        default="str",
     )
     parser.add_argument(
         "--default-dist",
         help="Sets the default character/byte distribution",
         action="store",
-        default=None
+        default=None,
     )
     parser.add_argument(
         "--default-wordlist",
         help="Sets the default wordlist",
         action="store",
-        default=None
+        default=None,
     )
 
     args = vars(parser.parse_args())
@@ -303,7 +290,9 @@ def arg_parsing(config: iface.Config) -> Optional[Dict[str, Any]]:
     return args
 
 
-def main(config: Optional[iface.Config] = None, ciphertext=None, parse_args: bool = True) -> Optional[dict]:
+def main(
+    config: Optional[iface.Config] = None, ciphertext=None, parse_args: bool = True
+) -> Optional[dict]:
     """Function to deal with arguments. Either calls with args or not. Makes Pytest work.
 
     It gets the arguments in the function definition using locals()
@@ -343,7 +332,9 @@ def main(config: Optional[iface.Config] = None, ciphertext=None, parse_args: boo
     logger.debug(f"Loaded ciphertext {ciphertext}")
 
     if len(ciphertext) < 3:
-        logger.critical("A string of less than 3 chars cannot be interpreted by Ciphey.")
+        logger.critical(
+            "A string of less than 3 chars cannot be interpreted by Ciphey."
+        )
         return None
 
     # Dump the registry
