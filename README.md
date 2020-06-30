@@ -22,9 +22,9 @@ Fully automated decryption tool using natural language processing & artifical in
 | This is a test |
 |                |
 
-| [🐍 Python (Universal)](https://pypi.org/project/ciphey) | Arch | Windows | Mac OS
+| <p align="center"><a href="https://pypi.org/project/ciphey">🐍 Python (Universal) </a></p> | <p align="center"><a href="https://pypi.org/project/ciphey"> Arch </a></p> | <p align="center"><a href="https://pypi.org/project/ciphey"> Windows </a></p> | <p align="center"><a href="https://pypi.org/project/ciphey"> Mac OS </a></p>
 | --------------------                    | ---- | ----- | ----
-| <p align="center"><img src="Pictures_for_README/python.png" /></p> | ![Arch logo](Pictures_for_README/arch.png)|![Windows logo](Pictures_for_README/windows.png) | ![Mac OS Logo](Pictures_for_README/apple.png)
+| <p align="center"><img src="Pictures_for_README/python.png" /></p> | <p align="center"><img src="Pictures_for_README/arch.png" /></p>|<p align="center"><img src="Pictures_for_README/windows.png" /></p> | <p align="center"><img src="Pictures_for_README/apple.png" /></p>
 | `python3 -m pip install ciphey --upgrade` | `yay ciphey` | `winget ciphey` | `brew ciphey`
 
 
@@ -76,7 +76,7 @@ Ciphey was revived & recreated by the [Cyber Security Society](https://www.cyber
 Don't be afraid to contribute! We have many, many things you can do to help out. Each of them labelled and easily explained with examples. If you're trying to contribute but stuck, tag @brandonskerritt in the GitHub issue ✨
 Please read the [contributing file](CONTRIBUTING.md) for exact details on how to contribute ✨
 ## 💰 Financial Contributors
-On a more serious note, the contributions will be used to fund not only the future of Ciphey and its authors, but also Cyber Security Society at the University of Liverpool.
+The contributions will be used to fund not only the future of Ciphey and its authors, but also Cyber Security Society at the University of Liverpool (by the way, the University doesn't pay us to travel over the country winning competitions and representing the university. We have to pay for that by ourselves....)
 
 GitHub doesn't support "sponsor this project and we'll evenly distribute the money", so pick a link and we'll sort it out on our end 🥰
 
@@ -92,6 +92,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://skerritt.blog"><img src="https://avatars3.githubusercontent.com/u/10378052?v=4" width="100px;" alt=""/><br /><sub><b>Brandon</b></sub></a><br /><a href="#design-brandonskerritt" title="Design">🎨</a> <a href="#maintenance-brandonskerritt" title="Maintenance">🚧</a> <a href="https://github.com/Ciphey/Ciphey/commits?author=brandonskerritt" title="Code">💻</a> <a href="#ideas-brandonskerritt" title="Ideas, Planning, & Feedback">🤔</a></td>
     <td align="center"><a href="https://github.com/Cyclic3"><img src="https://avatars1.githubusercontent.com/u/15613874?v=4" width="100px;" alt=""/><br /><sub><b>cyclic3</b></sub></a><br /><a href="#design-cyclic3" title="Design">🎨</a> <a href="#maintenance-cyclic3" title="Maintenance">🚧</a> <a href="https://github.com/Ciphey/Ciphey/commits?author=cyclic3" title="Code">💻</a> <a href="#ideas-cyclic3" title="Ideas, Planning, & Feedback">🤔</a></td>
     <td align="center"><a href="https://github.com/michalani"><img src="https://avatars0.githubusercontent.com/u/27767884?v=4" width="100px;" alt=""/><br /><sub><b>michalani</b></sub></a><br /><a href="https://github.com/Ciphey/Ciphey/commits?author=michalani" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/ashb07"><img src="https://avatars2.githubusercontent.com/u/24845568?v=4" width="100px;" alt=""/><br /><sub><b>ashb07</b></sub></a><br /><a href="https://github.com/Ciphey/Ciphey/commits?author=ashb07" title="Code">💻</a></td>
   </tr>
 </table>
 
