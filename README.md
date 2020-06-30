@@ -31,13 +31,16 @@ Ciphey is an automated decryption tool. Input encrypted text, get the decrypted 
 > "What type of encryption?"
 
 That's the point. You don't know, you just know it's possibly encrypted. Ciphey will figure it out for you.
-Ciphey uses a custom built artifical intelligence module with a simple filtration system to approximate what something is encrypted with. And then a custom-built, customisable natural languge processing Language Checker Interface, which can detect when the given text becomes plaintext.
 
+Ciphey can solve most things in 3 seconds or less.
 
-Ciphey can solve most things in about 3 seconds.
 <p align="center" href="https://asciinema.org/a/336257">
   <img src="Pictures_for_README/index.gif" alt="Ciphey demo">
 </p>
+
+The technical part. Ciphey uses a custom built artifical intelligence module with a simple filtration system to approximate what something is encrypted with. And then a custom-built, customisable natural languge processing Language Checker Interface, which can detect when the given text becomes plaintext.
+
+And that's just the tip of the iceberg. For the full technical explanation, check out our documentation HERE *********
 
 # ✨ Features
 
