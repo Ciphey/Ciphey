@@ -44,16 +44,18 @@ Ciphey can solve most things in about 3 seconds.
 - **20+ encryptions supported** such as hashes, encodings (binary, base64) and normal encryptions like Caesar cipher, Transposition and more. **[For the full list, click here](https://ciphey.readthedocs.io/en/latest/ciphers.html)**
 - **Custom Built Artificial Intelligence with Augmented Search (AuSearch) for answering the question "what encryption was used?"** Resulting in decryptions taking less than 3 seconds. If Ciphey cannot decrypt the text, Ciphey will use the neural network analysis to give you information on how to decrypt it yourself.
 - **Custom built natural language processing module** Ciphey can determine whether something is plaintext or not. It has an incredibly high accuracy, along with being fast.
-- **Multi Language Support** at present, only English.
+- **Multi Language Support** at present, only German & English (with AU, UK, CAN, USA variants).
 - **Supports hashes & encryptions** Which the alternatives such as CyberChef do not. 
 - **[C++ core](https://github.com/Ciphey/CipheyCore)** Blazingly fast.
 
 
 # 🎬 Getting Started
 ### 🏃 Running Ciphey
-`ciphey -t "hello"`
-`ciphey "hello"`
-`cat to_decrypt.txt | ciphey`
+There are 3 ways to run Ciphey.
+
+1. `ciphey -t "hello"`
+2. `ciphey "hello"`
+3. `cat encrypted_text.txt | ciphey`
 
 To get rid of the progress bars, probability table, and all the noise use the grep mode.
 
@@ -62,7 +64,7 @@ To get rid of the progress bars, probability table, and all the noise use the gr
 For a full list of arguments, run `ciphey -h`.
 
 ### ⚗️ Importing Ciphey
-You can import Ciphey\'s __main__ and use it in your own programs and code. `from Ciphey.__main__ import main`
+You can import Ciphey\'s main and use it in your own programs and code. `from Ciphey.__main__ import main`
 # 📚 Docs
 The docs are located at [https://ciphey.readthedocs.io/en/latest/](https://ciphey.readthedocs.io/en/latest/)
 
