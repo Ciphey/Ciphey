@@ -25,6 +25,7 @@ Fully automated decryption tool using natural language processing & artifical in
 |       -------- | ----- | ------ |
 | Put CI here | | Put CI here | Put CI here
 <hr>
+
 # 🤔 What is this?
 Ciphey is an automated decryption tool. Input encrypted text, get the decrypted text back.
 > "What type of encryption?"
