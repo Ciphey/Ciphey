@@ -50,6 +50,9 @@ _The Great Refactor_ is version 5 of Ciphey. The entire program was refactored.
 * Many, many more tests were added to the program.
 * Targetting system added to main(), now Ciphey can internally target any cipher instead of previously where the cipher couldn't be manually chosen.
 * The settings file is automatically searched for in APPDIRS.
+* Moved the docs to its own dedicated GitHub Repo
+* Used Terminalizer to record pretty gifs
+* Redesigned the README
 ## 4.1
 #### Features
 * Vigenere is now enabled, due to massive performance gains from the C++ core
