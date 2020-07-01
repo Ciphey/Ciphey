@@ -35,6 +35,7 @@ from typing import Optional, Tuple, Dict
 from rich.console import Console
 from rich.table import Column, Table
 from loguru import logger
+import click
 
 warnings.filterwarnings("ignore")
 
@@ -98,6 +99,14 @@ class Ciphey:
         self.probability_distribution: dict = {}
         self.what_to_choose: dict = {}
 
+    @click.command()
+    @click.option("-t", "--text", help="The ciphertext you want to decrypt.", type=str)
+    @click.option("-g", "--greppable", help="Only output the answer. Useful for grep.", type=bool)
+    @click.option("-d", "--debug", help="Activates debug mode at info level", type=bool)
+    @click.option("-D", "--trace", help="More verbose than Debug mode", type=bool)
+    @click.option("-q", "--quiet", help="Suppress warnings", type=bool)
+    @click.option("-a", "--checker", help="Use the default internal checker. Defaults to brandon", type=bool)
+    @click.option("-A", "--checker-path", help="Uses the language checker at the given path")
     def decrypt(self) -> Optional[Dict]:
         """Performs the decryption of text
 
@@ -404,8 +413,19 @@ def arg_parsing() -> Optional[dict]:
         required=False,
     )
 
+    parser.add_argument(
+        "-dummy",
+        "--dummy",
+        help=argparse.SUPPRESS,
+        default=True,
+        required=False,
+        action="store_true",
+    )
     parser.add_argument("rest", nargs=argparse.REMAINDER)
     args = vars(parser.parse_args())
+
+    print(len(args))
+    print(args)
 
     # the below text does:
     # if -t is supplied, use that
@@ -422,9 +442,13 @@ def arg_parsing() -> Optional[dict]:
         text = args["rest"][0]
     elif not sys.stdin.isatty():
         text = str(sys.stdin.read())
+        print(f"reading from stdin {text}")
     else:
-        print("No text input given!")
-        return None
+        text = str(sys.stdin.read())
+        print(f"Reading from stdin text is {text}")
+        if not len(text) != 0 and text != "":
+            print("No text input given!")
+            return None
 
     if len(sys.argv) == 1:
         print("No arguments were supplied. Look at the help menu with -h or --help")
