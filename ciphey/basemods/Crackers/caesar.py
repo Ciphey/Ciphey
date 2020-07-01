@@ -17,7 +17,7 @@ import cipheycore
 from ciphey.iface import ParamSpec, CrackResults
 
 
-class Caesar(ciphey.iface.Cracker[str], ciphey.iface.Detector[str]):
+class Caesar(ciphey.iface.Cracker[str]):
     @staticmethod
     def getTargets() -> Set[str]:
         return {"caesar"}

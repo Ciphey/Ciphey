@@ -19,7 +19,7 @@ import cipheycore
 from ciphey.iface import ParamSpec, CrackResults, Cracker
 
 
-class Vigenere(ciphey.iface.Cracker[str], ciphey.iface.Detector[str]):
+class Vigenere(ciphey.iface.Cracker[str]):
     @staticmethod
     def getTargets() -> Set[str]:
         return {"vigenere"}

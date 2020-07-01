@@ -258,6 +258,11 @@ class CrackResults(NamedTuple):
 
 class Cracker(Generic[T], ConfigurableModule, KnownUtility, Targeted):
     @abstractmethod
+    def scoreLikelihood(self, ctext: T) -> Dict[str, float]:
+        """Should return a dictionary of (cipher_name: score)"""
+        pass
+
+    @abstractmethod
     def attemptCrack(self, ctext: T, target: str) -> Optional[CrackResults]:
         """
             This should attempt to crack the cipher `target`, and use the config["checker"] where appropriate
