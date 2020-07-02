@@ -32,6 +32,8 @@ import argparse
 import sys
 from typing import Optional, Dict, Any, List
 import bisect
+
+from ciphey.iface import SearchLevel
 from . import iface
 
 from rich.console import Console
@@ -41,95 +43,9 @@ from loguru import logger
 warnings.filterwarnings("ignore")
 
 
-
-
-def decrypt(ctext: Any, config: iface.Config) -> Optional[Dict[str, Any]]:
-    # First, we detect shenanigans
-    out_type = config.objs["format"]["in"]
-    if type(ctext) == out_type and config.objs["checker"](ctext):
-        return {
-            "IsPlaintext?": True,
-            "Plaintext": ctext,
-            "Cipher": "Plaintext",
-            "Extra Information": None
-        }
-    if not config.cache.mark_str(ctext):
-        logger.debug("ctext seen before with this config!")
-        return None
-
-    # Next, we grab all the decoder classes that apply to our data
-    decoder_classes = iface.registry[iface.Decoder].get(type(ctext))
-    possible_decodings = {}
-
-    if decoder_classes is not None:
-        for dst_type, decoders in decoder_classes.items():
-            target = possible_decodings[dst_type] = {}
-            for decoder in decoders:
-                decoder = config(decoder)
-                res = decoder.decode(ctext)
-                if res is None:
-                    continue
-                target[decoder] = dst_type(res)
-
-    # Now we check the decodings that link to our input
-    for decoder, i in possible_decodings.setdefault(out_type, {}).items():
-        if config.objs["checker"](i):
-            return {
-                "IsPlaintext?": True,
-                "Plaintext": i,
-                "Cipher": decoder.getName(),
-                "Extra Information": None
-            }
-
-    # With simple decodings out of the way, we now need to build our score dictionary
-    #
-    # We keep a list, so that we can iterate through it at the end without having to convert it
-    cipher_scores: List[(float, iface.Cracker)] = []
-    decoder_utilities: List[(float, iface.Decoder)] = []
-    cracker_utilities: Dict[str, List[(float, iface.Cracker)]]
-    cipher_held: List[(float, iface.Cracker)] = []
-    """
-    for i in iface.registry[iface.Detector[type(ctext)]]:
-        inst = config(i)
-        utility = i.scoreUtility()
-        if utility < config.utility_threshold:
-            bisect.insort_left(decoder_utilities, (utility, i))
-
-        if utility >= config.utility_threshold:
-            inst: iface.Detector[type(ctext)] = config(i)
-            score = inst.scoreLikelihood(ctext)
-
-    for i in iface.registry[iface.Cracker[type(ctext)]]:
-        utility = i.scoreUtility()
-        if utility >= config.utility_threshold:
-            inst: iface.Cracker[type(ctext)] = config(i)
-        # TODO: fix this
-        print(bisect.bisect_left(map(lambda x: x.getUtility(), cracker_held), i))
-        if utility_threshold():
-            if prob_threshold():
-                do_stuff()
-    """
-
-    # Now we have exhausted the easy options, try all the decoded versions
-    #
-    # XXX: remember to use Memo.test_and_set to stop infinite recursion!
-    for dst_type, elems in possible_decodings.items():
-        for decoder, val in elems.items():
-            res = decrypt(val, config)
-            if res["IsPlaintext?"]:
-                res["Cipher"] += " inside " + decoder.getName()
-                return res
-
-
-    # Now we do the rest of the cipher checks, executing as necessary
-
-    # We failed, return as such
-    return {
-        "IsPlaintext?": False,
-        "Plaintext": None,
-        "Cipher": None,
-        "Extra Information": None,
-    }
+def decrypt(ctext: Any, config: iface.Config) -> List[SearchLevel]:
+    """A simple alias for searching a ctext"""
+    return config.objs["searcher"].search(ctext)
 
 
 def arg_parsing(config: iface.Config) -> Optional[Dict[str, Any]]:

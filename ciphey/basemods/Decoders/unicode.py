@@ -6,6 +6,10 @@ import ciphey
 
 
 class Utf8(ciphey.iface.Decoder[bytes, str]):
+    @staticmethod
+    def getTarget() -> str:
+        return "utf8"
+
     def decode(self, text: bytes) -> Optional[str]:
         logger.trace("Attempting utf-8 decode")
         try:

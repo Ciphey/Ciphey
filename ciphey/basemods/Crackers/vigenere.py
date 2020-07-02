@@ -16,13 +16,13 @@ from loguru import logger
 import ciphey
 import cipheycore
 
-from ciphey.iface import ParamSpec, CrackResults, Cracker
+from ciphey.iface import ParamSpec, Cracker, CrackResult
 
 
 class Vigenere(ciphey.iface.Cracker[str]):
     @staticmethod
-    def getTargets() -> Set[str]:
-        return {"vigenere"}
+    def getTarget() -> str:
+        return "vigenere"
 
     def scoreLikelihood(self, ctext: str) -> Dict[str, float]:
         # Match the distribution, and then run a chi-squared analysis
@@ -30,9 +30,7 @@ class Vigenere(ciphey.iface.Cracker[str]):
                                             lambda: cipheycore.analyse_string(ctext))
         return {"caesar": cipheycore.caesar_detect(analysis, self.expected)}
 
-    def attemptCrack(self, message: str, target: str) -> Optional[CrackResults]:
-        assert(target == "vigenere")
-
+    def attemptCrack(self, message: str) -> Optional[CrackResult]:
         logger.debug("Trying caesar cipher")
         # Convert it to lower case
         #
@@ -51,7 +49,7 @@ class Vigenere(ciphey.iface.Cracker[str]):
             result = self.lc.check(translated)
             if result:
                 logger.debug(f"Caesar cipher returns true {result}")
-                return CrackResults(plaintext=translated, keyInfo=f"{candidate.key}")
+                return CrackResult(value=translated, key_info=f"{candidate.key}")
 
         # if none of them match English, return false!
         logger.debug(f"Caesar cipher crack failed")
@@ -63,7 +61,7 @@ class Vigenere(ciphey.iface.Cracker[str]):
             "expected": ciphey.iface.ParamSpec(
                 desc="The expected distribution of the plaintext",
                 req=False,
-                configPath=["default_dist"]),
+                config_ref=["default_dist"]),
             "group": ciphey.iface.ParamSpec(
                 desc="An ordered sequence of chars that make up the caesar cipher alphabet",
                 req=False,
@@ -92,7 +90,7 @@ class Vigenere(ciphey.iface.Cracker[str]):
         loader, name = ciphey.iface.split_resource_name(self._params()["expected"])
         self.expected = config(ciphey.iface.registry.get_named(name, ciphey.iface))
         self.cache = config.cache
-        self.keysize = self._params()["keysiz"]
+        self.keysize = self._params()["keysize"]
 
     @staticmethod
     def getName():
@@ -318,6 +316,4 @@ class Vigenere:
                         break
         return hackedMessage
 
-    def getName(self):
-        return "Viginere"
-
+ciphey.iface.registry.register(Vigenere, ciphey.iface.Cracker[str])

@@ -8,9 +8,13 @@ from loguru import logger
 
 
 class Regex(ciphey.iface.Checker[str]):
+    def getExpectedRuntime(self, text: T) -> float:
+        return 1e-5  # TODO: actually calculate this
+
     def __init__(self, config: Config):
         super().__init__(config)
-        self.regexes = map(re.compile, self._params()["regex"])
+        self.regexes = list(map(re.compile, self._params()["regex"]))
+        logger.trace(f"There are {len(self.regexes)} regexes")
 
     def check(self, text: str) -> bool:
         for regex in self.regexes:
