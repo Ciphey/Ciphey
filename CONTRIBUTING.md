@@ -16,7 +16,7 @@ If these sound hard, do not worry! This document will walk you through exactly h
 
 We have a small Discord chat for you to talk to the developers and get some help. Alternatively, write a GitHub issue for your suggestion. If you want to be added to the Discord, DM us or ask us somehow.
 
-
+[Discord Server](https://discord.gg/KfyRUWw)
 # Add a new language 🧏
 The default language checker, `brandon`, works with multiple languages. Now, this may sound daunting.
 But honestly, all you've got to do is take a dictionary, do a little analysis (we've written code to help you with this), add the dictionaries and analysis to a repo. And then add the option to `settings.yml`. 
