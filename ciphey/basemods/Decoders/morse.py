@@ -12,6 +12,10 @@ class MorseCode(ciphey.iface.Decoder[str, str]):
     MORSE_CODE_DICT: Dict[str, str]
     MORSE_CODE_DICT_INV: Dict[str, str]
 
+    @staticmethod
+    def getTarget() -> str:
+        return "morse"
+
     def decode(self, text: str) -> Optional[str]:
         # Trim end
         while text[-1] in self.BOUNDARIES:
@@ -69,7 +73,7 @@ class MorseCode(ciphey.iface.Decoder[str, str]):
             "dict": ciphey.iface.ParamSpec(
                 desc="The morse code dictionary to use",
                 req=False,
-                default="cipheydists::morse"
+                default="cipheydists::translate::morse"
             )
         }
 

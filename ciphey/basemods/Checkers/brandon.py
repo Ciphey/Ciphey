@@ -82,6 +82,10 @@ class Brandon(ciphey.iface.Checker[str]):
     if a string is 45% **language** words, then it's confirmed to be english
     """
 
+    def getExpectedRuntime(self, text: T) -> float:
+        #TODO: actually work this out
+        return 1e-4  # 100 µs
+
     wordlist: set
 
     def clean_text(self, text: str) -> set:

@@ -8,22 +8,29 @@ try:
 except ImportError:
     from typing_inspect import get_origin, get_args
 
+from loguru import logger
+
+import datetime
+
 T = TypeVar('T')
 U = TypeVar('U')
 
 
 class Cache:
     """Used to track state between levels of recursion to stop infinite loops, and to optimise repeating actions"""
-    _cache: Dict[str, Dict[str, Any]] = {}
+    _cache: Dict[Any, Dict[str, Any]] = {}
 
-    def mark_str(self, ctext: str) -> bool:
+    def mark_ctext(self, ctext: Any) -> bool:
+        if (type(ctext) == str or type(ctext) == bytes) and len(ctext) < 4:
+            return False
+
         if ctext in self._cache:
             return False
 
         self._cache[ctext] = defaultdict()
         return True
 
-    def get_or_update(self, ctext: str, keyname: str, get_value: Callable[[], Any]):
+    def get_or_update(self, ctext: Any, keyname: str, get_value: Callable[[], Any]):
         # Should have been marked first
         target = self._cache[ctext]
         res = target.get(keyname)
@@ -39,14 +46,15 @@ class Config:
     grep: bool = False
     info: bool = False
     debug: Optional[str] = "WARNING"
-    checker: str
+    searcher: str = "perfection"
     params: Dict[str, Dict[str, Union[str, List[str]]]] = {}
     format: Dict[str, str] = {"in": "str", "out": "str"}
     modules: List[str] = []
     checker: str = "brandon"
     utility_threshold: float = 1.5
     score_threshold: float = 0.8
-    default_dist: str = "cipheydists::twist"
+    default_dist: str = "cipheydists::dist::twist"
+    timeout: Optional[int] = None
 
     _inst: Dict[type, Any] = {}
     objs: Dict[str, Any] = {}
@@ -86,8 +94,15 @@ class Config:
             self.format[paramname] = value
 
     def load_objs(self):
+        # Basic type conversion
+        if self.timeout is not None:
+            self.objs["timeout"] = datetime.timedelta(seconds=int(self.timeout))
         self.objs["format"] = {key: pydoc.locate(value) for key, value in self.format.items()}
+
+        # Checkers do not depend on anything
         self.objs["checker"] = self(registry.get_named(self.checker, Checker))
+        # Searchers only depend on checkers
+        self.objs["searcher"] = self(registry.get_named(self.searcher, Searcher))
 
     def update_log_level(self, level: Optional[str]):
         self.debug = level
@@ -113,11 +128,18 @@ class Config:
             mod = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(mod)
 
-    def get_resource(self, res_name: str, t: Optional[Type] = None) -> Any:  # Actually returns obj of type `t`, but python is bad
+    def get_resource(self, res_name: str, t: Optional[Type] = None) -> Any:
+        logger.trace(f"Loading resource {res_name} of type {t}")
+
+        # FIXME: Actually returns obj of type `t`, but python is bad
         loader, name = split_resource_name(res_name)
-        return self(registry.get_named(loader, ResourceLoader[t]))(name)
+        if t is None:
+            return self(registry.get_named(loader, ResourceLoader))(name)
+        else:
+            return self(registry.get_named(loader, ResourceLoader[t]))(name)
 
     def merge_dict(self, config_file: Dict[str, Any]):
+        # TODO: implement this
         pass
 
     def __init__(self):
@@ -134,7 +156,7 @@ class ParamSpec(NamedTuple):
         req         Whether this argument is required
         desc        A description of what this argument does
         default     The default value for this argument. Ignored if req == True or configPath is not None
-        configPath  The path to the config that should be the default value
+        config_ref  The path to the config that should be the default value
         list        Whether this parameter is in the form of a list, and can therefore be specified more than once
         visible     Whether the user can tweak this via the command line
     """
@@ -142,7 +164,7 @@ class ParamSpec(NamedTuple):
     desc: str
     default: Optional[Any] = None
     list: bool = False
-    configPath: Optional[List[str]] = None
+    config_ref: Optional[List[str]] = None
     visible: bool = False
 
 
@@ -155,30 +177,42 @@ class ConfigurableModule(ABC):
         """
         pass
 
-    def _checkParams(self, params: Dict[str, Any], config: Config):
+    def _checkParams(self):
         """
             Fills the given params dict with default values where arguments are not given,
             using None as the default value for default values
         """
+
+        params = self._params()
+        config = self._config()
+
         for key, value in self.getParams().items():
+            # If we already have it, then we don't need to do anything
             if key in params:
                 continue
+            # If we don't have it, but it's required, then fail
             if value.req:
-                raise KeyError(f'Missing required param {key} for {self.__name__}')
-            if value.configPath is not None:
-                tmp = getattr(config, value.configPath[0])
-                params[key] = tmp[value.configPath[1:]] if len(value.configPath) > 1 else tmp
-            else:
+                raise KeyError(f'Missing required param {key} for {type(self).__name__.lower()}')
+            # If it's a reference by default, fill that in
+            if value.config_ref is not None:
+                tmp = getattr(config, value.config_ref[0])
+                params[key] = tmp[value.config_ref[1:]] if len(value.config_ref) > 1 else tmp
+            # Otherwise, put in the default value (if it exists)
+            elif value.default is not None:
                 params[key] = value.default
 
     def _params(self):
         return self._params_obj
 
+    def _config(self):
+        return self._config_obj
+
     @abstractmethod
     def __init__(self, config: Config):
+        self._config_obj = config
         if self.getParams() is not None:
-            self._params_obj = config.params.setdefault(type(self).__name__, {})
-            self._checkParams(self._params_obj, config)
+            self._params_obj = config.params.setdefault(type(self).__name__.lower(), {})
+            self._checkParams()
 
 
 class KnownUtility(ABC):
@@ -210,14 +244,17 @@ class KnownUtility(ABC):
 class Targeted(ABC):
     @staticmethod
     @abstractmethod
-    def getTargets() -> Set[str]:
-        """Should return a list of targets that this object attacks/decodes"""
+    def getTarget() -> str:
+        """Should return the target that this object attacks/decodes"""
         pass
 
 
 class Checker(Generic[T], ConfigurableModule):
     @abstractmethod
     def check(self, text: T) -> bool: pass
+
+    @abstractmethod
+    def getExpectedRuntime(self, text: T) -> float: pass
 
     def __call__(self, *args): return self.check(*args)
 
@@ -226,16 +263,16 @@ class Checker(Generic[T], ConfigurableModule):
         super().__init__(config)
 
 
-class Detector(Generic[T], ConfigurableModule, KnownUtility, Targeted):
-    @abstractmethod
-    def scoreLikelihood(self, ctext: T) -> Dict[str, float]:
-        """Should return a dictionary of (cipher_name: score)"""
-        pass
-
-    def __call__(self, *args): return self.scoreLikelihood(*args)
-
-    @abstractmethod
-    def __init__(self, config: Config): super().__init__(config)
+# class Detector(Generic[T], ConfigurableModule, KnownUtility, Targeted):
+#     @abstractmethod
+#     def scoreLikelihood(self, ctext: T) -> Dict[str, float]:
+#         """Should return a dictionary of (cipher_name: score)"""
+#         pass
+#
+#     def __call__(self, *args): return self.scoreLikelihood(*args)
+#
+#     @abstractmethod
+#     def __init__(self, config: Config): super().__init__(config)
 
 
 class Decoder(Generic[T, U], ConfigurableModule, Targeted):
@@ -250,15 +287,26 @@ class Decoder(Generic[T, U], ConfigurableModule, Targeted):
     def __init__(self, config: Config): super().__init__(config)
 
 
-class CrackResults(NamedTuple):
-    plaintext: str
-    keyInfo: Optional[str] = None
-    miscInfo: Optional[str] = None
+class CrackResult(NamedTuple, Generic[T]):
+    value: T
+    key_info: Optional[str] = None
+    misc_info: Optional[str] = None
+
+
+class CrackInfo(Generic[T], NamedTuple):
+    success_likelihood: float
+    success_runtime: float
+    failure_runtime: float
 
 
 class Cracker(Generic[T], ConfigurableModule, KnownUtility, Targeted):
     @abstractmethod
-    def attemptCrack(self, ctext: T, target: str) -> Optional[CrackResults]:
+    def getInfo(self, ctext: T) -> CrackInfo:
+        """Should return some informed guesses on resource consumption when run on `ctext`"""
+        pass
+
+    @abstractmethod
+    def attemptCrack(self, ctext: T) -> Optional[CrackResult]:  # FIXME: Actually CrackResult[T], but python complains
         """
             This should attempt to crack the cipher `target`, and use the config["checker"] where appropriate
         """
@@ -272,12 +320,14 @@ class Cracker(Generic[T], ConfigurableModule, KnownUtility, Targeted):
 
 class ResourceLoader(Generic[T], ConfigurableModule):
     @abstractmethod
-    def whatResources(self) -> Set[str]:
+    def whatResources(self) -> Optional[Set[str]]:
         """
             Return a set of the names of instances T you can provide.
             The names SHOULD be unique amongst ResourceLoaders of the same type
 
             These names will be exposed as f"{self.__name__}::{name}", use split_resource_name to recover this
+
+            If you cannot reasonably determine what resources you provide, return None instead
         """
         pass
 
@@ -293,6 +343,23 @@ class ResourceLoader(Generic[T], ConfigurableModule):
     def __call__(self, *args): return self.getResource(*args)
 
     def __getitem__(self, *args): return self.getResource(*args)
+
+    @abstractmethod
+    def __init__(self, config: Config): super().__init__(config)
+
+
+class SearchLevel(NamedTuple):
+    name: str
+    result: CrackResult
+
+
+class Searcher(ConfigurableModule):
+    """A very basic interface for code that plans out how to crack the ciphertext"""
+
+    @abstractmethod
+    def search(self, ptext: Any) -> List[SearchLevel]:
+        """Returns the path to the correct ciphertext"""
+        pass
 
     @abstractmethod
     def __init__(self, config: Config): super().__init__(config)
@@ -316,28 +383,32 @@ class Registry:
     def register(self, i: type, *ts: type) -> None:
         name_target = self._names[i.__name__.lower()] = (i, set())
 
-        targets = None
-
         if issubclass(i, Targeted):
-            targets = i.getTargets()
+            target = i.getTarget()
+        else:
+            target = None
 
         for base_type in ts:
-            target_type = get_origin(base_type)
-            if target_type not in {Checker, Detector, Decoder, Cracker, ResourceLoader}:
-                raise TypeError("Invalid type passed to ciphey.iface.registry.register")
-            target_subtypes = get_args(base_type)
-            target_reg = self._reg.setdefault(target_type, {})
-            # Seek to the given type
-            for subtype in target_subtypes[0:-1]:
-                target_reg = target_reg.setdefault(subtype, {})
-            target_reg.setdefault(target_subtypes[-1], []).append(i)
+            search_type: type
 
-            name_target[1].add(target_type)
+            if base_type is Searcher:
+                search_type = base_type
+            else:
+                search_type = target_type = get_origin(base_type)
+                if target_type not in {Checker, ConfigurableModule, Cracker, Decoder, ResourceLoader}:
+                    raise TypeError("Invalid type passed to ciphey.iface.registry.register")
+                target_subtypes = get_args(base_type)
+                target_reg = self._reg.setdefault(target_type, {})
+                # Seek to the given type
+                for subtype in target_subtypes[0:-1]:
+                    target_reg = target_reg.setdefault(subtype, {})
+                target_reg.setdefault(target_subtypes[-1], []).append(i)
+
+                name_target[1].add(target_type)
             name_target[1].add(base_type)
 
-            if targets is not None and issubclass(target_type, Targeted):
-                for target_name in targets:
-                    self._targets.setdefault(target_name, {}).setdefault(base_type, []).append(i)
+            if target is not None and issubclass(search_type, Targeted):
+                self._targets.setdefault(target, {}).setdefault(base_type, []).append(i)
 
     def __getitem__(self, i: type) -> Optional[Any]:
         target_type = get_origin(i)

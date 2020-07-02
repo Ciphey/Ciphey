@@ -9,14 +9,14 @@ from loguru import logger
 
 
 def _dispatch(self: Any, ctext: str, func: Callable[[str], bytes]) -> Optional[bytes]:
-    logger.trace(f"Attempting {self.getName()}")
+    logger.trace(f"Attempting {self.getTarget()}")
 
     try:
         result = func(ctext)
-        logger.debug(f"{self.getName()} successful, returning {result}")
+        logger.debug(f"{self.getTarget()} successful, returning {result}")
         return result
     except ValueError:
-        logger.trace(f"Failed to decode {self.getName()}")
+        logger.trace(f"Failed to decode {self.getTarget()}")
         return None
 
 
@@ -30,8 +30,7 @@ for name, decoder in {"base16": base64.b16decode, "base32": base64.b32decode, "b
         "_get_func": ciphey.common.id_lambda(decoder),
         "decode": lambda self, ctext: _dispatch(self, ctext, self._get_func()),
         "getParams": ciphey.common.id_lambda(None),
-        "getName": ciphey.common.id_lambda(name),
-        "getTargets": ciphey.common.id_lambda({name}),
+        "getTarget": ciphey.common.id_lambda(name),
         "__init__": lambda self, config: _init(self, config)
     })
 

@@ -14,31 +14,33 @@ from loguru import logger
 import ciphey
 import cipheycore
 
-from ciphey.iface import ParamSpec, CrackResults
+from ciphey.iface import ParamSpec, CrackResult, T, CrackInfo
 
 
-class Caesar(ciphey.iface.Cracker[str], ciphey.iface.Detector[str]):
-    @staticmethod
-    def getTargets() -> Set[str]:
-        return {"caesar"}
-
-    def scoreLikelihood(self, ctext: str) -> Dict[str, float]:
-        # Match the distribution, and then run a chi-squared analysis
+class Caesar(ciphey.iface.Cracker[str]):
+    def getInfo(self, ctext: T) -> CrackInfo:
         analysis = self.cache.get_or_update(ctext, "cipheycore::simple_analysis",
                                             lambda: cipheycore.analyse_string(ctext))
-        return {"caesar": cipheycore.caesar_detect(analysis, self.expected)}
 
-    def attemptCrack(self, message: str, target: str) -> Optional[CrackResults]:
-        assert(target == "caesar")
+        return CrackInfo(
+            success_likelihood=cipheycore.caesar_detect(analysis, self.expected),
+            # TODO: actually calculate runtimes
+            success_runtime=1e-4, failure_runtime=1e-4
+        )
 
+    @staticmethod
+    def getTarget() -> str:
+        return "caesar"
+
+    def attemptCrack(self, ctext: str) -> Optional[CrackResult]:
         logger.debug("Trying caesar cipher")
         # Convert it to lower case
         #
         # TODO: handle different alphabets
-        message = message.lower()
+        message = ctext.lower()
 
         # Hand it off to the core
-        analysis = self.cache.get_or_update(message, "cipheycore::simple_analysis",
+        analysis = self.cache.get_or_update(ctext, "cipheycore::simple_analysis",
                                             lambda: cipheycore.analyse_string(message))
         possible_keys = cipheycore.caesar_crack(analysis, self.expected, self.group)
         n_candidates = len(possible_keys)
@@ -49,7 +51,7 @@ class Caesar(ciphey.iface.Cracker[str], ciphey.iface.Detector[str]):
             result = self.lc.check(translated)
             if result:
                 logger.debug(f"Caesar cipher returns true {result}")
-                return CrackResults(plaintext=translated, keyInfo=f"{candidate.key}")
+                return CrackResult(value=translated, key_info=f"{candidate.key}")
 
         # if none of them match English, return false!
         logger.debug(f"Caesar cipher crack failed")
@@ -61,7 +63,7 @@ class Caesar(ciphey.iface.Cracker[str], ciphey.iface.Detector[str]):
             "expected": ciphey.iface.ParamSpec(
                 desc="The expected distribution of the plaintext",
                 req=False,
-                configPath=["default_dist"]),
+                config_ref=["default_dist"]),
             "group": ciphey.iface.ParamSpec(
                 desc="An ordered sequence of chars that make up the caesar cipher alphabet",
                 req=False,
@@ -84,13 +86,8 @@ class Caesar(ciphey.iface.Cracker[str], ciphey.iface.Detector[str]):
             self.lower = util.strtobool(self.lower)
         self.group = list(self._params()["group"])
         self.lc = config.objs["checker"]
-        loader, name = ciphey.iface.split_resource_name(self._params()["expected"])
-        self.expected = config(ciphey.iface.registry.get_named(name, ciphey.iface))
+        self.expected = config.get_resource(self._params()["expected"])
         self.cache = config.cache
 
-    @staticmethod
-    def getName():
-        return "caesar"
 
-
-ciphey.iface.registry.register(Caesar, ciphey.iface.Cracker[str], ciphey.iface.Detector[str])
+ciphey.iface.registry.register(Caesar, ciphey.iface.Cracker[str])
