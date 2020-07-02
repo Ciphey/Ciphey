@@ -16,14 +16,13 @@ class Regex(ciphey.iface.Checker[str]):
         self.regexes = list(map(re.compile, self._params()["regex"]))
         logger.trace(f"There are {len(self.regexes)} regexes")
 
-    def check(self, text: str) -> bool:
+    def check(self, text: str) -> Optional[str]:
         for regex in self.regexes:
             logger.trace(f"Trying regex {regex} on {text}")
             res = regex.search(text)
             logger.trace(f"Results: {res}")
             if res:
-                return True
-        return False
+                return f"passed with regex {regex}"
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:

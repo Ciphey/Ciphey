@@ -44,8 +44,9 @@ warnings.filterwarnings("ignore")
 
 
 def decrypt(ctext: Any, config: iface.Config) -> List[SearchLevel]:
-    """A simple alias for searching a ctext"""
-    return config.objs["searcher"].search(ctext)
+    """A simple alias for searching a ctext and makes the answer pretty"""
+    res = config.objs["searcher"].search(ctext)
+    return iface.pretty_search_results(res)
 
 
 def arg_parsing(config: iface.Config) -> Optional[Dict[str, Any]]:

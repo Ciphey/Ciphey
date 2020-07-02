@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import Set, Any, Union, List, Optional, Dict
+from typing import Set, Any, Union, List, Optional, Dict, Tuple
 
 from loguru import logger
 
@@ -14,7 +14,7 @@ class Perfection(AuSearch):
 
     def findBestNode(self, nodes: Set[Node]) -> Node: return next(iter(nodes))
 
-    def handleDecodings(self, target: Any) -> (bool, Union[SearchLevel, List[SearchLevel]]):
+    def handleDecodings(self, target: Any) -> (bool, Union[Tuple[SearchLevel, str], List[SearchLevel]]):
         ret = []
 
         for decoder_type, decoder_class in registry[Decoder][type(target)].items():
@@ -27,9 +27,9 @@ class Perfection(AuSearch):
                     result=CrackResult(value=res)  # FIXME: CrackResult[decoder_type]
                 )
                 if type(res) == self._final_type:
-                    logger.trace(f"checker returned {self._checker(res)}")
-                if type(res) == self._final_type and self._checker(res):
-                    return True, level
+                    check_res = self._checker(res)
+                    if check_res is not None:
+                        return True, (level, check_res)
                 ret.append(level)
         return False, ret
 

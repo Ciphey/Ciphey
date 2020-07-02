@@ -6,16 +6,17 @@ from ciphey.iface import ParamSpec, Config, T
 
 
 class Quorum(Generic[T], ciphey.iface.Checker[T]):
-    def check(self, text: T) -> bool:
+    def check(self, text: T) -> Optional[str]:
         left = self._params().k
+        results = []
         for checker in self.checkers:
-            if not checker.check(text):
+            results.append(checker.check(text))
+            if results[-1] is None:
                 continue
             left -= 1
             # Early return check
             if left == 0:
-                return True
-        return False
+                return str(results)
 
     def __init__(self, config: Config):
         super().__init__(config)

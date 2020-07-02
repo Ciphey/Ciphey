@@ -8,7 +8,7 @@
 Github: brandonskerritt
 """
 from distutils import util
-from typing import Optional, Dict, Union, Set
+from typing import Optional, Dict, Union, Set, List
 
 from loguru import logger
 import ciphey
@@ -32,7 +32,7 @@ class Caesar(ciphey.iface.Cracker[str]):
     def getTarget() -> str:
         return "caesar"
 
-    def attemptCrack(self, ctext: str) -> Optional[CrackResult]:
+    def attemptCrack(self, ctext: str) -> List[CrackResult]:
         logger.debug("Trying caesar cipher")
         # Convert it to lower case
         #
@@ -46,16 +46,13 @@ class Caesar(ciphey.iface.Cracker[str]):
         n_candidates = len(possible_keys)
         logger.debug(f"Caesar cipher core heuristic returned {n_candidates} candidates")
 
+        candidates = []
+
         for candidate in possible_keys:
             translated = cipheycore.caesar_decrypt(message, candidate.key, self.group)
-            result = self.lc.check(translated)
-            if result:
-                logger.debug(f"Caesar cipher returns true {result}")
-                return CrackResult(value=translated, key_info=f"{candidate.key}")
+            candidates.append(CrackResult(value=translated, key_info=f"{candidate.key}"))
 
-        # if none of them match English, return false!
-        logger.debug(f"Caesar cipher crack failed")
-        return None
+        return candidates
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
@@ -85,7 +82,6 @@ class Caesar(ciphey.iface.Cracker[str]):
         if type(self.lower) != bool:
             self.lower = util.strtobool(self.lower)
         self.group = list(self._params()["group"])
-        self.lc = config.objs["checker"]
         self.expected = config.get_resource(self._params()["expected"])
         self.cache = config.cache
 

@@ -82,7 +82,6 @@ class MorseCode(ciphey.iface.Decoder[str, str]):
 
     def __init__(self, config: ciphey.iface.Config):
         super().__init__(config)
-        self.lc = config.objs["checker"]
         self.MORSE_CODE_DICT = config.get_resource(self._params()["dict"], ciphey.iface.WordList)
         self.MORSE_CODE_DICT_INV = {v: k for k, v in self.MORSE_CODE_DICT.items()}
 

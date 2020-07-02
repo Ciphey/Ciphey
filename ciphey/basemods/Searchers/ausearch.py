@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
-from typing import Generic, List, Optional, Dict, Any, NamedTuple, Union, Set
+from typing import Generic, List, Optional, Dict, Any, NamedTuple, Union, Set, Tuple
 from ciphey.iface import ConfigurableModule, T, Cracker, Config, Searcher, ParamSpec, CrackInfo, registry, get_args, \
-    SearchLevel, CrackResult
+    SearchLevel, CrackResult, SearchResult
 from datetime import datetime
 from loguru import logger
 
@@ -15,13 +15,12 @@ class Node(Generic[T], NamedTuple):
     def __hash__(self):
         return hash((type(self.cracker).__name__, len(self.parents)))
 
-
 class AuSearch(Searcher):
     @abstractmethod
     def findBestNode(self, nodes: Set[Node]) -> Node: pass
 
     @abstractmethod
-    def handleDecodings(self, target: Any) -> (bool, Union[SearchLevel, List[SearchLevel]]):
+    def handleDecodings(self, target: Any) -> (bool, Union[Tuple[SearchLevel, str], List[SearchLevel]]):
         """
             If there exists a decoding that the checker returns true on, returns (True, result).
             Otherwise, returns (False, names and successful decodings)
@@ -33,23 +32,26 @@ class AuSearch(Searcher):
         # This tag is necessary, as we could have a list as a decoding target, which would then screw over type checks
         pass
 
-    def expand(self, parents: List[SearchLevel], check: bool = True) -> (bool, Union[List[SearchLevel], List[Node]]):
+    def expand(self, parents: List[SearchLevel], check: bool = True) -> (bool, Union[SearchResult, List[Node]]):
         result = parents[-1].result.value
+        logger.debug(f"Expanding {parents}")
 
-        if check and type(result) == self._final_type and self._checker(result):
-            return True, result
+        # Deduplication
+        if not self._config().cache.mark_ctext(result):
+            return False, []
+
+        if check and type(result) == self._final_type:
+            check_res = self._checker(result)
+            if check_res is not None:
+                return True, SearchResult(path=parents, check_res=check_res)
 
         success, dec_res = self.handleDecodings(result)
         if success:
-            return True, [dec_res]
+            return True, SearchResult(path=parents + [dec_res[0]], check_res=dec_res[1])
 
         nodes: List[Node] = []
 
         for decoding in dec_res:
-            # Deduplication
-            if not self._config().cache.mark_ctext(decoding.result.value):
-                continue
-
             # Don't check, as handleDecodings did that for us
             success, eval_res = self.expand(parents + [decoding], check=False)
             if success:
@@ -64,7 +66,6 @@ class AuSearch(Searcher):
             expected_time = self._checker.getExpectedRuntime(result)
         else:
             expected_time = 0
-
         for i in crackers:
             cracker = self._config()(i)
             nodes.append(Node(
@@ -77,19 +78,22 @@ class AuSearch(Searcher):
         return False, nodes
 
     def evaluate(self, node: Node) -> (bool, Union[List[SearchLevel], List[Node]]):
-        logger.trace(f"Evaluating {node}")
+        logger.debug(f"Evaluating {node}")
 
         res = node.cracker.attemptCrack(node.parents[-1].result.value)
         # Detect if we succeeded, and if deduplication is needed
-        if res is None:
-            return False, []
+        logger.trace(f"Got {len(res)} results")
 
-        return self.expand([SearchLevel(name=type(node.cracker).__name__.lower(), result=res)] + node.parents)
+        ret = []
+        for i in res:
+            success, res = self.expand(node.parents + [SearchLevel(name=type(node.cracker).__name__.lower(), result=i)])
+            if success:
+                return True, res
+            ret.extend(res)
+
+        return False, ret
 
     def search(self, ctext: Any) -> List[SearchLevel]:
-        if not self._config().cache.mark_ctext(ctext):
-            raise ValueError("Bad ciphertext. Maybe it's too short?")
-
         deadline = datetime.now() + self._config().objs["timeout"] if self._config().timeout is not None else datetime.max
 
         success, expand_res = self.expand([SearchLevel(name="input", result=CrackResult(value=ctext))])
@@ -99,6 +103,8 @@ class AuSearch(Searcher):
         nodes = set(expand_res)
 
         while datetime.now() < deadline:
+            logger.trace(f"Have node tree {nodes}")
+
             if len(nodes) == 0:
                 raise LookupError("Could not find any solutions")
 
@@ -106,6 +112,7 @@ class AuSearch(Searcher):
             nodes.remove(best_node)
             success, eval_res = self.evaluate(best_node)
             if success:
+                logger.trace(f"Success with node {best_node}")
                 return eval_res
             nodes.update(eval_res)
 

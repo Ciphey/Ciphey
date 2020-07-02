@@ -50,7 +50,7 @@ class Json(ciphey.iface.ResourceLoader):
 
     @lru_cache
     def getResource(self, name: str) -> T:
-        return T(json.load(self._paths[int(name)]))
+        return T(json.load(self._paths[int(name) - 1]))
 
     @staticmethod
     def getName() -> str:

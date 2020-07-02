@@ -22,12 +22,14 @@ class Cache:
 
     def mark_ctext(self, ctext: Any) -> bool:
         if (type(ctext) == str or type(ctext) == bytes) and len(ctext) < 4:
+            logger.trace(f"Candidate {ctext} too short!")
             return False
 
         if ctext in self._cache:
+            logger.trace(f"Deduped {ctext}")
             return False
 
-        self._cache[ctext] = defaultdict()
+        self._cache[ctext] = {}
         return True
 
     def get_or_update(self, ctext: Any, keyname: str, get_value: Callable[[], Any]):
@@ -251,7 +253,9 @@ class Targeted(ABC):
 
 class Checker(Generic[T], ConfigurableModule):
     @abstractmethod
-    def check(self, text: T) -> bool: pass
+    def check(self, text: T) -> Optional[str]:
+        """Should return some description (or an empty string) on success, otherwise return None"""
+        pass
 
     @abstractmethod
     def getExpectedRuntime(self, text: T) -> float: pass
@@ -306,10 +310,11 @@ class Cracker(Generic[T], ConfigurableModule, KnownUtility, Targeted):
         pass
 
     @abstractmethod
-    def attemptCrack(self, ctext: T) -> Optional[CrackResult]:  # FIXME: Actually CrackResult[T], but python complains
+    def attemptCrack(self, ctext: T) -> List[CrackResult]:
         """
-            This should attempt to crack the cipher `target`, and use the config["checker"] where appropriate
+            This should attempt to crack the cipher `target`, and return a list of candidate solutions
         """
+        # FIXME: Actually CrackResult[T], but python complains
         pass
 
     def __call__(self, *args): return self.attemptCrack(*args)
@@ -353,16 +358,51 @@ class SearchLevel(NamedTuple):
     result: CrackResult
 
 
+class SearchResult(NamedTuple):
+    path: List[SearchLevel]
+    check_res: str
+
+
 class Searcher(ConfigurableModule):
     """A very basic interface for code that plans out how to crack the ciphertext"""
 
     @abstractmethod
-    def search(self, ptext: Any) -> List[SearchLevel]:
+    def search(self, ptext: Any) -> SearchResult:
         """Returns the path to the correct ciphertext"""
         pass
 
     @abstractmethod
     def __init__(self, config: Config): super().__init__(config)
+
+
+def pretty_search_results(res: SearchResult, display_intermediate: bool = True):
+    ret: str = f"Checker: {res.check_res}\n" if len(res.check_res) != 0 else ""
+
+    def add_one():
+        nonlocal ret
+        ret += f'{i.name}'
+        already_broken = False
+        if i.result.key_info is not None:
+            ret += f":\n  Key: {i.result.key_info}\n"
+            already_broken = True
+        if i.result.misc_info is not None:
+            if not already_broken:
+                ret += ':\n'
+            ret += f'  Misc: {i.result.misc_info}\n'
+            already_broken = True
+        if display_intermediate:
+            if not already_broken:
+                ret += ':\n'
+            ret += f'  Value: {i.result.value}\n'
+            already_broken = True
+        if not already_broken:
+            ret += " "
+        ret += "<-\n"
+    for i in res.path[::-1]:
+        add_one()
+
+    # Remove trailing arrow
+    return ret[:-len("-> ")]
 
 
 # Some common collection types
@@ -436,7 +476,7 @@ class Registry:
         return x.get(type_constraint)
 
     def __str__(self):
-        return f"ciphey.iface.Registry {{\n_reg: {self._reg},\n_names: {self._names},\n_targets: {self._targets}\n}}"
+        return f"ciphey.iface.Registry {{_reg: {self._reg}, _names: {self._names}, _targets: {self._targets}}}"
 
 
 registry = Registry()
