@@ -19,6 +19,7 @@ def args():
         "-g", "--greppable", help="Only output the answer. Useful for grep.", type=bool
     )
     @click.option("-v", "--verbose", count=True, type=int)
+
     @click.option(
         "-a",
         "--checker",
