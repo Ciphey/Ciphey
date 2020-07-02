@@ -315,6 +315,7 @@ class Ciphey:
 def get_name(ctx, param, value):
     # reads from stdin if the argument wasnt supplied
     if not value and not click.get_text_stream("stdin").isatty():
+         print()click.get_text_stream("stdin").read().strip()
         return click.get_text_stream("stdin").read().strip()
     else:
         return value
@@ -363,7 +364,18 @@ def get_name(ctx, param, value):
 @click.option(
     "-O", "--offline", help="Run Ciphey in offline mode (no hash support)", type=bool,
 )
-def arg_parsing(text, greppable, verbose, checker, checker_path, wordlist, wordlist_file, param, list_params, offline) -> Optional[dict]:
+def arg_parsing(
+    text,
+    greppable,
+    verbose,
+    checker,
+    checker_path,
+    wordlist,
+    wordlist_file,
+    param,
+    list_params,
+    offline,
+) -> Optional[dict]:
     """This function parses arguments.
 
         Args:
