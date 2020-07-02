@@ -99,14 +99,6 @@ class Ciphey:
         self.probability_distribution: dict = {}
         self.what_to_choose: dict = {}
 
-    @click.command()
-    @click.option("-t", "--text", help="The ciphertext you want to decrypt.", type=str)
-    @click.option("-g", "--greppable", help="Only output the answer. Useful for grep.", type=bool)
-    @click.option("-d", "--debug", help="Activates debug mode at info level", type=bool)
-    @click.option("-D", "--trace", help="More verbose than Debug mode", type=bool)
-    @click.option("-q", "--quiet", help="Suppress warnings", type=bool)
-    @click.option("-a", "--checker", help="Use the default internal checker. Defaults to brandon", type=bool)
-    @click.option("-A", "--checker-path", help="Uses the language checker at the given path")
     def decrypt(self) -> Optional[Dict]:
         """Performs the decryption of text
 
@@ -320,7 +312,58 @@ class Ciphey:
         return None
 
 
-def arg_parsing() -> Optional[dict]:
+def get_name(ctx, param, value):
+    # reads from stdin if the argument wasnt supplied
+    if not value and not click.get_text_stream("stdin").isatty():
+        return click.get_text_stream("stdin").read().strip()
+    else:
+        return value
+
+
+@click.command()
+@click.option(
+    "-t",
+    "--text",
+    help="The ciphertext you want to decrypt.",
+    type=str,
+    call_back=get_name,
+)
+@click.option(
+    "-g", "--greppable", help="Only output the answer. Useful for grep.", type=bool
+)
+@click.option("-v", "--verbose", count=True, type=int)
+@click.option("-d", "--debug", help="Activates debug mode at info level", type=bool)
+@click.option("-D", "--trace", help="More verbose than Debug mode", type=bool)
+@click.option("-q", "--quiet", help="Suppress warnings", type=bool)
+@click.option(
+    "-a",
+    "--checker",
+    help="Use the default internal checker. Defaults to brandon",
+    type=bool,
+)
+@click.option(
+    "-A",
+    "--checker-path",
+    help="Uses the language checker at the given path",
+    type=click.Path(exists=True),
+)
+@click.option("-w", "--wordlist", help="Uses the given internal wordlist")
+@click.option(
+    "-W",
+    "--wordlist-file",
+    help="Uses the wordlist at the given path",
+    type=click.File("rb"),
+)
+@click.option(
+    "-p", "--param", help="Passes a parameter to the language checker", type=str
+)
+@click.option(
+    "-l", "--list-params", help="List the parameters of the selected module", type=str,
+)
+@click.option(
+    "-O", "--offline", help="Run Ciphey in offline mode (no hash support)", type=bool,
+)
+def arg_parsing(text, greppable, verbose, checker, checker_path, wordlist, wordlist_file, param, list_params, offline) -> Optional[dict]:
     """This function parses arguments.
 
         Args:
@@ -328,104 +371,6 @@ def arg_parsing() -> Optional[dict]:
         Returns:
             The config to be passed around for the rest of time
     """
-    parser = argparse.ArgumentParser(
-        description="""Automated decryption tool. Put in the encrypted text and Ciphey will decrypt it.\n
-        Examples:
-        python3 ciphey -t "aGVsbG8gbXkgYmFieQ==" -d true -c true
-        """
-    )
-    parser.add_argument(
-        "-g",
-        "--greppable",
-        help="Only output the answer, no progress bars or information. Useful for grep",
-        action="store_true",
-        required=False,
-        default=False,
-    )
-    parser.add_argument("-t", "--text", help="Text to decrypt", required=False)
-    parser.add_argument(
-        "-i",
-        "--info",
-        help="Do you want information on the cipher used?",
-        action="store_true",
-        required=False,
-        default=False,
-    )
-    parser.add_argument(
-        "-d",
-        "--debug",
-        help="Activates debug mode",  # Actually "INFO" level is used, but ¯\_(ツ)_/¯
-        required=False,
-        action="store_true",
-    )
-    parser.add_argument(
-        "-D",
-        "--trace",
-        help="More verbose than debug mode. Shadows --debug",
-        required=False,
-        action="store_true",
-    )
-    parser.add_argument(
-        "-q", "--quiet", help="Supress warnings", required=False, action="store_true",
-    )
-    parser.add_argument(
-        "-a",
-        "--checker",
-        help="Uses the given internal language checker. Defaults to brandon",
-        required=False,
-    )
-    parser.add_argument(
-        "-A",
-        "--checker-file",
-        help="Uses the language checker at the given path",
-        required=False,
-    )
-    parser.add_argument(
-        "-w", "--wordlist", help="Uses the given internal wordlist", required=False,
-    )
-    parser.add_argument(
-        "-W",
-        "--wordlist-file",
-        help="Uses the wordlist at the given path",
-        required=False,
-    )
-    parser.add_argument(
-        "-p",
-        "--param",
-        help="Passes a parameter to the language checker",
-        action="append",
-        required=False,
-        default=[],
-    )
-    parser.add_argument(
-        "-l",
-        "--list-params",
-        help="Lists the parameters of the selected module",
-        action="store_true",
-        required=False,
-    )
-
-    parser.add_argument(
-        "-O",
-        "--offline",
-        help="Run Ciphey in offline mode (No hash support)",
-        action="store_true",
-        required=False,
-    )
-
-    parser.add_argument(
-        "-dummy",
-        "--dummy",
-        help=argparse.SUPPRESS,
-        default=True,
-        required=False,
-        action="store_true",
-    )
-    parser.add_argument("rest", nargs=argparse.REMAINDER)
-    args = vars(parser.parse_args())
-
-    print(len(args))
-    print(args)
 
     # the below text does:
     # if -t is supplied, use that
@@ -471,11 +416,11 @@ def arg_parsing() -> Optional[dict]:
     config["info"] = args["info"]
     config["offline"] = args["offline"]
     # Try to work out how verbose we should be
-    if args["trace"]:
+    if args["verbose"] >= 3:
         config["debug"] = "TRACE"
-    elif args["debug"]:
+    elif verbose == 2:
         config["debug"] = "DEBUG"
-    elif args["quiet"]:
+    elif verbose == 1:
         config["debug"] = "ERROR"
     else:
         config["debug"] = "WARNING"
