@@ -17,14 +17,14 @@ Fully automated decryption tool using natural language processing & artifical in
 </p>
 <hr>
 
-| <p align="center"><a href="https://pypi.org/project/ciphey">🐍 Python (Universal) </a></p> | <p align="center"><a href="https://pypi.org/project/ciphey"> Arch </a></p> | <p align="center"><a href="https://pypi.org/project/ciphey"> Windows </a></p> | <p align="center"><a href="https://pypi.org/project/ciphey"> Mac OS </a></p>
-| --------------------                    | ---- | ----- | ----
-| <p align="center"><img src="Pictures_for_README/python.png" /></p> | <p align="center"><img src="Pictures_for_README/arch.png" /></p>|<p align="center"><img src="Pictures_for_README/windows.png" /></p> | <p align="center"><img src="Pictures_for_README/apple.png" /></p>
-| `python3 -m pip install ciphey --upgrade` | `yay ciphey` | `winget ciphey` | `brew ciphey`
+| <p align="center"><a href="https://pypi.org/project/ciphey">🐍 Python (Universal) </a></p> | <p align="center"><a href="https://pypi.org/project/ciphey"> Arch </a></p> | <p align="center"><a href="https://pypi.org/project/ciphey"> Windows </a></p> | <p align="center"><a href="https://pypi.org/project/ciphey"> Mac OS </a></p> |
+| ----------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| <p align="center"><img src="Pictures_for_README/python.png" /></p>                        | <p align="center"><img src="Pictures_for_README/arch.png" /></p>           | <p align="center"><img src="Pictures_for_README/windows.png" /></p>           | <p align="center"><img src="Pictures_for_README/apple.png" /></p>            |
+| `python3 -m pip install ciphey --upgrade`                                                 | `yay ciphey`                                                               | `winget ciphey`                                                               | `brew ciphey`                                                                |
 
-|        Linux | Mac OS | Windows
-|       -------- | ----- | ------ |
-| Put CI here | | Put CI here | Put CI here
+| Linux       | Mac OS | Windows     |
+| ----------- | ------ | ----------- |
+| Put CI here |        | Put CI here | Put CI here |
 <hr>
 
 # 🤔 What is this?
@@ -56,23 +56,12 @@ And that's just the tip of the iceberg. For the full technical explanation, chec
 
 ## Base64 Encoded String 64 times
 
-⚡ Ciphey ⚡             |  🐢 CyberChef 🐢
-:-------------------------:|:-------------------------:
-![](Pictures_for_README/ciphey_vs_cyberchef.gif)  |  ![](Pictures_for_README/not_dying.gif)
+|                    ⚡ Ciphey ⚡                    |             🐢 CyberChef 🐢              |
+| :----------------------------------------------: | :------------------------------------: |
+| ![](Pictures_for_README/ciphey_vs_cyberchef.gif) | ![](Pictures_for_README/not_dying.gif) |
+|                    4 seconds                     |               6 seconds                |
+|           <ul><li>Set the regex param to "{"</li></ul>           |    <ul><li>Set the regex param to "{"</li><li>You need to know how many times to recurse</li><li>You need to know it's BASE64 all the way down</li><li>You need to load CyberChef (it's a bloated JS app)</li><li>Know enough about CyberChef to create this pipeline</li><li>Invert the match</li></ul>   |
 
-Ciphey: 4 seconds
-CyberChef: 6 seconds
-
-**Ciphey**:
-* Set the regex param to "{"
-
-**CyberChef**:
-* Set the regex param to "{"
-* You need to know how many times to recurse
-* You need to know it's BASE64 all the way down
-* You need to load CyberChef (it's a bloated JS app)
-* Know enough about CyberChef to create this pipeline
-* Invert the match
 
 We also tested CyberChef and Ciphey with a 6gb file. Ciphey cracked it in 5 minutes and 54 seconds. CyberChef crashed before it even started.
 
