@@ -75,13 +75,13 @@ And that's just the tip of the iceberg. For the full technical explanation, chec
     <tr>
   <th>Setup</th>
     <td><ul><li>Set the regex param to "{"</li></ul></td>
-    <td><ul><li>Set the regex param to "{"</li><li>You need to know how many times to recurse</li><li>You need to know it's BASE64 all the way down</li><li>You need to load CyberChef (it's a bloated JS app)</li><li>Know enough about CyberChef to create this pipeline</li><li>Invert the match</li></ul></td>
+    <td><ul><li>Set the regex param to "{"</li><li>You need to know how many times to recurse</li><li>You need to know it's Base64 all the way down</li><li>You need to load CyberChef (it's a bloated JS app)</li><li>Know enough about CyberChef to create this pipeline</li><li>Invert the match</li></ul></td>
   </tr>
 </table>
 
 
 <sub><b>Note</b> The gifs may load at different times, so one may appear significantly faster than another.</sub><br>
-<sub><b>A note on magic </b>CyberChef's most similar feature is Magic. Magic fails instantly on this input and crashes. The only way we could force CyberChef to complete this was to manually define it.</sub>
+<sub><b>A note on magic </b>CyberChef's most similar feature to Ciphey is Magic. Magic fails instantly on this input and crashes. The only way we could force CyberChef to compete was to manually define it.</sub>
 
 
 We also tested CyberChef and Ciphey with a **6gb file**. Ciphey cracked it in **5 minutes and 54 seconds**. CyberChef crashed before it even started.
