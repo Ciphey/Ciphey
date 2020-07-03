@@ -285,10 +285,34 @@ class Decoder(Generic[T, U], ConfigurableModule, Targeted):
     @abstractmethod
     def decode(self, ctext: T) -> Optional[U]: pass
 
+    @staticmethod
+    @abstractmethod
+    def priority() -> float:
+        """What proportion of decodings are this?"""
+        pass
+
     def __call__(self, *args): return self.decode(*args)
 
     @abstractmethod
     def __init__(self, config: Config): super().__init__(config)
+
+
+class DecoderComparer:
+    value: Type[Decoder]
+
+    def __le__(self, other: "DecoderComparer"):
+        return self.value.priority() <= other.value.priority()
+
+    def __ge__(self, other: "DecoderComparer"):
+        return self.value.priority() >= other.value.priority()
+
+    def __lt__(self, other: "DecoderComparer"):
+        return self.value.priority() < other.value.priority() and self != other
+
+    def __gt__(self, other: "DecoderComparer"):
+        return self.value.priority() > other.value.priority() and self != other
+
+    def __init__(self, value: Type[Decoder]): self.value = value
 
 
 class CrackResult(NamedTuple, Generic[T]):
@@ -375,34 +399,37 @@ class Searcher(ConfigurableModule):
     def __init__(self, config: Config): super().__init__(config)
 
 
-def pretty_search_results(res: SearchResult, display_intermediate: bool = True):
-    ret: str = f"Checker: {res.check_res}\n" if len(res.check_res) != 0 else ""
+def pretty_search_results(res: SearchResult, display_intermediate: bool = False):
+    ret: str = f'Final result: "{res.path[-1].result.value}"\n'
+    if len(res.check_res) != 0:
+        ret += f"Checker: {res.check_res}\n"
+    ret += "Format used:\n"
 
     def add_one():
         nonlocal ret
-        ret += f'{i.name}'
+        ret += f'  {i.name}'
         already_broken = False
         if i.result.key_info is not None:
-            ret += f":\n  Key: {i.result.key_info}\n"
+            ret += f":\n    Key: {i.result.key_info}\n"
             already_broken = True
         if i.result.misc_info is not None:
             if not already_broken:
                 ret += ':\n'
-            ret += f'  Misc: {i.result.misc_info}\n'
+            ret += f'    Misc: {i.result.misc_info}\n'
             already_broken = True
         if display_intermediate:
             if not already_broken:
                 ret += ':\n'
-            ret += f'  Value: {i.result.value}\n'
+            ret += f'    Value: "{i.result.value}"\n'
             already_broken = True
         if not already_broken:
             ret += " "
-        ret += "<-\n"
+        ret += "\n"
     for i in res.path[::-1]:
         add_one()
 
-    # Remove trailing arrow
-    return ret[:-len("-> ")]
+    # Remove trailing newline
+    return ret[:-1]
 
 
 # Some common collection types

@@ -80,6 +80,9 @@ class MorseCode(ciphey.iface.Decoder[str, str]):
     @staticmethod
     def getName() -> str: return "morse"
 
+    @staticmethod
+    def priority() -> float: return 0.05
+
     def __init__(self, config: ciphey.iface.Config):
         super().__init__(config)
         self.MORSE_CODE_DICT = config.get_resource(self._params()["dict"], ciphey.iface.WordList)

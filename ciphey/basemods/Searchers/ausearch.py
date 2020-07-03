@@ -1,7 +1,7 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from typing import Generic, List, Optional, Dict, Any, NamedTuple, Union, Set, Tuple
-from ciphey.iface import ConfigurableModule, T, Cracker, Config, Searcher, ParamSpec, CrackInfo, registry, get_args, \
-    SearchLevel, CrackResult, SearchResult
+from ciphey.iface import T, Cracker, Config, Searcher, ParamSpec, CrackInfo, registry, SearchLevel, CrackResult, \
+    SearchResult
 from datetime import datetime
 from loguru import logger
 
@@ -14,6 +14,7 @@ class Node(Generic[T], NamedTuple):
 
     def __hash__(self):
         return hash((type(self.cracker).__name__, len(self.parents)))
+
 
 class AuSearch(Searcher):
     @abstractmethod
@@ -34,7 +35,7 @@ class AuSearch(Searcher):
 
     def expand(self, parents: List[SearchLevel], check: bool = True) -> (bool, Union[SearchResult, List[Node]]):
         result = parents[-1].result.value
-        logger.debug(f"Expanding {parents}")
+        #logger.debug(f"Expanding {parents}")
 
         # Deduplication
         if not self._config().cache.mark_ctext(result):
@@ -78,7 +79,7 @@ class AuSearch(Searcher):
         return False, nodes
 
     def evaluate(self, node: Node) -> (bool, Union[List[SearchLevel], List[Node]]):
-        logger.debug(f"Evaluating {node}")
+        #logger.debug(f"Evaluating {node}")
 
         res = node.cracker.attemptCrack(node.parents[-1].result.value)
         # Detect if we succeeded, and if deduplication is needed
@@ -103,7 +104,7 @@ class AuSearch(Searcher):
         nodes = set(expand_res)
 
         while datetime.now() < deadline:
-            logger.trace(f"Have node tree {nodes}")
+            #logger.trace(f"Have node tree {nodes}")
 
             if len(nodes) == 0:
                 raise LookupError("Could not find any solutions")
@@ -112,7 +113,7 @@ class AuSearch(Searcher):
             nodes.remove(best_node)
             success, eval_res = self.evaluate(best_node)
             if success:
-                logger.trace(f"Success with node {best_node}")
+                #logger.trace(f"Success with node {best_node}")
                 return eval_res
             nodes.update(eval_res)
 
