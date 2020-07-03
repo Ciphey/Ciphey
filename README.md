@@ -94,10 +94,10 @@ We also tested CyberChef and Ciphey with a 6gb file. Ciphey cracked it in 5 minu
 | ---------- | ----------| ---------------| ---------------------| 
 | Advance Language Checker | ✅ | ❌ | ✅ |
 | Supports Encryptions | ✅ | ✅ | ❌ |
-| Supports hashes | ✅ | ❌ | ❌ |
+| Names releases after Dystopian themes 🌃 | ✅ | ❌ | ❌ |
+| Supports hashes | ✅ | ✅ | ❌ |
 | Easy to set up | ✅  | ❌ | ✅ |
 | Can guess what something is encrypted with  |✅ | ❌ | ❌ |
-| Names releases after Dystopian themes | ✅ | ❌ | ❌ |
 | Created for hackers by hackers | ✅ | ✅ | ❌ |
 
 # 🎬 Getting Started
