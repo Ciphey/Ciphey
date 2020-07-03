@@ -56,11 +56,13 @@ And that's just the tip of the iceberg. For the full technical explanation, chec
 
 ## Base64 Encoded String 64 times
 
-|                    ⚡ Ciphey ⚡                    |             🐢 CyberChef 🐢              |
+| Name |                    ⚡ Ciphey ⚡                    |             🐢 CyberChef 🐢              |
 | :----------------------------------------------: | :------------------------------------: |
-| ![](Pictures_for_README/ciphey_vs_cyberchef.gif) | ![](Pictures_for_README/not_dying.gif) |
-|                    4 seconds                     |               6 seconds                |
-|           <ul><li>Set the regex param to "{"</li></ul>           |    <ul><li>Set the regex param to "{"</li><li>You need to know how many times to recurse</li><li>You need to know it's BASE64 all the way down</li><li>You need to load CyberChef (it's a bloated JS app)</li><li>Know enough about CyberChef to create this pipeline</li><li>Invert the match</li></ul>   |
+| Gif |![](Pictures_for_README/ciphey_vs_cyberchef.gif) | ![](Pictures_for_README/not_dying.gif) |
+|  Time |                  4 seconds                     |               6 seconds                |
+|  Setup |         <ul><li>Set the regex param to "{"</li></ul>           |    <ul><li>Set the regex param to "{"</li><li>You need to know how many times to recurse</li><li>You need to know it's BASE64 all the way down</li><li>You need to load CyberChef (it's a bloated JS app)</li><li>Know enough about CyberChef to create this pipeline</li><li>Invert the match</li></ul>   |
+
+**Note**: The gifs may load at the wrong times, so one may appear significantly faster than another.
 
 
 We also tested CyberChef and Ciphey with a 6gb file. Ciphey cracked it in 5 minutes and 54 seconds. CyberChef crashed before it even started.
