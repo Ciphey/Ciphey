@@ -92,7 +92,7 @@ We also tested CyberChef and Ciphey with a **6gb file**. Ciphey cracked it in **
 
 | **Name**                                   | ⚡ Ciphey ⚡ | 🤡 Katana 🤡 | 🐢 CyberChef Magic 🐢 |
 | ------------------------------------------ | ---------- | ---------- | ------------------- |
-| Advance Language Checker                   | ✅          | ❌          | ✅                   |
+| Advanced Language Checker                   | ✅          | ❌          | ✅                   |
 | Supports Encryptions                       | ✅          | ✅          | ❌                   |
 | Releases named after Dystopian themes 🌃    | ✅          | ❌          | ❌                   |
 | Supports hashes                            | ✅          | ✅          | ❌                   |
