@@ -18,8 +18,6 @@ class Perfection(AuSearch):
 
     def __init__(self, config: Config):
         super().__init__(config)
-        self._checker = self._config().objs["checker"]
-        self._final_type = config.objs["format"]["out"]
 
 
 registry.register(Perfection, Searcher)
