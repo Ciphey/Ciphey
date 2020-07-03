@@ -16,8 +16,6 @@ class Perfection(AuSearch):
 
     def findBestNode(self, nodes: Set[Node]) -> Node: return next(iter(nodes))
 
-    def handleDecodings(self, target: Any) -> (bool, Union[Tuple[SearchLevel, str], List[SearchLevel]])
-
     def __init__(self, config: Config):
         super().__init__(config)
         self._checker = self._config().objs["checker"]
