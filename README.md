@@ -78,6 +78,9 @@ Ciphey was invented by [Brandon Skerritt](https://github.com/brandonskerritt) in
 Ciphey was revived & recreated by the [Cyber Security Society](https://www.cybersoc.cf/) for use in CTFs. If you're ever in Liverpool, consider giving a talk or sponsoring our events. Email us at `cybersecurity@society.liverpoolguild.org` to find out more 🤠
 ## 🐕‍🦺 [Contributing](CONTRIBUTING.md)
 Don't be afraid to contribute! We have many, many things you can do to help out. Each of them labelled and easily explained with examples. If you're trying to contribute but stuck, tag @brandonskerritt in the GitHub issue ✨
+
+Alternatively, join the Discord group and send a message there (link in [contrib file](CONTRIBUTING.md)) or at the top of this README as a badge.
+
 Please read the [contributing file](CONTRIBUTING.md) for exact details on how to contribute ✨
 ## 💰 Financial Contributors
 The contributions will be used to fund not only the future of Ciphey and its authors, but also Cyber Security Society at the University of Liverpool (by the way, the University doesn't pay us to travel over the country winning competitions and representing the university. We have to pay for that by ourselves....)
