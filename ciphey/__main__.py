@@ -315,13 +315,15 @@ class Ciphey:
 def get_name(ctx, param, value):
     # reads from stdin if the argument wasnt supplied
     if not value and not click.get_text_stream("stdin").isatty():
-         print()click.get_text_stream("stdin").read().strip()
+        click.get_text_stream("stdin").read().strip()
         return click.get_text_stream("stdin").read().strip()
     else:
         return value
 
+    return locals()
 
-def arg_parsing() -> Optional[dict]:
+
+def arg_parsing(args) -> Optional[dict]:
     """This function parses arguments.
 
         Args:
@@ -329,66 +331,6 @@ def arg_parsing() -> Optional[dict]:
         Returns:
             The config to be passed around for the rest of time
     """
-
-    @click.command()
-    @click.option(
-        "-t", "--text", help="The ciphertext you want to decrypt.", type=str,
-    )
-    @click.option(
-        "-g", "--greppable", help="Only output the answer. Useful for grep.", type=bool
-    )
-    @click.option("-v", "--verbose", count=True, type=int)
-    @click.option(
-        "-a",
-        "--checker",
-        help="Use the default internal checker. Defaults to brandon",
-        type=bool,
-    )
-    @click.option(
-        "-A",
-        "--checker-path",
-        help="Uses the language checker at the given path",
-        type=click.Path(exists=True),
-    )
-    @click.option("-w", "--wordlist", help="Uses the given internal wordlist")
-    @click.option(
-        "-W",
-        "--wordlist-file",
-        help="Uses the wordlist at the given path",
-        type=click.File("rb"),
-    )
-    @click.option(
-        "-p", "--param", help="Passes a parameter to the language checker", type=str
-    )
-    @click.option(
-        "-l",
-        "--list-params",
-        help="List the parameters of the selected module",
-        type=str,
-    )
-    @click.option(
-        "-O",
-        "--offline",
-        help="Run Ciphey in offline mode (no hash support)",
-        type=bool,
-    )
-    @click.argument("text_stdin", callback=get_name, required=False)
-    @click.argument("file_stdin", type=click.File("rb"), required=False)
-    def main(
-        text,
-        greppable,
-        verbose,
-        checker,
-        checker_path,
-        wordlist,
-        wordlist_file,
-        param,
-        list_params,
-        offline,
-        text_stdin,
-        file_stdin,
-    ):
-
     # the below text does:
     # if -t is supplied, use that
     # if ciphey is called like:
@@ -400,25 +342,15 @@ def arg_parsing() -> Optional[dict]:
     text = None
     if args["text"] is not None:
         text = args["text"]
-    elif len(sys.argv) > 1:
-        text = args["rest"][0]
-    elif not sys.stdin.isatty():
-        text = str(sys.stdin.read())
-        print(f"reading from stdin {text}")
     else:
-        text = str(sys.stdin.read())
-        print(f"Reading from stdin text is {text}")
-        if not len(text) != 0 and text != "":
-            print("No text input given!")
-            return None
+        print("No input given.")
+        exit(1)
 
     if len(sys.argv) == 1:
         print("No arguments were supplied. Look at the help menu with -h or --help")
         return None
 
     args["text"] = text
-    if not args["rest"]:
-        args.pop("rest")
     if len(args["text"]) < 3:
         print("A string of less than 3 chars cannot be interpreted by Ciphey.")
         return None
@@ -428,16 +360,15 @@ def arg_parsing() -> Optional[dict]:
     # Now we can walk through the arguments, expanding them into a canonical form
     #
     # First, we go over simple args
+    config["info"] = False
     config["ctext"] = args["text"]
     config["grep"] = args["greppable"]
-    config["info"] = args["info"]
     config["offline"] = args["offline"]
-    # Try to work out how verbose we should be
     if args["verbose"] >= 3:
         config["debug"] = "TRACE"
-    elif verbose == 2:
+    elif args["verbose"] == 2:
         config["debug"] = "DEBUG"
-    elif verbose == 1:
+    elif args["verbose"] == 1:
         config["debug"] = "ERROR"
     else:
         config["debug"] = "WARNING"
@@ -452,15 +383,71 @@ def arg_parsing() -> Optional[dict]:
 
     config["wordlist"] = set(cipheydists.get_list("english"))
     # Now we fill in the params *shudder*
-    config["params"] = {}
-    for i in args["param"]:
-        key, value = i.split("=", 1)
-        config["params"][key] = value
 
     return config
 
 
-def main(config: Dict[str, object] = None) -> Optional[dict]:
+@click.command()
+@click.option(
+    "-t", "--text", help="The ciphertext you want to decrypt.", type=str,
+)
+@click.option(
+    "-g",
+    "--greppable",
+    help="Only output the answer. Useful for grep.",
+    type=bool,
+    is_flag=True,
+)
+@click.option("-v", "--verbose", count=True, type=int)
+@click.option(
+    "-a",
+    "--checker",
+    help="Use the default internal checker. Defaults to brandon",
+    type=bool,
+)
+@click.option(
+    "-A",
+    "--checker-path",
+    help="Uses the language checker at the given path",
+    type=click.Path(exists=True),
+)
+@click.option("-w", "--wordlist", help="Uses the given internal wordlist")
+@click.option(
+    "-W",
+    "--wordlist-file",
+    help="Uses the wordlist at the given path",
+    type=click.File("rb"),
+)
+@click.option(
+    "-p", "--param", help="Passes a parameter to the language checker", type=str
+)
+@click.option(
+    "-l", "--list-params", help="List the parameters of the selected module", type=str,
+)
+@click.option(
+    "-O",
+    "--offline",
+    help="Run Ciphey in offline mode (no hash support)",
+    type=bool,
+    is_flag=True,
+)
+@click.argument("text_stdin", callback=get_name, required=False)
+@click.argument("file_stdin", type=click.File("rb"), required=False)
+def main(
+    text,
+    greppable,
+    verbose,
+    checker,
+    checker_path,
+    wordlist,
+    wordlist_file,
+    param,
+    list_params,
+    offline,
+    text_stdin,
+    file_stdin,
+    config: Dict[str, object] = None,
+) -> Optional[dict]:
     """Function to deal with arguments. Either calls with args or not. Makes Pytest work.
 
     It gets the arguments in the function definition using locals()
@@ -475,7 +462,8 @@ def main(config: Dict[str, object] = None) -> Optional[dict]:
     """
     # We must fill in the arguments if they are not provided
     if config is None:
-        config = arg_parsing()
+        config = locals()
+        config = arg_parsing(config)
         # Check if we errored out
         if config is None:
             return None
