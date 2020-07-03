@@ -1,7 +1,7 @@
 from abc import abstractmethod
 from typing import Generic, List, Optional, Dict, Any, NamedTuple, Union, Set, Tuple
 from ciphey.iface import T, Cracker, Config, Searcher, ParamSpec, CrackInfo, registry, SearchLevel, CrackResult, \
-    SearchResult
+    SearchResult, Decoder, DecoderComparer
 from datetime import datetime
 from loguru import logger
 
@@ -20,7 +20,6 @@ class AuSearch(Searcher):
     @abstractmethod
     def findBestNode(self, nodes: Set[Node]) -> Node: pass
 
-    @abstractmethod
     def handleDecodings(self, target: Any) -> (bool, Union[Tuple[SearchLevel, str], List[SearchLevel]]):
         """
             If there exists a decoding that the checker returns true on, returns (True, result).
@@ -31,7 +30,31 @@ class AuSearch(Searcher):
             MUST NOT recurse into decodings! evaluate does that for you!
         """
         # This tag is necessary, as we could have a list as a decoding target, which would then screw over type checks
-        pass
+        ret = []
+
+        decoders = []
+
+        for decoder_type, decoder_class in registry[Decoder][type(target)].items():
+            for decoder in decoder_class:
+                decoders.append(DecoderComparer(decoder))
+        # Fun fact:
+        #   with Python's glorious lists, a inserting n elements into the right position (with bisect) is O(n^2)
+        decoders.sort(reverse=True)
+
+        for decoder_cmp in decoders:
+            res = self._config()(decoder_cmp.value).decode(target)
+            if res is None:
+                continue
+            level = SearchLevel(
+                name=decoder_cmp.value.__name__.lower(),
+                result=CrackResult(value=res)  # FIXME: CrackResult[decoder_type]
+            )
+            if type(res) == self._final_type:
+                check_res = self._checker(res)
+                if check_res is not None:
+                    return True, (level, check_res)
+            ret.append(level)
+        return False, ret
 
     def expand(self, parents: List[SearchLevel], check: bool = True) -> (bool, Union[SearchResult, List[Node]]):
         result = parents[-1].result.value
