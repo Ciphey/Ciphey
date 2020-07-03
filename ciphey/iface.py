@@ -45,8 +45,7 @@ class Cache:
 
 
 class Config:
-    grep: bool = False
-    info: bool = False
+    grep: bool = False1
     debug: Optional[str] = "WARNING"
     searcher: str = "perfection"
     params: Dict[str, Dict[str, Union[str, List[str]]]] = {}
@@ -61,6 +60,11 @@ class Config:
     _inst: Dict[type, Any] = {}
     objs: Dict[str, Any] = {}
     cache: Cache = Cache()
+
+    def merge_dict(self, config_file: Dict[str, Any]):
+        for a, b in config_file.items():
+            self.update(a, b)
+        pass
 
     def instantiate(self, t: type) -> Any:
         """
@@ -139,10 +143,6 @@ class Config:
             return self(registry.get_named(loader, ResourceLoader))(name)
         else:
             return self(registry.get_named(loader, ResourceLoader[t]))(name)
-
-    def merge_dict(self, config_file: Dict[str, Any]):
-        # TODO: implement this
-        pass
 
     def __init__(self):
         self.update_log_level(self.debug)
