@@ -54,7 +54,7 @@ And that's just the tip of the iceberg. For the full technical explanation, chec
 
 # 🔭 Ciphey vs CyberChef
 
-## Base64 Encoded String 64 times
+## 🔁 Base64 Encoded String 64 times
 
 <table>
   <tr>
