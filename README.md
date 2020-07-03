@@ -56,11 +56,29 @@ And that's just the tip of the iceberg. For the full technical explanation, chec
 
 ## Base64 Encoded String 64 times
 
-| Name |                    ⚡ Ciphey ⚡                    |             🐢 CyberChef 🐢              |
-| :----------------------------------------------: | :------------------------------------: |
-| Gif |![](Pictures_for_README/ciphey_vs_cyberchef.gif) | ![](Pictures_for_README/not_dying.gif) |
-|  Time |                  4 seconds                     |               6 seconds                |
-|  Setup |         <ul><li>Set the regex param to "{"</li></ul>           |    <ul><li>Set the regex param to "{"</li><li>You need to know how many times to recurse</li><li>You need to know it's BASE64 all the way down</li><li>You need to load CyberChef (it's a bloated JS app)</li><li>Know enough about CyberChef to create this pipeline</li><li>Invert the match</li></ul>   |
+<table>
+  <tr>
+  <th>Name</th>
+    <th>⚡ Ciphey ⚡ </th>
+    <th>🐢 CyberChef 🐢</th>
+  </tr>
+  <tr>
+  <th>Gif</th>
+    <td><img src="Pictures_for_README/ciphey_vs_cyberchef.gif"></td>
+    <td><img src="Pictures_for_README/not_dying.gif"></td>
+  </tr>
+  <tr>
+  <th>Time</th>
+    <td>4 seconds</td>
+    <td>6 seconds</td>
+  </tr>
+    <tr>
+  <th>Setup</th>
+    <td><ul><li>Set the regex param to "{"</li></ul></td>
+    <td><ul><li>Set the regex param to "{"</li><li>You need to know how many times to recurse</li><li>You need to know it's BASE64 all the way down</li><li>You need to load CyberChef (it's a bloated JS app)</li><li>Know enough about CyberChef to create this pipeline</li><li>Invert the match</li></ul></td>
+  </tr>
+</table>
+
 
 **Note**: The gifs may load at the wrong times, so one may appear significantly faster than another.
 
