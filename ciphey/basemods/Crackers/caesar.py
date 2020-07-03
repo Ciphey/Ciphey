@@ -37,20 +37,23 @@ class Caesar(ciphey.iface.Cracker[str]):
         # Convert it to lower case
         #
         # TODO: handle different alphabets
-        message = ctext.lower()
+        if self.lower:
+            message = ctext.lower()
+        else:
+            message = ctext
 
         # Hand it off to the core
         analysis = self.cache.get_or_update(ctext, "cipheycore::simple_analysis",
                                             lambda: cipheycore.analyse_string(message))
-        possible_keys = cipheycore.caesar_crack(analysis, self.expected, self.group)
+        possible_keys = cipheycore.caesar_crack(analysis, self.expected, self.group, True, self.p_value)
         n_candidates = len(possible_keys)
-        logger.debug(f"Caesar cipher core heuristic returned {n_candidates} candidates")
+        logger.debug(f"Caesar returned {n_candidates} candidates")
 
         candidates = []
 
         for candidate in possible_keys:
             translated = cipheycore.caesar_decrypt(message, candidate.key, self.group)
-            candidates.append(CrackResult(value=translated, key_info=f"{candidate.key}"))
+            candidates.append(CrackResult(value=translated, key_info=candidate.key))
 
         return candidates
 
@@ -69,6 +72,10 @@ class Caesar(ciphey.iface.Cracker[str]):
                 desc="Whether or not the ciphertext should be converted to lowercase first",
                 req=False,
                 default=True),
+            "p_value": ciphey.iface.ParamSpec(
+                desc="The p-value to use for standard frequency analysis",
+                req=False,
+                default=0.1)
             # TODO: add "filter" param
         }
 
@@ -84,6 +91,7 @@ class Caesar(ciphey.iface.Cracker[str]):
         self.group = list(self._params()["group"])
         self.expected = config.get_resource(self._params()["expected"])
         self.cache = config.cache
+        self.p_value = self._params()["p_value"]
 
 
 ciphey.iface.registry.register(Caesar, ciphey.iface.Cracker[str])

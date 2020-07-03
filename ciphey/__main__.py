@@ -120,11 +120,6 @@ def arg_parsing(config: iface.Config) -> Optional[Dict[str, Any]]:
         const=True,
     )
     parser.add_argument(
-        "-w",
-        "--wordlist",
-        help="Uses the given wordlist",
-    )
-    parser.add_argument(
         "-p",
         "--param",
         help="Passes a parameter to the language checker",
@@ -164,15 +159,14 @@ def arg_parsing(config: iface.Config) -> Optional[Dict[str, Any]]:
     parser.add_argument(
         "--default-dist",
         help="Sets the default character/byte distribution",
-        action="store",
-        default=None
+        action="store"
     )
-    parser.add_argument(
-        "--default-wordlist",
-        help="Sets the default wordlist",
-        action="store",
-        default=None
-    )
+    # parser.add_argument(
+    #     "--default-wordlist",
+    #     help="Sets the default wordlist",
+    #     action="store",
+    #     default=None
+    # )
 
     args = vars(parser.parse_args())
 
@@ -205,8 +199,9 @@ def arg_parsing(config: iface.Config) -> Optional[Dict[str, Any]]:
     # Now we can walk through the arguments, expanding them into the config struct
     config.update("checker", args.get("checker"))
     config.update("info", args.get("info"))
-    config.update_format("in", args.get("bytes-input"))
-    config.update_format("out", args.get("bytes-output"))
+    config.update_format("in", args.get("bytes_input"))
+    config.update_format("out", args.get("bytes_output"))
+    config.update("default_dist", args.get("default_dist"))
 
     # Append the module lists:
     config.modules += args["module"]

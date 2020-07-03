@@ -45,7 +45,7 @@ class Cache:
 
 
 class Config:
-    grep: bool = False1
+    grep: bool = False
     debug: Optional[str] = "WARNING"
     searcher: str = "perfection"
     params: Dict[str, Dict[str, Union[str, List[str]]]] = {}
@@ -90,7 +90,7 @@ class Config:
             return
 
         target = self.params.setdefault(owner, {})
-        if registry.get_named(name).getParams()[name].list:
+        if registry.get_named(owner).getParams()[name].list:
             target.setdefault(name, []).append(value)
         else:
             target[name] = value
@@ -217,32 +217,6 @@ class ConfigurableModule(ABC):
             self._checkParams()
 
 
-class KnownUtility(ABC):
-    @staticmethod
-    @abstractmethod
-    def scoreUtility() -> float:
-        """
-            Return speed^2 + reliability^2
-
-            Speed: for an average string
-            1.0: Runs in microseconds
-            0.8: Runs in milliseconds
-            0.6: Runs in less than a second
-            0.4: Runs in tens of seconds
-            0.2: Runs in minutes
-            0.0: Undecidable
-
-            Reliability:
-            1.0: Will definitely work (cracks all of it's cipher type, completely identifiers ciphers, etc)
-            0.8: Works in most cases
-            0.6: Works on some cases (specific versions of common libraries)
-            0.4: Works on a few cases (old patched bug, rare misconfiguration)
-            0.2: Exploits some extreme edge case
-            0.0: Never works
-        """
-        pass
-
-
 class Targeted(ABC):
     @staticmethod
     @abstractmethod
@@ -327,7 +301,7 @@ class CrackInfo(Generic[T], NamedTuple):
     failure_runtime: float
 
 
-class Cracker(Generic[T], ConfigurableModule, KnownUtility, Targeted):
+class Cracker(Generic[T], ConfigurableModule, Targeted):
     @abstractmethod
     def getInfo(self, ctext: T) -> CrackInfo:
         """Should return some informed guesses on resource consumption when run on `ctext`"""
@@ -423,9 +397,9 @@ def pretty_search_results(res: SearchResult, display_intermediate: bool = False)
             ret += f'    Value: "{i.result.value}"\n'
             already_broken = True
         if not already_broken:
-            ret += " "
-        ret += "\n"
-    for i in res.path[::-1]:
+            ret += "\n"
+    # Skip the 'input' and print in reverse order
+    for i in res.path[1:][::-1]:
         add_one()
 
     # Remove trailing newline
