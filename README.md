@@ -64,8 +64,8 @@ And that's just the tip of the iceberg. For the full technical explanation, chec
   </tr>
   <tr>
   <th>Gif</th>
-    <td><img src="Pictures_for_README/ciphey_vs_cyberchef.gif"></td>
-    <td><img src="Pictures_for_README/not_dying.gif"></td>
+    <td><img src="Pictures_for_README/ciphey_vs_cyberchef.gif" alt="The guy she tells you not to worry about"></td>
+    <td><img src="Pictures_for_README/not_dying.gif" alt="You></td>
   </tr>
   <tr>
   <th>Time</th>
@@ -80,7 +80,7 @@ And that's just the tip of the iceberg. For the full technical explanation, chec
 </table>
 
 
-**Note**: The gifs may load at the wrong times, so one may appear significantly faster than another.
+<sub><b>Note</b> The gifs may load at the wrong times, so one may appear significantly faster than another.</sub>
 
 
 We also tested CyberChef and Ciphey with a 6gb file. Ciphey cracked it in 5 minutes and 54 seconds. CyberChef crashed before it even started.
