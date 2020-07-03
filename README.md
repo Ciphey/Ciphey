@@ -1,4 +1,4 @@
-[Install](https://github.com/Ciphey/Ciphey#Installation) | [TL;DR](https://github.com/Ciphey/Ciphey#what-is-this) | [Features](https://github.com/Ciphey/Ciphey#features) | [Docs](https://ciphey.readthedocs.io/en/latest/)
+[Install](https://github.com/Ciphey/Ciphey#Installation) | [TL;DR](https://github.com/Ciphey/Ciphey#what-is-this) | [Features](https://github.com/Ciphey/Ciphey#features) | [Docs](https://docs.ciphey.online/)
 <p align="center">
   <img src="Pictures_for_README/binoculars.png" alt="Ciphey">
 </p>
@@ -24,7 +24,7 @@ Fully automated decryption tool using natural language processing & artifical in
 
 | Linux       | Mac OS | Windows     |
 | ----------- | ------ | ----------- |
-| Put CI here |        | Put CI here | Put CI here |
+| Put CI here |Put CI here | Put CI here |
 <hr>
 
 # 🤔 What is this?
@@ -54,7 +54,7 @@ And that's just the tip of the iceberg. For the full technical explanation, chec
 
 # 🔭 Ciphey vs CyberChef
 
-## 🔁 Base64 Encoded String 64 times
+## 🔁 Base64 Encoded 64 times
 
 <table>
   <tr>
@@ -80,25 +80,25 @@ And that's just the tip of the iceberg. For the full technical explanation, chec
 </table>
 
 
-<sub><b>Note</b> The gifs may load at the wrong times, so one may appear significantly faster than another.</sub><br>
-<sub><b>A note on magic </b>CyberChef's most similar feature is Magic. Magic fails instantly on this input and crashes. The only way we could get CyberChef to function was to manually define it.</sub>
+<sub><b>Note</b> The gifs may load at different times, so one may appear significantly faster than another.</sub><br>
+<sub><b>A note on magic </b>CyberChef's most similar feature is Magic. Magic fails instantly on this input and crashes. The only way we could force CyberChef to complete this was to manually define it.</sub>
 
 
-We also tested CyberChef and Ciphey with a 6gb file. Ciphey cracked it in 5 minutes and 54 seconds. CyberChef crashed before it even started.
+We also tested CyberChef and Ciphey with a **6gb file**. Ciphey cracked it in **5 minutes and 54 seconds**. CyberChef crashed before it even started.
 
 
 
 ## 📊 Ciphey vs CyberChef Magic vs Katana
 
-| **Name** | ⚡ Ciphey ⚡ | 🤡 Katana 🤡 | 🐢 CyberChef Magic 🐢 |
-| ---------- | ----------| ---------------| ---------------------| 
-| Advance Language Checker | ✅ | ❌ | ✅ |
-| Supports Encryptions | ✅ | ✅ | ❌ |
-| Names releases after Dystopian themes 🌃 | ✅ | ❌ | ❌ |
-| Supports hashes | ✅ | ✅ | ❌ |
-| Easy to set up | ✅  | ❌ | ✅ |
-| Can guess what something is encrypted with  |✅ | ❌ | ❌ |
-| Created for hackers by hackers | ✅ | ✅ | ❌ |
+| **Name**                                   | ⚡ Ciphey ⚡ | 🤡 Katana 🤡 | 🐢 CyberChef Magic 🐢 |
+| ------------------------------------------ | ---------- | ---------- | ------------------- |
+| Advance Language Checker                   | ✅          | ❌          | ✅                   |
+| Supports Encryptions                       | ✅          | ✅          | ❌                   |
+| Releases named after Dystopian themes 🌃    | ✅          | ❌          | ❌                   |
+| Supports hashes                            | ✅          | ✅          | ❌                   |
+| Easy to set up                             | ✅          | ❌          | ✅                   |
+| Can guess what something is encrypted with | ✅          | ❌          | ❌                   |
+| Created for hackers by hackers             | ✅          | ✅          | ❌                   |
 
 # 🎬 Getting Started
 ### 🏃 Running Ciphey
