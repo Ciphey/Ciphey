@@ -49,7 +49,7 @@ And that's just the tip of the iceberg. For the full technical explanation, chec
 - **Custom Built Artificial Intelligence with Augmented Search (AuSearch) for answering the question "what encryption was used?"** Resulting in decryptions taking less than 3 seconds. If Ciphey cannot decrypt the text, Ciphey will use the neural network analysis to give you information on how to decrypt it yourself.
 - **Custom built natural language processing module** Ciphey can determine whether something is plaintext or not. It has an incredibly high accuracy, along with being fast.
 - **Multi Language Support** at present, only German & English (with AU, UK, CAN, USA variants).
-- **Supports hashes & encryptions** Which the alternatives such as CyberChef do not. 
+- **Supports hashes & encryptions** Which the alternatives such as CyberChef Magic do not. 
 - **[C++ core](https://github.com/Ciphey/CipheyCore)** Blazingly fast.
 
 # 🔭 Ciphey vs CyberChef
@@ -81,9 +81,24 @@ And that's just the tip of the iceberg. For the full technical explanation, chec
 
 
 <sub><b>Note</b> The gifs may load at the wrong times, so one may appear significantly faster than another.</sub>
+<sub><b>A note on magic</b>CyberChef's most similar feature is Magic. Magic fails instantly on this input and crashes. The only way we could get CyberChef to function was to manually define it.</sub>
 
 
 We also tested CyberChef and Ciphey with a 6gb file. Ciphey cracked it in 5 minutes and 54 seconds. CyberChef crashed before it even started.
+
+
+
+## Ciphey vs CyberChef Magic vs Katana
+
+| **Name** | ⚡ Ciphey ⚡ | 🤡 Katana 🤡 | 🐢 CyberChef Magic 🐢 |
+| ---------- | ----------| ---------------| ---------------------| 
+| Advance Language Checker | ✅ | ❌ | ✅ |
+| Supports Encryptions | ✅ | ✅ | ❌ |
+| Supports hashes | ✅ | ❌ | ❌ |
+| Easy to set up | ✅  | ❌ | ✅ |
+| Can guess what something is encrypted with  |✅ | ❌ | ❌ |
+| Names releases after Dystopian themes | ✅ | ❌ | ❌ |
+| Created for hackers by hackers | ✅ | ✅ | ❌ |
 
 # 🎬 Getting Started
 ### 🏃 Running Ciphey
