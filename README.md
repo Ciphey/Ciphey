@@ -80,8 +80,8 @@ And that's just the tip of the iceberg. For the full technical explanation, chec
 </table>
 
 
-<sub><b>Note</b> The gifs may load at the wrong times, so one may appear significantly faster than another.</sub>
-<sub><b>A note on magic</b>CyberChef's most similar feature is Magic. Magic fails instantly on this input and crashes. The only way we could get CyberChef to function was to manually define it.</sub>
+<sub><b>Note</b> The gifs may load at the wrong times, so one may appear significantly faster than another.</sub><br>
+<sub><b>A note on magic </b>CyberChef's most similar feature is Magic. Magic fails instantly on this input and crashes. The only way we could get CyberChef to function was to manually define it.</sub>
 
 
 We also tested CyberChef and Ciphey with a 6gb file. Ciphey cracked it in 5 minutes and 54 seconds. CyberChef crashed before it even started.
