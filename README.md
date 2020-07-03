@@ -88,7 +88,7 @@ We also tested CyberChef and Ciphey with a 6gb file. Ciphey cracked it in 5 minu
 
 
 
-## Ciphey vs CyberChef Magic vs Katana
+## 📊 Ciphey vs CyberChef Magic vs Katana
 
 | **Name** | ⚡ Ciphey ⚡ | 🤡 Katana 🤡 | 🐢 CyberChef Magic 🐢 |
 | ---------- | ----------| ---------------| ---------------------| 
