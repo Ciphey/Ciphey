@@ -1,20 +1,21 @@
-from typing import Optional, Dict, Any, Set
+from typing import Optional, Dict, Any, Set, Generic
 
 from functools import lru_cache
 
 import ciphey
-from ciphey.iface import T, ParamSpec, Config
+from ciphey.iface import T, ParamSpec, Config, get_args
 
 import json, csv
 
+
 # We can use a generic resource loader here, as we can instantiate it later
-class Json(ciphey.iface.ResourceLoader):
+class Json(Generic[T], ciphey.iface.ResourceLoader[T]):
     def whatResources(self) -> T:
         return self._names
 
     @lru_cache
     def getResource(self, name: str) -> T:
-        return T(json.load(self._paths[int(name) - 1]))
+        return json.load(open(self._paths[int(name) - 1]))
 
     @staticmethod
     def getName() -> str:
@@ -39,9 +40,10 @@ class Csv(ciphey.iface.ResourceLoader):
 
     @lru_cache
     def getResource(self, name: str) -> T:
-        ret = T()
+        ret = []
         for i in csv.reader(open(self._paths[int(name) - 1])):
             ret.append(i)
+        print(ret)
         return ret
 
     @staticmethod
@@ -60,5 +62,8 @@ class Csv(ciphey.iface.ResourceLoader):
         self._names = set(range(1, len(self._paths)))
 
 
-ciphey.iface.registry.register(Json, ciphey.iface.ResourceLoader)
-ciphey.iface.registry.register(Csv, ciphey.iface.ResourceLoader)
+ciphey.iface.registry.register(Json,
+                               ciphey.iface.ResourceLoader[ciphey.iface.WordList],
+                               ciphey.iface.ResourceLoader[ciphey.iface.Distribution])
+ciphey.iface.registry.register(Csv,
+                               ciphey.iface.ResourceLoader[ciphey.iface.WordList])

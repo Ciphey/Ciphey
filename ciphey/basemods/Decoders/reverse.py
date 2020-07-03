@@ -23,4 +23,4 @@ class Reverse(Decoder):
         return "reverse"
 
 
-registry.register(Reverse, Decoder[str], Decoder[bytes])
+registry.register(Reverse, Decoder[str, str], Decoder[bytes, bytes])
