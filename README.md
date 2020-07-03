@@ -52,6 +52,27 @@ And that's just the tip of the iceberg. For the full technical explanation, chec
 - **Supports hashes & encryptions** Which the alternatives such as CyberChef do not. 
 - **[C++ core](https://github.com/Ciphey/CipheyCore)** Blazingly fast.
 
+# 🔭 Ciphey vs CyberChef
+
+⚡ Ciphey ⚡             |  🐢 CyberChef 🐢
+:-------------------------:|:-------------------------:
+![](Pictures_for_README/ciphey_vs_cyberchef.gif)  |  ![](Pictures_for_README/not_dying.gif)
+
+Ciphey: 4 seconds
+CyberChef: 6 seconds
+
+**Ciphey**:
+* Set the regex param to "{"
+
+**CyberChef**:
+* Set the regex param to "{"
+* You need to know how many times to recurse
+* You need to know it's BASE64 all the way down
+* You need to load CyberChef (it's a bloated JS app)
+* Know enough about CyberChef to create this pipeline
+* Invert the match
+
+We also tested CyberChef and Ciphey with a 6gb file. Ciphey cracked it in 5 minutes and 54 seconds. CyberChef crashed before it even started.
 
 # 🎬 Getting Started
 ### 🏃 Running Ciphey
