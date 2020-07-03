@@ -45,8 +45,11 @@ warnings.filterwarnings("ignore")
 
 def decrypt(ctext: Any, config: iface.Config) -> List[SearchLevel]:
     """A simple alias for searching a ctext and makes the answer pretty"""
-    res = config.objs["searcher"].search(ctext)
-    return iface.pretty_search_results(res)
+    res: iface.SearchResult = config.objs["searcher"].search(ctext)
+    if config.grep:
+        return res.path[-1].result.value
+    else:
+        return iface.pretty_search_results(res)
 
 
 def arg_parsing(config: iface.Config) -> Optional[Dict[str, Any]]:
@@ -182,6 +185,7 @@ def arg_parsing(config: iface.Config) -> Optional[Dict[str, Any]]:
         config.update_log_level("ERROR")
     elif args["silent"]:
         config.update_log_level(None)
+        config.grep = True
 
     # Now we have set the log level, we can start debugging
     logger.trace(f"Got arguments {args}")
