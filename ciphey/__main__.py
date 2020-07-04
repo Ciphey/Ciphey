@@ -338,7 +338,6 @@ def arg_parsing(args) -> Optional[dict]:
     # else if data is piped like:
     # echo 'hello' | ciphey use that
     # if no data is supplied, no arguments supplied.
-
     text = None
     if args["text"] is not None:
         text = args["text"]
@@ -479,20 +478,20 @@ def main(
 
     if config is None:
         config = locals()
-        config = arg_parsing(config)
-        # Check if we errored out
-        if config is None:
-            return None
 
-        if config["ctext"] is None:
+        if config["text"] is None:
             if file_stdin is not None:
-                config["text "] = file_stdin.read().decode("utf-8")
+                config["text"] = file_stdin.read().decode("utf-8")
             elif text_stdin is not None:
-                config["text "] = text_stdin
+                config["text"] = text_stdin
             else:
                 print("No inputs were given to Ciphey. Run ciphey --help")
                 return None
 
+        config = arg_parsing(config)
+        # Check if we errored out
+        if config is None:
+            return None
 
     return main_decrypt(config)
 
