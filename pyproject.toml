@@ -19,6 +19,9 @@ cipheycore = "^0.1.5"
 tflite = "^2.2.0"
 base58 = "^2.0.1"
 pybase62 = "^0.4.3"
+click = "^7.1.2"
+click-option-group = "^0.5.1"
+click-completion = "^0.5.2"
 
 [tool.poetry.dev-dependencies]
 pytest-cov = "^2.9.0"

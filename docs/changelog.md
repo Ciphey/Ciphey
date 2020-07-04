@@ -37,6 +37,10 @@ These are taken from the GitHub Issues tab.
 * Automatic uploading to PyPi testing.
 * Saftey, which checks for security issues, is now run with Nox.
 * Automatic uploding to Test PyPi and PyPi upon push to master, and GitHub release respectively.
+* We now use verbosity levels -v, -vv, -vvv instead of --debug, --trace etc.
+* Switched from ArgParser to Click
+* Click now safely opens files
+* Click now creates OS friendly file paths from arguments
 ## 3.1
 #### Features
 * Adding a logging library (Loguru) and implemented full logging of the

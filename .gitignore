@@ -197,3 +197,9 @@ poetry.lock
 
 # Test Generator
 test_main_generated.py
+
+run.yml
+
+tests/interface.rst
+
+test.py
