@@ -1,4 +1,5 @@
-from typing import Optional, Dict, Any, Set, Generic
+from abc import abstractmethod
+from typing import Optional, Dict, Any, Set, Generic, Type
 
 from functools import lru_cache
 
@@ -15,7 +16,11 @@ class Json(Generic[T], ciphey.iface.ResourceLoader[T]):
 
     @lru_cache
     def getResource(self, name: str) -> T:
-        return json.load(open(self._paths[int(name) - 1]))
+        prefix, name = name.split("::", 1)
+        return {
+            "wordlist": (lambda js: {js}),
+            "dist": (lambda js: js)
+        }[prefix](json.load(open(self._paths[int(name) - 1])))
 
     @staticmethod
     def getName() -> str:
@@ -33,18 +38,23 @@ class Json(Generic[T], ciphey.iface.ResourceLoader[T]):
         self._names = set(range(1, len(self._paths)))
 
 
+ciphey.iface.registry.register(Json,
+                               ciphey.iface.ResourceLoader[ciphey.iface.WordList],
+                               ciphey.iface.ResourceLoader[ciphey.iface.Distribution])
+
+
 # We can use a generic resource loader here, as we can instantiate it later
-class Csv(ciphey.iface.ResourceLoader):
-    def whatResources(self) -> T:
+class Csv(Generic[T], ciphey.iface.ResourceLoader[T]):
+    def whatResources(self) -> Set[str]:
         return self._names
 
     @lru_cache
     def getResource(self, name: str) -> T:
-        ret = []
-        for i in csv.reader(open(self._paths[int(name) - 1])):
-            ret.append(i)
-        print(ret)
-        return ret
+        prefix, name = name.split("::", 1)
+        return {
+            "wordlist": (lambda reader: {i[0] for i in reader}),
+            "dist": (lambda reader: {i[0]: float(i[1]) for i in reader})
+        }[prefix](csv.reader(open(self._paths[int(name) - 1])))
 
     @staticmethod
     def getName() -> str:
@@ -62,8 +72,6 @@ class Csv(ciphey.iface.ResourceLoader):
         self._names = set(range(1, len(self._paths)))
 
 
-ciphey.iface.registry.register(Json,
+ciphey.iface.registry.register(Csv,
                                ciphey.iface.ResourceLoader[ciphey.iface.WordList],
                                ciphey.iface.ResourceLoader[ciphey.iface.Distribution])
-ciphey.iface.registry.register(Csv,
-                               ciphey.iface.ResourceLoader[ciphey.iface.WordList])

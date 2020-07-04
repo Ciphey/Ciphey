@@ -365,7 +365,7 @@ class Searcher(ConfigurableModule):
     """A very basic interface for code that plans out how to crack the ciphertext"""
 
     @abstractmethod
-    def search(self, ptext: Any) -> SearchResult:
+    def search(self, ctext: Any) -> SearchResult:
         """Returns the path to the correct ciphertext"""
         pass
 
