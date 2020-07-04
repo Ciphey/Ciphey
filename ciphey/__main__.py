@@ -387,6 +387,30 @@ def arg_parsing(args) -> Optional[dict]:
     return config
 
 
+def main(config: Dict[str, object] = None, text: str = None) -> Optional[dict]:
+
+    """Function to deal with arguments. Either calls with args or not. Makes Pytest work.
+
+    It gets the arguments in the function definition using locals()
+    if withArgs is True, that means this is being called with command line args
+    so go to arg_parsing() to get those args
+    we then update locals() with the new command line args and remove "withArgs"
+    This function then calls call_encryption(**result) which passes our dict of args
+    to the function as its own arguments using dict unpacking.
+    
+        Returns:
+            The output of the decryption.
+    """
+    if text is not None:
+        config["ctext"] = text
+        config["text"] = text
+
+    # Now we have working arguments, we can expand it and pass it to the Ciphey constructor
+    cipher_obj = Ciphey(config)
+    # print(cipher_obj.ctext)
+    return cipher_obj.decrypt()
+
+
 @click.command()
 @click.option(
     "-t", "--text", help="The ciphertext you want to decrypt.", type=str,
@@ -433,7 +457,7 @@ def arg_parsing(args) -> Optional[dict]:
 )
 @click.argument("text_stdin", callback=get_name, required=False)
 @click.argument("file_stdin", type=click.File("rb"), required=False)
-def main(
+def click_parsing(
     text,
     greppable,
     verbose,
@@ -447,15 +471,15 @@ def main(
     text_stdin,
     file_stdin,
     config: Dict[str, object] = None,
-) -> Optional[dict]:
+):
     """Ciphey - Automated Decryption Tool
     
     Documentation: 
     https://docs.ciphey.online\n
-    Support: 
+    Discord (support here, we're online most of the day):
+    https://discord.ciphey.online/\n
+    GitHub: 
     https://github.com/ciphey/ciphey\n
-    Discord:\n
-    https://discord.gg/sfdG5xx
 
     Ciphey is an automated decryption tool using smart artificial intelligence and natural language processing. Input encrypted text, get the decrypted text back.
 
@@ -464,30 +488,9 @@ def main(
         
     """
     """HARLAN or other contribs. The above text is printed upon help menu being called"""
-    """Function to deal with arguments. Either calls with args or not. Makes Pytest work.
-
-    It gets the arguments in the function definition using locals()
-    if withArgs is True, that means this is being called with command line args
-    so go to arg_parsing() to get those args
-    we then update locals() with the new command line args and remove "withArgs"
-    This function then calls call_encryption(**result) which passes our dict of args
-    to the function as its own arguments using dict unpacking.
-    
-        Returns:
-            The output of the decryption.
-    """
-
-    if text is None:
-        if file_stdin is not None:
-            text = file_stdin.read().decode("utf-8")
-        elif text_stdin is not None:
-            text = text_stdin
-        else:
-            print("No inputs were given to Ciphey. Run ciphey --help")
-            return None
-    print(text)
 
     # We must fill in the arguments if they are not provided
+
     if config is None:
         config = locals()
         config = arg_parsing(config)
@@ -495,9 +498,16 @@ def main(
         if config is None:
             return None
 
-    # Now we have working arguments, we can expand it and pass it to the Ciphey constructor
-    cipher_obj = Ciphey(config)
-    return cipher_obj.decrypt()
+    if config["text"] is None:
+        if file_stdin is not None:
+            config["text "] = file_stdin.read().decode("utf-8")
+        elif text_stdin is not None:
+            config["text "] = text_stdin
+        else:
+            print("No inputs were given to Ciphey. Run ciphey --help")
+            return None
+    print(text)
+    return main(config)
 
 
 if __name__ == "__main__":
