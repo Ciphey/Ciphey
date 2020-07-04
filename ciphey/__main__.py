@@ -448,6 +448,22 @@ def main(
     file_stdin,
     config: Dict[str, object] = None,
 ) -> Optional[dict]:
+    """Ciphey - Automated Decryption Tool
+    
+    Documentation: 
+    https://docs.ciphey.online\n
+    Support: 
+    https://github.com/ciphey/ciphey\n
+    Discord:\n
+    https://discord.gg/sfdG5xx
+
+    Ciphey is an automated decryption tool using smart artificial intelligence and natural language processing. Input encrypted text, get the decrypted text back.
+
+    Examples:\n
+        Basic Usage: ciphey -t "aGVsbG8gbXkgbmFtZSBpcyBiZWU="
+        
+    """
+    """HARLAN or other contribs. The above text is printed upon help menu being called"""
     """Function to deal with arguments. Either calls with args or not. Makes Pytest work.
 
     It gets the arguments in the function definition using locals()
@@ -460,6 +476,17 @@ def main(
         Returns:
             The output of the decryption.
     """
+
+    if text is None:
+        if file_stdin is not None:
+            text = file_stdin.read().decode("utf-8")
+        elif text_stdin is not None:
+            text = text_stdin
+        else:
+            print("No inputs were given to Ciphey. Run ciphey --help")
+            return None
+    print(text)
+
     # We must fill in the arguments if they are not provided
     if config is None:
         config = locals()
