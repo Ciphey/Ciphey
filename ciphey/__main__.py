@@ -383,7 +383,7 @@ def arg_parsing(args) -> Optional[dict]:
 
     config["wordlist"] = set(cipheydists.get_list("english"))
     # Now we fill in the params *shudder*
-
+    config["params"] = {}
     return config
 
 
