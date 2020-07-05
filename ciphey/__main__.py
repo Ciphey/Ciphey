@@ -4,8 +4,7 @@
 ██║     ██║██████╔╝███████║█████╗   ╚████╔╝ 
 ██║     ██║██╔═══╝ ██╔══██║██╔══╝    ╚██╔╝  
 ╚██████╗██║██║     ██║  ██║███████╗   ██║ 
-© Brandon Skerritt
-https://github.com/brandonskerritt/ciphey
+https://github.com/ciphey
 
 The cycle goes:
 main -> argparsing (if needed) -> call_encryption -> new Ciphey object -> decrypt() -> produceProbTable ->
@@ -67,9 +66,7 @@ def arg_parsing(config: iface.Config) -> Optional[Dict[str, Any]]:
         """
     )
     parser.add_argument(
-        "-t",
-        "--text",
-        help="Text to decrypt",
+        "-t", "--text", help="Text to decrypt",
     )
     parser.add_argument(
         "-i",
@@ -79,11 +76,7 @@ def arg_parsing(config: iface.Config) -> Optional[Dict[str, Any]]:
         const=True,
     )
     parser.add_argument(
-        "-d",
-        "--debug",
-        help="Activates debug mode",
-        action="store_const",
-        const=True,
+        "-d", "--debug", help="Activates debug mode", action="store_const", const=True,
     )
     parser.add_argument(
         "-D",
@@ -93,11 +86,7 @@ def arg_parsing(config: iface.Config) -> Optional[Dict[str, Any]]:
         const=True,
     )
     parser.add_argument(
-        "-q",
-        "--quiet",
-        help="Supress warnings",
-        action="store_const",
-        const=True,
+        "-q", "--quiet", help="Supress warnings", action="store_const", const=True,
     )
     parser.add_argument(
         "-Q",
@@ -124,7 +113,7 @@ def arg_parsing(config: iface.Config) -> Optional[Dict[str, Any]]:
         "--param",
         help="Passes a parameter to the language checker",
         action="append",
-        default=[]
+        default=[],
     )
     parser.add_argument(
         "-l",
@@ -138,7 +127,7 @@ def arg_parsing(config: iface.Config) -> Optional[Dict[str, Any]]:
         "--module",
         help="Adds a module from the given path",
         action="append",
-        default=[]
+        default=[],
     )
     parser.add_argument(
         "-b",
@@ -146,7 +135,7 @@ def arg_parsing(config: iface.Config) -> Optional[Dict[str, Any]]:
         help="Forces ciphey to use binary mode for the input. Rather experimental and may break things!",
         action="store_const",
         const="bytes",
-        default="str"
+        default="str",
     )
     parser.add_argument(
         "-B",
@@ -154,13 +143,14 @@ def arg_parsing(config: iface.Config) -> Optional[Dict[str, Any]]:
         help="Forces ciphey to use binary mode for the output. Rather experimental and may break things!",
         action="store_const",
         const="bytes",
-        default="str"
+        default="str",
     )
     parser.add_argument(
         "--default-dist",
         help="Sets the default character/byte distribution",
-        action="store"
-    )
+        action="store",
+        default=None,
+    }
     # parser.add_argument(
     #     "--default-wordlist",
     #     help="Sets the default wordlist",
@@ -219,7 +209,9 @@ def arg_parsing(config: iface.Config) -> Optional[Dict[str, Any]]:
     return args
 
 
-def main(config: Optional[iface.Config] = None, ciphertext=None, parse_args: bool = True) -> Optional[dict]:
+def main(
+    config: Optional[iface.Config] = None, ciphertext=None, parse_args: bool = True
+) -> Optional[dict]:
     """Function to deal with arguments. Either calls with args or not. Makes Pytest work.
 
     It gets the arguments in the function definition using locals()
@@ -259,7 +251,9 @@ def main(config: Optional[iface.Config] = None, ciphertext=None, parse_args: boo
     logger.debug(f"Loaded ciphertext {ciphertext}")
 
     if len(ciphertext) < 3:
-        logger.critical("A string of less than 3 chars cannot be interpreted by Ciphey.")
+        logger.critical(
+            "A string of less than 3 chars cannot be interpreted by Ciphey."
+        )
         return None
 
     # Dump the registry

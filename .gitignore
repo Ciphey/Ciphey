@@ -76,7 +76,7 @@ MANIFEST
 #  Usually these files are written by a python script from a template
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
-*.spec
+
 
 # Installer logs
 pip-log.txt
@@ -202,3 +202,17 @@ ciphey/LanguageChecker/create\?max_size=80&spelling=US&spelling=GBs&spelling=GBz
 ciphey/LanguageChecker/aspell.txt
 dictionary.txt
 aspell.txt
+
+ciphey.spec
+
+ciphey/__main__.spec
+
+__main__.spec
+
+.entry_point.spec/entry_point.spec
+
+BEANOS INVADES THE FORTNITE ITEM SHOP AT 8_00 PM.EXE-uG0WJcr-cuI.f299.mp4.part
+
+run.yml
+
+tests/interface.rst
