@@ -53,7 +53,7 @@ def arg_parsing(config: iface.Config) -> Optional[Dict[str, Any]]:
     #     default=None
     # )
 
-    args = vars(parser.parse_args())
+    args = config
 
     # First, we should work out how verbose we should be
 
@@ -84,14 +84,18 @@ def arg_parsing(config: iface.Config) -> Optional[Dict[str, Any]]:
         return None
 
     # Now we can walk through the arguments, expanding them into the config struct
-    config.update("checker", args.get("checker"))
-    config.update("info", args.get("info"))
-    config.update_format("in", args.get("bytes_input"))
-    config.update_format("out", args.get("bytes_output"))
-    config.update("default_dist", args.get("default_dist"))
+    config["checker"] = args.get("checker")
+    config["info"] = args.get("info")
+    config["in"] = args.get("bytes_input")
+    config["out"] = args.get("bytes_output")
+    config["default_dist"] = args.get("default_dist")
 
     # Append the module lists:
-    config.modules += args["module"]
+    if not "modules" in config:
+        config["modules"] = args["module"]
+    else:
+        config["modules"] += args["module"]
+    print(f"Config modules is {config['modules']}")
     config.load_modules()
     # Now we can walk through the arguments, expanding them into a canonical form
     #
@@ -181,8 +185,6 @@ def get_name(ctx, param, value):
     "-c",
     "--config",
     help="Uses the given config file. Defaults to appdirs.user_config_dir('ciphey', 'ciphey')/'config.yml'",
-    type=bool,
-    is_flag=True,
 )
 @click.option("-w", "--wordlist", help="Uses the given internal wordlist")
 @click.option(
@@ -197,7 +199,6 @@ def get_name(ctx, param, value):
     help="Passes a parameter to the language checker",
     type=list,
     multiple=True,
-    default=[],
 )
 @click.option(
     "-l", "--list-params", help="List the parameters of the selected module", type=bool,
@@ -217,7 +218,6 @@ def get_name(ctx, param, value):
     "-s/-b",
     "--str-input/--bytes-input",
     help="Forces ciphey to use binary mode for the input. Rather experimental and may break things!",
-    default=False,
     type=bool,
 )
 # HARLAN TODO XXX
@@ -227,7 +227,6 @@ def get_name(ctx, param, value):
     "-S/-B",
     "--string-output/--bytes-output",
     help="Forces ciphey to use binary mode for the output. Rather experimental and may break things!",
-    default=False,
     type=bool,
 )
 @click.option(
@@ -241,7 +240,6 @@ def get_name(ctx, param, value):
     "--module",
     help="Adds a module from the given path",
     type=click.Path(),
-    default=str,
 )
 @click.argument("text_stdin", callback=get_name, required=False)
 @click.argument("file_stdin", type=click.File("rb"), required=False)
@@ -293,6 +291,8 @@ def main(
         Returns:
             The output of the decryption.
     """
+    import pprint
+    pprint.pprint(config)
 
     if config is None:
         config = locals()
@@ -316,10 +316,10 @@ def main(
         if not config:
             logger.critical("If not config is None")
             return None
+    else:
+        ciphertext = config["text"]
 
     # Perform type conversion
-    ciphertext = config.objs["format"]["in"](ciphertext)
-    logger.debug(f"Loaded ciphertext {ciphertext}")
 
     if len(ciphertext) < 3:
         print("A string of less than 3 chars cannot be interpreted by Ciphey.")
