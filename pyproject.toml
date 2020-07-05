@@ -1,10 +1,10 @@
 [tool.poetry]
 name = "ciphey"
-version = "3.5.9"
+version = "4.2.1rc01"
 description = "Automated Decryption Tool"
 authors = ["Brandon <brandon@skerritt.blog>"]
 license = "MIT"
-documentation = "https://ciphey.readthedocs.io"
+documentation = "https://docs.ciphey.online"
 exclude = ["tests/hansard.txt"]
 
 [tool.poetry.dependencies]

@@ -56,12 +56,19 @@ To run ciphey.
   python3 -m ciphey -t "encrypted text here"
 ```
 ### Running Ciphey
+There are 3 ways to run Ciphey.
+1. File Input `ciphey - encrypted.txt`
+2. Unqualified input `ciphey -- "Encrypted input"
+3. Normal way "ciphey -t "Encrypted input"
+
+![Gif showing 3 ways to run Ciphey](Pictures_for_README/3ways.gif)
+
 To get rid of the progress bars, probability table, and all the noise use the grep mode.
 
 ```ciphey -t "encrypted text here" -g```
-For a full list of arguments, run `ciphey -h`.
 
-It is also possible to pipe data into Ciphey, or to use Ciphey like `ciphey 'encrypted text here'`
+For a full list of arguments, run `ciphey --help`.
+
 ### Importing Ciphey
 You can import Ciphey\'s __main__ and use it in your own programs and code.
 This is feature is expected to expand in the next major version.
@@ -72,10 +79,6 @@ The docs are located at [https://ciphey.readthedocs.io/en/latest/](https://ciphe
 Ciphey was invented by [Brandon Skerritt](https://github.com/brandonskerritt) way back in 2008 (don't worry, the code has upgraded since then 😜) but it wouldn't be where it is today without [Cyclic3](https://github.com/Cyclic3).
 ## Contributing
 Please read the [contributing file](https://github.com/Ciphey/Ciphey/blob/master/CONTRIBUTING.md) or submit an issue and we can help you.
-## Code Contributors
-* [Cyclic3](https://github.com/Cyclic3) for various refactorings and for the C++ core
-* [Szymex73](https://github.com/szymex73) for providing the TryHackMe answers dataset.
-* [Michal](https://github.com/michalani) for helping with Base85 decoding.
 ## Financial Contributors
 Please donate to us, we're students and we want Huel.
 
