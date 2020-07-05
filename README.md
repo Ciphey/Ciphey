@@ -1,60 +1,110 @@
-<p align="center"><a href="https://docs.ciphey.online">Documentation</a> <a href="https://discord.ciphey.online">Discord</a></p>
-
 <p align="center">
+<a href="https://docs.ciphey.online">Documentation |</a>
+<a href="https://discord.ciphey.online">Discord |</a>
+<a href="https://github.com/Ciphey/Ciphey#Installation">Installation Guide</a>
+<br>
   <img src="Pictures_for_README/binoculars.png" alt="Ciphey">
 </p>
 
 
 <p align="center">
+<a href="https://discord.gg/wM3scnc"><img alt="Discord" src="https://img.shields.io/discord/728245678895136898"></a>
 <a href="https://pypi.org/project/ciphey/"><img src="https://img.shields.io/pypi/v/ciphey.svg"></a>
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="Ciphey">
   <img src="https://github.com/brandonskerritt/Ciphey/workflows/Python%20application/badge.svg?branch=master" alt="Ciphey">
   <img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/ciphey">
 <img src="https://codecov.io/gh/ciphey/ciphey/branch/master/graph/badge.svg">
 <a href="https://ciphey.readthedocs.io/"><img src="https://readthedocs.org/projects/ciphey/badge/"></a>
-<img src="https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square">
+<br>
+Fully automated decryption tool using natural language processing & artifical intelligence, along with some common sense.
 </p>
+<hr>
 
-# What is this?
+| <p align="center"><a href="https://pypi.org/project/ciphey">🐍 Python (Universal) </a></p> | <p align="center"><a href="https://pypi.org/project/ciphey"> Arch </a></p> | <p align="center"><a href="https://pypi.org/project/ciphey"> Windows </a></p> | <p align="center"><a href="https://pypi.org/project/ciphey"> Mac OS </a></p> |
+| ----------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| <p align="center"><img src="Pictures_for_README/python.png" /></p>                        | <p align="center"><img src="Pictures_for_README/arch.png" /></p>           | <p align="center"><img src="Pictures_for_README/windows.png" /></p>           | <p align="center"><img src="Pictures_for_README/apple.png" /></p>            |
+| `python3 -m pip install ciphey --upgrade`                                                 | `yay ciphey`                                                               | `winget ciphey`                                                               | `brew ciphey`                                                                |
+
+| Linux       | Mac OS | Windows     |
+| ----------- | ------ | ----------- |
+| Put CI here |Put CI here | Put CI here |
+<hr>
+
+# 🤔 What is this?
 Ciphey is an automated decryption tool. Input encrypted text, get the decrypted text back.
 > "What type of encryption?"
 
 That's the point. You don't know, you just know it's possibly encrypted. Ciphey will figure it out for you.
-Ciphey uses a deep neural network with a simple filtration system to approximate what something is encrypted with. And then a custom-built, customisable natural languge processing Language Checker Interface, which can detect when the given text becomes plaintext.
 
+Ciphey can solve most things in 3 seconds or less.
 
-Ciphey can solve most things in about 2 seconds.
 <p align="center" href="https://asciinema.org/a/336257">
   <img src="Pictures_for_README/index.gif" alt="Ciphey demo">
 </p>
 
-# Features
+The technical part. Ciphey uses a custom built artifical intelligence module with a simple filtration system to approximate what something is encrypted with. And then a custom-built, customisable natural languge processing Language Checker Interface, which can detect when the given text becomes plaintext.
+
+And that's just the tip of the iceberg. For the full technical explanation, check out our documentation HERE *********
+
+# ✨ Features
 
 - **20+ encryptions supported** such as hashes, encodings (binary, base64) and normal encryptions like Caesar cipher, Transposition and more. **[For the full list, click here](https://ciphey.readthedocs.io/en/latest/ciphers.html)**
-- **Deep neural network for targetting the right decryption** resulting in decryptions taking less than 3 seconds. If Ciphey cannot decrypt the text, Ciphey will use the neural network analysis to give you information on how to decrypt it yourself.
+- **Custom Built Artificial Intelligence with Augmented Search (AuSearch) for answering the question "what encryption was used?"** Resulting in decryptions taking less than 3 seconds. If Ciphey cannot decrypt the text, Ciphey will use the neural network analysis to give you information on how to decrypt it yourself.
 - **Custom built natural language processing module** Ciphey can determine whether something is plaintext or not. It has an incredibly high accuracy, along with being fast.
-- **Multi Language Support** at present, only English.
-- **Supports hashes & encryptions** Which the alternatives such as CyberChef do not. 
+- **Multi Language Support** at present, only German & English (with AU, UK, CAN, USA variants).
+- **Supports hashes & encryptions** Which the alternatives such as CyberChef Magic do not. 
 - **[C++ core](https://github.com/Ciphey/CipheyCore)** Blazingly fast.
 
+# 🔭 Ciphey vs CyberChef
 
-# Getting Started
-## Installation
-### Pip
-```python3 -m pip install -U ciphey```
+## 🔁 Base64 Encoded 64 times
 
-The -U is needed, as sometimes PyPi gets stuck on an older version.
+<table>
+  <tr>
+  <th>Name</th>
+    <th>⚡ Ciphey ⚡ </th>
+    <th>🐢 CyberChef 🐢</th>
+  </tr>
+  <tr>
+  <th>Gif</th>
+    <td><img src="Pictures_for_README/ciphey_vs_cyberchef.gif" alt="The guy she tells you not to worry about"></td>
+    <td><img src="Pictures_for_README/not_dying.gif" alt="You"></td>
+  </tr>
+  <tr>
+  <th>Time</th>
+    <td>4 seconds</td>
+    <td>6 seconds</td>
+  </tr>
+    <tr>
+  <th>Setup</th>
+    <td><ul><li>Set the regex param to "{"</li></ul></td>
+    <td><ul><li>Set the regex param to "{"</li><li>You need to know how many times to recurse</li><li>You need to know it's Base64 all the way down</li><li>You need to load CyberChef (it's a bloated JS app)</li><li>Know enough about CyberChef to create this pipeline</li><li>Invert the match</li></ul></td>
+  </tr>
+</table>
 
-```ciphey -t "encrypted text here"```
-To run ciphey.
 
-### Cloning from GitHub
+<sub><b>Note</b> The gifs may load at different times, so one may appear significantly faster than another.</sub><br>
+<sub><b>A note on magic </b>CyberChef's most similar feature to Ciphey is Magic. Magic fails instantly on this input and crashes. The only way we could force CyberChef to compete was to manually define it.</sub>
 
-```
-  git clone https://github.com/Ciphey/Ciphey
-  cd Ciphey
-  python3 -m ciphey -t "encrypted text here"
-```
+
+We also tested CyberChef and Ciphey with a **6gb file**. Ciphey cracked it in **5 minutes and 54 seconds**. CyberChef crashed before it even started.
+
+
+
+## 📊 Ciphey vs Katana vs CyberChef Magic
+
+| **Name**                                   | ⚡ Ciphey ⚡ | 🤡 Katana 🤡 | 🐢 CyberChef Magic 🐢 |
+| ------------------------------------------ | ---------- | ---------- | ------------------- |
+| Advanced Language Checker                   | ✅          | ❌          | ✅                   |
+| Supports Encryptions                       | ✅          | ✅          | ❌                   |
+| Releases named after Dystopian themes 🌃    | ✅          | ❌          | ❌                   |
+| Supports hashes                            | ✅          | ✅          | ❌                   |
+| Easy to set up                             | ✅          | ❌          | ✅                   |
+| Can guess what something is encrypted with | ✅          | ❌          | ❌                   |
+| Created for hackers by hackers             | ✅          | ✅          | ❌                   |
+
+# 🎬 Getting Started
+
 ### Running Ciphey
 There are 3 ways to run Ciphey.
 1. File Input `ciphey - encrypted.txt`
@@ -69,20 +119,27 @@ To get rid of the progress bars, probability table, and all the noise use the gr
 
 For a full list of arguments, run `ciphey --help`.
 
-### Importing Ciphey
-You can import Ciphey\'s __main__ and use it in your own programs and code.
-This is feature is expected to expand in the next major version.
-# Docs
+### ⚗️ Importing Ciphey
+You can import Ciphey\'s main and use it in your own programs and code. `from Ciphey.__main__ import main`
+# 📚 Docs
 The docs are located at [https://ciphey.readthedocs.io/en/latest/](https://ciphey.readthedocs.io/en/latest/)
 
-# Contributors
-Ciphey was invented by [Brandon Skerritt](https://github.com/brandonskerritt) way back in 2008 (don't worry, the code has upgraded since then 😜) but it wouldn't be where it is today without [Cyclic3](https://github.com/Cyclic3).
-## Contributing
-Please read the [contributing file](https://github.com/Ciphey/Ciphey/blob/master/CONTRIBUTING.md) or submit an issue and we can help you.
-## Financial Contributors
-Please donate to us, we're students and we want Huel.
+# 🎪 Contributors
+Ciphey was invented by [Brandon Skerritt](https://github.com/brandonskerritt) in 2008, and revived in 2019. Ciphey wouldn't be where it was today without [Cyclic3](https://github.com/Cyclic3) - president of UoL's Cyber Security Society.
 
-## Contributors ✨
+Ciphey was revived & recreated by the [Cyber Security Society](https://www.cybersoc.cf/) for use in CTFs. If you're ever in Liverpool, consider giving a talk or sponsoring our events. Email us at `cybersecurity@society.liverpoolguild.org` to find out more 🤠
+## 🐕‍🦺 [Contributing](CONTRIBUTING.md)
+Don't be afraid to contribute! We have many, many things you can do to help out. Each of them labelled and easily explained with examples. If you're trying to contribute but stuck, tag @brandonskerritt in the GitHub issue ✨
+
+Alternatively, join the Discord group and send a message there (link in [contrib file](CONTRIBUTING.md)) or at the top of this README as a badge.
+
+Please read the [contributing file](CONTRIBUTING.md) for exact details on how to contribute ✨
+## 💰 Financial Contributors
+The contributions will be used to fund not only the future of Ciphey and its authors, but also Cyber Security Society at the University of Liverpool (by the way, the University doesn't pay us to travel over the country winning competitions and representing the university. We have to pay for that by ourselves....)
+
+GitHub doesn't support "sponsor this project and we'll evenly distribute the money", so pick a link and we'll sort it out on our end 🥰
+
+## ✨ Contributors
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
