@@ -216,3 +216,13 @@ BEANOS INVADES THE FORTNITE ITEM SHOP AT 8_00 PM.EXE-uG0WJcr-cuI.f299.mp4.part
 run.yml
 
 tests/interface.rst
+
+
+# Test Generator
+test_main_generated.py
+
+run.yml
+
+tests/interface.rst
+
+test.py

@@ -17,10 +17,9 @@ class Json(Generic[T], ciphey.iface.ResourceLoader[T]):
     @lru_cache
     def getResource(self, name: str) -> T:
         prefix, name = name.split("::", 1)
-        return {
-            "wordlist": (lambda js: {js}),
-            "dist": (lambda js: js)
-        }[prefix](json.load(open(self._paths[int(name) - 1])))
+        return {"wordlist": (lambda js: {js}), "dist": (lambda js: js)}[prefix](
+            json.load(open(self._paths[int(name) - 1]))
+        )
 
     @staticmethod
     def getName() -> str:
@@ -28,9 +27,7 @@ class Json(Generic[T], ciphey.iface.ResourceLoader[T]):
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ciphey.iface.ParamSpec]]:
-        return {
-            "path": ParamSpec(req=True, desc="The path to a JSON file", list=True)
-        }
+        return {"path": ParamSpec(req=True, desc="The path to a JSON file", list=True)}
 
     def __init__(self, config: ciphey.iface.Config):
         super().__init__(config)
@@ -38,9 +35,11 @@ class Json(Generic[T], ciphey.iface.ResourceLoader[T]):
         self._names = set(range(1, len(self._paths)))
 
 
-ciphey.iface.registry.register(Json,
-                               ciphey.iface.ResourceLoader[ciphey.iface.WordList],
-                               ciphey.iface.ResourceLoader[ciphey.iface.Distribution])
+ciphey.iface.registry.register(
+    Json,
+    ciphey.iface.ResourceLoader[ciphey.iface.WordList],
+    ciphey.iface.ResourceLoader[ciphey.iface.Distribution],
+)
 
 
 # We can use a generic resource loader here, as we can instantiate it later
@@ -53,7 +52,7 @@ class Csv(Generic[T], ciphey.iface.ResourceLoader[T]):
         prefix, name = name.split("::", 1)
         return {
             "wordlist": (lambda reader: {i[0] for i in reader}),
-            "dist": (lambda reader: {i[0]: float(i[1]) for i in reader})
+            "dist": (lambda reader: {i[0]: float(i[1]) for i in reader}),
         }[prefix](csv.reader(open(self._paths[int(name) - 1])))
 
     @staticmethod
@@ -62,9 +61,7 @@ class Csv(Generic[T], ciphey.iface.ResourceLoader[T]):
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ciphey.iface.ParamSpec]]:
-        return {
-            "path": ParamSpec(req=True, desc="The path to a CSV file", list=True)
-        }
+        return {"path": ParamSpec(req=True, desc="The path to a CSV file", list=True)}
 
     def __init__(self, config: ciphey.iface.Config):
         super().__init__(config)
@@ -72,6 +69,8 @@ class Csv(Generic[T], ciphey.iface.ResourceLoader[T]):
         self._names = set(range(1, len(self._paths)))
 
 
-ciphey.iface.registry.register(Csv,
-                               ciphey.iface.ResourceLoader[ciphey.iface.WordList],
-                               ciphey.iface.ResourceLoader[ciphey.iface.Distribution])
+ciphey.iface.registry.register(
+    Csv,
+    ciphey.iface.ResourceLoader[ciphey.iface.WordList],
+    ciphey.iface.ResourceLoader[ciphey.iface.Distribution],
+)

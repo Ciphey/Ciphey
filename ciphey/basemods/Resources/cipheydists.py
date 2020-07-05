@@ -18,7 +18,7 @@ class CipheyDists(ciphey.iface.ResourceLoader):
         "list": cipheydists.get_list,
         "dist": cipheydists.get_dist,
         "brandon": cipheydists.get_brandon,
-        "translate": cipheydists.get_translate
+        "translate": cipheydists.get_translate,
     }
 
     def whatResources(self) -> Optional[Set[str]]:
@@ -38,6 +38,8 @@ class CipheyDists(ciphey.iface.ResourceLoader):
         pass
 
 
-ciphey.iface.registry.register(CipheyDists,
-                               ciphey.iface.ResourceLoader[ciphey.iface.WordList],
-                               ciphey.iface.ResourceLoader[ciphey.iface.Dict])
+ciphey.iface.registry.register(
+    CipheyDists,
+    ciphey.iface.ResourceLoader[ciphey.iface.WordList],
+    ciphey.iface.ResourceLoader[ciphey.iface.Dict],
+)

@@ -25,16 +25,25 @@ class Quorum(Generic[T], ciphey.iface.Checker[T]):
             k = len(self._params()["checker"])
         # These checks need to be separate, to make sure that we do not have zero members
         if self._params().k == 0 or self._params().k > len(self._params()["checker"]):
-            raise IndexError("k must be between 0 and the number of checkers (inclusive)")
+            raise IndexError(
+                "k must be between 0 and the number of checkers (inclusive)"
+            )
 
         self.checkers = []
         for i in self._params()["checker"]:
             # This enforces type consistency
-            self.checkers.append(ciphey.iface.registry.get_named(i, ciphey.iface.Checker[T]))
+            self.checkers.append(
+                ciphey.iface.registry.get_named(i, ciphey.iface.Checker[T])
+            )
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
         return {
-            "checker": ParamSpec(req=True, desc="The checkers to be used for analysis", list=True),
-            "k": ParamSpec(req=False, desc="The minimum quorum size. Defaults to the number of checkers"),
+            "checker": ParamSpec(
+                req=True, desc="The checkers to be used for analysis", list=True
+            ),
+            "k": ParamSpec(
+                req=False,
+                desc="The minimum quorum size. Defaults to the number of checkers",
+            ),
         }

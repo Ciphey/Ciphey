@@ -14,11 +14,11 @@ Encodings
 * Base16
 * Base32
 * Base64
-* base85
-* Ascii base85
-* Base62
-* Base58 Bitcoin
-* Base58 Ripple
+* Base85
+* Base85 Ascii
+* Base62 Bitcoin
+* Base62 Ripple
+* Base62 (with the char set link shorteners use)
 * Ascii
 * Hexadecimal
 * Binary

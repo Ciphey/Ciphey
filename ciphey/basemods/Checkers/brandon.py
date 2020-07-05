@@ -83,7 +83,7 @@ class Brandon(ciphey.iface.Checker[str]):
     """
 
     def getExpectedRuntime(self, text: T) -> float:
-        #TODO: actually work this out
+        # TODO: actually work this out
         return 1e-4  # 100 µs
 
     wordlist: set
@@ -299,8 +299,8 @@ class Brandon(ciphey.iface.Checker[str]):
             "phases": ciphey.iface.ParamSpec(
                 desc="Language-specific phase thresholds",
                 req=False,
-                default="cipheydists::brandon_english"
-            )
+                default="cipheydists::brandon_english",
+            ),
         }
 
 

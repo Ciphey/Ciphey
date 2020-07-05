@@ -7,6 +7,7 @@ class letters:
 
     def __name__(self):
         return "Letters"
+
     def decrypt(self, text: str) -> dict:
         return text
 
@@ -24,6 +25,3 @@ class letters:
             # Applies a space after every sentence
             # which might be every word
             new_text.append(" ")
-            
-
-        

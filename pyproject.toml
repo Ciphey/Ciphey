@@ -1,10 +1,10 @@
 [tool.poetry]
 name = "ciphey"
-version = "3.5.9"
+version = "4.2.1rc01"
 description = "Automated Decryption Tool"
 authors = ["Brandon <brandon@skerritt.blog>"]
 license = "MIT"
-documentation = "https://ciphey.readthedocs.io"
+documentation = "https://docs.ciphey.online"
 exclude = ["tests/hansard.txt"]
 
 [tool.poetry.dependencies]
@@ -14,8 +14,8 @@ rich = "^1.2.3"
 loguru = "^0.5.0"
 pylint = "^2.5.2"
 flake8 = "^3.8.2"
-cipheydists = "^0.3.3"
-cipheycore = "^0.1.5"
+cipheydists = "^0.3.4"
+cipheycore = "^0.2.0"
 tflite-runtime = [
     {url = "https://dl.google.com/coral/python/tflite_runtime-2.1.0.post1-cp36-cp36m-linux_x86_64.whl", python="~3.6", markers="os_name == 'Linux'"},
     {url = "https://dl.google.com/coral/python/tflite_runtime-2.1.0.post1-cp37-cp37m-linux_x86_64.whl", python="~3.7", markers="os_name == 'Linux'"},
@@ -27,6 +27,9 @@ tflite-runtime = [
 ]
 appdirs = "^1.4.4"
 typing_inspect = { version = "^0.6.0", python = "~3.6 || ~3.7" }
+base58 = "^2.0.1"
+pybase62 = "^0.4.3"
+click = "^7.1.2"
 
 [tool.poetry.dev-dependencies]
 pytest-cov = "^2.9.0"

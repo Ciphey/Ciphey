@@ -185,7 +185,3 @@ class mathsHelper:
         """
         text: str = str(text).translate(str.maketrans("", "", punctuation))
         return text
-
-
-
-

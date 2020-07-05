@@ -27,11 +27,16 @@ class Regex(ciphey.iface.Checker[str]):
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
         return {
-            "regex": ParamSpec(req=True, desc="The regex that must be matched (in a substring)", list=True)
+            "regex": ParamSpec(
+                req=True,
+                desc="The regex that must be matched (in a substring)",
+                list=True,
+            )
         }
 
     @staticmethod
-    def getName() -> str: return "regex"
+    def getName() -> str:
+        return "regex"
 
 
 ciphey.iface.registry.register(Regex, ciphey.iface.Checker[str])
