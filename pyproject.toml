@@ -30,6 +30,7 @@ typing_inspect = { version = "^0.6.0", python = "~3.6 || ~3.7" }
 base58 = "^2.0.1"
 pybase62 = "^0.4.3"
 click = "^7.1.2"
+click-spinner = "^0.1.10"
 
 [tool.poetry.dev-dependencies]
 pytest-cov = "^2.9.0"

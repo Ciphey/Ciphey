@@ -24,6 +24,7 @@ from rich.console import Console
 from rich.table import Table
 from loguru import logger
 import click
+import click_spinner
 
 warnings.filterwarnings("ignore")
 
@@ -236,10 +237,7 @@ def get_name(ctx, param, value):
     type=str,
 )
 @click.option(
-    "-m",
-    "--module",
-    help="Adds a module from the given path",
-    type=click.Path(),
+    "-m", "--module", help="Adds a module from the given path", type=click.Path(),
 )
 @click.argument("text_stdin", callback=get_name, required=False)
 @click.argument("file_stdin", type=click.File("rb"), required=False)
@@ -292,6 +290,7 @@ def main(
             The output of the decryption.
     """
     import pprint
+
     pprint.pprint(config)
 
     # Default init the config object
@@ -363,6 +362,7 @@ def main_decrypt(ciphertext, config: Dict[str, object] = None) -> Optional[dict]
 if __name__ == "__main__":
     # withArgs because this function is only called
     # if the program is run in terminal
-    result = main()
+    with click_spinner.spinner():
+        result = main()
     if result is not None:
         print(result)
