@@ -34,7 +34,7 @@ from rich.progress import track
 
 class test_generator:
     def __init__(self):
-        self.HOW_MANY_TESTS = 50
+        self.HOW_MANY_TESTS = 30
         self.enCiphey_obj = enciphey.encipher()
 
     def main(self):
@@ -56,7 +56,7 @@ class test_generator:
         return f"""
 def test_{cipher['Encrypted Texts']['CipherUsed']}_{id}():
     # {cipher}
-    res = ciphey.main('''{cipher['Encrypted Texts']['EncryptedText']}''')
+    res = ciphey.main('''{cipher['Encrypted Texts']['EncryptedText']}''', config={"offline": True})
     assert(res == {cipher['Encrypted Texts']['PlainText']})
         """
 

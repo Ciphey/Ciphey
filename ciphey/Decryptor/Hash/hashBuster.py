@@ -93,6 +93,7 @@ sha512 = [alpha, beta, theta]
 
 
 def crack(hashvalue, lc):
+
     logger.debug(f"Starting to crack hashes")
     result = False
     if len(hashvalue) == 32:

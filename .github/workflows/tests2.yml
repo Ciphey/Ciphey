@@ -1,0 +1,25 @@
+name: tests
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        # code coverage runs on 3.8, hence why we don't need it here
+        python-version: [3.6, 3.7, pypy3]
+        exclude:
+          - os: macos-latest
+            python-version: 3.8
+          - os: windows-latest
+            python-version: 3.6
+    steps:
+      - name: Tests
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run:
+              pip install nox && pip install poetry && nox
+        # run: pip install nox==2019.11.9 && pip install poetry==1.0.5 && nox

@@ -25,7 +25,8 @@ class Utf8(ciphey.iface.Decoder[bytes, str]):
         pass
 
     @staticmethod
-    def getName() -> str: return "UTF-8"
+    def getName() -> str:
+        return "UTF-8"
 
     @staticmethod
     def priority() -> float:

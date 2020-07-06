@@ -22,31 +22,43 @@ from ciphey.iface import ParamSpec, Cracker, CrackResult, T, CrackInfo
 class Vigenere(ciphey.iface.Cracker[str]):
     def getInfo(self, ctext: T) -> CrackInfo:
         if self.keysize is not None:
-            analysis = self.cache.get_or_update(ctext, f"vigenere::{self.keysize}",
-                                                lambda: cipheycore.analyse_string(ctext, self.keysize, self.group))
+            analysis = self.cache.get_or_update(
+                ctext,
+                f"vigenere::{self.keysize}",
+                lambda: cipheycore.analyse_string(ctext, self.keysize, self.group),
+            )
 
             return CrackInfo(
                 success_likelihood=cipheycore.vigenere_detect(analysis, self.expected),
                 # TODO: actually calculate runtimes
-                success_runtime=1e-4, failure_runtime=1e-4
+                success_runtime=1e-4,
+                failure_runtime=1e-4,
             )
         else:
             return CrackInfo(
                 success_likelihood=0.5,  # TODO: actually work this out
                 # TODO: actually calculate runtimes
-                success_runtime=1e-4, failure_runtime=1e-4
+                success_runtime=1e-4,
+                failure_runtime=1e-4,
             )
 
     @staticmethod
     def getTarget() -> str:
         return "vigenere"
 
-    def crackOne(self, ctext: str, analysis: cipheycore.simple_analysis_res) -> List[CrackResult]:
-        possible_keys = cipheycore.vigenere_crack(analysis, self.expected, self.group, self.p_value)
-        return [CrackResult(
-            value=cipheycore.vigenere_decrypt(ctext, candidate.key, self.group),
-            key_info=''.join([self.group[i] for i in candidate.key])
-        ) for candidate in possible_keys]
+    def crackOne(
+        self, ctext: str, analysis: cipheycore.simple_analysis_res
+    ) -> List[CrackResult]:
+        possible_keys = cipheycore.vigenere_crack(
+            analysis, self.expected, self.group, self.p_value
+        )
+        return [
+            CrackResult(
+                value=cipheycore.vigenere_decrypt(ctext, candidate.key, self.group),
+                key_info="".join([self.group[i] for i in candidate.key]),
+            )
+            for candidate in possible_keys
+        ]
 
     def attemptCrack(self, ctext: str) -> List[CrackResult]:
         logger.debug("Trying caesar cipher")
@@ -58,27 +70,30 @@ class Vigenere(ciphey.iface.Cracker[str]):
 
         # Analysis must be done here, where we know the case for the cache
         if self.keysize is not None:
-            return self.crackOne(message,
-                                 self.cache.get_or_update(ctext,
-                                                          f"vigenere::{self.keysize}",
-                                                          lambda:
-                                                              cipheycore.analyse_string(ctext, self.keysize, self.group)
-                                                          )
-                                 )
+            return self.crackOne(
+                message,
+                self.cache.get_or_update(
+                    ctext,
+                    f"vigenere::{self.keysize}",
+                    lambda: cipheycore.analyse_string(ctext, self.keysize, self.group),
+                ),
+            )
         else:
             arrs = []
             possible_len = self.kasiskiExamination(message)
             possible_len.sort()
             # TODO: work out length
             for i in possible_len:
-                arrs.extend(self.crackOne(message,
-                                          self.cache.get_or_update(ctext,
-                                                                   f"vigenere::{i}",
-                                                                   lambda:
-                                                                       cipheycore.analyse_string(ctext, i, self.group)
-                                                                   )
-                                          )
-                            )
+                arrs.extend(
+                    self.crackOne(
+                        message,
+                        self.cache.get_or_update(
+                            ctext,
+                            f"vigenere::{i}",
+                            lambda: cipheycore.analyse_string(ctext, i, self.group),
+                        ),
+                    )
+                )
 
             logger.debug(f"Vigenere returned {len(arrs)} candidates")
             return arrs
@@ -89,22 +104,27 @@ class Vigenere(ciphey.iface.Cracker[str]):
             "expected": ciphey.iface.ParamSpec(
                 desc="The expected distribution of the plaintext",
                 req=False,
-                config_ref=["default_dist"]),
+                config_ref=["default_dist"],
+            ),
             "group": ciphey.iface.ParamSpec(
                 desc="An ordered sequence of chars that make up the caesar cipher alphabet",
                 req=False,
-                default="abcdefghijklmnopqrstuvwxyz"),
+                default="abcdefghijklmnopqrstuvwxyz",
+            ),
             "lower": ciphey.iface.ParamSpec(
                 desc="Whether or not the ciphertext should be converted to lowercase first",
                 req=False,
-                default=True),
+                default=True,
+            ),
             "keysize": ciphey.iface.ParamSpec(
                 desc="A key size that should be used. If not given, will attempt to work it out",
-                req=False),
+                req=False,
+            ),
             "p_value": ciphey.iface.ParamSpec(
                 desc="The p-value to use for windowed frequency analysis",
                 req=False,
-                default=0.9)
+                default=0.9,
+            ),
         }
 
     def __init__(self, config: ciphey.iface.Config):
@@ -157,11 +177,11 @@ class Vigenere(ciphey.iface.Cracker[str]):
         for seqLen in range(3, 6):
             for seqStart in range(len(message) - seqLen):
                 # Determine what the sequence is, and store it in seq:
-                seq = message[seqStart: seqStart + seqLen]
+                seq = message[seqStart : seqStart + seqLen]
 
                 # Look for this sequence in the rest of the message:
                 for i in range(seqStart + seqLen, len(message) - seqLen):
-                    if message[i: i + seqLen] == seq:
+                    if message[i : i + seqLen] == seq:
                         # Found a repeated sequence.
                         if seq not in seqSpacings:
                             seqSpacings[seq] = []  # Initialize a blank list.
@@ -186,13 +206,16 @@ class Vigenere(ciphey.iface.Cracker[str]):
         #
         # Mathematician note: whilst this is *definitely* suboptimal,
         # for small numbers it's probably as good as other methods
-        for i in range(2, min(self.MAX_KEY_LENGTH + 1, num)):  # Don't test 1: it's not useful.
+        for i in range(
+            2, min(self.MAX_KEY_LENGTH + 1, num)
+        ):  # Don't test 1: it's not useful.
             if num % i == 0:
                 factors.add(i)
                 otherFactor = num // i
                 if otherFactor < self.MAX_KEY_LENGTH + 1 and otherFactor != 1:
                     factors.add(otherFactor)
         return list(factors)
+
     #
     def getMostCommonFactors(self, seqFactors):
         # First, get a count of how many times a factor occurs in seqFactors:
@@ -222,6 +245,7 @@ class Vigenere(ciphey.iface.Cracker[str]):
         factorsByCount.sort(key=lambda x: x[1], reverse=True)
 
         return factorsByCount
+
     #
     # def kasiskiExamination(self, ciphertext):
     #     # Find out the sequences of 3 to 5 letters that occur multiple times

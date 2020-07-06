@@ -4,28 +4,12 @@
 ██║     ██║██████╔╝███████║█████╗   ╚████╔╝ 
 ██║     ██║██╔═══╝ ██╔══██║██╔══╝    ╚██╔╝  
 ╚██████╗██║██║     ██║  ██║███████╗   ██║ 
-© Brandon Skerritt
-https://github.com/brandonskerritt/ciphey
+https://github.com/ciphey
+https://docs.ciphey.online
 
 The cycle goes:
 main -> argparsing (if needed) -> call_encryption -> new Ciphey object -> decrypt() -> produceProbTable ->
 one_level_of_decryption -> decrypt_normal
-
-Ciphey can be called 3 ways:
-echo 'text' | ciphey
-ciphey 'text'
-ciphey -t 'text'
-main captures the first 2
-argparsing captures the last one (-t)
-it sends this to call_encryption, which can handle all 3 arguments using dict unpacking
-
-decrypt() creates the prob table and prints it.
-
-one_level_of_decryption() allows us to repeatedly call one_level_of_decryption on the inputs
-so if something is doubly encrypted, we can use this to find it.
-
-Decrypt_normal is one round of decryption. We need one_level_of_decryption to call it, as
-one_level_of_decryption handles progress bars and stuff.
 """
 import warnings
 import argparse
@@ -39,6 +23,7 @@ from . import iface
 from rich.console import Console
 from rich.table import Table
 from loguru import logger
+import click
 
 warnings.filterwarnings("ignore")
 
@@ -60,107 +45,7 @@ def arg_parsing(config: iface.Config) -> Optional[Dict[str, Any]]:
         Returns:
             The config to be passed around for the rest of time
     """
-    parser = argparse.ArgumentParser(
-        description="""Automated decryption tool. Put in the encrypted text and Ciphey will decrypt it.\n
-        Examples:
-        python3 ciphey -t "aGVsbG8gbXkgYmFieQ==" -d true -c true
-        """
-    )
-    parser.add_argument(
-        "-t",
-        "--text",
-        help="Text to decrypt",
-    )
-    parser.add_argument(
-        "-i",
-        "--info",
-        help="Do you want information on the cipher used?",
-        action="store_const",
-        const=True,
-    )
-    parser.add_argument(
-        "-d",
-        "--debug",
-        help="Activates debug mode",
-        action="store_const",
-        const=True,
-    )
-    parser.add_argument(
-        "-D",
-        "--trace",
-        help="More verbose than debug mode. Shadows --debug",
-        action="store_const",
-        const=True,
-    )
-    parser.add_argument(
-        "-q",
-        "--quiet",
-        help="Supress warnings",
-        action="store_const",
-        const=True,
-    )
-    parser.add_argument(
-        "-Q",
-        "--silent",
-        help="Only output the answer, no progress bars or information. Useful for grep",
-        action="store_const",
-        const=True,
-    )
-    parser.add_argument(
-        "-C",
-        "--checker",
-        help="Uses the given language checker. Defaults to brandon",
-        action="store",
-    )
-    parser.add_argument(
-        "-c",
-        "--config",
-        help="Uses the given config file. Defaults to appdirs.user_config_dir('ciphey', 'ciphey')/'config.yml'",
-        action="store_const",
-        const=True,
-    )
-    parser.add_argument(
-        "-p",
-        "--param",
-        help="Passes a parameter to the language checker",
-        action="append",
-        default=[]
-    )
-    parser.add_argument(
-        "-l",
-        "--list-params",
-        help="Lists the parameters of the selected module",
-        action="store_const",
-        const=True,
-    )
-    parser.add_argument(
-        "-m",
-        "--module",
-        help="Adds a module from the given path",
-        action="append",
-        default=[]
-    )
-    parser.add_argument(
-        "-b",
-        "--bytes-input",
-        help="Forces ciphey to use binary mode for the input. Rather experimental and may break things!",
-        action="store_const",
-        const="bytes",
-        default="str"
-    )
-    parser.add_argument(
-        "-B",
-        "--bytes-output",
-        help="Forces ciphey to use binary mode for the output. Rather experimental and may break things!",
-        action="store_const",
-        const="bytes",
-        default="str"
-    )
-    parser.add_argument(
-        "--default-dist",
-        help="Sets the default character/byte distribution",
-        action="store"
-    )
+
     # parser.add_argument(
     #     "--default-wordlist",
     #     help="Sets the default wordlist",
@@ -168,18 +53,9 @@ def arg_parsing(config: iface.Config) -> Optional[Dict[str, Any]]:
     #     default=None
     # )
 
-    args = vars(parser.parse_args())
+    args = config
 
     # First, we should work out how verbose we should be
-    if args["trace"]:
-        config.update_log_level("TRACE")
-    elif args["debug"]:
-        config.update_log_level("DEBUG")
-    elif args["quiet"]:
-        config.update_log_level("ERROR")
-    elif args["silent"]:
-        config.update_log_level(None)
-        config.grep = True
 
     # Now we have set the log level, we can start debugging
     logger.trace(f"Got arguments {args}")
@@ -191,21 +67,69 @@ def arg_parsing(config: iface.Config) -> Optional[Dict[str, Any]]:
     # else if data is piped like:
     # echo 'hello' | ciphey use that
     # if no data is supplied, no arguments supplied.
+    text = None
+    if args["text"] is not None:
+        text = args["text"]
+    else:
+        print("No input given.")
+        exit(1)
 
-    # if len(sys.argv) == 1:
-    #     logger.critical("No arguments were supplied. Look at the help menu with -h or --help")
-    #     return None
+    if len(sys.argv) == 1:
+        print("No arguments were supplied. Look at the help menu with -h or --help")
+        return None
+
+    args["text"] = text
+    if len(args["text"]) < 3:
+        print("A string of less than 3 chars cannot be interpreted by Ciphey.")
+        return None
 
     # Now we can walk through the arguments, expanding them into the config struct
-    config.update("checker", args.get("checker"))
-    config.update("info", args.get("info"))
-    config.update_format("in", args.get("bytes_input"))
-    config.update_format("out", args.get("bytes_output"))
-    config.update("default_dist", args.get("default_dist"))
+    config["checker"] = args.get("checker")
+    config["info"] = args.get("info")
+    config["in"] = args.get("bytes_input")
+    config["out"] = args.get("bytes_output")
+    config["default_dist"] = args.get("default_dist")
 
     # Append the module lists:
-    config.modules += args["module"]
+    if not "modules" in config:
+        config["modules"] = args["module"]
+    else:
+        config["modules"] += args["module"]
+    print(f"Config modules is {config['modules']}")
     config.load_modules()
+    # Now we can walk through the arguments, expanding them into a canonical form
+    #
+    # First, we go over simple args
+    config["info"] = False
+    config["ctext"] = args["text"]
+    config["grep"] = args["greppable"]
+    config["offline"] = args["offline"]
+
+    # Verbosity levels
+    if args["verbose"] >= 3:
+        config["debug"] = "TRACE"
+        config.update_log_level("TRACE")
+    elif args["verbose"] == 2:
+        config["debug"] = "DEBUG"
+        config.update_log_level("DEBUG")
+    elif args["verbose"] == 1:
+        config["debug"] = "ERROR"
+        config.update_log_level("ERROR")
+    else:
+        config["debug"] = "WARNING"
+
+    if args["silent"]:
+        config.update_log_level(None)
+        config.grep = True
+
+    # Try to locate language checker module
+    # TODO: actually implement this
+    from ciphey.LanguageChecker.brandon import ciphey_language_checker as brandon
+
+    config["checker"] = brandon
+    # Try to locate language checker module
+    # TODO: actually implement this (should be similar)
+    import cipheydists
 
     # Now we fill in the params *shudder*
     for i in args["param"]:
@@ -219,7 +143,142 @@ def arg_parsing(config: iface.Config) -> Optional[Dict[str, Any]]:
     return args
 
 
-def main(config: Optional[iface.Config] = None, ciphertext=None, parse_args: bool = True) -> Optional[dict]:
+def get_name(ctx, param, value):
+    # reads from stdin if the argument wasnt supplied
+    if not value and not click.get_text_stream("stdin").isatty():
+        click.get_text_stream("stdin").read().strip()
+        return click.get_text_stream("stdin").read().strip()
+    else:
+        return value
+
+    return locals()
+
+
+@click.command()
+@click.option(
+    "-t", "--text", help="The ciphertext you want to decrypt.", type=str,
+)
+@click.option(
+    "-i",
+    "--info",
+    help="Do you want information on the cipher used?",
+    type=bool,
+    is_flag=True,
+)
+@click.option(
+    "-q",
+    "--quiet",
+    help="Only output the answer. Useful for grep.",
+    type=bool,
+    multiple=True,
+    is_flag=True,
+)
+@click.option("-v", "--verbose", count=True, type=int)
+@click.option(
+    "-C",
+    "--checker",
+    help="Use the default internal checker. Defaults to brandon",
+    type=bool,
+    is_flag=True,
+)
+@click.option(
+    "-c",
+    "--config",
+    help="Uses the given config file. Defaults to appdirs.user_config_dir('ciphey', 'ciphey')/'config.yml'",
+)
+@click.option("-w", "--wordlist", help="Uses the given internal wordlist")
+@click.option(
+    "-W",
+    "--wordlist-file",
+    help="Uses the wordlist at the given path",
+    type=click.File("rb"),
+)
+@click.option(
+    "-p",
+    "--param",
+    help="Passes a parameter to the language checker",
+    type=list,
+    multiple=True,
+)
+@click.option(
+    "-l", "--list-params", help="List the parameters of the selected module", type=bool,
+)
+@click.option(
+    "-O",
+    "--offline",
+    help="Run Ciphey in offline mode (no hash support)",
+    type=bool,
+    is_flag=True,
+)
+# HARLAN TODO XXX
+# I switched this to a boolean flag system
+# https://click.palletsprojects.com/en/7.x/options/#boolean-flags
+# True for bytes input, False for str
+@click.option(
+    "-s/-b",
+    "--str-input/--bytes-input",
+    help="Forces ciphey to use binary mode for the input. Rather experimental and may break things!",
+    type=bool,
+)
+# HARLAN TODO XXX
+# I switched this to a boolean flag system
+# https://click.palletsprojects.com/en/7.x/options/#boolean-flags
+@click.option(
+    "-S/-B",
+    "--string-output/--bytes-output",
+    help="Forces ciphey to use binary mode for the output. Rather experimental and may break things!",
+    type=bool,
+)
+@click.option(
+    "--default-dist",
+    help="Sets the default character/byte distribution",
+    default=None,
+    type=str,
+)
+@click.option(
+    "-m",
+    "--module",
+    help="Adds a module from the given path",
+    type=click.Path(),
+)
+@click.argument("text_stdin", callback=get_name, required=False)
+@click.argument("file_stdin", type=click.File("rb"), required=False)
+def main(
+    text,
+    verbose,
+    checker,
+    wordlist,
+    wordlist_file,
+    param,
+    list_params,
+    offline,
+    text_stdin,
+    file_stdin,
+    info,
+    quiet,
+    str_input,
+    string_output,
+    default_dist,
+    module,
+    config: Optional[iface.Config] = None,
+    parse_args: bool = True,
+) -> Optional[dict]:
+    """Ciphey - Automated Decryption Tool
+    
+    Documentation: 
+    https://docs.ciphey.online\n
+    Discord (support here, we're online most of the day):
+    https://discord.ciphey.online/\n
+    GitHub: 
+    https://github.com/ciphey/ciphey\n
+
+    Ciphey is an automated decryption tool using smart artificial intelligence and natural language processing. Input encrypted text, get the decrypted text back.
+
+    Examples:\n
+        Basic Usage: ciphey -t "aGVsbG8gbXkgbmFtZSBpcyBiZWU=" -d true -c true
+        
+    """
+
     """Function to deal with arguments. Either calls with args or not. Makes Pytest work.
 
     It gets the arguments in the function definition using locals()
@@ -232,41 +291,64 @@ def main(config: Optional[iface.Config] = None, ciphertext=None, parse_args: boo
         Returns:
             The output of the decryption.
     """
-    # If I don't do this, we end up with the default argument changing
+    import pprint
+    pprint.pprint(config)
+
     if config is None:
-        config = iface.Config()
+        config = locals()
+        config["params"] = {}
 
-    args = None
-    # We must fill in the arguments if they are not provided
-    if parse_args:
+        # Text parsing
+        if config["text"] is None:
+            if file_stdin is not None:
+                config["text"] = file_stdin.read().decode("utf-8")
+            elif text_stdin is not None:
+                config["text"] = text_stdin
+            else:
+                print("No inputs were given to Ciphey. Run ciphey --help")
+                logger.critical("No text input given!")
+                return None
+
+        ciphertext = text
+
+        config = arg_parsing(config)
         # Check if we errored out
-        args = arg_parsing(config)
-        if not args:
+        if not config:
+            logger.critical("If not config is None")
             return None
-
-    # We now load the ciphertext
-    if ciphertext is None:
-        if args is not None and args["text"] is not None:
-            ciphertext = args["text"]
-        elif not sys.stdin.isatty():
-            ciphertext = sys.stdin.read()
-        else:
-            logger.critical("No text input given!")
-            return None
+    else:
+        ciphertext = config["text"]
 
     # Perform type conversion
-    ciphertext = config.objs["format"]["in"](ciphertext)
-    logger.debug(f"Loaded ciphertext {ciphertext}")
 
     if len(ciphertext) < 3:
-        logger.critical("A string of less than 3 chars cannot be interpreted by Ciphey.")
+        print("A string of less than 3 chars cannot be interpreted by Ciphey.")
+        logger.critical(
+            "A string of less than 3 chars cannot be interpreted by Ciphey."
+        )
         return None
 
     # Dump the registry
     logger.trace(f"All modules: {iface.registry}")
 
     # Now we have working arguments, we can decrypt
-    return decrypt(ciphertext, config)
+    return main_decrypt(ciphertext, config)
+
+    # Now we have working arguments, we can expand it and pass it to the Ciphey constructor
+
+
+def main_decrypt(ciphertetx, config: Dict[str, object] = None) -> Optional[dict]:
+    """Calls the decrypt, acts as a 2nd main
+
+    The problem is that Click fails to run when importing and using main()
+
+    If I make a new function for Click, I have to change so much just to make it work.
+
+    If I make a new function for using the default config, and acting as a 2nd main -- I have to change less
+    Thus, this function exists."""
+
+    cipher_obj = Ciphey(config)
+    return cipher_obj.decrypt()
 
 
 if __name__ == "__main__":

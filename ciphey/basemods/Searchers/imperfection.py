@@ -18,7 +18,12 @@ from ciphey.iface import (
 import bisect
 
 
-class Perfection(AuSearch):
+class imperfection(AuSearch):
+    """The default search module for Ciphey
+
+    Called imperfection because ironically it is pretty perfect.
+
+    """
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
         pass
@@ -30,4 +35,4 @@ class Perfection(AuSearch):
         super().__init__(config)
 
 
-registry.register(Perfection, Searcher)
+registry.register(imperfection, Searcher)

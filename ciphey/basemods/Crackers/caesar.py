@@ -19,13 +19,17 @@ from ciphey.iface import ParamSpec, CrackResult, T, CrackInfo
 
 class Caesar(ciphey.iface.Cracker[str]):
     def getInfo(self, ctext: T) -> CrackInfo:
-        analysis = self.cache.get_or_update(ctext, "cipheycore::simple_analysis",
-                                            lambda: cipheycore.analyse_string(ctext))
+        analysis = self.cache.get_or_update(
+            ctext,
+            "cipheycore::simple_analysis",
+            lambda: cipheycore.analyse_string(ctext),
+        )
 
         return CrackInfo(
             success_likelihood=cipheycore.caesar_detect(analysis, self.expected),
             # TODO: actually calculate runtimes
-            success_runtime=1e-4, failure_runtime=1e-4
+            success_runtime=1e-4,
+            failure_runtime=1e-4,
         )
 
     @staticmethod
@@ -43,9 +47,14 @@ class Caesar(ciphey.iface.Cracker[str]):
             message = ctext
 
         # Hand it off to the core
-        analysis = self.cache.get_or_update(ctext, "cipheycore::simple_analysis",
-                                            lambda: cipheycore.analyse_string(message))
-        possible_keys = cipheycore.caesar_crack(analysis, self.expected, self.group, True, self.p_value)
+        analysis = self.cache.get_or_update(
+            ctext,
+            "cipheycore::simple_analysis",
+            lambda: cipheycore.analyse_string(message),
+        )
+        possible_keys = cipheycore.caesar_crack(
+            analysis, self.expected, self.group, True, self.p_value
+        )
         n_candidates = len(possible_keys)
         logger.debug(f"Caesar returned {n_candidates} candidates")
 
@@ -63,19 +72,23 @@ class Caesar(ciphey.iface.Cracker[str]):
             "expected": ciphey.iface.ParamSpec(
                 desc="The expected distribution of the plaintext",
                 req=False,
-                config_ref=["default_dist"]),
+                config_ref=["default_dist"],
+            ),
             "group": ciphey.iface.ParamSpec(
                 desc="An ordered sequence of chars that make up the caesar cipher alphabet",
                 req=False,
-                default="abcdefghijklmnopqrstuvwxyz"),
+                default="abcdefghijklmnopqrstuvwxyz",
+            ),
             "lower": ciphey.iface.ParamSpec(
                 desc="Whether or not the ciphertext should be converted to lowercase first",
                 req=False,
-                default=True),
+                default=True,
+            ),
             "p_value": ciphey.iface.ParamSpec(
                 desc="The p-value to use for standard frequency analysis",
                 req=False,
-                default=0.1)
+                default=0.1,
+            )
             # TODO: add "filter" param
         }
 

@@ -1,8 +1,21 @@
 from abc import ABC, abstractmethod
 from collections import defaultdict
-from typing import Any, Callable, Dict, Generic, Optional, List, NamedTuple, TypeVar, Type, Union, Set, \
-    Tuple
+from typing import (
+    Any,
+    Callable,
+    Dict,
+    Generic,
+    Optional,
+    List,
+    NamedTuple,
+    TypeVar,
+    Type,
+    Union,
+    Set,
+    Tuple,
+)
 import pydoc
+
 try:
     from typing import get_origin, get_args
 except ImportError:
@@ -12,12 +25,13 @@ from loguru import logger
 
 import datetime
 
-T = TypeVar('T')
-U = TypeVar('U')
+T = TypeVar("T")
+U = TypeVar("U")
 
 
 class Cache:
     """Used to track state between levels of recursion to stop infinite loops, and to optimise repeating actions"""
+
     _cache: Dict[Any, Dict[str, Any]] = {}
 
     def mark_ctext(self, ctext: Any) -> bool:
@@ -103,7 +117,9 @@ class Config:
         # Basic type conversion
         if self.timeout is not None:
             self.objs["timeout"] = datetime.timedelta(seconds=int(self.timeout))
-        self.objs["format"] = {key: pydoc.locate(value) for key, value in self.format.items()}
+        self.objs["format"] = {
+            key: pydoc.locate(value) for key, value in self.format.items()
+        }
 
         # Checkers do not depend on anything
         self.objs["checker"] = self(registry.get_named(self.checker, Checker))
@@ -124,11 +140,14 @@ class Config:
             logger.add(sink=sys.stderr, level=self.debug, colorize=sys.stderr.isatty())
             logger.opt(colors=True)
         else:
-            logger.add(sink=sys.stderr, level=self.debug, colorize=False, format="{message}")
+            logger.add(
+                sink=sys.stderr, level=self.debug, colorize=False, format="{message}"
+            )
         logger.debug(f"""Debug level set to {self.debug}""")
 
     def load_modules(self):
         import importlib.util
+
         for i in self.modules:
             spec = importlib.util.spec_from_file_location("ciphey.module_load_site", i)
             mod = importlib.util.module_from_spec(spec)
@@ -162,6 +181,7 @@ class ParamSpec(NamedTuple):
         list        Whether this parameter is in the form of a list, and can therefore be specified more than once
         visible     Whether the user can tweak this via the command line
     """
+
     req: bool
     desc: str
     default: Optional[Any] = None
@@ -194,11 +214,15 @@ class ConfigurableModule(ABC):
                 continue
             # If we don't have it, but it's required, then fail
             if value.req:
-                raise KeyError(f'Missing required param {key} for {type(self).__name__.lower()}')
+                raise KeyError(
+                    f"Missing required param {key} for {type(self).__name__.lower()}"
+                )
             # If it's a reference by default, fill that in
             if value.config_ref is not None:
                 tmp = getattr(config, value.config_ref[0])
-                params[key] = tmp[value.config_ref[1:]] if len(value.config_ref) > 1 else tmp
+                params[key] = (
+                    tmp[value.config_ref[1:]] if len(value.config_ref) > 1 else tmp
+                )
             # Otherwise, put in the default value (if it exists)
             elif value.default is not None:
                 params[key] = value.default
@@ -232,9 +256,11 @@ class Checker(Generic[T], ConfigurableModule):
         pass
 
     @abstractmethod
-    def getExpectedRuntime(self, text: T) -> float: pass
+    def getExpectedRuntime(self, text: T) -> float:
+        pass
 
-    def __call__(self, *args): return self.check(*args)
+    def __call__(self, *args):
+        return self.check(*args)
 
     @abstractmethod
     def __init__(self, config: Config):
@@ -257,7 +283,8 @@ class Decoder(Generic[T, U], ConfigurableModule, Targeted):
     """Represents the undoing of some encoding into a different (or the same) type"""
 
     @abstractmethod
-    def decode(self, ctext: T) -> Optional[U]: pass
+    def decode(self, ctext: T) -> Optional[U]:
+        pass
 
     @staticmethod
     @abstractmethod
@@ -265,10 +292,12 @@ class Decoder(Generic[T, U], ConfigurableModule, Targeted):
         """What proportion of decodings are this?"""
         pass
 
-    def __call__(self, *args): return self.decode(*args)
+    def __call__(self, *args):
+        return self.decode(*args)
 
     @abstractmethod
-    def __init__(self, config: Config): super().__init__(config)
+    def __init__(self, config: Config):
+        super().__init__(config)
 
 
 class DecoderComparer:
@@ -286,7 +315,8 @@ class DecoderComparer:
     def __gt__(self, other: "DecoderComparer"):
         return self.value.priority() > other.value.priority() and self != other
 
-    def __init__(self, value: Type[Decoder]): self.value = value
+    def __init__(self, value: Type[Decoder]):
+        self.value = value
 
 
 class CrackResult(NamedTuple, Generic[T]):
@@ -315,10 +345,12 @@ class Cracker(Generic[T], ConfigurableModule, Targeted):
         # FIXME: Actually CrackResult[T], but python complains
         pass
 
-    def __call__(self, *args): return self.attemptCrack(*args)
+    def __call__(self, *args):
+        return self.attemptCrack(*args)
 
     @abstractmethod
-    def __init__(self, config: Config): super().__init__(config)
+    def __init__(self, config: Config):
+        super().__init__(config)
 
 
 class ResourceLoader(Generic[T], ConfigurableModule):
@@ -343,12 +375,15 @@ class ResourceLoader(Generic[T], ConfigurableModule):
         """
         pass
 
-    def __call__(self, *args): return self.getResource(*args)
+    def __call__(self, *args):
+        return self.getResource(*args)
 
-    def __getitem__(self, *args): return self.getResource(*args)
+    def __getitem__(self, *args):
+        return self.getResource(*args)
 
     @abstractmethod
-    def __init__(self, config: Config): super().__init__(config)
+    def __init__(self, config: Config):
+        super().__init__(config)
 
 
 class SearchLevel(NamedTuple):
@@ -370,7 +405,8 @@ class Searcher(ConfigurableModule):
         pass
 
     @abstractmethod
-    def __init__(self, config: Config): super().__init__(config)
+    def __init__(self, config: Config):
+        super().__init__(config)
 
 
 def pretty_search_results(res: SearchResult, display_intermediate: bool = False):
@@ -381,23 +417,24 @@ def pretty_search_results(res: SearchResult, display_intermediate: bool = False)
 
     def add_one():
         nonlocal ret
-        ret += f'  {i.name}'
+        ret += f"  {i.name}"
         already_broken = False
         if i.result.key_info is not None:
             ret += f":\n    Key: {i.result.key_info}\n"
             already_broken = True
         if i.result.misc_info is not None:
             if not already_broken:
-                ret += ':\n'
-            ret += f'    Misc: {i.result.misc_info}\n'
+                ret += ":\n"
+            ret += f"    Misc: {i.result.misc_info}\n"
             already_broken = True
         if display_intermediate:
             if not already_broken:
-                ret += ':\n'
+                ret += ":\n"
             ret += f'    Value: "{i.result.value}"\n'
             already_broken = True
         if not already_broken:
             ret += "\n"
+
     # Skip the 'input' and print in reverse order
     for i in res.path[1:][::-1]:
         add_one()
@@ -415,7 +452,7 @@ class Registry:
     # I was planning on using __init_subclass__, but that is incompatible with dynamic type creation when we have
     # generic keys
 
-    RegElem = Union[List[Type], Dict[Type, 'RegElem']]
+    RegElem = Union[List[Type], Dict[Type, "RegElem"]]
 
     _reg: Dict[Type, RegElem] = {}
     _names: Dict[str, Tuple[Type, Set[Type]]] = {}
@@ -436,8 +473,16 @@ class Registry:
                 search_type = base_type
             else:
                 search_type = target_type = get_origin(base_type)
-                if target_type not in {Checker, ConfigurableModule, Cracker, Decoder, ResourceLoader}:
-                    raise TypeError("Invalid type passed to ciphey.iface.registry.register")
+                if target_type not in {
+                    Checker,
+                    ConfigurableModule,
+                    Cracker,
+                    Decoder,
+                    ResourceLoader,
+                }:
+                    raise TypeError(
+                        "Invalid type passed to ciphey.iface.registry.register"
+                    )
                 target_subtypes = get_args(base_type)
                 target_reg = self._reg.setdefault(target_type, {})
                 # Seek to the given type
@@ -469,8 +514,9 @@ class Registry:
             raise TypeError(f"Type mismatch: wanted {type_constraint}, got {ret[1]}")
         return ret[0]
 
-    def get_targeted(self, target: str, type_constraint: Type = None) \
-            -> Optional[Union[Dict[Type, Set[Type]], Set[Type]]]:
+    def get_targeted(
+        self, target: str, type_constraint: Type = None
+    ) -> Optional[Union[Dict[Type, Set[Type]], Set[Type]]]:
         x = self._targets.get(target)
         if x is None or type_constraint is None:
             return x

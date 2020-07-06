@@ -8,6 +8,9 @@ import cipheydists
 import string
 import cipheycore
 import cipheydists
+import base58
+import base62
+import re
 
 
 class encipher:
@@ -61,6 +64,9 @@ class encipher_crypto:  # pragma: no cover
             self.MorseCode,
             self.Reverse,
             self.Vigenere,
+            self.base58_bitcoin,
+            self.base58_ripple,
+            self.b62,
         ]
         self.morse_dict = dict(cipheydists.get_charset("morse"))
         self.letters = string.ascii_lowercase
@@ -171,6 +177,17 @@ class encipher_crypto:  # pragma: no cover
             real_key.append(tab[i])
         return real_key
         # vigenere_encrypt(msg, real_key, group)
+
+    def base58_bitcoin(self, text: str):
+        return base58.b58encode(bytes(text, "utf-8")).decode("utf-8")
+
+    def base58_ripple(self, text: str):
+        return base58.b58encode(
+            bytes(text, "utf-8"), alphabet=base58.RIPPLE_ALPHABET
+        ).decode("utf-8")
+
+    def b62(self, text: str):
+        return base62.decode(str(re.sub(r"[^A-Za-z1-9]+", "", text)))
 
 
 # obj = encipher()
