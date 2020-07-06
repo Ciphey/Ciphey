@@ -295,7 +295,7 @@ class CrackResult(NamedTuple, Generic[T]):
     misc_info: Optional[str] = None
 
 
-class CrackInfo(Generic[T], NamedTuple):
+class CrackInfo(NamedTuple):
     success_likelihood: float
     success_runtime: float
     failure_runtime: float
