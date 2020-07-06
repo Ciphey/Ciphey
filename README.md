@@ -52,7 +52,7 @@ And that's just the tip of the iceberg. For the full technical explanation, chec
 
 # ✨ Features
 
-- **20+ encryptions supported** such as hashes, encodings (binary, base64) and normal encryptions like Caesar cipher, Transposition and more. **[For the full list, click here](https://ciphey.readthedocs.io/en/latest/ciphers.html)**
+- **20+ encryptions supported** such as hashes, encodings (binary, base64) and normal encryptions like Caesar cipher, Transposition and more. **[For the full list, click here](https://docs.ciphey.online/en/latest/ciphers.html)**
 - **Custom Built Artificial Intelligence with Augmented Search (AuSearch) for answering the question "what encryption was used?"** Resulting in decryptions taking less than 3 seconds. 
 - **Custom built natural language processing module** Ciphey can determine whether something is plaintext or not. It has an incredibly high accuracy, along with being fast.
 - **Multi Language Support** at present, only German & English (with AU, UK, CAN, USA variants).
@@ -128,7 +128,7 @@ For a full list of arguments, run `ciphey --help`.
 ### ⚗️ Importing Ciphey
 You can import Ciphey\'s main and use it in your own programs and code. `from Ciphey.__main__ import main`
 # 📚 Docs
-The docs are located at [https://ciphey.readthedocs.io/en/latest/](https://ciphey.readthedocs.io/en/latest/)
+The docs are located at [https://docs.ciphey.online](https://docs.ciphey.online)
 
 # 🎪 Contributors
 Ciphey was invented by [Brandon Skerritt](https://github.com/brandonskerritt) in 2008, and revived in 2019. Ciphey wouldn't be where it was today without [Cyclic3](https://github.com/Cyclic3) - president of UoL's Cyber Security Society.
