@@ -1,6 +1,6 @@
 <p align="center">
-<a href="https://docs.ciphey.online">Documentation |</a>
-<a href="https://discord.ciphey.online">Discord |</a>
+<a href="https://docs.ciphey.online">Documentation</a> |
+<a href="https://discord.ciphey.online">Discord</a> |
 <a href="https://docs.ciphey.online/en/latest/install.html">Installation Guide</a>
 <br>
   <img src="Pictures_for_README/binoculars.png" alt="Ciphey">
@@ -14,7 +14,6 @@
   <img src="https://github.com/brandonskerritt/Ciphey/workflows/Python%20application/badge.svg?branch=master" alt="Ciphey">
   <img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/ciphey">
 <img src="https://codecov.io/gh/ciphey/ciphey/branch/master/graph/badge.svg">
-<a href="https://ciphey.readthedocs.io/"><img src="https://readthedocs.org/projects/ciphey/badge/"></a>
 <br>
 Fully automated decryption tool using natural language processing & artifical intelligence, along with some common sense.
 </p>
@@ -25,9 +24,10 @@ Fully automated decryption tool using natural language processing & artifical in
 | <p align="center"><img src="Pictures_for_README/python.png" /></p>                        | <p align="center"><img src="Pictures_for_README/arch.png" /></p>           | <p align="center"><img src="Pictures_for_README/windows.png" /></p>           | <p align="center"><img src="Pictures_for_README/apple.png" /></p>            |
 | `python3 -m pip install ciphey --upgrade`                                                 | `yay ciphey`                                                               | `winget ciphey`                                                               | `brew ciphey`                                                                |
 
+**Tests & Continuous Integration**
 | Linux       | Mac OS | Windows     |
 | ----------- | ------ | ----------- |
-| Put CI here |Put CI here | Put CI here |
+| ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ciphey/ciphey/Python%20application?label=Linux) |![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ciphey/ciphey/Python%20application?label=Mac%20OS) | ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ciphey/ciphey/Python%20application?label=Windows) |
 <hr>
 
 # 🤔 What is this?
@@ -44,7 +44,7 @@ Ciphey can solve most things in 3 seconds or less.
 
 The technical part. Ciphey uses a custom built artifical intelligence module with a simple filtration system to approximate what something is encrypted with. And then a custom-built, customisable natural languge processing Language Checker Interface, which can detect when the given text becomes plaintext.
 
-And that's just the tip of the iceberg. For the full technical explanation, check out our documentation HERE *********
+And that's just the tip of the iceberg. For the full technical explanation, check out our [documentation](https://docs.ciphey.online/en/latest/howWork.html).
 
 # ✨ Features
 
