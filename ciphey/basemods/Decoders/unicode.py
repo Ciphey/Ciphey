@@ -3,8 +3,10 @@ from typing import Optional, Dict, Any
 from loguru import logger
 
 import ciphey
+from ciphey.iface import Registry
 
 
+@Registry.register
 class Utf8(ciphey.iface.Decoder[bytes, str]):
     @staticmethod
     def getTarget() -> str:
@@ -34,6 +36,3 @@ class Utf8(ciphey.iface.Decoder[bytes, str]):
 
     def __init__(self, config: ciphey.iface.Config):
         super().__init__(config)
-
-
-ciphey.iface.registry.register(Utf8, ciphey.iface.Decoder[bytes, str])

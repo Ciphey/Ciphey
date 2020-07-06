@@ -294,16 +294,25 @@ def main(
     import pprint
     pprint.pprint(config)
 
+    # Default init the config object
+    config = iface.Config()
+
+    # Load the settings file into the config
+    load_settings(config, settings_path)
+
+    # Parse cmdline arguments
+    arg_parsing(config, args)
+
     if config is None:
-        config = locals()
-        config["params"] = {}
+        args = locals()
+        args["params"] = {}
 
         # Text parsing
-        if config["text"] is None:
+        if args["text"] is None:
             if file_stdin is not None:
-                config["text"] = file_stdin.read().decode("utf-8")
+                args["text"] = file_stdin.read().decode("utf-8")
             elif text_stdin is not None:
-                config["text"] = text_stdin
+                args["text"] = text_stdin
             else:
                 print("No inputs were given to Ciphey. Run ciphey --help")
                 logger.critical("No text input given!")
@@ -311,7 +320,7 @@ def main(
 
         ciphertext = text
 
-        config = arg_parsing(config)
+        args = arg_parsing(config)
         # Check if we errored out
         if not config:
             logger.critical("If not config is None")
@@ -329,7 +338,7 @@ def main(
         return None
 
     # Dump the registry
-    logger.trace(f"All modules: {iface.registry}")
+    logger.trace(f"All modules: {iface._registry}")
 
     # Now we have working arguments, we can decrypt
     return main_decrypt(ciphertext, config)
@@ -337,7 +346,7 @@ def main(
     # Now we have working arguments, we can expand it and pass it to the Ciphey constructor
 
 
-def main_decrypt(ciphertetx, config: Dict[str, object] = None) -> Optional[dict]:
+def main_decrypt(ciphertext, config: Dict[str, object] = None) -> Optional[dict]:
     """Calls the decrypt, acts as a 2nd main
 
     The problem is that Click fails to run when importing and using main()

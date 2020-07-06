@@ -2,8 +2,10 @@ from typing import Optional, Dict, Any, List
 import re
 from loguru import logger
 import ciphey
+from ciphey.iface import Registry
 
 
+@Registry.register
 class MorseCode(ciphey.iface.Decoder[str, str]):
     # A priority list for char/word boundaries
     BOUNDARIES = {" ": 1, "/": 2, "\n": 3, ".": -1, "-": -1}
@@ -97,6 +99,3 @@ class MorseCode(ciphey.iface.Decoder[str, str]):
             self._params()["dict"], ciphey.iface.WordList
         )
         self.MORSE_CODE_DICT_INV = {v: k for k, v in self.MORSE_CODE_DICT.items()}
-
-
-ciphey.iface.registry.register(MorseCode, ciphey.iface.Decoder[str, str])

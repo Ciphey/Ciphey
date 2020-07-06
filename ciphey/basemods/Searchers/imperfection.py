@@ -7,7 +7,7 @@ from .ausearch import Node, AuSearch
 from ciphey.iface import (
     SearchLevel,
     Config,
-    registry,
+    _registry,
     CrackResult,
     Searcher,
     ParamSpec,
@@ -35,4 +35,4 @@ class imperfection(AuSearch):
         super().__init__(config)
 
 
-registry.register(imperfection, Searcher)
+_registry.register(imperfection, Searcher)

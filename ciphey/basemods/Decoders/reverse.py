@@ -1,8 +1,9 @@
 from typing import Optional, Dict, List
 
-from ciphey.iface import ParamSpec, Config, T, U, Decoder, registry
+from ciphey.iface import ParamSpec, Config, T, U, Decoder, Registry
 
 
+@Registry.register((str, str), (bytes, bytes))
 class Reverse(Decoder):
     def decode(self, ctext: T) -> Optional[U]:
         return ctext[::-1]
@@ -21,6 +22,3 @@ class Reverse(Decoder):
     @staticmethod
     def getTarget() -> str:
         return "reverse"
-
-
-registry.register(Reverse, Decoder[str, str], Decoder[bytes, bytes])

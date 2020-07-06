@@ -20,10 +20,6 @@ def _dispatch(self: Any, ctext: str, func: Callable[[str], bytes]) -> Optional[b
         return None
 
 
-def _init(self: Any, config: ciphey.iface.Config):
-    super(type(self), self).__init__(config)
-
-
 _bases = {
     "base16": (base64.b16decode, 0.4),
     "base32": (base64.b32decode, 0.01),
@@ -32,18 +28,17 @@ _bases = {
     "ascii85": (base64.a85decode, 0.1),
 }
 
-for name, (decoder, priority) in _bases.items():
-    t = type(
-        name,
-        (ciphey.iface.Decoder,),
-        {
-            "_get_func": ciphey.common.id_lambda(decoder),
-            "decode": lambda self, ctext: _dispatch(self, ctext, self._get_func()),
-            "getParams": ciphey.common.id_lambda(None),
-            "getTarget": ciphey.common.id_lambda(name),
-            "priority": ciphey.common.id_lambda(priority),
-            "__init__": lambda self, config: _init(self, config),
-        },
-    )
 
-    ciphey.iface.registry.register(t, ciphey.iface.Decoder[str, bytes])
+def gen_class(name, decoder, priority, ns):
+    ns["_get_func"] = ciphey.common.id_lambda(decoder)
+    ns["decode"] = lambda self, ctext: _dispatch(self, ctext, self._get_func())
+    ns["getParams"] = ciphey.common.id_lambda(None)
+    ns["getTarget"] = ciphey.common.id_lambda(priority)
+    ns["__init__"] = lambda self, config: super(type(self), self).__init__(config)
+
+
+for name, (decoder, priority) in _bases.items():
+    t = types.new_class(name, (ciphey.iface.Decoder[str, bytes],),
+                        exec_body=lambda x: gen_class(name, decoder, priority, x))
+
+    ciphey.iface.Registry.register(t)

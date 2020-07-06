@@ -16,9 +16,10 @@ from loguru import logger
 import ciphey
 import cipheycore
 
-from ciphey.iface import ParamSpec, Cracker, CrackResult, T, CrackInfo
+from ciphey.iface import ParamSpec, Cracker, CrackResult, T, CrackInfo, Registry
 
 
+@Registry.register
 class Vigenere(ciphey.iface.Cracker[str]):
     def getInfo(self, ctext: T) -> CrackInfo:
         if self.keysize is not None:
@@ -245,121 +246,3 @@ class Vigenere(ciphey.iface.Cracker[str]):
         factorsByCount.sort(key=lambda x: x[1], reverse=True)
 
         return factorsByCount
-
-    #
-    # def kasiskiExamination(self, ciphertext):
-    #     # Find out the sequences of 3 to 5 letters that occur multiple times
-    #     # in the ciphertext. repeatedSeqSpacings has a value like:
-    #     # {'EXG': [192], 'NAF': [339, 972, 633], ... }
-    #     repeatedSeqSpacings = self.findRepeatSequencesSpacings(ciphertext)
-    #
-    #     # (See getMostCommonFactors() for a description of seqFactors.)
-    #     seqFactors = {}
-    #     for seq in repeatedSeqSpacings:
-    #         seqFactors[seq] = []
-    #         for spacing in repeatedSeqSpacings[seq]:
-    #             seqFactors[seq].extend(self.getUsefulFactors(spacing))
-    #
-    #     # (See getMostCommonFactors() for a description of factorsByCount.)
-    #     factorsByCount = self.getMostCommonFactors(seqFactors)
-    #
-    #     # Now we extract the factor counts from factorsByCount and
-    #     # put them in allLikelyKeyLengths so that they are easier to
-    #     # use later:
-    #     allLikelyKeyLengths = []
-    #     for twoIntTuple in factorsByCount:
-    #         allLikelyKeyLengths.append(twoIntTuple[0])
-    #
-    #     return allLikelyKeyLengths
-    #
-    # def attemptHackWithKeyLength(self, ciphertext, mostLikelyKeyLength):
-    #     # Determine the most likely letters for each letter in the key:
-    #     ciphertext = ciphertext.lower()
-    #
-    #     # Do core work
-    #     group = cipheydists.get_charset("english")["lcase"]
-    #     expected = cipheydists.get_dist("lcase")
-    #     possible_keys = cipheycore.vigenere_crack(
-    #         ciphertext, expected, group, mostLikelyKeyLength
-    #     )
-    #     n_keys = len(possible_keys)
-    #
-    #     # Try all the feasible keys
-    #     for candidate in possible_keys:
-    #         nice_key = list(candidate.key)
-    #         # Create a possible key from the letters in allFreqScores:
-    #         if not self.SILENT_MODE:
-    #             print("Attempting with key: %s" % nice_key)
-    #
-    #         decryptedText = cipheycore.vigenere_decrypt(
-    #             ciphertext, candidate.key, group
-    #         )
-    #
-    #         if self.lc.check(decryptedText):
-    #             # Set the hacked ciphertext to the original casing:
-    #             origCase = []
-    #             for i in range(len(ciphertext)):
-    #                 if ciphertext[i].isupper():
-    #                     origCase.append(decryptedText[i].upper())
-    #                 else:
-    #                     origCase.append(decryptedText[i].lower())
-    #             decryptedText = "".join(origCase)
-    #
-    #             # Check with user to see if the key has been found:
-    #             return {
-    #                 "lc": self.lc,
-    #                 "IsPlaintext?": True,
-    #                 "Plaintext": decryptedText,
-    #                 "Cipher": "Viginere",
-    #                 "Extra Information": f"The key used is {nice_key}",
-    #             }
-    #
-    #     # No English-looking decryption found, so return None:
-    #     return None
-    #
-    # def hackVigenere(self, ciphertext):
-    #     # First, we need to do Kasiski Examination to figure out what the
-    #     # length of the ciphertext's encryption key is:
-    #     allLikelyKeyLengths = self.kasiskiExamination(ciphertext)
-    #     if not self.SILENT_MODE:
-    #         keyLengthStr = ""
-    #         for keyLength in allLikelyKeyLengths:
-    #             keyLengthStr += "%s " % (keyLength)
-    #         print(
-    #             "Kasiski Examination results say the most likely key lengths are: "
-    #             + keyLengthStr
-    #             + "\n"
-    #         )
-    #     hackedMessage = None
-    #     for keyLength in allLikelyKeyLengths:
-    #         if not self.SILENT_MODE:
-    #             print(
-    #                 "Attempting hack with key length %s (%s possible keys)..."
-    #                 % (keyLength, self.NUM_MOST_FREQ_LETTERS ** keyLength)
-    #             )
-    #         hackedMessage = self.attemptHackWithKeyLength(ciphertext, keyLength)
-    #         if hackedMessage != None:
-    #             break
-    #
-    #     # If none of the key lengths we found using Kasiski Examination
-    #     # worked, start brute-forcing through key lengths:
-    #     if hackedMessage == None:
-    #         if not self.SILENT_MODE:
-    #             print(
-    #                 "Unable to hack message with likely key length(s). Brute forcing key length..."
-    #             )
-    #         for keyLength in range(1, self.MAX_KEY_LENGTH + 1):
-    #             # Don't re-check key lengths already tried from Kasiski:
-    #             if keyLength not in allLikelyKeyLengths:
-    #                 if not self.SILENT_MODE:
-    #                     print(
-    #                         "Attempting hack with key length %s (%s possible keys)..."
-    #                         % (keyLength, self.NUM_MOST_FREQ_LETTERS ** keyLength)
-    #                     )
-    #                 hackedMessage = self.attemptHackWithKeyLength(ciphertext, keyLength)
-    #                 if hackedMessage != None:
-    #                     break
-    #     return hackedMessage
-
-
-ciphey.iface.registry.register(Vigenere, ciphey.iface.Cracker[str])

@@ -4,13 +4,14 @@ from typing import Optional, Dict, Any, Set, Generic, Type
 from functools import lru_cache
 
 import ciphey
-from ciphey.iface import T, ParamSpec, Config, get_args
+from ciphey.iface import T, ParamSpec, Config, get_args, Registry
 
 import json, csv
 
 
 # We can use a generic resource loader here, as we can instantiate it later
-class Json(Generic[T], ciphey.iface.ResourceLoader[T]):
+@Registry.register(ciphey.iface.WordList, ciphey.iface.Distribution)
+class Json(ciphey.iface.ResourceLoader):
     def whatResources(self) -> T:
         return self._names
 
@@ -35,14 +36,8 @@ class Json(Generic[T], ciphey.iface.ResourceLoader[T]):
         self._names = set(range(1, len(self._paths)))
 
 
-ciphey.iface.registry.register(
-    Json,
-    ciphey.iface.ResourceLoader[ciphey.iface.WordList],
-    ciphey.iface.ResourceLoader[ciphey.iface.Distribution],
-)
-
-
 # We can use a generic resource loader here, as we can instantiate it later
+@Registry.register(ciphey.iface.WordList, ciphey.iface.Distribution)
 class Csv(Generic[T], ciphey.iface.ResourceLoader[T]):
     def whatResources(self) -> Set[str]:
         return self._names
@@ -67,10 +62,3 @@ class Csv(Generic[T], ciphey.iface.ResourceLoader[T]):
         super().__init__(config)
         self._paths = self._params()["path"]
         self._names = set(range(1, len(self._paths)))
-
-
-ciphey.iface.registry.register(
-    Csv,
-    ciphey.iface.ResourceLoader[ciphey.iface.WordList],
-    ciphey.iface.ResourceLoader[ciphey.iface.Distribution],
-)

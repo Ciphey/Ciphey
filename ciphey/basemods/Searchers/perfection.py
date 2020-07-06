@@ -7,7 +7,7 @@ from .ausearch import Node, AuSearch
 from ciphey.iface import (
     SearchLevel,
     Config,
-    registry,
+    Registry,
     CrackResult,
     Searcher,
     ParamSpec,
@@ -18,6 +18,7 @@ from ciphey.iface import (
 import bisect
 
 
+@Registry.register
 class Perfection(AuSearch):
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
@@ -28,6 +29,3 @@ class Perfection(AuSearch):
 
     def __init__(self, config: Config):
         super().__init__(config)
-
-
-registry.register(Perfection, Searcher)

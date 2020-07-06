@@ -6,9 +6,10 @@ import loguru
 
 import ciphey
 import cipheydists
-from ciphey.iface import ParamSpec, Config
+from ciphey.iface import ParamSpec, Config, Registry, WordList, Distribution
 
 
+@Registry.register(WordList, Distribution)
 class CipheyDists(ciphey.iface.ResourceLoader):
     # _wordlists: Set[str] = frozenset({"english", "english1000", "englishStopWords"})
     # _brandons: Set[str] = frozenset({"english"})
@@ -36,10 +37,3 @@ class CipheyDists(ciphey.iface.ResourceLoader):
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
         pass
-
-
-ciphey.iface.registry.register(
-    CipheyDists,
-    ciphey.iface.ResourceLoader[ciphey.iface.WordList],
-    ciphey.iface.ResourceLoader[ciphey.iface.Dict],
-)

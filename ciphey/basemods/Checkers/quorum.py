@@ -33,7 +33,7 @@ class Quorum(Generic[T], ciphey.iface.Checker[T]):
         for i in self._params()["checker"]:
             # This enforces type consistency
             self.checkers.append(
-                ciphey.iface.registry.get_named(i, ciphey.iface.Checker[T])
+                ciphey.iface._registry.get_named(i, ciphey.iface.Checker[T])
             )
 
     @staticmethod

@@ -7,7 +7,7 @@ from ciphey.iface import (
     Searcher,
     ParamSpec,
     CrackInfo,
-    registry,
+    Registry,
     SearchLevel,
     CrackResult,
     SearchResult,
@@ -49,7 +49,7 @@ class AuSearch(Searcher):
 
         decoders = []
 
-        for decoder_type, decoder_class in registry[Decoder][type(target)].items():
+        for decoder_type, decoder_class in Registry[Decoder][type(target)].items():
             for decoder in decoder_class:
                 decoders.append(DecoderComparer(decoder))
         # Fun fact:
@@ -99,7 +99,7 @@ class AuSearch(Searcher):
                 return True, eval_res
             nodes.extend(eval_res)
 
-        crackers: List[Cracker] = registry[Cracker[type(result)]]
+        crackers: List[Cracker] = _registry[Cracker[type(result)]]
         expected_time: float
 
         # Worth doing this check twice to simplify code and allow a early return for decodings
