@@ -239,6 +239,12 @@ def get_name(ctx, param, value):
 @click.option(
     "-m", "--module", help="Adds a module from the given path", type=click.Path(),
 )
+@click.option(
+    "-A",
+    "--apdirs",
+    help="Print the location of where Ciphey wants the settings file to be",
+    type=bool,
+)
 @click.argument("text_stdin", callback=get_name, required=False)
 @click.argument("file_stdin", type=click.File("rb"), required=False)
 def main(
@@ -258,6 +264,7 @@ def main(
     string_output,
     default_dist,
     module,
+    appdirs
     config: Optional[iface.Config] = None,
     parse_args: bool = True,
 ) -> Optional[dict]:
@@ -289,9 +296,15 @@ def main(
         Returns:
             The output of the decryption.
     """
-    import pprint
+    
+    # if user wants to know where appdirs is
+    # print and exit
+    if appdirs:
+        from appdirs import *
+        appname = "ciphey"
+        print(str(user_config_dir(appname)))
+        return None
 
-    pprint.pprint(config)
 
     # Default init the config object
     config = iface.Config()
