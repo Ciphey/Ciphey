@@ -137,7 +137,7 @@ Ciphey was invented by [Brandon Skerritt](https://github.com/brandonskerritt) in
 
 Ciphey was revived & recreated by the [Cyber Security Society](https://www.cybersoc.cf/) for use in CTFs. If you're ever in Liverpool, consider giving a talk or sponsoring our events. Email us at `cybersecurity@society.liverpoolguild.org` to find out more 🤠
 
-**Special thanks** To [varghalladesign](https://www.facebook.com/varghalladesign) for designing the logo. Check out their other design work!
+**Special thanks** to [varghalladesign](https://www.facebook.com/varghalladesign) for designing the logo. Check out their other design work!
 
 ## 🐕‍🦺 [Contributing](CONTRIBUTING.md)
 Don't be afraid to contribute! We have many, many things you can do to help out. Each of them labelled and easily explained with examples. If you're trying to contribute but stuck, tag @brandonskerritt in the GitHub issue ✨
