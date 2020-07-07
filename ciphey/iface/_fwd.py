@@ -1,2 +1,2 @@
-registry = type(None)
+registry = None
 config = type(None)

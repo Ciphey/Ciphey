@@ -30,7 +30,7 @@ import click_spinner
 warnings.filterwarnings("ignore")
 
 
-def decrypt(ctext: Any, config: iface.Config) -> List[SearchLevel]:
+def decrypt(config: iface.Config, ctext: Any) -> List[SearchLevel]:
     """A simple alias for searching a ctext and makes the answer pretty"""
     res: iface.SearchResult = config.objs["searcher"].search(ctext)
     if config.verbosity < 0:
@@ -173,7 +173,8 @@ def get_name(ctx, param, value):
     "--quiet",
     help="Decrease verbosity",
     type=int,
-    count=True
+    count=True,
+    default=None
 )
 @click.option(
     "-g",
@@ -187,9 +188,8 @@ def get_name(ctx, param, value):
 @click.option(
     "-C",
     "--checker",
-    help="Use the default internal checker. Defaults to brandon",
-    type=bool,
-    is_flag=True,
+    help="Use the given checker",
+    default=None
 )
 @click.option(
     "-c",
@@ -201,7 +201,6 @@ def get_name(ctx, param, value):
     "-p",
     "--param",
     help="Passes a parameter to the language checker",
-    type=list,
     multiple=True,
 )
 @click.option(
@@ -214,38 +213,45 @@ def get_name(ctx, param, value):
     type=bool,
     is_flag=True,
 )
+@click.option(
+    "--searcher",
+    help="Select the searching algorithm to use",
+)
 # HARLAN TODO XXX
 # I switched this to a boolean flag system
 # https://click.palletsprojects.com/en/7.x/options/#boolean-flags
 # True for bytes input, False for str
 @click.option(
-    "-s/-b",
-    "--string-input/--bytes-input",
+    "-b",
+    "--bytes-input",
     help="Forces ciphey to use binary mode for the input. Rather experimental and may break things!",
-    type=bool,
+    is_flag=True,
+    default=None
 )
 # HARLAN TODO XXX
 # I switched this to a boolean flag system
 # https://click.palletsprojects.com/en/7.x/options/#boolean-flags
 @click.option(
-    "-S/-B",
-    "--string-output/--bytes-output",
+    "-B",
+    "--bytes-output",
     help="Forces ciphey to use binary mode for the output. Rather experimental and may break things!",
-    type=bool,
+    is_flag=True,
+    default=None
 )
 @click.option(
     "--default-dist",
     help="Sets the default character/byte distribution",
     type=str,
+    default=None
 )
 @click.option(
-    "-m", "--module", help="Adds a module from the given path", type=click.Path()
+    "-m", "--module", help="Adds a module from the given path", type=click.Path(), multiple=True,
 )
 @click.option(
     "-A",
     "--appdirs",
     help="Print the location of where Ciphey wants the settings file to be",
-    type=bool,
+    type=bool
 )
 @click.argument("text_stdin", callback=get_name, required=False)
 @click.argument("file_stdin", type=click.File("rb"), required=False)
@@ -303,34 +309,47 @@ def main(**kwargs) -> Optional[dict]:
         config.load_file(cfg_arg)
 
     # Load the verbosity, so that we can start logging
-    verbosity = kwargs["verbose"] - kwargs["quiet"]
+    verbosity = kwargs["verbose"]
+    quiet = kwargs["quiet"]
+    if verbosity is None:
+        if quiet is not None:
+            verbosity = -quiet
+    elif quiet is not None:
+        verbosity -= quiet
     if kwargs["greppable"] is not None:
         verbosity -= 999
-    config.update_log_level(verbosity)
+    # Use the existing value as a base
+    config.verbosity += verbosity
+    config.update_log_level(config.verbosity)
     logger.trace(f"Got cmdline args {kwargs}")
 
-    # First, load the modules
+    # Now we load the modules
     module_arg = kwargs["module"]
     if module_arg is not None:
-        config.modules += module_arg
+        config.modules += list(module_arg)
     config.load_modules()
 
     # We need to load formats BEFORE we instantiate objects
-    if kwargs["string-input"] is not None:
-        config.update_format("in", "str")
-    elif kwargs["bytes-input"] is not None:
+    if kwargs["bytes_input"] is not None:
         config.update_format("in", "bytes")
-    if kwargs["string-output"] is not None:
-        config.update_format("out", "string")
-    elif kwargs["bytes-output"] is not None:
-        config.update_format("out", "bytes")
+
+    output_format = kwargs["bytes_output"]
+    if kwargs["bytes_output"] is not None:
+        config.update_format("in", "bytes")
 
     # Next, load the objects
-    config.params += kwargs["param"]
+    params = kwargs["param"]
+    if params is not None:
+        for i in params:
+            key, value = i.split("=", 1)
+            parent, name = key.split(".", 1)
+            config.update_param(parent, name, value)
     config.update("checker", kwargs["checker"])
     config.update("searcher", kwargs["searcher"])
-    config.update("default-dist", kwargs["default-dist"])
+    config.update("default_dist", kwargs["default_dist"])
     config.load_objs()
+
+    logger.trace(f"Config finalised: {config}")
 
     # Finally, we load the plaintext
     if kwargs["text"] is None:
@@ -342,21 +361,7 @@ def main(**kwargs) -> Optional[dict]:
             print("No inputs were given to Ciphey. For usage, run ciphey --help")
             logger.critical("No text input given!")
             return None
-    decrypt(kwargs["text"], kwargs["text"])
-
-
-def main_decrypt(ciphertext, config: Dict[str, object] = None) -> Optional[dict]:
-    """Calls the decrypt, acts as a 2nd main
-
-    The problem is that Click fails to run when importing and using main()
-
-    If I make a new function for Click, I have to change so much just to make it work.
-
-    If I make a new function for using the default config, and acting as a 2nd main -- I have to change less
-    Thus, this function exists."""
-
-    cipher_obj = Ciphey(config)
-    return cipher_obj.decrypt()
+    print(decrypt(config, kwargs["text"]))
 
 
 if __name__ == "__main__":

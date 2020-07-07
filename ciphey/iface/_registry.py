@@ -38,17 +38,15 @@ class Registry:
     _targets: Dict[str, Dict[Type, List[Type]]] = {}
     _modules = {Checker, Cracker, Decoder, ResourceLoader, Searcher}
 
-    @classmethod
-    def _register_one(cls, module_base, module_args):
-        target_reg = cls._reg.setdefault(module_base, {})
+    def _register_one(self, input_type, module_base, module_args):
+        target_reg = self._reg.setdefault(module_base, {})
         # Seek to the given type
         for subtype in module_args[0:-1]:
             target_reg = target_reg.setdefault(subtype, {})
-        target_reg.setdefault(module_args[-1], []).append(input)
+        target_reg.setdefault(module_args[-1], []).append(input_type)
 
-    @classmethod
-    def _real_register(cls, input_type: type, *args) -> Type:
-        name_target = cls._names[input.__name__.lower()] = (input_type, set())
+    def _real_register(self, input_type: type, *args) -> Type:
+        name_target = self._names[input_type.__name__.lower()] = (input_type, set())
 
         if issubclass(input_type, Targeted):
             target = input_type.getTarget()
@@ -60,79 +58,86 @@ class Registry:
             module_args = ()
         else:
             module_type: Optional[Type] = None
-            module_base: type = type(None)  # Silences pycharm
+            module_base = None
 
+            # Work out what module type this is
             if len(args) == 0:
                 for i in input_type.__orig_bases__:
                     if module_type is not None:
                         raise TypeError(f"Type derived from multiple registrable base classes {i} and {module_type}")
                     module_base = get_origin(i)
-                    if module_base not in cls._modules:
+                    if module_base not in self._modules:
                         continue
                     module_type = i
             else:
-                for i in cls._modules:
+                for i in self._modules:
                     if not issubclass(input_type, i):
                         continue
                     if module_type is not None:
                         raise TypeError(f"Type derived from multiple registrable base classes {i} and {module_type}")
                     module_type = i
-
             if module_type is None:
                 raise TypeError("No registrable base class")
 
+            # Now handle the difference between register and register_multi
             if len(args) == 0:
-                cls._register_one(module_base, get_args(module_type))
+                if module_base is None:
+                    raise TypeError("No type argument given")
+                self._register_one(input_type, module_base, get_args(module_type))
+                name_target[1].add(module_base)
             else:
+                if module_base is not None:
+                    raise TypeError(f"Redundant type argument for {module_type}")
+                module_base = module_type
                 for module_args in args:
-                    if isinstance(module_args, tuple):
-                        cls._register_one(module_base, module_args)
-                    else:
-                        cls._register_one(module_base, (module_args,))
+                    # Correct missing brackets
+                    if not isinstance(module_args, tuple):
+                        module_args = (module_args,)
+
+                    self._register_one(input_type, module_base, module_args)
+                    name_target[1].add(module_type[module_args])
 
         name_target[1].add(module_type)
 
         if target is not None and issubclass(module_base, Targeted):
-            cls._targets.setdefault(target, {}).setdefault(module_type, []).append(input_type)
+            self._targets.setdefault(target, {}).setdefault(module_type, []).append(input_type)
 
         return input_type
 
-    @classmethod
-    def register(cls, *x):
-        return lambda input_type: cls._real_register(input_type, *x)
+    def register(self, input_type):
+        self._real_register(input_type)
 
-    @classmethod
-    def __getitem__(cls, i: type) -> Optional[Any]:
+    def register_multi(self, *x):
+        return lambda input_type: self._real_register(input_type, *x)
+
+    def __getitem__(self, i: type) -> Optional[Any]:
         target_type = get_origin(i)
         # Check if this is a non-generic type, and return the whole dict if it is
         if target_type is None:
-            return cls._reg[i]
+            return self._reg[i]
 
         target_subtypes = get_args(i)
-        target_list = cls._reg.setdefault(target_type, {})
+        target_list = self._reg.setdefault(target_type, {})
         for subtype in target_subtypes:
             target_list = target_list.setdefault(subtype, {})
         return target_list
 
-    @classmethod
-    def get_named(cls, name: str, type_constraint: Type = None) -> Any:
-        ret = cls._names[name.lower()]
+    def get_named(self, name: str, type_constraint: Type = None) -> Any:
+        ret = self._names[name.lower()]
         if type_constraint and type_constraint not in ret[1]:
             raise TypeError(f"Type mismatch: wanted {type_constraint}, got {ret[1]}")
         return ret[0]
 
-    @classmethod
     def get_targeted(
-        cls, target: str, type_constraint: Type = None
+        self, target: str, type_constraint: Type = None
     ) -> Optional[Union[Dict[Type, Set[Type]], Set[Type]]]:
-        x = cls._targets.get(target)
+        x = self._targets.get(target)
         if x is None or type_constraint is None:
             return x
         return x.get(type_constraint)
 
-    @classmethod
-    def __str__(cls):
-        return f"ciphey.iface.Registry {{_reg: {cls._reg}, _names: {cls._names}, _targets: {cls._targets}}}"
+    def __str__(self):
+        return f"ciphey.iface.Registry {{_reg: {self._reg}, _names: {self._names}, _targets: {self._targets}}}"
 
 
-_fwd.registry = Registry
+_fwd.registry = Registry()

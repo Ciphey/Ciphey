@@ -14,9 +14,9 @@ from loguru import logger
 import ciphey
 import cipheycore
 
-from ciphey.iface import ParamSpec, CrackResult, T, CrackInfo, Registry
+from ciphey.iface import ParamSpec, CrackResult, T, CrackInfo, registry
 
-@Registry.register
+@registry.register
 class Caesar(ciphey.iface.Cracker[str]):
     def getInfo(self, ctext: T) -> CrackInfo:
         analysis = self.cache.get_or_update(

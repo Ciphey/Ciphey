@@ -16,10 +16,10 @@ from loguru import logger
 import ciphey
 import cipheycore
 
-from ciphey.iface import ParamSpec, Cracker, CrackResult, T, CrackInfo, Registry
+from ciphey.iface import ParamSpec, Cracker, CrackResult, T, CrackInfo, registry
 
 
-@Registry.register
+@registry.register
 class Vigenere(ciphey.iface.Cracker[str]):
     def getInfo(self, ctext: T) -> CrackInfo:
         if self.keysize is not None:

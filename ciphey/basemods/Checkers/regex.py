@@ -2,12 +2,12 @@ from typing import Optional, Dict
 
 import ciphey
 import re
-from ciphey.iface import ParamSpec, T, Config, Registry
+from ciphey.iface import ParamSpec, T, Config, registry
 
 from loguru import logger
 
 
-@Registry.register
+@registry.register
 class Regex(ciphey.iface.Checker[str]):
     def getExpectedRuntime(self, text: T) -> float:
         return 1e-5  # TODO: actually calculate this

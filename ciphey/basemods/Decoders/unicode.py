@@ -3,10 +3,10 @@ from typing import Optional, Dict, Any
 from loguru import logger
 
 import ciphey
-from ciphey.iface import Registry
+from ciphey.iface import registry
 
 
-@Registry.register
+@registry.register
 class Utf8(ciphey.iface.Decoder[bytes, str]):
     @staticmethod
     def getTarget() -> str:

@@ -4,13 +4,14 @@ from typing import Optional, Dict, Any, Set, Generic, Type
 from functools import lru_cache
 
 import ciphey
-from ciphey.iface import T, ParamSpec, Config, get_args, Registry
+from ciphey.iface import T, ParamSpec, Config, get_args, registry
 
-import json, csv
+import json
+import csv
 
 
 # We can use a generic resource loader here, as we can instantiate it later
-@Registry.register(ciphey.iface.WordList, ciphey.iface.Distribution)
+@registry.register_multi(ciphey.iface.WordList, ciphey.iface.Distribution)
 class Json(ciphey.iface.ResourceLoader):
     def whatResources(self) -> T:
         return self._names
@@ -37,7 +38,7 @@ class Json(ciphey.iface.ResourceLoader):
 
 
 # We can use a generic resource loader here, as we can instantiate it later
-@Registry.register(ciphey.iface.WordList, ciphey.iface.Distribution)
+@registry.register_multi(ciphey.iface.WordList, ciphey.iface.Distribution)
 class Csv(Generic[T], ciphey.iface.ResourceLoader[T]):
     def whatResources(self) -> Set[str]:
         return self._names

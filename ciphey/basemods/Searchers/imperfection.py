@@ -7,7 +7,7 @@ from .ausearch import Node, AuSearch
 from ciphey.iface import (
     SearchLevel,
     Config,
-    _registry,
+    registry,
     CrackResult,
     Searcher,
     ParamSpec,
@@ -18,7 +18,8 @@ from ciphey.iface import (
 import bisect
 
 
-class imperfection(AuSearch):
+@registry.register
+class Imperfection(AuSearch):
     """The default search module for Ciphey
 
     Called imperfection because ironically it is pretty perfect.
@@ -33,6 +34,3 @@ class imperfection(AuSearch):
 
     def __init__(self, config: Config):
         super().__init__(config)
-
-
-_registry.register(imperfection, Searcher)

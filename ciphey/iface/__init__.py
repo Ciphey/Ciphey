@@ -8,6 +8,10 @@ from ._modules import \
     ResourceLoader, \
     ParamSpec, \
     WordList, Distribution, \
-    T, U
+    T, U, \
+    pretty_search_results
 
-from ._registry import Registry, get_args, get_origin
+from . import _registry
+from ._registry import get_args, get_origin
+
+from ._fwd import registry

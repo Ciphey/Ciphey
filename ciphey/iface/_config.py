@@ -17,7 +17,6 @@ import datetime
 import yaml
 import appdirs
 
-from ._fwd import registry
 from . import _fwd
 from ._modules import Checker, Searcher, ResourceLoader
 
@@ -112,7 +111,7 @@ class Config:
 
         target = self.params.setdefault(owner, {})
 
-        if registry.get_named(owner).getParams()[name].list:
+        if _fwd.registry.get_named(owner).getParams()[name].list:
             target.setdefault(name, []).append(value)
         else:
             target[name] = value
@@ -130,11 +129,13 @@ class Config:
         }
 
         # Checkers do not depend on anything
-        self.objs["checker"] = self(registry.get_named(self.checker, Checker))
+        self.objs["checker"] = self(_fwd.registry.get_named(self.checker, Checker))
         # Searchers only depend on checkers
-        self.objs["searcher"] = self(registry.get_named(self.searcher, Searcher))
+        self.objs["searcher"] = self(_fwd.registry.get_named(self.searcher, Searcher))
 
-    def update_log_level(self, verbosity: int):
+    def update_log_level(self, verbosity: Optional[int]):
+        if verbosity is None:
+            return
         self.verbosity = verbosity
         quiet_list = [
             "ERROR",
@@ -182,9 +183,21 @@ class Config:
         # FIXME: Actually returns obj of type `t`, but python is bad
         loader, name = split_resource_name(res_name)
         if t is None:
-            return self(registry.get_named(loader, ResourceLoader))(name)
+            return self(_fwd.registry.get_named(loader, ResourceLoader))(name)
         else:
-            return self(registry.get_named(loader, ResourceLoader[t]))(name)
+            return self(_fwd.registry.get_named(loader, ResourceLoader[t]))(name)
+
+    def __str__(self):
+        return str({
+            "verbosity": self.verbosity,
+            "searcher": self.searcher,
+            "params": self.params,
+            "format": self.format,
+            "modules": self.modules,
+            "checker": self.checker,
+            "default_dist": self.default_dist,
+            "timeout": self.timeout
+        })
 
 
 _fwd.config = Config

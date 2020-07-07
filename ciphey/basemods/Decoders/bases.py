@@ -33,7 +33,8 @@ def gen_class(name, decoder, priority, ns):
     ns["_get_func"] = ciphey.common.id_lambda(decoder)
     ns["decode"] = lambda self, ctext: _dispatch(self, ctext, self._get_func())
     ns["getParams"] = ciphey.common.id_lambda(None)
-    ns["getTarget"] = ciphey.common.id_lambda(priority)
+    ns["getTarget"] = ciphey.common.id_lambda(name)
+    ns["priority"] = ciphey.common.id_lambda(priority)
     ns["__init__"] = lambda self, config: super(type(self), self).__init__(config)
 
 
@@ -41,4 +42,4 @@ for name, (decoder, priority) in _bases.items():
     t = types.new_class(name, (ciphey.iface.Decoder[str, bytes],),
                         exec_body=lambda x: gen_class(name, decoder, priority, x))
 
-    ciphey.iface.Registry.register(t)
+    ciphey.iface.registry.register(t)

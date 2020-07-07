@@ -1,4 +1,4 @@
-from abc import abstractmethod
+from abc import abstractmethod, ABC
 from typing import Generic, List, Optional, Dict, Any, NamedTuple, Union, Set, Tuple
 from ciphey.iface import (
     T,
@@ -7,7 +7,7 @@ from ciphey.iface import (
     Searcher,
     ParamSpec,
     CrackInfo,
-    Registry,
+    registry,
     SearchLevel,
     CrackResult,
     SearchResult,
@@ -28,7 +28,7 @@ class Node(Generic[T], NamedTuple):
         return hash((type(self.cracker).__name__, len(self.parents)))
 
 
-class AuSearch(Searcher):
+class AuSearch(Searcher, ABC):
     @abstractmethod
     def findBestNode(self, nodes: Set[Node]) -> Node:
         pass
@@ -49,20 +49,21 @@ class AuSearch(Searcher):
 
         decoders = []
 
-        for decoder_type, decoder_class in Registry[Decoder][type(target)].items():
+        for decoder_type, decoder_class in registry[Decoder][type(target)].items():
             for decoder in decoder_class:
                 decoders.append(DecoderComparer(decoder))
         # Fun fact:
-        #   with Python's glorious lists, a inserting n elements into the right position (with bisect) is O(n^2)
+        #     with Python's glorious lists, inserting n elements into the right position (with bisect) is O(n^2)
         decoders.sort(reverse=True)
 
         for decoder_cmp in decoders:
+            logger.trace(f"Inspecting {decoder_cmp}")
             res = self._config()(decoder_cmp.value).decode(target)
             if res is None:
                 continue
             level = SearchLevel(
                 name=decoder_cmp.value.__name__.lower(),
-                result=CrackResult(value=res),  # FIXME: CrackResult[decoder_type]
+                result=CrackResult(value=res),
             )
             if type(res) == self._final_type:
                 check_res = self._checker(res)
@@ -99,7 +100,7 @@ class AuSearch(Searcher):
                 return True, eval_res
             nodes.extend(eval_res)
 
-        crackers: List[Cracker] = _registry[Cracker[type(result)]]
+        crackers: List[Cracker] = registry[Cracker[type(result)]]
         expected_time: float
 
         # Worth doing this check twice to simplify code and allow a early return for decodings

@@ -171,6 +171,9 @@ class DecoderComparer:
     def __init__(self, value: Type[Decoder]):
         self.value = value
 
+    def __repr__(self):
+        return f"<DecoderComparer {self.value}:{self.value.priority()}>"
+
 
 class CrackResult(NamedTuple, Generic[T]):
     value: T
