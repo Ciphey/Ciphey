@@ -1,10 +1,10 @@
+import os
 from abc import ABC, abstractmethod
 from typing import (
     Any,
     Dict,
     Optional,
     List,
-    TypeVar,
     Type,
     Union, Callable,
 )
@@ -14,7 +14,12 @@ from loguru import logger
 
 import datetime
 
-from . import _registry_fwd
+import yaml
+import appdirs
+
+from ._fwd import registry
+from . import _fwd
+from ._modules import Checker, Searcher, ResourceLoader
 
 
 class Cache:
@@ -51,15 +56,12 @@ def split_resource_name(full_name: str) -> (str, str):
 
 
 class Config:
-    grep: bool = False
-    debug: Optional[str] = "WARNING"
+    verbosity: int = 0
     searcher: str = "perfection"
     params: Dict[str, Dict[str, Union[str, List[str]]]] = {}
     format: Dict[str, str] = {"in": "str", "out": "str"}
     modules: List[str] = []
     checker: str = "brandon"
-    utility_threshold: float = 1.5
-    score_threshold: float = 0.8
     default_dist: str = "cipheydists::dist::twist"
     timeout: Optional[int] = None
 
@@ -67,10 +69,23 @@ class Config:
     objs: Dict[str, Any] = {}
     cache: Cache = Cache()
 
-    def merge_dict(self, config_file: Dict[str, Any]):
+    @staticmethod
+    def get_default_dir() -> str:
+        return appdirs.user_config_dir("ciphey")
+
+    def merge_dict(self, config_file: Optional[Dict[str, Any]]):
+        if config_file is None:
+            return
         for a, b in config_file.items():
             self.update(a, b)
-        pass
+
+    def load_file(self, path: str = os.path.join(get_default_dir.__func__(), "config.yml"), create=False):
+        try:
+            with open(path, "r+") as file:
+                return self.merge_dict(yaml.safe_load(file))
+        except FileNotFoundError:
+            if create:
+                open(path, "w+")
 
     def instantiate(self, t: type) -> Any:
         """
@@ -97,7 +112,7 @@ class Config:
 
         target = self.params.setdefault(owner, {})
 
-        if Registry.get_named(owner).getParams()[name].list:
+        if registry.get_named(owner).getParams()[name].list:
             target.setdefault(name, []).append(value)
         else:
             target[name] = value
@@ -115,28 +130,43 @@ class Config:
         }
 
         # Checkers do not depend on anything
-        self.objs["checker"] = self(Registry.get_named(self.checker, Checker))
+        self.objs["checker"] = self(registry.get_named(self.checker, Checker))
         # Searchers only depend on checkers
-        self.objs["searcher"] = self(Registry.get_named(self.searcher, Searcher))
+        self.objs["searcher"] = self(registry.get_named(self.searcher, Searcher))
 
-    def update_log_level(self, level: Optional[str]):
-        self.debug = level
+    def update_log_level(self, verbosity: int):
+        self.verbosity = verbosity
+        quiet_list = [
+            "ERROR",
+            "CRITICAL",
+        ]
+        loud_list = [
+            "DEBUG",
+            "TRACE"
+        ]
+        verbosity_name: str
+        if verbosity == 0:
+            verbosity_name = "WARNING"
+        elif verbosity >= 0:
+            verbosity_name = loud_list[min(len(loud_list), verbosity) - 1]
+        else:
+            verbosity_name = quiet_list[min(len(quiet_list), -verbosity) - 1]
 
         from loguru import logger
         import sys
 
         logger.remove()
-        if self.debug is None:
+        if self.verbosity is None:
             return
         logger.configure()
-        if self.debug == "TRACE" or self.debug == "DEBUG":
-            logger.add(sink=sys.stderr, level=self.debug, colorize=sys.stderr.isatty())
+        if self.verbosity > 0:
+            logger.add(sink=sys.stderr, level=verbosity_name, colorize=sys.stderr.isatty())
             logger.opt(colors=True)
         else:
             logger.add(
-                sink=sys.stderr, level=self.debug, colorize=False, format="{message}"
+                sink=sys.stderr, level=verbosity_name, colorize=False, format="{message}"
             )
-        logger.debug(f"""Debug level set to {self.debug}""")
+        logger.debug(f"Verbosity set to level {verbosity} ({verbosity_name})")
 
     def load_modules(self):
         import importlib.util
@@ -156,5 +186,5 @@ class Config:
         else:
             return self(registry.get_named(loader, ResourceLoader[t]))(name)
 
-    def __init__(self):
-        self.update_log_level(self.debug)
+
+_fwd.config = Config

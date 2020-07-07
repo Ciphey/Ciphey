@@ -22,7 +22,7 @@ except ImportError:
     from typing_inspect import get_origin, get_args
 
 from loguru import logger
-from . import _registry_fwd
+from . import _fwd
 from ._modules import *
 import datetime
 
@@ -135,4 +135,4 @@ class Registry:
         return f"ciphey.iface.Registry {{_reg: {cls._reg}, _names: {cls._names}, _targets: {cls._targets}}}"
 
 
-_registry_fwd.registry = Registry
+_fwd.registry = Registry

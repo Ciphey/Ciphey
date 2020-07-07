@@ -18,11 +18,10 @@ from loguru import logger
 
 import datetime
 
+from ._fwd import config as Config
+
 T = TypeVar("T")
 U = TypeVar("U")
-
-
-from ._config import Config
 
 
 class ParamSpec(NamedTuple):
@@ -300,10 +299,3 @@ def pretty_search_results(res: SearchResult, display_intermediate: bool = False)
 # Some common collection types
 Distribution = Dict[str, float]
 WordList = Set[str]
-"""
-Example:
-class Foo(Cracker[str]): pass
-
-registry.register(Foo, Cracker[str])
-assert Foo in registry[Cracker[str]]
-"""
