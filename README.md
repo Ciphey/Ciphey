@@ -1,7 +1,9 @@
 <p align="center">
+➡️ 
 <a href="https://docs.ciphey.online">Documentation</a> |
 <a href="https://discord.ciphey.online">Discord</a> |
 <a href="https://docs.ciphey.online/en/latest/install.html">Installation Guide</a>
+ ⬅️
 
 <br>
   <img src="Pictures_for_README/binoculars.png" alt="Ciphey">
