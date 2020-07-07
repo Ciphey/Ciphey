@@ -14,12 +14,11 @@
   <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/m/ciphey/ciphey">
 <img alt="Downloads" src="https://pepy.tech/project/ciphey">
   <a href="https://discord.gg/wM3scnc"><img alt="Discord" src="https://img.shields.io/discord/728245678895136898"></a>
+  <img src="https://pepy.tech/badge/ciphey/month)](https://pepy.tech/project/ciphey/month">
 <a href="https://pypi.org/project/ciphey/"><img src="https://img.shields.io/pypi/v/ciphey.svg"></a>
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="Ciphey">
   
   <img src="https://github.com/brandonskerritt/Ciphey/workflows/Python%20application/badge.svg?branch=master" alt="Ciphey">
-  <img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/ciphey">
-<img src="https://codecov.io/gh/ciphey/ciphey/branch/master/graph/badge.svg">
 <br>
 Fully automated decryption tool using natural language processing & artifical intelligence, along with some common sense.
 </p>
