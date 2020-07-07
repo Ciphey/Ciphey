@@ -12,7 +12,8 @@
 
 <p align="center">
   <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/m/ciphey/ciphey">
-<a href="https://discord.gg/wM3scnc"><img alt="Discord" src="https://img.shields.io/discord/728245678895136898"></a>
+<img alt="Downloads" src="https://pepy.tech/project/ciphey">
+  <a href="https://discord.gg/wM3scnc"><img alt="Discord" src="https://img.shields.io/discord/728245678895136898"></a>
 <a href="https://pypi.org/project/ciphey/"><img src="https://img.shields.io/pypi/v/ciphey.svg"></a>
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="Ciphey">
   
