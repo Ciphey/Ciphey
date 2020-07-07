@@ -115,7 +115,12 @@ We also tested CyberChef and Ciphey with a **6gb file**. Ciphey cracked it in **
 
 If you're having trouble with installing Ciphey, [read this.](https://docs.ciphey.online/en/latest/install.html)
 
-### Running Ciphey
+## ‼️ Important Links (Docs, Installation guide, Discord Support)
+* 📖 [Installation Guide](https://docs.ciphey.online/en/latest/install.html)
+* 📚 [Documentation](https://docs.ciphey.online)
+* 🦜 [Discord](https://discord.ciphey.online)
+
+## Running Ciphey
 There are 3 ways to run Ciphey.
 1. File Input `ciphey - encrypted.txt`
 2. Unqualified input `ciphey -- "Encrypted input`
@@ -131,11 +136,6 @@ For a full list of arguments, run `ciphey --help`.
 
 ### ⚗️ Importing Ciphey
 You can import Ciphey\'s main and use it in your own programs and code. `from Ciphey.__main__ import main`
-
-# ‼️ Important Links (Docs, Installation guide, Discord Support)
-* 📖 [Installation Guide](https://docs.ciphey.online/en/latest/install.html)
-* 📚 [Documentation](https://docs.ciphey.online)
-* 🦜 [Discord](https://discord.ciphey.online)
 
 # 🎪 Contributors
 Ciphey was invented by [Brandon Skerritt](https://github.com/brandonskerritt) in 2008, and revived in 2019. Ciphey wouldn't be where it was today without [Cyclic3](https://github.com/Cyclic3) - president of UoL's Cyber Security Society.
