@@ -131,11 +131,9 @@ For a full list of arguments, run `ciphey --help`.
 You can import Ciphey\'s main and use it in your own programs and code. `from Ciphey.__main__ import main`
 
 # ‼️ Important Links (Docs, Installation guide, Discord Support)
-
-<a href="https://docs.ciphey.online/en/latest/install.html">Installation Guide</a>
-<a href="https://docs.ciphey.online">Documentation</a> |
-<a href="https://discord.ciphey.online">Discord</a> |
-
+* 📖 [Installation Guide](https://docs.ciphey.online/en/latest/install.html)
+* 📚 [Documentation](https://docs.ciphey.online)
+* 🦜 [Discord](https://discord.ciphey.online)
 
 # 🎪 Contributors
 Ciphey was invented by [Brandon Skerritt](https://github.com/brandonskerritt) in 2008, and revived in 2019. Ciphey wouldn't be where it was today without [Cyclic3](https://github.com/Cyclic3) - president of UoL's Cyber Security Society.
