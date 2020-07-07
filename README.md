@@ -1,8 +1,8 @@
 <p align="center">
 ➡️ 
 <a href="https://docs.ciphey.online">Documentation</a> |
-<a href="https://discord.ciphey.online">Discord</a> |
-<a href="https://docs.ciphey.online/en/latest/install.html">Installation Guide</a>
+ <a href="https://docs.ciphey.online/en/latest/install.html">Installation Guide</a> |
+<a href="https://discord.ciphey.online">Discord</a>
  ⬅️
 
 <br>
@@ -129,16 +129,20 @@ For a full list of arguments, run `ciphey --help`.
 
 ### ⚗️ Importing Ciphey
 You can import Ciphey\'s main and use it in your own programs and code. `from Ciphey.__main__ import main`
-# 📚 Docs
-The docs are located at [https://docs.ciphey.online](https://docs.ciphey.online)
+
+# ‼️ Important Links (Docs, Installation guide, Discord Support)
+
+<a href="https://docs.ciphey.online/en/latest/install.html">Installation Guide</a>
+<a href="https://docs.ciphey.online">Documentation</a> |
+<a href="https://discord.ciphey.online">Discord</a> |
+
 
 # 🎪 Contributors
 Ciphey was invented by [Brandon Skerritt](https://github.com/brandonskerritt) in 2008, and revived in 2019. Ciphey wouldn't be where it was today without [Cyclic3](https://github.com/Cyclic3) - president of UoL's Cyber Security Society.
 
-**Major Credit** to George H for designing the searching algorithm among other things.
-
 Ciphey was revived & recreated by the [Cyber Security Society](https://www.cybersoc.cf/) for use in CTFs. If you're ever in Liverpool, consider giving a talk or sponsoring our events. Email us at `cybersecurity@society.liverpoolguild.org` to find out more 🤠
 
+**Major Credit** to George H for designing the searching algorithm among other things.
 **Special thanks** to [varghalladesign](https://www.facebook.com/varghalladesign) for designing the logo. Check out their other design work!
 
 ## 🐕‍🦺 [Contributing](CONTRIBUTING.md)
