@@ -49,6 +49,7 @@ class Graph:
 
             # find a node with the lowest value of f() - evaluation function
             for v in open_list:
+                print(f"The for loop node v is {v}")
                 if n == None or g[v] + self.h(v) < g[n] + self.h(n):
                     n = v
                     print(f"The value of n is {n}")
@@ -76,6 +77,23 @@ class Graph:
 
             # for all neighbors of the current node do
             print(f"Self.neighbors is {self.get_neighbors(n)}")
+            # for node in self.get_neighbors(n):
+            #     print(f"And the iteration is {node, node.weight}")
+            #     # if the current node isn't in both open_list and closed_list
+            #     # add it to open_list and note n as it's parent
+            #     if node not in open_list and node not in closed_list:
+            #         open_list.add(node)
+            #         parents[node] = n
+            #         g[node] = g[n] + node.weight
+            #     else:
+            #         if g[node] > g[n] + node.weight:
+            #             g[node] = g[n] + node.weight
+            #             parents[node] = n
+
+            #             if node in closed_list:
+            #                 closed_list.remove(node)
+            #                 open_list.add(node)
+
             for (m, weight) in self.get_neighbors(n):
                 print(f"And the iteration is (m, weight)")
                 # if the current node isn't in both open_list and closed_list
@@ -99,6 +117,9 @@ class Graph:
 
             # remove n from the open_list, and add it to closed_list
             # because all of his neighbors were inspected
+            # open_list.remove(node)
+            # closed_list.add(node)
+
             open_list.remove(n)
             closed_list.add(n)
 
@@ -112,10 +133,10 @@ class Node:
     Calculated from the heuristic
     """
 
-    def __init__(self, h):
-        self.h = h
-        self.x = self.h
-        self.y = 0.6
+    def __init__(self, h: float, edges: list):
+        self.weight = h
+        # Edges is a list of other nodes it can connect to
+        self.edges = edges
 
     def __le__(self, node2):
         # if self is less than other
@@ -124,12 +145,20 @@ class Node:
     def __lt__(self, node2):
         return self.x < node2.x
 
+    def append_edge(self, edge):
+        self.edges.append(edge)
+
 
 adjacency_list = {
     "A": [("B", 1), ("C", 3), ("D", 7)],
     "B": [("D", 5)],
     "C": [("D", 12)],
 }
+A = Node(1, None)
+B = Node(1, [A])
+C = Node(3, [A, B])
+D = Node(7, [C, B])
+
 adjacency_list = {
     "A": [("B", 1), ("C", 3), ("D", 7)],
     "B": [("D", 5)],
