@@ -20,6 +20,7 @@ class Graph:
 
     # heuristic function with equal values for all nodes
     def h(self, n):
+        return 1
         H = {"A": 1, "B": 1, "C": 1, "D": 1}
 
         return H[n]
@@ -95,7 +96,7 @@ class Graph:
             #                 open_list.add(node)
 
             for (m, weight) in self.get_neighbors(n):
-                print(f"And the iteration is (m, weight)")
+                print(f"And the iteration is ({m}, {weight})")
                 # if the current node isn't in both open_list and closed_list
                 # add it to open_list and note n as it's parent
                 if m not in open_list and m not in closed_list:
@@ -122,6 +123,7 @@ class Graph:
 
             open_list.remove(n)
             closed_list.add(n)
+            print("\n")
 
         print("Path does not exist!")
         return None
@@ -133,10 +135,13 @@ class Node:
     Calculated from the heuristic
     """
 
-    def __init__(self, h: float, edges: list):
+    def __init__(self, h: float = None, edges: (any, float) = None, ctext: str = None):
         self.weight = h
         # Edges is a list of other nodes it can connect to
         self.edges = edges
+        self.ctext = ctext
+        self.h = h
+        self.path = []
 
     def __le__(self, node2):
         # if self is less than other
@@ -154,15 +159,25 @@ adjacency_list = {
     "B": [("D", 5)],
     "C": [("D", 12)],
 }
-A = Node(1, None)
-B = Node(1, [A])
-C = Node(3, [A, B])
-D = Node(7, [C, B])
+A = Node(1)
+B = Node(7)
+C = Node(9)
+D = Node(16)
+
+A.edges = [(B, 1), (C, 3), (D, 7)]
+B.edges = [(D, 5)]
+C.edges = [(D, 12)]
 
 adjacency_list = {
-    "A": [("B", 1), ("C", 3), ("D", 7)],
-    "B": [("D", 5)],
-    "C": [("D", 12)],
+    A: A.edges,
+    B: B.edges,
+    C: C.edges,
 }
+
+# adjacency_list = {
+#     "A": [("B", 1), ("C", 3), ("D", 7)],
+#     "B": [("D", 5)],
+#     "C": [("D", 12)],
+# }
 graph1 = Graph(adjacency_list)
-graph1.a_star_algorithm("A", "D")
+graph1.a_star_algorithm(A, D)
