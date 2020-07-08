@@ -10,6 +10,9 @@ class Graph:
     # }
 
     def __init__(self, adjacency_list):
+        """
+        adjacency list: basically the graph
+        """
         self.adjacency_list = adjacency_list
 
     def get_neighbors(self, v):
@@ -22,6 +25,7 @@ class Graph:
         return H[n]
 
     def a_star_algorithm(self, start_node, stop_node):
+        # TODO store the graph as an attribute
         # open_list is a list of nodes which have been visited, but who's neighbors
         # haven't all been inspected, starts off with the start node
         # closed_list is a list of nodes which have been visited
@@ -40,12 +44,14 @@ class Graph:
         parents[start_node] = start_node
 
         while len(open_list) > 0:
+            print(f"The open list is {open_list}")
             n = None
 
             # find a node with the lowest value of f() - evaluation function
             for v in open_list:
                 if n == None or g[v] + self.h(v) < g[n] + self.h(n):
                     n = v
+                    print(f"The value of n is {n}")
 
             if n == None:
                 print("Path does not exist!")
@@ -54,6 +60,7 @@ class Graph:
             # if the current node is the stop_node
             # then we begin reconstructin the path from it to the start_node
             if n == stop_node:
+                print("n is the stop node, we are stopping!")
                 reconst_path = []
 
                 while parents[n] != n:
@@ -68,7 +75,9 @@ class Graph:
                 return reconst_path
 
             # for all neighbors of the current node do
+            print(f"Self.neighbors is {self.get_neighbors(n)}")
             for (m, weight) in self.get_neighbors(n):
+                print(f"And the iteration is (m, weight)")
                 # if the current node isn't in both open_list and closed_list
                 # add it to open_list and note n as it's parent
                 if m not in open_list and m not in closed_list:
