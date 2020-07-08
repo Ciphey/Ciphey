@@ -151,11 +151,13 @@ class Imperfection:
     #     # Since the [0] item is always minimum
     #     return []
     def aStar(self, graph, current, end):
+        print(f"The graph is {graph}\nCurrent is {current}\n and End is {end}")
         openSet = set()
         openHeap = []
         closedSet = set()
 
         def retracePath(c):
+            print("Calling retrace path")
             path = [c]
             while c.parent is not None:
                 c = c.parent
@@ -163,10 +165,19 @@ class Imperfection:
             path.reverse()
             return path
 
+        print("\n")
+
         openSet.add(current)
         openHeap.append((0, current))
         while openSet:
+            print(f"Openset is {openSet}")
+            print(f"OpenHeap is {openHeap}")
+            print(f"ClosedSet is {closedSet}")
+            print(f"Current is {current}")
+            print(f"I am popping {openHeap} with the first element")
             current = heapq.heappop(openHeap)[1]
+            print(f"Current is now {current}")
+            print(f"Graph current is {graph[current]}")
             if current == end:
                 return retracePath(current)
             openSet.remove(current)
@@ -179,6 +190,7 @@ class Imperfection:
                         openSet.add(tile)
                         heapq.heappush(openHeap, (tile.H, tile))
                     tile.parent = current
+            print("\n")
         return []
 
 
@@ -192,6 +204,13 @@ class Node:
         self.h = h
         self.x = self.h
         self.y = 0.6
+
+    def __le__(self, node2):
+        # if self is less than other
+        return self.x <= node2.x
+
+    def __lt__(self, node2):
+        return self.x < node2.x
 
 
 if __name__ == "__main__":
