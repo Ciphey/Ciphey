@@ -115,9 +115,10 @@ We also tested CyberChef and Ciphey with a **6gb file**. Ciphey cracked it in **
 If you're having trouble with installing Ciphey, [read this.](https://docs.ciphey.online/en/latest/install.html)
 
 ## ‼️ Important Links (Docs, Installation guide, Discord Support)
-* 📖 [Installation Guide](https://docs.ciphey.online/en/latest/install.html)
-* 📚 [Documentation](https://docs.ciphey.online)
-* 🦜 [Discord](https://discord.ciphey.online)
+
+| Installation Guide | Documentation | Discord |
+| ------------------ | ------------- | ------- |
+| 📖 [Installation Guide](https://docs.ciphey.online/en/latest/install.html) | 📚 [Documentation](https://docs.ciphey.online) | 🦜 [Discord](https://discord.ciphey.online)
 
 ## Running Ciphey
 There are 3 ways to run Ciphey.
