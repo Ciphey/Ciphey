@@ -1,4 +1,40 @@
 from collections import deque
+import cipheycore
+
+
+class Node:
+    """
+    A node has a value assiocated with it
+    Calculated from the heuristic
+    """
+
+    def __init__(
+        self, config, h: float = None, edges: (any, float) = None, ctext: str = None,
+    ):
+        self.weight = h
+        # Edges is a list of other nodes it can connect to
+        self.edges = edges
+        self.ctext = ctext
+        self.h = h
+        self.path = []
+        self.information_content = config.cache.get_or_update(
+            self.text,
+            "cipheycore::info_content",
+            lambda: cipheycore.info_content(self.ctext),
+        )
+
+    def __le__(self, node2):
+        # if self is less than other
+        return self.x <= node2.x
+
+    def __lt__(self, node2):
+        return self.x < node2.x
+
+    def append_edge(self, edge):
+        self.edges.append(edge)
+
+    def get_edges(self):
+        return self.edges
 
 
 class Graph:
@@ -14,6 +50,7 @@ class Graph:
         adjacency list: basically the graph
         """
         self.adjacency_list = adjacency_list
+        self.original_input = cipheycore.info_content(input)
 
     def get_neighbors(self, v):
         try:
@@ -23,14 +60,10 @@ class Graph:
             return []
 
     # heuristic function with equal values for all nodes
-    def h(self, n):
-        # TODO change this to the heuristic
-        return 1
-        H = {"A": 1, "B": 1, "C": 1, "D": 1}
+    def heuristic(self, n: Node):
+        return n.info_content / self.original_input
 
-        return H[n]
-
-    def a_star_algorithm(self, start_node, stop_node):
+    def a_star_algorithm(self, start_node: Node, stop_node: Node):
         # TODO store the graph as an attribute
         # open_list is a list of nodes which have been visited, but who's neighbors
         # haven't all been inspected, starts off with the start node
@@ -122,34 +155,6 @@ class Graph:
         return None
 
 
-class Node:
-    """
-    A node has a value assiocated with it
-    Calculated from the heuristic
-    """
-
-    def __init__(self, h: float = None, edges: (any, float) = None, ctext: str = None):
-        self.weight = h
-        # Edges is a list of other nodes it can connect to
-        self.edges = edges
-        self.ctext = ctext
-        self.h = h
-        self.path = []
-
-    def __le__(self, node2):
-        # if self is less than other
-        return self.x <= node2.x
-
-    def __lt__(self, node2):
-        return self.x < node2.x
-
-    def append_edge(self, edge):
-        self.edges.append(edge)
-
-    def get_edges(self):
-        return self.edges
-
-
 adjacency_list = {
     "A": [("B", 1), ("C", 3), ("D", 7)],
     "B": [("D", 5)],
@@ -172,3 +177,7 @@ adjacency_list = {
 }
 graph1 = Graph(adjacency_list)
 graph1.a_star_algorithm(A, D)
+
+"""
+Maybe after it 
+"""
