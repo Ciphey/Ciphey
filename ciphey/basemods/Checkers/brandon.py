@@ -138,7 +138,6 @@ class Brandon(ciphey.iface.Checker[str]):
         if var is None:
             logger.trace(f"Checker's input var is None, so returning False")
             return False
-        print(var)
 
         percent = ceil(text_length * threshold)
         logger.trace(f"Checker's chunks are size {percent}")
@@ -250,7 +249,7 @@ class Brandon(ciphey.iface.Checker[str]):
             )
             what_to_use = self.thresholds_phase2[str(what_to_use)]
             result = self.checker(
-                text, what_to_use["check"], length_text, self.wordlist
+                text, what_to_use["dict"], length_text, self.wordlist
             )
         logger.trace(f"Result of dictionary checker is {result}")
         return "" if result else None
