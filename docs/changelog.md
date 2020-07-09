@@ -13,6 +13,46 @@ These are taken from the GitHub Issues tab.
 * The code is now pep8'd
 * Move to Poetry from setuptools.py
 * Moved to Pytest from unittest
+## 5.0.0 _The Great Refactor_
+_The Great Refactor_ is version 5 of Ciphey. The entire program was refactored.
+#### Features
+* Added base58 Bitcoin
+* Added base58 Ripple
+* Added Base62 (link shortener char set)
+* Added base85
+* Added base85 asciii
+* **A brand new cipher detection interface**
+* **Much faster, much more accuracte `brandon` interface, which is the default plaintext checking interface**
+* Recursive decryption methods. Is your text base64 -> binary -> caesar -> vigenere? Ciphey can handle it now. I was told I'm not supposed to talk about nerdy things in the changelog but.... We're using A* search with the weight being how many computations it takes and the heuristic being the likelihood chance. Pretty nifty!
+* Now on Winget (Windows Package Manager)
+* Brandon interface now has a stopwords checker, with 97% accuracy and high speeds (0.0000006 seconds on average).
+* Brandon checker's dictionary checker has 99% accuracy on average across all sentence lengths and compeltes in 0.002 seconds.
+* Added a regex checker, so the user can enter a regex like `THM{*}` and the checker will find it.
+* Added a neural network that can detect English.
+* Created `settings.yml`, a settings file which lets the user change how Ciphey works internally.
+* Added flag `--where`, which tells you where Ciphey expects the `settings.yml` file to be.
+* Added `regexFile` to `settings.yml`, which is where the user can sotre all the regexes they want the regex checker to check against.
+* Now on Homebrew for Mac OS
+* Now on the Arch User Respository
+#### Bug Fixes
+* Morse code is now better optimised and works across multiple different Morse alphabets.
+* Fixed issue where Vigenere broke on inputs of equal signs.
+* Fixed issue where dictionary.txt was too small.
+* Updated stopwords & 1k words dictionaries.
+#### Maintenance
+* Tensorflow is reduced from 500mb to a 1mb install using TF lite.
+* Models are now parsed in C++
+* More documentation written
+* Changed Contributing file
+* Created speed_test.py, which is used to help add new lanuages to Brandon checker.
+* Added the JSON selection system for CipheyDists.
+* The Ciphey main dictionary now supports UK, USA, AU, CAN dialects of English.
+* Many, many more tests were added to the program.
+* Targetting system added to main(), now Ciphey can internally target any cipher instead of previously where the cipher couldn't be manually chosen.
+* The settings file is automatically searched for in APPDIRS.
+* Moved the docs to its own dedicated GitHub Repo
+* Used Terminalizer to record pretty gifs
+* Redesigned the README
 ## 4.1
 #### Features
 * Vigenere is now enabled, due to massive performance gains from the C++ core

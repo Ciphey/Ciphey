@@ -23,6 +23,8 @@ Encodings
 * Hexadecimal
 * Binary
 * Morse Code
+* Morse code with new lines
+* Octal Decoding (Base8)
 
 Hashes
 -------
@@ -34,4 +36,4 @@ Hashes
 
 What Ciphers are going to be implemented next?
 -----------------------------------------------
-`See this GitHub issue <https://github.com/Ciphey/Ciphey/issues/63>`
+`See this GitHub issue <https://github.com/Ciphey/Ciphey/issues/63>`_

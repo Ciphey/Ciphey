@@ -34,7 +34,7 @@ class Transposition:
             logger.debug(f"Transposition trying key {key}")
             decryptedText = self.decryptMessage(key, message)
             # if decrypted english is found, return them
-            result = self.lc.checkLanguage(decryptedText)
+            result = self.lc.check(decryptedText)
             if result:
                 logger.debug("transposition returns true")
                 return {

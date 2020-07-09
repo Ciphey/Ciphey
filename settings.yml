@@ -1,26 +1,34 @@
 ---
+language_checker_options:
+        # The language checking options. Basically, this detects plaintext.
+        default_language: cipheydists::english # What language do you want to use?
+        default_checker: brandon
+        english:
+                dict_name: cipheydists::english # the name of the dict in cipheyDists
 
-# Change these to choose your default arguments.
-arguments:
-        greppable: False # is the output grepped?
-        cipher: False # Do you want extra information on the cipher used?
-        a: 'brandon' # the default language detection interface
-        A: None # The script / module at <path> containing _ciphey_accecptor_ variable
-        p: "value" # Sets the kwarg <param> to <value> when the is_acceptable method is called
-        wordlist: None # Default wordlist file. Set None to a path such as "/usr/share/wordlists/rockyou.txt"
-        t: None # The text you want to decrypt
-        j: Fale # Do you want to run potential candidates against wordlist? Useful for when you think the output is a password. Must set wordlist to use.
-        s: False # skip the neural network and only use simple filtration system
-        printWorkingDirectory: False # tells you where this settings file is
-        
+                stopwords_name: cipheydists::englishStopWords # The name of the stopwords set in cipheyDists
+                top1000: cipheydists::english1000
+                brandon: # The brandon checker, the default checker
+                        thresholds:
+                                # Sentence length: {Checker: percentage threshold}
+                                # Want to know how these numbers were selected? Read the docs here TODO
+                                "Phase 1": {0: {"check": 0.02}, 110: {"stop": 0.15}, 150: {"stop": 0.28}}
+                                "Phase 2": {0: {"dict": 0.92}, 75: {"dict": 0.80}, 110: {"dict": 0.65}, 150: {"dict": 0.55}, 190: {"dict": 0.38}} # phase 2 threshold
 
-regexFile: # set to path to Regex file to run custom regex
+        german:
+                brandon:
+                        dict_name: german
+                        stopwords_name: german
+                        thresholds:
+                                0.55
+
+regexFile:         
         # Put your custom REGEX here
-        # These 3 REGEX's cover the most popular CTF flag formats.
-        - /HTB{.*}/i
+        # These 4 REGEX's cover the most popular CTF flag formats.
+        # {.*} means "any text of any size here" and /i means "ignore case".
+        # For example, for the CTf NoobCTF the format would be /NoobCTF{.*}/i
+        - /HTB{.*}/i # TODO HTB strings are just md5s
         - /THM{.*}/i
         - /FLAG{*.}/i
         - /CTF{*.}/i
-
-        
 

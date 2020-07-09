@@ -49,7 +49,7 @@ class PigLatin:
 
         # TODO find a way to return 2 variables
         # this returns 2 variables in a tuple
-        if self.lc.checkLanguage(message3AY):
+        if self.lc.check(message3AY):
             logger.debug("Pig latin 3AY returns True")
             return {
                 "lc": self.lc,
@@ -58,7 +58,7 @@ class PigLatin:
                 "Cipher": "Pig Latin",
                 "Extra Information": None,
             }
-        elif self.lc.checkLanguage(messagepigWAY):
+        elif self.lc.check(messagepigWAY):
             logger.debug("Pig latin WAY returns True")
             return {
                 "lc": self.lc,

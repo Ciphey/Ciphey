@@ -20,7 +20,7 @@ class encipher:
     def __init__(self):  # pragma: no cover
         """Inits the encipher object """
         self.text = self.read_text()
-        self.MAX_SENTENCE_LENGTH = 20
+        self.MAX_SENTENCE_LENGTH = 5
         # ntlk.download("punkt")
         self.crypto = encipher_crypto()
 
@@ -30,13 +30,13 @@ class encipher:
         splits = nltk.tokenize.sent_tokenize(x)
         return splits
 
-    def getRandomSentence(self):  # pragma: no cover
+    def getRandomSentence(self, size):  # pragma: no cover
         return TreebankWordDetokenizer().detokenize(
-            random.sample(self.text, random.randint(1, self.MAX_SENTENCE_LENGTH))
+            random.sample(self.text, random.randint(1, size))
         )
 
-    def getRandomEncryptedSentence(self):  # pragma: no cover
-        sents = self.getRandomSentence()
+    def getRandomEncryptedSentence(self, size):  # pragma: no cover
+        sents = self.getRandomSentence(size)
 
         sentsEncrypted = self.crypto.randomEncrypt(sents)
         return {"PlainText Sentences": sents, "Encrypted Texts": sentsEncrypted}

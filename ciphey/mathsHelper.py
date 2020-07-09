@@ -91,44 +91,44 @@ class mathsHelper:
         while counter_max < counter_prob:
             max_overall = 0
             highest_key = None
-            logger.debug(
+            logger.trace(
                 f"Running while loop in sort_prob_table, counterMax is {counter_max}"
             )
             for key, value in prob_table.items():
-                logger.debug(f"Sorting {key}")
+                logger.trace(f"Sorting {key}")
                 maxLocal = 0
                 # for each item in that table
                 for key2, value2 in value.items():
-                    logger.debug(
+                    logger.trace(
                         f"Running key2 {key2}, value2 {value2} for loop for {value.items()}"
                     )
                     maxLocal = maxLocal + value2
-                    logger.debug(
+                    logger.trace(
                         f"MaxLocal is {maxLocal} and maxOverall is {max_overall}"
                     )
                     if maxLocal > max_overall:
-                        logger.debug(f"New max local found {maxLocal}")
+                        logger.trace(f"New max local found {maxLocal}")
                         # because the dict doesnt reset
                         max_dict_pair = {}
                         max_overall = maxLocal
                         # so eventually, we get the maximum dict pairing?
                         max_dict_pair[key] = value
                         highest_key = key
-                        logger.debug(f"Highest key is {highest_key}")
+                        logger.trace(f"Highest key is {highest_key}")
                 # removes the highest key from the prob table
-            logger.debug(f"Prob table is {prob_table} and highest key is {highest_key}")
-            logger.debug(f"Removing {prob_table[highest_key]}")
+            logger.trace(f"Prob table is {prob_table} and highest key is {highest_key}")
+            logger.trace(f"Removing {prob_table[highest_key]}")
             del prob_table[highest_key]
-            logger.debug(f"Prob table after deletion is {prob_table}")
+            logger.trace(f"Prob table after deletion is {prob_table}")
             counter_max += 1
             empty_dict = {**empty_dict, **max_dict_pair}
 
         # returns the max dict (at the start) with the prob table
         # this way, it should always work on most likely first.
-        logger.debug(
+        logger.trace(
             f"The prob table is {prob_table} and the maxDictPair is {max_dict_pair}"
         )
-        logger.debug(f"The new sorted prob table is {empty_dict}")
+        logger.trace(f"The new sorted prob table is {empty_dict}")
         return empty_dict
 
     @staticmethod
@@ -145,11 +145,11 @@ class mathsHelper:
 
         """
         # (f"d is {d}")
-        logger.debug(f"The old dictionary before new_sort() is {new_dict}")
+        logger.trace(f"The old dictionary before new_sort() is {new_dict}")
         sorted_i = OrderedDict(
             sorted(new_dict.items(), key=lambda x: x[1], reverse=True)
         )
-        logger.debug(f"The dictionary after new_sort() is {sorted_i}")
+        logger.trace(f"The dictionary after new_sort() is {sorted_i}")
         # sortedI = sort_dictionary(x)
         return sorted_i
 
@@ -185,7 +185,3 @@ class mathsHelper:
         """
         text: str = str(text).translate(str.maketrans("", "", punctuation))
         return text
-
-
-
-

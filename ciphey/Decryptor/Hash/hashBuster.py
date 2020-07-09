@@ -99,7 +99,7 @@ def crack(hashvalue, lc):
     if len(hashvalue) == 32:
         for api in md5:
             r = api(hashvalue, "md5")
-            result = lc.checkLanguage(r) if r is not None else None
+            result = lc.check(r) if r is not None else None
             if result is not None or r is not None:
                 logger.debug(f"MD5 returns True {r}")
                 return {
@@ -112,7 +112,7 @@ def crack(hashvalue, lc):
     elif len(hashvalue) == 40:
         for api in sha1:
             r = api(hashvalue, "sha1")
-            result = lc.checkLanguage(r) if r is not None else None
+            result = lc.check(r) if r is not None else None
             if result is not None and r is not None:
                 logger.debug(f"sha1 returns true")
                 return {
@@ -125,7 +125,7 @@ def crack(hashvalue, lc):
     elif len(hashvalue) == 64:
         for api in sha256:
             r = api(hashvalue, "sha256")
-            result = lc.checkLanguage(r) if r is not None else None
+            result = lc.check(r) if r is not None else None
             if result is not None and r is not None:
                 logger.debug(f"sha256 returns true")
                 return {
@@ -138,7 +138,7 @@ def crack(hashvalue, lc):
     elif len(hashvalue) == 96:
         for api in sha384:
             r = api(hashvalue, "sha384")
-            result = lc.checkLanguage(r) if r is not None else None
+            result = lc.check(r) if r is not None else None
             if result is not None and r is not None:
                 logger.debug(f"sha384 returns true")
                 return {
@@ -151,7 +151,7 @@ def crack(hashvalue, lc):
     elif len(hashvalue) == 128:
         for api in sha512:
             r = api(hashvalue, "sha512")
-            result = lc.checkLanguage(r) if r is not None else None
+            result = lc.check(r) if r is not None else None
             if result is not None and r is not None:
                 logger.debug(f"sha512 returns true")
                 return {

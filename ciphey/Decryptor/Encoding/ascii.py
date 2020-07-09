@@ -30,7 +30,7 @@ class Ascii:
                 "Extra Information": None,
             }
 
-        if self.lc.checkLanguage(result):
+        if self.lc.check(result):
             logger.debug(f"English found in ASCII, returning {result}")
             return {
                 "lc": self.lc,

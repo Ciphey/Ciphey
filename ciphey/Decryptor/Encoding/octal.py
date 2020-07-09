@@ -46,11 +46,11 @@ class Octal:
         }
 
     def decode(self, text):
-        '''
+        """
         It takes an octal string and return a string
             :octal_str: octal str like "110 145 154"
-        '''
-        
+        """
+
         str_converted = ""
         for octal_char in text.split(" "):
             str_converted += chr(int(octal_char, 8))
