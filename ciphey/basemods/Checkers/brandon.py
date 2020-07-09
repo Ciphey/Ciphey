@@ -178,6 +178,8 @@ class Brandon(ciphey.iface.Checker[str]):
 
         self.thresholds_phase1 = phases["1"]
         self.thresholds_phase2 = phases["2"]
+        print(self.thresholds_phase1)
+        print(self.thresholds_phase2)
         self.top1000Words = self._params().get("top1000")
         self.wordlist = self._params()
         self.stopwords = self._params().get("stopwords")
@@ -264,11 +266,12 @@ class Brandon(ciphey.iface.Checker[str]):
             what_to_use -> the key of the lowest checker."""
 
         _keys = list(key)
-        if length_text >= _keys[-1]:
+        _keys = list(map(int, _keys))
+        if length_text >= int(_keys[-1]):
             what_to_use = key[_keys[-1]]
         else:
             # this algorithm finds the smallest possible fit for the text
-            for counter, i in reversed(enumerate(_keys)):
+            for counter, i in reversed(list(enumerate(_keys))):
                 if counter != 0:
                     if _keys[counter - 1] <= length_text <= i:
                         what_to_use = i
