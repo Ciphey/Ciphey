@@ -46,6 +46,25 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "Vargles",
+      "name": "Vargnaar",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/16273716?v=4",
+      "profile": "https://github.com/Vargles",
+      "contributions": [
+        "design"
+      ]
+    },
+    {
+      "login": "Veeyu22",
+      "name": "Veeyu22",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/42015732?v=4",
+      "profile": "https://github.com/Veeyu22",
+      "contributions": [
+        "doc",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
