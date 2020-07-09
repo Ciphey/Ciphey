@@ -182,9 +182,9 @@ class Brandon(ciphey.iface.Checker[str]):
 
         self.thresholds_phase1 = phases["1"]
         self.thresholds_phase2 = phases["2"]
-        self.top1000Words = self._params().get("top1000")
-        self.wordlist = self._params()
-        self.stopwords = self._params().get("stopwords")
+        self.top1000Words = config.get_resource(self._params().get("top1000"))
+        self.wordlist = config.get_resource(self._params()["wordlist"])
+        self.stopwords = config.get_resource(self._params().get("stopwords"))
 
         self.len_phase1 = len(self.thresholds_phase1)
         self.len_phase2 = len(self.thresholds_phase2)

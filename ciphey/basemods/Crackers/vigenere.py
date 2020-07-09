@@ -48,7 +48,7 @@ class Vigenere(ciphey.iface.Cracker[str]):
         return "vigenere"
 
     def crackOne(
-        self, ctext: str, analysis: cipheycore.simple_analysis_res
+        self, ctext: str, analysis: cipheycore.windowed_analysis_res
     ) -> List[CrackResult]:
         possible_keys = cipheycore.vigenere_crack(
             analysis, self.expected, self.group, self.p_value
@@ -62,7 +62,7 @@ class Vigenere(ciphey.iface.Cracker[str]):
         ]
 
     def attemptCrack(self, ctext: str) -> List[CrackResult]:
-        logger.debug("Trying caesar cipher")
+        logger.debug("Trying vigenere cipher")
         # Convert it to lower case
         if self.lower:
             message = ctext.lower()
@@ -83,6 +83,7 @@ class Vigenere(ciphey.iface.Cracker[str]):
             arrs = []
             possible_len = self.kasiskiExamination(message)
             possible_len.sort()
+            logger.trace(f"Got possible lengths {possible_len}")
             # TODO: work out length
             for i in possible_len:
                 arrs.extend(
@@ -124,7 +125,7 @@ class Vigenere(ciphey.iface.Cracker[str]):
             "p_value": ciphey.iface.ParamSpec(
                 desc="The p-value to use for windowed frequency analysis",
                 req=False,
-                default=0.9,
+                default=0.99,
             ),
         }
 
@@ -148,12 +149,14 @@ class Vigenere(ciphey.iface.Cracker[str]):
         # {'EXG': [192], 'NAF': [339, 972, 633], ... }
         repeatedSeqSpacings = self.findRepeatSequencesSpacings(ciphertext)
 
+        max = len(ciphertext) // 3
+
         # (See getMostCommonFactors() for a description of seqFactors.)
         seqFactors = {}
         for seq in repeatedSeqSpacings:
             seqFactors[seq] = []
             for spacing in repeatedSeqSpacings[seq]:
-                seqFactors[seq].extend(self.getUsefulFactors(spacing))
+                seqFactors[seq].extend(self.getUsefulFactors(spacing, max))
 
         # (See getMostCommonFactors() for a description of factorsByCount.)
         factorsByCount = self.getMostCommonFactors(seqFactors)
@@ -192,7 +195,7 @@ class Vigenere(ciphey.iface.Cracker[str]):
                         seqSpacings[seq].append(i - seqStart)
         return seqSpacings
 
-    def getUsefulFactors(self, num):
+    def getUsefulFactors(self, num, max: int):
         # Returns a list of useful factors of num. By "useful" we mean factors
         # less than MAX_KEY_LENGTH + 1 and not 1. For example,
         # getUsefulFactors(144) returns [2, 3, 4, 6, 8, 9, 12, 16]
@@ -208,7 +211,7 @@ class Vigenere(ciphey.iface.Cracker[str]):
         # Mathematician note: whilst this is *definitely* suboptimal,
         # for small numbers it's probably as good as other methods
         for i in range(
-            2, min(self.MAX_KEY_LENGTH + 1, num)
+            2, min(max, num)
         ):  # Don't test 1: it's not useful.
             if num % i == 0:
                 factors.add(i)

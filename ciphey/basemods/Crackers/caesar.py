@@ -46,12 +46,15 @@ class Caesar(ciphey.iface.Cracker[str]):
         else:
             message = ctext
 
+        logger.trace("Beginning cipheycore simple analysis")
+
         # Hand it off to the core
         analysis = self.cache.get_or_update(
             ctext,
             "cipheycore::simple_analysis",
             lambda: cipheycore.analyse_string(message),
         )
+        logger.trace("Beginning cipheycore::caesar")
         possible_keys = cipheycore.caesar_crack(
             analysis, self.expected, self.group, True, self.p_value
         )
@@ -65,6 +68,8 @@ class Caesar(ciphey.iface.Cracker[str]):
             candidates.append(CrackResult(value=translated, key_info=candidate.key))
 
         return candidates
+
+
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
