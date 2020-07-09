@@ -30,7 +30,7 @@ class Node(Generic[T], NamedTuple):
 
 class AuSearch(Searcher, ABC):
     @abstractmethod
-    def findBestNode(self, nodes: Set[Node]) -> Node:
+    def findBestNode(self, nodes: List[Node]) -> Node:
         pass
 
     def handleDecodings(
@@ -59,6 +59,7 @@ class AuSearch(Searcher, ABC):
         for decoder_cmp in decoders:
             logger.trace(f"Inspecting {decoder_cmp}")
             res = self._config()(decoder_cmp.value).decode(target)
+
             if res is None:
                 continue
             level = SearchLevel(
@@ -153,7 +154,7 @@ class AuSearch(Searcher, ABC):
         if success:
             return expand_res
 
-        nodes = set(expand_res)
+        nodes = expand_res
 
         while datetime.now() < deadline:
             # logger.trace(f"Have node tree {nodes}")
@@ -167,7 +168,7 @@ class AuSearch(Searcher, ABC):
             if success:
                 # logger.trace(f"Success with node {best_node}")
                 return eval_res
-            nodes.update(eval_res)
+            nodes += eval_res
 
         raise TimeoutError("Search ran out of time")
 

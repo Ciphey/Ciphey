@@ -139,5 +139,8 @@ class Registry:
     def __str__(self):
         return f"ciphey.iface.Registry {{_reg: {self._reg}, _names: {self._names}, _targets: {self._targets}}}"
 
+    def all_names(self) -> List[str]:
+        return list(self._names.keys())
+
 
 _fwd.registry = Registry()

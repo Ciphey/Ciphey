@@ -172,6 +172,8 @@ class Config:
     def load_modules(self):
         import importlib.util
 
+        logger.debug(f"Modules: {_fwd.registry.all_names()}")
+
         for i in self.modules:
             spec = importlib.util.spec_from_file_location("ciphey.module_load_site", i)
             mod = importlib.util.module_from_spec(spec)
