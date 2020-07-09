@@ -61,7 +61,7 @@ import sys
 from loguru import logger
 from math import ceil
 
-from ciphey.iface import T
+from ciphey.iface import T, registry
 
 sys.path.append("..")
 try:
@@ -70,6 +70,7 @@ except ModuleNotFoundError:
     import ciphey.mathsHelper as mh
 
 
+@registry.register
 class Brandon(ciphey.iface.Checker[str]):
     """
     Class designed to confirm whether something is **language** based on how many words of **language** appears
@@ -173,7 +174,7 @@ class Brandon(ciphey.iface.Checker[str]):
         super().__init__(config)
         self.mh = mh.mathsHelper()
 
-        phases = config.get_resource(self._params()["phases"], ciphey.iface.Dict)
+        phases = config.get_resource(self._params()["phases"])
 
         self.thresholds_phase1 = phases["1"]
         self.thresholds_phase2 = phases["2"]
@@ -279,17 +280,17 @@ class Brandon(ciphey.iface.Checker[str]):
             "top1000": ciphey.iface.ParamSpec(
                 desc="A wordlist of the top 1000 words",
                 req=False,
-                default="cipheydists::english1000",
+                default="cipheydists::list::english1000",
             ),
             "wordlist": ciphey.iface.ParamSpec(
                 desc="A wordlist of all the words",
                 req=False,
-                default="cipheydists::english",
+                default="cipheydists::list::english",
             ),
             "stopwords": ciphey.iface.ParamSpec(
                 desc="A wordlist of StopWords",
                 req=False,
-                default="cipheydists::englishStopWords",
+                default="cipheydists::list::englishStopWords",
             ),
             "threshold": ciphey.iface.ParamSpec(
                 desc="The minimum proportion (between 0 and 1) that must be in the dictionary",
@@ -299,10 +300,6 @@ class Brandon(ciphey.iface.Checker[str]):
             "phases": ciphey.iface.ParamSpec(
                 desc="Language-specific phase thresholds",
                 req=False,
-                default="cipheydists::brandon_english",
+                default="cipheydists::brandon::english",
             ),
         }
-
-
-# Define alias
-ciphey.iface._registry.register(Brandon, ciphey.iface.Checker[str])
