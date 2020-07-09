@@ -16,10 +16,15 @@ class Graph:
         self.adjacency_list = adjacency_list
 
     def get_neighbors(self, v):
-        return self.adjacency_list[v]
+        try:
+            return self.adjacency_list[v]
+        except KeyError:
+            # If we have exhausted the adjacency list
+            return []
 
     # heuristic function with equal values for all nodes
     def h(self, n):
+        # TODO change this to the heuristic
         return 1
         H = {"A": 1, "B": 1, "C": 1, "D": 1}
 
@@ -50,6 +55,7 @@ class Graph:
 
             # find a node with the lowest value of f() - evaluation function
             for v in open_list:
+                # TODO if v == decoder, run the decoder
                 print(f"The for loop node v is {v}")
                 if n == None or g[v] + self.h(v) < g[n] + self.h(n):
                     n = v
@@ -61,6 +67,11 @@ class Graph:
 
             # if the current node is the stop_node
             # then we begin reconstructin the path from it to the start_node
+            # NOTE Uncomment this for an exit condition
+            # TODO Make it exit if decryptor returns True
+            # TODO We need to append the decryption methods to each node
+            # So when we reconstruct the path we can reconstruct the decryptions
+            # used
             if n == stop_node:
                 print("n is the stop node, we are stopping!")
                 reconst_path = []
@@ -76,25 +87,7 @@ class Graph:
                 print("Path found: {}".format(reconst_path))
                 return reconst_path
 
-            # for all neighbors of the current node do
-            print(f"Self.neighbors is {self.get_neighbors(n)}")
-            # for node in self.get_neighbors(n):
-            #     print(f"And the iteration is {node, node.weight}")
-            #     # if the current node isn't in both open_list and closed_list
-            #     # add it to open_list and note n as it's parent
-            #     if node not in open_list and node not in closed_list:
-            #         open_list.add(node)
-            #         parents[node] = n
-            #         g[node] = g[n] + node.weight
-            #     else:
-            #         if g[node] > g[n] + node.weight:
-            #             g[node] = g[n] + node.weight
-            #             parents[node] = n
-
-            #             if node in closed_list:
-            #                 closed_list.remove(node)
-            #                 open_list.add(node)
-
+            print(n)
             for (m, weight) in self.get_neighbors(n):
                 print(f"And the iteration is ({m}, {weight})")
                 # if the current node isn't in both open_list and closed_list
@@ -153,6 +146,9 @@ class Node:
     def append_edge(self, edge):
         self.edges.append(edge)
 
+    def get_edges(self):
+        return self.edges
+
 
 adjacency_list = {
     "A": [("B", 1), ("C", 3), ("D", 7)],
@@ -168,16 +164,11 @@ A.edges = [(B, 1), (C, 3), (D, 7)]
 B.edges = [(D, 5)]
 C.edges = [(D, 12)]
 
+# TODO use a dictionary comprehension to make this
 adjacency_list = {
     A: A.edges,
     B: B.edges,
     C: C.edges,
 }
-
-# adjacency_list = {
-#     "A": [("B", 1), ("C", 3), ("D", 7)],
-#     "B": [("D", 5)],
-#     "C": [("D", 12)],
-# }
 graph1 = Graph(adjacency_list)
 graph1.a_star_algorithm(A, D)
