@@ -26,6 +26,7 @@ from rich.table import Table
 from loguru import logger
 import click
 import click_spinner
+from appdirs import AppDirs
 
 warnings.filterwarnings("ignore")
 
@@ -38,113 +39,6 @@ def decrypt(config: iface.Config, ctext: Any) -> List[SearchLevel]:
     else:
         return iface.pretty_search_results(res)
 
-
-
-# def arg_parsing(config: iface.Config) -> Optional[Dict[str, Any]]:
-#     """This function parses arguments.
-#
-#         Args:
-#             config: The configuration object
-#         Returns:
-#             The config to be passed around for the rest of time
-#     """
-#
-#     # parser.add_argument(
-#     #     "--default-wordlist",
-#     #     help="Sets the default wordlist",
-#     #     action="store",
-#     #     default=None
-#     # )
-#
-#     args = config
-#
-#     # First, we should work out how verbose we should be
-#
-#     # Now we have set the log level, we can start debugging
-#     logger.trace(f"Got arguments {args}")
-#
-#     # the below text does:
-#     # * if -t is supplied, use that
-#     # * if ciphey is called like:
-#     # * REMOVED: ciphey 'encrypted text' use that
-#     # else if data is piped like:
-#     # echo 'hello' | ciphey use that
-#     # if no data is supplied, no arguments supplied.
-#     text = None
-#     if args["text"] is not None:
-#         text = args["text"]
-#     else:
-#         print("No input given.")
-#         exit(1)
-#
-#     if len(sys.argv) == 1:
-#         print("No arguments were supplied. Look at the help menu with -h or --help")
-#         return None
-#
-#     args["text"] = text
-#     if len(args["text"]) < 3:
-#         print("A string of less than 3 chars cannot be interpreted by Ciphey.")
-#         return None
-#
-#     # Now we can walk through the arguments, expanding them into the config struct
-#     config["checker"] = args.get("checker")
-#     config["info"] = args.get("info")
-#     config["in"] = args.get("bytes_input")
-#     config["out"] = args.get("bytes_output")
-#     config["default_dist"] = args.get("default_dist")
-#
-#     # Append the module lists:
-#     if not "modules" in config:
-#         config["modules"] = args["module"]
-#     else:
-#         config["modules"] += args["module"]
-#     print(f"Config modules is {config['modules']}")
-#     config.load_modules()
-#     # Now we can walk through the arguments, expanding them into a canonical form
-#     #
-#     # First, we go over simple args
-#     config["info"] = False
-#     config["ctext"] = args["text"]
-#     config["grep"] = args["greppable"]
-#     config["offline"] = args["offline"]
-#
-#     # Verbosity levels
-#     if args["verbose"] >= 3:
-#         config["debug"] = "TRACE"
-#         config.update_log_level("TRACE")
-#     elif args["verbose"] == 2:
-#         config["debug"] = "DEBUG"
-#         config.update_log_level("DEBUG")
-#     elif args["verbose"] == 1:
-#         config["debug"] = "ERROR"
-#         config.update_log_level("ERROR")
-#     else:
-#         config["debug"] = "WARNING"
-#
-#     if args["silent"]:
-#         config.update_log_level(None)
-#         config.grep = True
-#
-#     # Try to locate language checker module
-#     # TODO: actually implement this
-#     from ciphey.LanguageChecker.brandon import ciphey_language_checker as brandon
-#
-#     config["checker"] = brandon
-#     # Try to locate language checker module
-#     # TODO: actually implement this (should be similar)
-#     import cipheydists
-#
-#     # Now we fill in the params *shudder*
-#     for i in args["param"]:
-#         key, value = i.split("=", 1)
-#         parent, name = key.split(".", 1)
-#         config.update_param(parent, name, value)
-#
-#     # Now we have parsed and loaded everything else, we can load the objects
-#     config.load_objs()
-#
-#     return args
-#
 
 def get_name(ctx, param, value):
     # reads from stdin if the argument wasnt supplied
@@ -169,12 +63,7 @@ def get_name(ctx, param, value):
     is_flag=True,
 )
 @click.option(
-    "-q",
-    "--quiet",
-    help="Decrease verbosity",
-    type=int,
-    count=True,
-    default=None
+    "-q", "--quiet", help="Decrease verbosity", type=int, count=True, default=None
 )
 @click.option(
     "-g",
@@ -182,15 +71,10 @@ def get_name(ctx, param, value):
     help="Only print the answer (useful for grep)",
     type=bool,
     is_flag=True,
-    default=None
+    default=None,
 )
 @click.option("-v", "--verbose", count=True, type=int)
-@click.option(
-    "-C",
-    "--checker",
-    help="Use the given checker",
-    default=None
-)
+@click.option("-C", "--checker", help="Use the given checker", default=None)
 @click.option(
     "-c",
     "--config",
@@ -198,10 +82,7 @@ def get_name(ctx, param, value):
 )
 @click.option("-w", "--wordlist", help="Uses the given wordlist")
 @click.option(
-    "-p",
-    "--param",
-    help="Passes a parameter to the language checker",
-    multiple=True,
+    "-p", "--param", help="Passes a parameter to the language checker", multiple=True,
 )
 @click.option(
     "-l", "--list-params", help="List the parameters of the selected module", type=bool,
@@ -214,8 +95,7 @@ def get_name(ctx, param, value):
     is_flag=True,
 )
 @click.option(
-    "--searcher",
-    help="Select the searching algorithm to use",
+    "--searcher", help="Select the searching algorithm to use",
 )
 # HARLAN TODO XXX
 # I switched this to a boolean flag system
@@ -226,7 +106,7 @@ def get_name(ctx, param, value):
     "--bytes-input",
     help="Forces ciphey to use binary mode for the input. Rather experimental and may break things!",
     is_flag=True,
-    default=None
+    default=None,
 )
 # HARLAN TODO XXX
 # I switched this to a boolean flag system
@@ -236,22 +116,26 @@ def get_name(ctx, param, value):
     "--bytes-output",
     help="Forces ciphey to use binary mode for the output. Rather experimental and may break things!",
     is_flag=True,
-    default=None
+    default=None,
 )
 @click.option(
     "--default-dist",
     help="Sets the default character/byte distribution",
     type=str,
-    default=None
+    default=None,
 )
 @click.option(
-    "-m", "--module", help="Adds a module from the given path", type=click.Path(), multiple=True,
+    "-m",
+    "--module",
+    help="Adds a module from the given path",
+    type=click.Path(),
+    multiple=True,
 )
 @click.option(
     "-A",
     "--appdirs",
     help="Print the location of where Ciphey wants the settings file to be",
-    type=bool
+    type=bool,
 )
 @click.argument("text_stdin", callback=get_name, required=False)
 @click.argument("file_stdin", type=click.File("rb"), required=False)
@@ -285,12 +169,11 @@ def main(**kwargs) -> Optional[dict]:
             The output of the decryption.
     """
 
-
     # if user wants to know where appdirs is
     # print and exit
     if kwargs["appdirs"] is not None:
-        import appdirs
-        appname = "ciphey"
+        dirs = AppDirs("Ciphey", "Ciphey")
+        print(f"The settings.yml file location should be {dirs.user_config_dir}")
         return None
 
     # Now we create the config object
@@ -359,7 +242,6 @@ def main(**kwargs) -> Optional[dict]:
             kwargs["text"] = kwargs["text_stdin"]
         else:
             print("No inputs were given to Ciphey. For usage, run ciphey --help")
-            logger.critical("No text input given!")
             return None
     print(decrypt(config, kwargs["text"]))
 
@@ -367,7 +249,7 @@ def main(**kwargs) -> Optional[dict]:
 if __name__ == "__main__":
     # withArgs because this function is only called
     # if the program is run in terminal
-    #with click_spinner.spinner():
+    # with click_spinner.spinner():
     #    result = main()
     result = main()
     if result is not None:
