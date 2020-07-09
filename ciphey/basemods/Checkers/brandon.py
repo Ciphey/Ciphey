@@ -147,7 +147,9 @@ class Brandon(ciphey.iface.Checker[str]):
 
         while location <= text_length:
             # chunks the text, so only gets THRESHOLD chunks of text at a time
+            text = list(text)
             to_analyse = text[location:end]
+            logger.trace(f"To analyse is {to_analyse}")
             for word in to_analyse:
                 # if word is a stopword, + 1 to the counter
                 if word in var:
@@ -164,6 +166,8 @@ class Brandon(ciphey.iface.Checker[str]):
                     # We do this in the for loop because if we're at 24% and THRESHOLD is 25
                     # we don't want to wait THRESHOLD to return true, we want to return True ASAP
                     return True
+            location = end
+            end = end + percent
         logger.trace(
             f"The language proportion {meet_threshold} is under the threshold {threshold}"
         )
@@ -178,8 +182,6 @@ class Brandon(ciphey.iface.Checker[str]):
 
         self.thresholds_phase1 = phases["1"]
         self.thresholds_phase2 = phases["2"]
-        print(self.thresholds_phase1)
-        print(self.thresholds_phase2)
         self.top1000Words = self._params().get("top1000")
         self.wordlist = self._params()
         self.stopwords = self._params().get("stopwords")
@@ -218,7 +220,9 @@ class Brandon(ciphey.iface.Checker[str]):
         what_to_use = self.calculateWhatChecker(
             length_text, self.thresholds_phase1.keys()
         )
-        what_to_use = self.thresholds_phase1[what_to_use]
+        print(f"What to use is {what_to_use}")
+        print(self.thresholds_phase1)
+        what_to_use = self.thresholds_phase1[str(what_to_use)]
         # def checker(self, text: str, threshold: float, text_length: int, var: set) -> bool:
         if "check" in what_to_use:
             # perform check 1k words
@@ -229,7 +233,7 @@ class Brandon(ciphey.iface.Checker[str]):
         elif "stop" in what_to_use:
             # perform stopwords
             result = self.checker(
-                text, what_to_use["check"], length_text, self.stopwords
+                text, what_to_use["stop"], length_text, self.stopwords
             )
             logger.trace(f"The result from check stopwords is {result}")
         else:
