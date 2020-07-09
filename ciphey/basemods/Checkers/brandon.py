@@ -220,8 +220,8 @@ class Brandon(ciphey.iface.Checker[str]):
         what_to_use = self.calculateWhatChecker(
             length_text, self.thresholds_phase1.keys()
         )
-        print(f"What to use is {what_to_use}")
-        print(self.thresholds_phase1)
+        logger.trace(f"What to use is {what_to_use}")
+        logger.trace(self.thresholds_phase1)
         what_to_use = self.thresholds_phase1[str(what_to_use)]
         # def checker(self, text: str, threshold: float, text_length: int, var: set) -> bool:
         if "check" in what_to_use:
