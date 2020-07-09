@@ -138,6 +138,7 @@ class Brandon(ciphey.iface.Checker[str]):
         if var is None:
             logger.trace(f"Checker's input var is None, so returning False")
             return False
+        print(var)
 
         percent = ceil(text_length * threshold)
         logger.trace(f"Checker's chunks are size {percent}")
@@ -157,7 +158,8 @@ class Brandon(ciphey.iface.Checker[str]):
                         f"{word} is in var, which means I am +=1 to the meet_threshold which is {meet_threshold}"
                     )
                     meet_threshold += 1
-                if meet_threshold / text_length >= threshold:
+                meet_threshold_percent = meet_threshold / text_length
+                if meet_threshold_percent >= threshold:
                     logger.trace(
                         f"Returning true since the percentage is {meet_threshold / text_length} and the threshold is {threshold}"
                     )
@@ -169,7 +171,7 @@ class Brandon(ciphey.iface.Checker[str]):
             location = end
             end = end + percent
         logger.trace(
-            f"The language proportion {meet_threshold} is under the threshold {threshold}"
+            f"The language proportion {meet_threshold_percent} is under the threshold {threshold}"
         )
         return False
 
@@ -246,7 +248,7 @@ class Brandon(ciphey.iface.Checker[str]):
             what_to_use = self.calculateWhatChecker(
                 length_text, self.thresholds_phase2.keys()
             )
-            what_to_use = self.thresholds_phase2[what_to_use]
+            what_to_use = self.thresholds_phase2[str(what_to_use)]
             result = self.checker(
                 text, what_to_use["check"], length_text, self.wordlist
             )
