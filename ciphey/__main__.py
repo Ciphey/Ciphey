@@ -27,6 +27,11 @@ from loguru import logger
 import click
 import click_spinner
 from appdirs import AppDirs
+import yaspin
+from yaspin.spinners import Spinners
+from yaspin import yaspin
+
+import time
 
 warnings.filterwarnings("ignore")
 
@@ -247,10 +252,13 @@ def main(**kwargs) -> Optional[dict]:
 
 
 if __name__ == "__main__":
+    print("running")
     # withArgs because this function is only called
     # if the program is run in terminal
-    # with click_spinner.spinner():
-    #    result = main()
-    result = main()
+
+    with yaspin(Spinners.earth, text="Earth") as sp:
+        print("sleeping")
+        time.sleep(5)
+        result = main()
     if result is not None:
         print(result)
