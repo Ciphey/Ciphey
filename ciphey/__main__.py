@@ -248,17 +248,15 @@ def main(**kwargs) -> Optional[dict]:
         else:
             print("No inputs were given to Ciphey. For usage, run ciphey --help")
             return None
-    print(decrypt(config, kwargs["text"]))
+
+    with yaspin(Spinners.earth, text="Earth") as sp:
+        result = decrypt(config, kwargs["text"])
+    print(result)
 
 
 if __name__ == "__main__":
-    print("running")
     # withArgs because this function is only called
     # if the program is run in terminal
-
-    with yaspin(Spinners.earth, text="Earth") as sp:
-        print("sleeping")
-        time.sleep(5)
-        result = main()
+    result = main()
     if result is not None:
         print(result)
