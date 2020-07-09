@@ -189,7 +189,7 @@ class Brandon(ciphey.iface.Checker[str]):
         self.len_phase1 = len(self.thresholds_phase1)
         self.len_phase2 = len(self.thresholds_phase2)
 
-    def check(self, text: str) -> bool:
+    def check(self, text: str) -> Optional[str]:
         """Checks to see if the text is in English
 
         Performs a decryption, but mainly parses the internal data packet and prints useful information.
@@ -205,7 +205,7 @@ class Brandon(ciphey.iface.Checker[str]):
         text = self.clean_text(text)
         logger.trace(f'Text split to "{text}"')
         if text == "":
-            return False
+            return None
 
         length_text = len(text)
 
@@ -241,7 +241,7 @@ class Brandon(ciphey.iface.Checker[str]):
 
         # return False if phase 1 fails
         if not result:
-            return False
+            return None
         else:
             what_to_use = self.calculateWhatChecker(
                 length_text, self.thresholds_phase2.keys()
@@ -251,7 +251,7 @@ class Brandon(ciphey.iface.Checker[str]):
                 text, what_to_use["check"], length_text, self.wordlist
             )
         logger.trace(f"Result of dictionary checker is {result}")
-        return result
+        return "" if result else None
 
     def calculateWhatChecker(self, length_text, key):
         """Calculates what threshold / checker to use
