@@ -15,21 +15,6 @@ Ciphey will figure it out for you.
 
 Ciphey uses a deep neural network with a simple filtration system to approximate what something is encrypted with. And then a custom-built, customisable natural languge processing Language Checker Interface, which can detect when the given text becomes plaintext.
 
-
-.. image:: cipheyWorking.gif
-
-Features
---------
-* **20+ encryption methods support** such as hashes, encodings (binary, base64) and normal encryptions like Caesar cipher, Transposition and more.
-* **Deep neural network for targetting the right decryption with simple filtration system** resulting in decryptions taking less than 3 seconds. If Ciphey cannot decrypt the text, Ciphey will use the neural network analysis to give you information on how to decrypt it yourself. 
-* **Custom built natural language processing module** Ciphey can determine whether something is plaintext or not. It has an incredibly high accuracy, along with being fast.
-
-Installation
-------------
-.. code-block:: console
-
-        $ pip3 install ciphey
-
 Usage
 -----
 To use as a console application:
@@ -89,9 +74,14 @@ Read the documentation if you want to learn more about the functions.
    :caption: Contents:
 
         References <reference.rst>
-        Language Checker <lc.rst>
+        Installation Guide <install.rst>
+        Language Checker <lc2.rst>
         Neural Network <nn.rst>
         What encryptions are implemented? <ciphers.rst>
+        Configuration File <config.rst>
+        Features <features.rst>
+        How does it work? <howWork.rst>
+        Settings File <settings.rst>
 
 Indices and tables
 ==================

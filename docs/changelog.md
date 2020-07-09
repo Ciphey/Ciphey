@@ -50,9 +50,6 @@ _The Great Refactor_ is version 5 of Ciphey. The entire program was refactored.
 * Many, many more tests were added to the program.
 * Targetting system added to main(), now Ciphey can internally target any cipher instead of previously where the cipher couldn't be manually chosen.
 * The settings file is automatically searched for in APPDIRS.
-* Moved the docs to its own dedicated GitHub Repo
-* Used Terminalizer to record pretty gifs
-* Redesigned the README
 ## 4.1
 #### Features
 * Vigenere is now enabled, due to massive performance gains from the C++ core
@@ -77,10 +74,6 @@ _The Great Refactor_ is version 5 of Ciphey. The entire program was refactored.
 * Automatic uploading to PyPi testing.
 * Saftey, which checks for security issues, is now run with Nox.
 * Automatic uploding to Test PyPi and PyPi upon push to master, and GitHub release respectively.
-* We now use verbosity levels -v, -vv, -vvv instead of --debug, --trace etc.
-* Switched from ArgParser to Click
-* Click now safely opens files
-* Click now creates OS friendly file paths from arguments
 ## 3.1
 #### Features
 * Adding a logging library (Loguru) and implemented full logging of the

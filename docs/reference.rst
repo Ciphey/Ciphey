@@ -6,10 +6,10 @@ Reference
     :backlinks: none
 
 
-Ciphey.__main__
+Ciphey
 --------------------------
 
-.. automodule:: ciphey.__main__ 
+.. automodule:: ciphey.__main__
    :members:
 
 
@@ -19,12 +19,19 @@ Ciphey.mathsHelper
 .. automodule:: ciphey.mathsHelper 
    :members:
 
-Ciphey.languageCheckerMod.LanguageChecker
-------------------------------------------
-.. automodule:: ciphey.languageCheckerMod.LanguageChecker
+Ciphey.basemods.Checkers.Brandon
+---------------------------------
+.. automodule:: ciphey.basemods.Checkers.brandon
         :members:
 
-Ciphey.neuralNetworkMod.nn
----------------------------
-.. automodule:: ciphey.neuralNetworkMod.nn
+Ciphey.basemods.Checkers.regex
+-----------------------------
+.. automodule:: ciphey.basemods.Checkers.regex
         :members:
+
+Ciphey.basemods.Searchers.ausearch
+-----------------------------------
+.. automodule:: ciphey.basemods.Searchers.ausearch
+        :members:
+
+
