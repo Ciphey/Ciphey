@@ -1,6 +1,6 @@
 pkgbase = Ciphey
 	pkgdesc = Automated Description Tool
-	pkgver = 4.2.1
+	pkgver = 5.0.0rc2
 	pkgrel = 1
 	url = https://github.com/ciphey/ciphey
 	arch = any

@@ -1,6 +1,6 @@
 # Maintainer: Ciphey <brandon@skerritt.blog> 
 pkgname=Ciphey
-pkgver='4.2.1'
+pkgver='5.0.0rc2'
 pkgrel=1
 pkgdesc="Automated Description Tool"
 arch=('any')
