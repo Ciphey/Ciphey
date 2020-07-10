@@ -248,17 +248,24 @@ def main(**kwargs) -> Optional[dict]:
         else:
             print("No inputs were given to Ciphey. For usage, run ciphey --help")
             return None
-    print(decrypt(config, kwargs["text"]))
+
+    # if debug mode is on, run without spinner
+    if config.verbosity > 0:
+        result = decrypt(config, kwargs["text"])
+    elif config.verbosity == 0:
+        # else, run with spinner if verbosity is 0
+        with yaspin(Spinners.earth, text="Earth") as sp:
+            result = decrypt(config, kwargs["text"])
+    else:
+        # else its below 0, so quiet mode is on. make it greppable""
+        result = decrypt(config, kwargs["text"])
+
+    print(result)
 
 
 if __name__ == "__main__":
-    print("running")
     # withArgs because this function is only called
     # if the program is run in terminal
-
-    with yaspin(Spinners.earth, text="Earth") as sp:
-        print("sleeping")
-        time.sleep(5)
-        result = main()
+    result = main()
     if result is not None:
         print(result)
