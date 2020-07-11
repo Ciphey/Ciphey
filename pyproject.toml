@@ -37,7 +37,7 @@ sphinx-autodoc-typehints = "^1.10.3"
 nltk = "^3.5"
 
 [tool.poetry.scripts]
-ciphey = 'ciphey.__main__:main'
+ciphey = 'ciphey.ciphey:main'
 [build-system]
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
