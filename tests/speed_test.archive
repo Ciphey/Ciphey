@@ -13,7 +13,6 @@ The accuracy is calculated as to how many true positives we get over the entire 
 """
 
 
-import spacy
 import random
 import time
 from statistics import mean
