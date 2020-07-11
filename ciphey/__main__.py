@@ -21,8 +21,7 @@ import bisect
 from ciphey.iface import SearchLevel
 from . import iface
 
-from rich.console import Console
-from rich.table import Table
+from rich import print
 from loguru import logger
 import click
 import click_spinner
@@ -249,17 +248,21 @@ def main(**kwargs) -> Optional[dict]:
             print("No inputs were given to Ciphey. For usage, run ciphey --help")
             return None
     # if debug mode is on, run without spinner
-    if config.verbosity > 0:
-        result = decrypt(config, kwargs["text"])
-    elif config.verbosity == 0:
-        # else, run with spinner if verbosity is 0
-        with yaspin(Spinners.earth, text="Earth") as sp:
+    try:
+        if config.verbosity > 0:
             result = decrypt(config, kwargs["text"])
-    else:
-        # else its below 0, so quiet mode is on. make it greppable""
-        result = decrypt(config, kwargs["text"])
+        elif config.verbosity == 0:
+            # else, run with spinner if verbosity is 0
+            with yaspin(Spinners.earth, text="Earth") as sp:
+                result = decrypt(config, kwargs["text"])
+        else:
+            # else its below 0, so quiet mode is on. make it greppable""
+            result = decrypt(config, kwargs["text"])
+    except LookupError as e:
+        result = "Could not find any solutions."
 
     print(result)
+    return result
 
 
 if __name__ == "__main__":

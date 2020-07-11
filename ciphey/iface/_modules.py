@@ -266,7 +266,7 @@ class Searcher(ConfigurableModule):
 
 
 def pretty_search_results(res: SearchResult, display_intermediate: bool = False):
-    ret: str = f'Final result: "{res.path[-1].result.value}"\n'
+    ret: str = ""
     if len(res.check_res) != 0:
         ret += f"Checker: {res.check_res}\n"
     ret += "Format used:\n"
@@ -296,6 +296,9 @@ def pretty_search_results(res: SearchResult, display_intermediate: bool = False)
         add_one()
 
     # Remove trailing newline
+    ret += (
+        f"""Final result: [bold green]"{res.path[-1].result.value}"[\bold green]\n'"""
+    )
     return ret[:-1]
 
 
