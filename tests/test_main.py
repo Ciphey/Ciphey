@@ -12,4 +12,3 @@ def test_initial():
     assert "dog" in result.output 
 
 
-test_initial()

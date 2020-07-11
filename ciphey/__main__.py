@@ -21,8 +21,7 @@ import bisect
 from ciphey.iface import SearchLevel
 from . import iface
 
-from rich.console import Console
-from rich.table import Table
+from rich import print
 from loguru import logger
 import click
 import click_spinner
