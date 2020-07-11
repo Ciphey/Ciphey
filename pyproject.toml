@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ciphey"
-version = "5.0.0rc1"
+version = "5.0.0rc2"
 description = "Automated Decryption Tool"
 authors = ["Brandon <brandon@skerritt.blog>"]
 license = "MIT"
@@ -9,7 +9,6 @@ exclude = ["tests/hansard.txt"]
 
 [tool.poetry.dependencies]
 python = "^3.7"
-tensorflow = "^2.1.0"
 rich = "^1.2.3"
 loguru = "^0.5.0"
 pylint = "^2.5.2"
