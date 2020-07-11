@@ -248,7 +248,6 @@ def main(**kwargs) -> Optional[dict]:
         else:
             print("No inputs were given to Ciphey. For usage, run ciphey --help")
             return None
-
     # if debug mode is on, run without spinner
     if config.verbosity > 0:
         result = decrypt(config, kwargs["text"])

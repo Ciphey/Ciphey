@@ -1,20 +1,11 @@
-from ciphey.__main__ import main_decrypt, make_default_config
+from ciphey.__main__ import main
+from click.testing import CliRunner
 
 
-def test_argument_grep_true():
-    cfg = make_default_config("It was the best of times, it was the worst of times")
-    cfg["debug"] = "TRACE"
-    result = main_decrypt(cfg)
-    assert result["Plaintext"] == "It was the best of times, it was the worst of times"
+def test_initial():
+    runner = CliRunner()
+    result = runner.invoke(main, ["-t hello", "-q"])
 
+    print(result)
 
-def test_main_base64_true():
-    cfg = make_default_config(
-        "SXQgd2FzIHRoZSBiZXN0IG9mIHRpbWVzLCBpdCB3YXMgdGhlIHdvcnN0IG9mIHRpbWVzLiBUaGVyZSBpcyBvbmx5IHNvIG11Y2ggcm9hZCBpbiBEb3ZlciBvbmUgY2FuIGxheS4="
-    )
-    cfg["debug"] = "TRACE"
-    result = main_decrypt(cfg)
-    assert (
-        result["Plaintext"]
-        == "It was the best of times, it was the worst of times. There is only so much road in Dover one can lay."
-    )
+test_initial()
