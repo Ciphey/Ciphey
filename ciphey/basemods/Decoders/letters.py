@@ -1,3 +1,6 @@
+"""
+Not yet implemented.
+"""
 class letters:
 
     """Deals with Nato Strings / first letter of every word"""
