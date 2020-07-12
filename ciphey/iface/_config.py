@@ -177,6 +177,8 @@ class Config:
             mod = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(mod)
 
+        logger.debug(f"Loaded modules {_fwd.registry.get_all_names()}")
+
     def get_resource(self, res_name: str, t: Optional[Type] = None) -> Any:
         logger.trace(f"Loading resource {res_name} of type {t}")
 
