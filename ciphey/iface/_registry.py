@@ -46,7 +46,8 @@ class Registry:
         target_reg.setdefault(module_args[-1], []).append(input_type)
 
     def _real_register(self, input_type: type, *args) -> Type:
-        name_target = self._names[input_type.__name__.lower()] = (input_type, set())
+        name = input_type.__name__.lower()
+        name_target = self._names[name] = (input_type, set())
 
         if issubclass(input_type, Targeted):
             target = input_type.getTarget()
@@ -135,6 +136,9 @@ class Registry:
         if x is None or type_constraint is None:
             return x
         return x.get(type_constraint)
+
+    def get_all_names(self) -> List[str]:
+        return list(self._names.keys())
 
     def __str__(self):
         return f"ciphey.iface.Registry {{_reg: {self._reg}, _names: {self._names}, _targets: {self._targets}}}"
