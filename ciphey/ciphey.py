@@ -55,6 +55,13 @@ def get_name(ctx, param, value):
     return locals()
 
 
+def print_help(ctx):
+    # prints help menu
+    # if no arguments are passed
+    click.echo(ctx.get_help())
+    ctx.exit()
+
+
 @click.command()
 @click.option(
     "-t", "--text", help="The ciphertext you want to decrypt.", type=str,
@@ -156,7 +163,7 @@ def main(**kwargs) -> Optional[dict]:
     Ciphey is an automated decryption tool using smart artificial intelligence and natural language processing. Input encrypted text, get the decrypted text back.
 
     Examples:\n
-        Basic Usage: ciphey -t "aGVsbG8gbXkgbmFtZSBpcyBiZWU=" -d true -c true
+        Basic Usage: ciphey -t "aGVsbG8gbXkgbmFtZSBpcyBiZWU=" 
         
     """
 
@@ -245,7 +252,16 @@ def main(**kwargs) -> Optional[dict]:
         elif kwargs["text_stdin"] is not None:
             kwargs["text"] = kwargs["text_stdin"]
         else:
-            print("No inputs were given to Ciphey. For usage, run ciphey --help")
+            # else print help menu
+            print("[bold red]Error. No inputs were given to Ciphey. [\bold red]")
+
+            @click.pass_context
+            def all_procedure(ctx):
+                print_help(ctx)
+
+            all_procedure()
+
+            # print("No inputs were given to Ciphey. For usage, run ciphey --help")
             return None
     # if debug mode is on, run without spinner
     try:
