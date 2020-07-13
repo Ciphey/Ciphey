@@ -1,1 +1,1 @@
-from . import morse, bases, unicode, reverse, octal, hash, binary
+from . import morse, bases, unicode, reverse, octal, hash, binary, hexadecimal
