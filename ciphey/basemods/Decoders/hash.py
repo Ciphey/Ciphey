@@ -153,7 +153,7 @@ class HashBuster(ciphey.iface.Decoder[str, bytes]):
 
     @staticmethod
     def priority() -> float:
-        return 0.4
+        return 0.05
 
     def __init__(self, config: ciphey.iface.Config):
         super().__init__(config)
