@@ -181,12 +181,9 @@ class Brandon(ciphey.iface.Checker[str]):
         self.mh = mh.mathsHelper()
 
         phases = config.get_resource(self._params()["phases"])
-        print(phases)
 
         self.thresholds_phase1 = phases["1"]
-        print(self.thresholds_phase1)
         self.thresholds_phase2 = phases["2"]
-        print(self.thresholds_phase2)
         self.top1000Words = config.get_resource(self._params().get("top1000"))
         self.wordlist = config.get_resource(self._params()["wordlist"])
         self.stopwords = config.get_resource(self._params().get("stopwords"))
@@ -225,26 +222,20 @@ class Brandon(ciphey.iface.Checker[str]):
         what_to_use = self.calculateWhatChecker(
             length_text, self.thresholds_phase1.keys()
         )
-        logger.trace(f"What to use is {what_to_use}")
         logger.trace(self.thresholds_phase1)
         what_to_use = self.thresholds_phase1[str(what_to_use)]
         # def checker(self, text: str, threshold: float, text_length: int, var: set) -> bool:
         if "check" in what_to_use:
             # perform check 1k words
-            logger.trace("using trace")
             result = self.checker(
                 text, what_to_use["check"], length_text, self.top1000Words
             )
-            logger.trace(f"The result from check 1k words is {result}")
         elif "stop" in what_to_use:
             # perform stopwords
-            logger.trace("using trace")
             result = self.checker(
                 text, what_to_use["stop"], length_text, self.stopwords
             )
-            logger.trace(f"The result from check stopwords is {result}")
         elif "dict" in what_to_use:
-            logger.trace("in dict")
             result = self.checker(text, what_to_use["dict"], length_text, self.wordlist)
             # If result is None, no point doing it again in phase2
             if not result:
@@ -261,7 +252,6 @@ class Brandon(ciphey.iface.Checker[str]):
             )
             what_to_use = self.thresholds_phase2[str(what_to_use)]
             result = self.checker(text, what_to_use["dict"], length_text, self.wordlist)
-        logger.trace(f"Result of dictionary checker is {result}")
         return "" if result else None
 
     def calculateWhatChecker(self, length_text, key):
@@ -284,20 +274,12 @@ class Brandon(ciphey.iface.Checker[str]):
         _keys = list(map(int, _keys))
         if length_text >= int(_keys[-1]):
             what_to_use = key[_keys[-1]]
-            logger.trace(
-                f"Length of text is max therefore what to use is {what_to_use}"
-            )
         else:
             # this algorithm finds the smallest possible fit for the text
-            logger.trace(f"{_keys}")
             for counter, i in reversed(list(enumerate(_keys))):
-                logger.trace(f"counter -1 is {_keys[counter -1]}")
-                logger.trace(f"{length_text} <= {i}")
                 #  [0, 110, 150]
                 if i <= length_text:
                     what_to_use = i
-                    logger.trace(f"{length_text} <= {i}")
-            logger.trace(f"else what to use is {what_to_use}")
         return what_to_use
 
     @staticmethod
