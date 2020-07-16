@@ -145,6 +145,7 @@ def print_help(ctx):
     "--appdirs",
     help="Print the location of where Ciphey wants the settings file to be",
     type=bool,
+    is_flag = True,
 )
 @click.argument("text_stdin", callback=get_name, required=False)
 @click.argument("file_stdin", type=click.File("rb"), required=False)
@@ -182,7 +183,9 @@ def main(**kwargs) -> Optional[dict]:
     # print and exit
     if kwargs["appdirs"] is not None:
         dirs = AppDirs("Ciphey", "Ciphey")
-        print(f"The settings.yml file location should be {dirs.user_config_dir}")
+        path_to_config = dirs.user_config_dir
+        import os
+        print(f"The settings.yml file should be at {os.path.join(path_to_config, 'settings.yml')}")
         return None
 
     # Now we create the config object
