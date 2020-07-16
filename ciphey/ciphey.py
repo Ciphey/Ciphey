@@ -198,7 +198,7 @@ def main(**kwargs) -> Optional[dict]:
         # Make sure that the config dir actually exists
         os.makedirs(iface.Config.get_default_dir(), exist_ok=True)
         config.load_file(create=True)
-        load_msg = f"Opened config file at {os.path.join(iface.Config.get_default_dir), 'config.yml')}"
+        load_msg = f"Opened config file at {os.path.join(iface.Config.get_default_dir(), 'config.yml')}"
     else:
         config.load_file(cfg_arg)
         load_msg = f"Opened config file at {cfg_arg}"
