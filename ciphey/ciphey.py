@@ -192,13 +192,16 @@ def main(**kwargs) -> Optional[dict]:
     config = iface.Config()
 
     # Load the settings file into the config
+    load_msg: str
     cfg_arg = kwargs["config"]
     if cfg_arg is None:
         # Make sure that the config dir actually exists
         os.makedirs(iface.Config.get_default_dir(), exist_ok=True)
         config.load_file(create=True)
+        load_msg = f"Opened config file at {os.path.join(iface.Config.get_default_dir.__func__(), 'config.yml')}"
     else:
         config.load_file(cfg_arg)
+        load_msg = f"Opened config file at {cfg_arg}"
 
     # Load the verbosity, so that we can start logging
     verbosity = kwargs["verbose"]
@@ -213,6 +216,7 @@ def main(**kwargs) -> Optional[dict]:
     # Use the existing value as a base
     config.verbosity += verbosity
     config.update_log_level(config.verbosity)
+    logger.debug(load_msg)
     logger.trace(f"Got cmdline args {kwargs}")
 
     # Now we load the modules
