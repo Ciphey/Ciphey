@@ -52,8 +52,6 @@ def get_name(ctx, param, value):
     else:
         return value
 
-    return locals()
-
 
 def print_help(ctx):
     # prints help menu
@@ -221,13 +219,11 @@ def main(**kwargs) -> Optional[dict]:
     module_arg = kwargs["module"]
     if module_arg is not None:
         config.modules += list(module_arg)
-    config.load_modules()
 
     # We need to load formats BEFORE we instantiate objects
     if kwargs["bytes_input"] is not None:
         config.update_format("in", "bytes")
 
-    output_format = kwargs["bytes_output"]
     if kwargs["bytes_output"] is not None:
         config.update_format("in", "bytes")
 
@@ -241,8 +237,10 @@ def main(**kwargs) -> Optional[dict]:
     config.update("checker", kwargs["checker"])
     config.update("searcher", kwargs["searcher"])
     config.update("default_dist", kwargs["default_dist"])
-    config.load_objs()
 
+    config.complete_config()
+
+    logger.trace(f"Command line opts: {kwargs}")
     logger.trace(f"Config finalised: {config}")
 
     # Finally, we load the plaintext

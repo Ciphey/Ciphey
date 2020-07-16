@@ -179,6 +179,13 @@ class Config:
 
         logger.debug(f"Loaded modules {_fwd.registry.get_all_names()}")
 
+    # Does all the loading and filling
+
+    def complete_config(self):
+        self.load_modules()
+        self.load_objs()
+        self.update_log_level(self.verbosity)
+
     def get_resource(self, res_name: str, t: Optional[Type] = None) -> Any:
         logger.trace(f"Loading resource {res_name} of type {t}")
 
