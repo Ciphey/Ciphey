@@ -53,12 +53,13 @@ class Vigenere(ciphey.iface.Cracker[str]):
         possible_keys = cipheycore.vigenere_crack(
             analysis, self.expected, self.group, self.p_value
         )
+        logger.trace(f"Vigenere crack got keys: {[[i for i in candidate.key] for candidate in possible_keys]}")
         return [
             CrackResult(
                 value=cipheycore.vigenere_decrypt(ctext, candidate.key, self.group),
                 key_info="".join([self.group[i] for i in candidate.key]),
             )
-            for candidate in possible_keys
+            for candidate in possible_keys[:min(len(possible_keys), 10)]
         ]
 
     def attemptCrack(self, ctext: str) -> List[CrackResult]:
@@ -140,8 +141,8 @@ class Vigenere(ciphey.iface.Cracker[str]):
         self.keysize = self._params().get("keysize")
         if self.keysize is not None:
             self.keysize = int(self.keysize)
-        self.MAX_KEY_LENGTH = 16  # Will not attempt keys longer than this.
         self.p_value = self._params()["p_value"]
+        self.MAX_KEY_LENGTH = 16
 
     def kasiskiExamination(self, ciphertext) -> List[int]:
         # Find out the sequences of 3 to 5 letters that occur multiple times
