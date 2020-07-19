@@ -25,7 +25,7 @@ class CipheyDists(ciphey.iface.ResourceLoader):
     def whatResources(self) -> Optional[Set[str]]:
         pass
 
-    @lru_cache
+    @lru_cache()
     def getResource(self, name: str) -> Any:
         loguru.logger.trace(f"Loading cipheydists resource {name}")
         prefix, name = name.split("::", 1)

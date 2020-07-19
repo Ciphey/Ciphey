@@ -6,6 +6,7 @@ authors = ["Brandon <brandon@skerritt.blog>"]
 license = "MIT"
 documentation = "https://docs.ciphey.online"
 exclude = ["tests/hansard.txt"]
+readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.7"
