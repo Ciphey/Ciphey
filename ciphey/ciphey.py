@@ -180,7 +180,7 @@ def main(**kwargs) -> Optional[dict]:
 
     # if user wants to know where appdirs is
     # print and exit
-    if kwargs["appdirs"] is not None:
+    if kwargs["appdirs"] is True:
         dirs = AppDirs("Ciphey", "Ciphey")
         print(f"The settings.yml file location should be {dirs.user_config_dir}")
         return None
