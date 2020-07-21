@@ -181,10 +181,9 @@ def main(**kwargs) -> Optional[dict]:
 
     # if user wants to know where appdirs is
     # print and exit
-    if kwargs["appdirs"] is True:
+    if "appdirs" in kwargs and kwargs["appdirs"]:
         dirs = AppDirs("Ciphey", "Ciphey")
         path_to_config = dirs.user_config_dir
-        import os
         print(f"The settings.yml file should be at {os.path.join(path_to_config, 'settings.yml')}")
         return None
 

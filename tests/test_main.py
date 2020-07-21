@@ -1,6 +1,6 @@
 from ciphey.ciphey import main
 from click.testing import CliRunner
-
+import os
 
 def test_initial():
     runner = CliRunner()
@@ -15,6 +15,7 @@ def test_initial():
     print(result)
     print(result.output)
     assert result.exit_code == 0
+    print(result.output)
     assert "dog" in result.output
 
 
