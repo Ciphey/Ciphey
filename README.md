@@ -27,10 +27,10 @@ Fully automated decryption tool using natural language processing & artifical in
 
 **NOTE** This README is being worked on for version 5. You can only install Ciphey via PyPi at the moment.
 
-| <p align="center"><a href="https://pypi.org/project/ciphey">🐍 Python (Universal) </a></p> | <p align="center"><a href="https://pypi.org/project/ciphey"> Arch </a></p> | <p align="center"><a href="https://pypi.org/project/ciphey"> Windows </a></p> | <p align="center"><a href="https://pypi.org/project/ciphey"> Mac OS </a></p> |
-| ----------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| <p align="center"><img src="Pictures_for_README/python.png" /></p>                        | <p align="center"><img src="Pictures_for_README/arch.png" /></p>           | <p align="center"><img src="Pictures_for_README/windows.png" /></p>           | <p align="center"><img src="Pictures_for_README/apple.png" /></p>            |
-| `python3 -m pip install ciphey --upgrade`                                                 | `yay ciphey`                                                               | `winget ciphey`                                                               | `brew ciphey`                                                                |
+| <p align="center"><a href="https://pypi.org/project/ciphey">🐍 Python (Universal) </a></p> | <p align="center"><a href="https://pypi.org/project/ciphey"> Arch </a></p> | <p align="center"><a href="https://pypi.org/project/ciphey"> Windows </a></p>  |
+| ----------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| <p align="center"><img src="Pictures_for_README/python.png" /></p>                        | <p align="center"><img src="Pictures_for_README/arch.png" /></p>           | <p align="center"><img src="Pictures_for_README/windows.png" /></p>                      |
+| `python3 -m pip install ciphey --upgrade`                                                 | `yay ciphey`                                                               | `winget ciphey`                                                               | 
 
 | Linux       | Mac OS | Windows     |
 | ----------- | ------ | ----------- |
@@ -122,7 +122,7 @@ If you're having trouble with installing Ciphey, [read this.](https://docs.ciphe
 | ------------------ | ------------- | ------- |
 | 📖 [Installation Guide](https://docs.ciphey.online/en/latest/install.html) | 📚 [Documentation](https://docs.ciphey.online) | 🦜 [Discord](https://discord.ciphey.online)
 
-## Running Ciphey
+## 🏃‍♀️Running Ciphey
 There are 3 ways to run Ciphey.
 1. File Input `ciphey - encrypted.txt`
 2. Unqualified input `ciphey -- "Encrypted input`
