@@ -5,6 +5,7 @@ from ciphey.iface import registry, Checker, ParamSpec, T, Config
 
 from .regex import RegexList
 from .brandon import Brandon
+from .format import JsonChecker
 
 
 @registry.register
@@ -16,7 +17,11 @@ class EzCheck(Checker[str]):
     """
 
     def check(self, text: T) -> Optional[str]:
-        pass
+        for checker in self.checkers:
+            res = checker.check(text)
+            if res is not None:
+                return res
+        return None
 
     def getExpectedRuntime(self, text: T) -> float:
         return sum(i.getExpectedRuntime(text) for i in self.checkers)
@@ -32,7 +37,10 @@ class EzCheck(Checker[str]):
         # We do not cache, as this uses a different, on-time config
         self.checkers.append(RegexList(flags_config))
 
-        # Then the brandon checker
+        # Next, the json checker
+        self.checkers.append(config(JsonChecker))
+
+        # Finally, the Brandon checker, as it is the slowest
         self.checkers.append(config(Brandon))
 
 
