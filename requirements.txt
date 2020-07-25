@@ -25,7 +25,7 @@ markdown==3.2.2
 mccabe==0.6.1
 numpy==1.18.5
 oauthlib==3.1.0
-opt-einsum==3.2.1
+opt-einsum==3.3.0
 pprintpp==0.4.0
 protobuf==3.12.2
 pyasn1==0.4.8
