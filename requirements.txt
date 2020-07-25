@@ -16,7 +16,7 @@ google-auth-oauthlib==0.4.1
 google-pasta==0.2.0
 grpcio==1.29.0
 h5py==2.10.0
-idna==2.9
+idna==2.10
 isort==4.3.21
 keras-preprocessing==1.1.2
 lazy-object-proxy==1.4.3
