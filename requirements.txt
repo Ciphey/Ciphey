@@ -2,7 +2,7 @@ absl-py==0.9.0
 astroid==2.4.2
 astunparse==1.6.3
 cachetools==4.1.1
-certifi==2020.4.5.2
+certifi==2020.6.20
 chardet==3.0.4
 cipheycore==0.1.5
 cipheydists==0.2.2
