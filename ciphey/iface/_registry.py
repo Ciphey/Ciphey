@@ -106,7 +106,7 @@ class Registry:
         return input_type
 
     def register(self, input_type):
-        self._real_register(input_type)
+        return self._real_register(input_type)
 
     def register_multi(self, *x):
         return lambda input_type: self._real_register(input_type, *x)
