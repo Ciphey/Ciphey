@@ -60,7 +60,7 @@ class Config:
     params: Dict[str, Dict[str, Union[str, List[str]]]] = {}
     format: Dict[str, str] = {"in": "str", "out": "str"}
     modules: List[str] = []
-    checker: str = "brandon"
+    checker: str = "ezcheck"
     default_dist: str = "cipheydists::dist::twist"
     timeout: Optional[int] = None
 
