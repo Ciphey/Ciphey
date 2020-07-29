@@ -46,6 +46,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "TheAlcanian",
+      "name": "Shardion",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/22127191?v=4",
+      "profile": "https://github.com/TheAlcanian",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
