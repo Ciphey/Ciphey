@@ -57,8 +57,9 @@ class Caesar(ciphey.iface.Cracker[str]):
         )
         logger.trace("Beginning cipheycore::caesar")
         possible_keys = cipheycore.caesar_crack(
-            analysis, self.expected, self.group
+            analysis, self.expected, self.group, True, 0
         )
+
         n_candidates = len(possible_keys)
         logger.debug(f"Caesar returned {n_candidates} candidates")
 
@@ -93,7 +94,7 @@ class Caesar(ciphey.iface.Cracker[str]):
             "p_value": ciphey.iface.ParamSpec(
                 desc="The p-value to use for standard frequency analysis",
                 req=False,
-                default=1,
+                default=0.5,
             )
             # TODO: add "filter" param
         }

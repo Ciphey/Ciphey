@@ -21,7 +21,8 @@ def test_base64():
 
 
 def test_caesar():
-    res = decrypt(Config().library_default().complete_config(), "Uryyb zl anzr vf orr naq V yvxr qbt naq png")
+    res = decrypt(Config().library_default().complete_config(),
+                  "Uryyb zl anzr vf orr naq V yvxr qbt naq nccyr naq gerr")
     assert res.lower() == answer_str.lower()
 
 
