@@ -265,7 +265,7 @@ class Searcher(ConfigurableModule):
         super().__init__(config)
 
 
-def pretty_search_results(res: SearchResult, display_intermediate: bool = False):
+def pretty_search_results(res: SearchResult, display_intermediate: bool = False) -> str:
     ret: str = ""
     if len(res.check_res) != 0:
         ret += f"Checker: {res.check_res}\n"
@@ -291,15 +291,20 @@ def pretty_search_results(res: SearchResult, display_intermediate: bool = False)
         if not already_broken:
             ret += "\n"
 
-    # Skip the 'input' and print in reverse order
-    for i in res.path[1:][::-1]:
+    # Skip the 'input' and print in order
+    for i in res.path[1:]:
         add_one()
 
     # Remove trailing newline
-    ret += (
-        f"""Final result: [bold green]"{res.path[-1].result.value}"[\bold green]\n'"""
-    )
-    return ret[:-1]
+    ret = ret[:-1]
+
+    # If we didn't show intermediate steps, then print the final result
+    if not display_intermediate:
+        ret += (
+            f"""\nFinal result: [bold green]"{res.path[-1].result.value}"[\bold green]"""
+        )
+
+    return ret
 
 
 # Some common collection types

@@ -16,22 +16,25 @@ from ciphey.iface import (
 )
 from datetime import datetime
 from loguru import logger
+import cipheycore
 
 
 class Node(Generic[T], NamedTuple):
     cracker: Cracker
     parents: List[SearchLevel]
-    crack_info: CrackInfo
-    check_info: float
+    node_info: cipheycore.ausearch_node
 
     def __hash__(self):
         return hash((type(self.cracker).__name__, len(self.parents)))
 
 
-class AuSearch(Searcher, ABC):
-    @abstractmethod
-    def findBestNode(self, nodes: Set[Node]) -> Node:
-        pass
+@registry.register
+class AuSearch(Searcher):
+    def findBestNode(self, nodes: List[Node]) -> Node:
+        res: cipheycore.ausearch_res = cipheycore.ausearch_minimise([i.node_info for i in nodes])
+        ret = nodes[res.index]
+        logger.trace(f"Selected node {ret} with weight {res.weight}")
+        return ret
 
     def handleDecodings(
         self, target: Any
@@ -110,11 +113,12 @@ class AuSearch(Searcher, ABC):
             expected_time = 0
         for i in crackers:
             cracker = self._config()(i)
+            crack_info: CrackInfo = cracker.getInfo(result)
             nodes.append(
                 Node(
                     cracker=cracker,
-                    crack_info=cracker.getInfo(result),
-                    check_info=expected_time,
+                    node_info=cipheycore.ausearch_node(crack_info.success_likelihood, crack_info.success_runtime,
+                                                       crack_info.failure_runtime),
                     parents=parents,
                 )
             )
@@ -153,7 +157,7 @@ class AuSearch(Searcher, ABC):
         if success:
             return expand_res
 
-        nodes = set(expand_res)
+        nodes = expand_res
 
         while datetime.now() < deadline:
             # logger.trace(f"Have node tree {nodes}")
@@ -162,21 +166,22 @@ class AuSearch(Searcher, ABC):
                 raise LookupError("Could not find any solutions")
 
             best_node = self.findBestNode(nodes)
+
+            logger.trace(best_node)
+
             nodes.remove(best_node)
             success, eval_res = self.evaluate(best_node)
             if success:
                 # logger.trace(f"Success with node {best_node}")
                 return eval_res
-            nodes.update(eval_res)
+            nodes += eval_res
 
         raise TimeoutError("Search ran out of time")
 
     @staticmethod
-    @abstractmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
         pass
 
-    @abstractmethod
     def __init__(self, config: Config):
         super().__init__(config)
         self._checker = config.objs["checker"]

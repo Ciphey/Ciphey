@@ -15,7 +15,7 @@ import os
 import warnings
 import argparse
 import sys
-from typing import Optional, Dict, Any, List
+from typing import Optional, Dict, Any, List, Union
 import bisect
 
 from ciphey.iface import SearchLevel
@@ -35,7 +35,7 @@ import time
 warnings.filterwarnings("ignore")
 
 
-def decrypt(config: iface.Config, ctext: Any) -> List[SearchLevel]:
+def decrypt(config: iface.Config, ctext: Any) -> Union[str, bytes]:
     """A simple alias for searching a ctext and makes the answer pretty"""
     res: iface.SearchResult = config.objs["searcher"].search(ctext)
     if config.verbosity < 0:

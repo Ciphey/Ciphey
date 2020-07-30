@@ -56,7 +56,7 @@ def split_resource_name(full_name: str) -> (str, str):
 
 class Config:
     verbosity: int = 0
-    searcher: str = "perfection"
+    searcher: str = "ausearch"
     params: Dict[str, Dict[str, Union[str, List[str]]]] = {}
     format: Dict[str, str] = {"in": "str", "out": "str"}
     modules: List[str] = []
@@ -179,12 +179,12 @@ class Config:
 
         logger.debug(f"Loaded modules {_fwd.registry.get_all_names()}")
 
-    # Does all the loading and filling
-
-    def complete_config(self):
+    def complete_config(self) -> 'Config':
+        """This does all the loading for the config, and then returns itself"""
         self.load_modules()
         self.load_objs()
         self.update_log_level(self.verbosity)
+        return self
 
     def get_resource(self, res_name: str, t: Optional[Type] = None) -> Any:
         logger.trace(f"Loading resource {res_name} of type {t}")
@@ -195,6 +195,16 @@ class Config:
             return self(_fwd.registry.get_named(loader, ResourceLoader))(name)
         else:
             return self(_fwd.registry.get_named(loader, ResourceLoader[t]))(name)
+
+    # Setter methods for cleaner library API
+    def set_verbosity(self, i):
+        self.update_log_level(i)
+        return self
+
+    @staticmethod
+    def library_default():
+        """The default config for use in a library"""
+        return Config().set_verbosity(-1)
 
     def __str__(self):
         return str({

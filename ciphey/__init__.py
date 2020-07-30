@@ -4,7 +4,7 @@ from . import iface
 
 from . import basemods
 
-from . import ciphey 
+from .ciphey import main, decrypt
 
 if __name__ == '__main__':
-    ciphey.main()
+    main()

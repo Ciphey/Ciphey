@@ -7,6 +7,7 @@
 © Brandon Skerritt
 Github: brandonskerritt
 """
+import sys
 from distutils import util
 from typing import Optional, Dict, Union, Set, List
 
@@ -18,7 +19,7 @@ from ciphey.iface import ParamSpec, CrackResult, T, CrackInfo, registry
 
 @registry.register
 class Caesar(ciphey.iface.Cracker[str]):
-    def getInfo(self, ctext: T) -> CrackInfo:
+    def getInfo(self, ctext: str) -> CrackInfo:
         analysis = self.cache.get_or_update(
             ctext,
             "cipheycore::simple_analysis",
@@ -28,8 +29,8 @@ class Caesar(ciphey.iface.Cracker[str]):
         return CrackInfo(
             success_likelihood=cipheycore.caesar_detect(analysis, self.expected),
             # TODO: actually calculate runtimes
-            success_runtime=1e-4,
-            failure_runtime=1e-4,
+            success_runtime=1e-5,
+            failure_runtime=1e-5,
         )
 
     @staticmethod
@@ -56,7 +57,7 @@ class Caesar(ciphey.iface.Cracker[str]):
         )
         logger.trace("Beginning cipheycore::caesar")
         possible_keys = cipheycore.caesar_crack(
-            analysis, self.expected, self.group, True, self.p_value
+            analysis, self.expected, self.group
         )
         n_candidates = len(possible_keys)
         logger.debug(f"Caesar returned {n_candidates} candidates")
@@ -92,7 +93,7 @@ class Caesar(ciphey.iface.Cracker[str]):
             "p_value": ciphey.iface.ParamSpec(
                 desc="The p-value to use for standard frequency analysis",
                 req=False,
-                default=0.1,
+                default=1,
             )
             # TODO: add "filter" param
         }
