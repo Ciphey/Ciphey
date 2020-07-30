@@ -106,6 +106,7 @@ class Brandon(ciphey.iface.Checker[str]):
         text = text.lower()
         text = self.mh.strip_puncuation(text)
         text = text.split(" ")
+        text = filter(lambda x: len(x) > 2, text)
         text = set(text)
         return text
 
@@ -153,7 +154,7 @@ class Brandon(ciphey.iface.Checker[str]):
             logger.trace(f"To analyse is {to_analyse}")
             for word in to_analyse:
                 # if word is a stopword, + 1 to the counter
-                if word in var and len(word) > 2:
+                if word in var:
                     logger.trace(
                         f"{word} is in var, which means I am +=1 to the meet_threshold which is {meet_threshold}"
                     )
