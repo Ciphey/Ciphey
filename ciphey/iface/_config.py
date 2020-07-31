@@ -61,7 +61,7 @@ class Config:
     format: Dict[str, str] = {"in": "str", "out": "str"}
     modules: List[str] = []
     checker: str = "ezcheck"
-    default_dist: str = "cipheydists::dist::twist"
+    default_dist: str = "cipheydists::dist::english"
     timeout: Optional[int] = None
 
     _inst: Dict[type, Any] = {}

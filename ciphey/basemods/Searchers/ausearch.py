@@ -1,3 +1,4 @@
+import distutils
 from abc import abstractmethod, ABC
 import bisect
 from copy import copy
@@ -162,7 +163,14 @@ class AuSearch(Searcher):
         for i in self.get_crackers_for(type(res)):
             inst = self._config()(i)
             additional_work.append(Edge(source=node, route=inst, info=convert_edge_info(inst.getInfo(res))))
-        self.work.add_work(node.depth, additional_work)
+        if self.disable_priority:
+            priority = 0
+        elif self.invert_priority:
+            priority = -node.depth
+        else:
+            priority = node.depth
+
+        self.work.add_work(priority, additional_work)
 
     def recursive_expand(self, node: Node) -> None:
         logger.trace(f"Expanding depth {node.depth} encodings")
@@ -186,7 +194,8 @@ class AuSearch(Searcher):
         self.expand_crackers(node)
 
     def search(self, ctext: Any) -> Optional[SearchResult]:
-        logger.debug("Beginning AuSearch")
+        logger.add(sink=open("/tmp/foobar", "+w"), level="TRACE", colorize=True)
+        logger.trace(f"""Beginning AuSearch with {"inverted" if self.invert_priority else "normal"} priority""")
         root = Node(parent=None, level=SearchLevel.input(ctext))
 
         if type(ctext) == self._config().objs["format"]["out"]:
@@ -203,11 +212,13 @@ class AuSearch(Searcher):
                 # Get the highest level result
                 chunk = self.work.get_work_chunk()
                 infos = [i.info for i in chunk]
-                step_res = cipheycore.ausearch_minimise(infos)
                 # Work through all of this level's results
                 while len(chunk) != 0:
-                    logger.trace(f"Weight is currently {step_res.weight}")
+                    logger.trace(f"{len(infos)} remaining on this level")
+                    step_res = cipheycore.ausearch_minimise(infos)
                     edge: Edge = chunk.pop(step_res.index)
+                    logger.trace(f"Weight is currently {step_res.weight} "
+                                 f"when we pick {type(edge.route).__name__.lower()}")
                     del infos[step_res.index]
 
                     # Expand the node
@@ -215,7 +226,11 @@ class AuSearch(Searcher):
                     if res is None:
                         continue
                     for i in res:
-                        Node.cracker(config=self._config(), edge_template=edge, result=i)
+                        try:
+                            node = Node.cracker(config=self._config(), edge_template=edge, result=i)
+                            self.recursive_expand(node)
+                        except DuplicateNode:
+                            continue
 
         except AuSearchSuccessful as e:
             logger.debug("AuSearch succeeded")
@@ -228,10 +243,21 @@ class AuSearch(Searcher):
         self._checker: Checker = config.objs["checker"]
         self._target_type: type = config.objs["format"]["out"]
         self.work = PriorityWorkQueue()  # Has to be defined here because of sharing
+        self.invert_priority = bool(distutils.util.strtobool(self._params()["invert_priority"]))
+        self.disable_priority = bool(distutils.util.strtobool(self._params()["disable_priority"]))
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
-        pass
+        return {
+            "invert_priority": ParamSpec(req=False,
+                                         desc="Causes more complex encodings to be looked at first. "
+                                              "Good for deeply buried encodings.",
+                                         default="False"),
+            "disable_priority": ParamSpec(req=False,
+                                         desc="Disables the priority queue altogether. "
+                                              "May be much faster, but will take *very* odd paths",
+                                         default="False")
+        }
 #
 # @registry.register
 # class AuSearch(Searcher):

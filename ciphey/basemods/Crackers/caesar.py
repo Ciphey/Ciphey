@@ -57,8 +57,9 @@ class Caesar(ciphey.iface.Cracker[str]):
         )
         logger.trace("Beginning cipheycore::caesar")
         possible_keys = cipheycore.caesar_crack(
-            analysis, self.expected, self.group, True, 0
+            analysis, self.expected, self.group, True, self.p_value
         )
+
 
         n_candidates = len(possible_keys)
         logger.debug(f"Caesar returned {n_candidates} candidates")
@@ -66,6 +67,7 @@ class Caesar(ciphey.iface.Cracker[str]):
         candidates = []
 
         for candidate in possible_keys:
+            logger.trace(f"Candidate {candidate.key} has prob {candidate.p_value}")
             translated = cipheycore.caesar_decrypt(message, candidate.key, self.group)
             candidates.append(CrackResult(value=translated, key_info=candidate.key))
 
@@ -94,7 +96,7 @@ class Caesar(ciphey.iface.Cracker[str]):
             "p_value": ciphey.iface.ParamSpec(
                 desc="The p-value to use for standard frequency analysis",
                 req=False,
-                default=0.5,
+                default=0.01,
             )
             # TODO: add "filter" param
         }

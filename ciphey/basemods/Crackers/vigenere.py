@@ -7,6 +7,7 @@
 © Brandon Skerritt
 Github: brandonskerritt
 """
+from copy import copy
 from distutils import util
 from typing import Optional, Dict, Union, Set, List
 
@@ -21,7 +22,7 @@ from ciphey.iface import ParamSpec, Cracker, CrackResult, T, CrackInfo, registry
 
 @registry.register
 class Vigenere(ciphey.iface.Cracker[str]):
-    def getInfo(self, ctext: T) -> CrackInfo:
+    def getInfo(self, ctext: str) -> CrackInfo:
         if self.keysize is not None:
             analysis = self.cache.get_or_update(
                 ctext,
@@ -35,13 +36,34 @@ class Vigenere(ciphey.iface.Cracker[str]):
                 success_runtime=1e-4,
                 failure_runtime=1e-4,
             )
-        else:
-            return CrackInfo(
-                success_likelihood=0.5,  # TODO: actually work this out
-                # TODO: actually calculate runtimes
-                success_runtime=1e-4,
-                failure_runtime=1e-4,
+
+        likely_lens = self.cache.get_or_update(
+            ctext,
+            f"vigenere::likely_lens",
+            lambda: cipheycore.vigenere_likely_key_lens(ctext, self.expected, self.group, self.p_value),
+        )
+
+        for keysize in likely_lens:
+            # Store the analysis
+            analysis = self.cache.get_or_update(
+                ctext,
+                f"vigenere::{keysize.len}",
+                lambda: keysize.tab
             )
+        if len(likely_lens) == 0:
+            return CrackInfo(
+                success_likelihood=0,
+                # TODO: actually calculate runtimes
+                success_runtime=2e-4,
+                failure_runtime=2e-4,
+            )
+
+        return CrackInfo(
+            success_likelihood=0*likely_lens[0].p_value,
+            # TODO: actually calculate runtimes
+            success_runtime=2e-4,
+            failure_runtime=2e-4,
+        )
 
     @staticmethod
     def getTarget() -> str:
@@ -54,6 +76,8 @@ class Vigenere(ciphey.iface.Cracker[str]):
             analysis, self.expected, self.group, self.p_value
         )
         logger.trace(f"Vigenere crack got keys: {[[i for i in candidate.key] for candidate in possible_keys]}")
+        # if len(possible_keys) and possible_keys[0].p_value < 0.9999999:
+        #     raise 0
         return [
             CrackResult(
                 value=cipheycore.vigenere_decrypt(ctext, candidate.key, self.group),
@@ -126,7 +150,7 @@ class Vigenere(ciphey.iface.Cracker[str]):
             "p_value": ciphey.iface.ParamSpec(
                 desc="The p-value to use for windowed frequency analysis",
                 req=False,
-                default=0.99,
+                default=0.01,
             ),
         }
 
@@ -145,12 +169,19 @@ class Vigenere(ciphey.iface.Cracker[str]):
         self.MAX_KEY_LENGTH = 16
 
     def kasiskiExamination(self, ciphertext) -> List[int]:
+        likely_lens = self.cache.get_or_update(
+            ciphertext,
+            f"vigenere::likely_lens",
+            lambda: cipheycore.vigenere_likely_key_lens(ciphertext, self.expected, self.group),
+        )
+        return [i.len for i in likely_lens]
+
+        max = len(ciphertext) // 3
+
         # Find out the sequences of 3 to 5 letters that occur multiple times
         # in the ciphertext. repeatedSeqSpacings has a value like:
         # {'EXG': [192], 'NAF': [339, 972, 633], ... }
         repeatedSeqSpacings = self.findRepeatSequencesSpacings(ciphertext)
-
-        max = len(ciphertext) // 3
 
         # (See getMostCommonFactors() for a description of seqFactors.)
         seqFactors = {}
@@ -168,6 +199,10 @@ class Vigenere(ciphey.iface.Cracker[str]):
         allLikelyKeyLengths = []
         for twoIntTuple in factorsByCount:
             allLikelyKeyLengths.append(twoIntTuple[0])
+
+        # FIXME: This is a nasty hack to get it to work
+        if len(allLikelyKeyLengths) == 0 or True:
+            return list(range(2, max))
 
         return allLikelyKeyLengths
 

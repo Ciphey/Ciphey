@@ -40,7 +40,7 @@ class ParamSpec(NamedTuple):
     default: Optional[Any] = None
     list: bool = False
     config_ref: Optional[List[str]] = None
-    visible: bool = False
+    visible: bool = True
 
 
 class ConfigurableModule(ABC):
