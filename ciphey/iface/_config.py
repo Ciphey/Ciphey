@@ -35,6 +35,8 @@ class Cache:
             logger.trace(f"Deduped {ctext}")
             return False
 
+        logger.trace(f"New ctext {ctext}")
+
         self._cache[ctext] = {}
         return True
 

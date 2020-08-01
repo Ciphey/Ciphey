@@ -85,6 +85,14 @@ class Node:
                 raise AuSearchSuccessful(target=ret, info=check_res)
         return ret
 
+    @staticmethod
+    def root(config: Config, ctext: Any):
+        if not config.cache.mark_ctext(ctext):
+            raise DuplicateNode()
+
+        return Node(parent=None, level=SearchLevel.input(ctext))
+
+
     def get_path(self):
         if self.parent is None:
             return [self.level]
@@ -196,7 +204,7 @@ class AuSearch(Searcher):
     def search(self, ctext: Any) -> Optional[SearchResult]:
         logger.add(sink=open("/tmp/foobar", "+w"), level="TRACE", colorize=True)
         logger.trace(f"""Beginning AuSearch with {"inverted" if self.invert_priority else "normal"} priority""")
-        root = Node(parent=None, level=SearchLevel.input(ctext))
+        root = Node.root(self._config(), ctext)
 
         if type(ctext) == self._config().objs["format"]["out"]:
             check_res = self._config().objs["checker"](ctext)
