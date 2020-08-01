@@ -151,7 +151,7 @@ def print_help(ctx):
 )
 @click.argument("text_stdin", callback=get_name, required=False)
 @click.argument("file_stdin", type=click.File("rb"), required=False)
-def main(**kwargs) -> Optional[dict]:
+def main(**kwargs):
     """Ciphey - Automated Decryption Tool
     
     Documentation: 
@@ -280,12 +280,9 @@ def main(**kwargs) -> Optional[dict]:
         result = "Could not find any solutions."
 
     print(result)
-    return result
 
 
 if __name__ == "__main__":
     # withArgs because this function is only called
     # if the program is run in terminal
     result = main()
-    if result is not None:
-        print(result)
