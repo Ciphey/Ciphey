@@ -14,7 +14,7 @@ rich = "^4.0.0"
 loguru = "^0.5.0"
 pylint = "^2.5.2"
 flake8 = "^3.8.2"
-cipheydists = "^0.3.16"
+cipheydists = "^0.3.17"
 cipheycore = "^0.2.8"
 appdirs = "^1.4.4"
 typing_inspect = { version = "^0.6.0", python = "~3.7" }
