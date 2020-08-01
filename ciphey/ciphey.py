@@ -273,7 +273,7 @@ def main(**kwargs) -> Optional[dict]:
             result = decrypt(config, kwargs["text"])
         elif config.verbosity == 0:
             # else, run with spinner if verbosity is 0
-            with yaspin(Spinners.earth, text="Earth") as sp:
+            with yaspin(Spinners.earth) as sp:
                 result = decrypt(config, kwargs["text"])
         else:
             # else its below 0, so quiet mode is on. make it greppable""
