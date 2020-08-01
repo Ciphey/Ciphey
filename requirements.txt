@@ -48,7 +48,7 @@ termcolor==1.1.0
 tflite==2.2.0
 toml==0.10.1
 typing-extensions==3.7.4.2
-urllib3==1.25.9
+urllib3==1.25.10
 werkzeug==1.0.1
 wheel==0.34.2
 win32-setctime==1.0.1; sys_platform == "win32"
