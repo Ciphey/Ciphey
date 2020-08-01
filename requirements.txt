@@ -23,7 +23,7 @@ lazy-object-proxy==1.4.3
 loguru==0.5.0
 markdown==3.2.2
 mccabe==0.6.1
-numpy==1.18.5
+numpy==1.19.1
 oauthlib==3.1.0
 opt-einsum==3.2.1
 pprintpp==0.4.0
