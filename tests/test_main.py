@@ -1,90 +1,62 @@
-from ciphey.ciphey import main
-from click.testing import CliRunner
-import os
+from ciphey import decrypt
+from ciphey.iface import Config
 
-def test_initial():
-    runner = CliRunner()
-    # result = runner.invoke(main, ["hello my name is bee and i like bees"])
-    result = runner.invoke(
-        main,
-        [
-            "SGVsbG8gbXkgbmFtZSBpcyBiZWUgYW5kIEkgbGlrZSBkb2cgYW5kIGFwcGxlIGFuZCB0cmVl",
-            "-q",
-        ],
-    )
-    print(result)
-    print(result.output)
-    assert result.exit_code == 0
-    print(result.output)
-    assert "dog" in result.output
+answer_str = "Hello my name is bee and I like dog and apple and tree".lower()
 
+def test_plaintext():
+    res = decrypt(Config.library_default().complete_config(), answer_str)
 
-def test_base16():
-    runner = CliRunner()
-    # result = runner.invoke(main, ["hello my name is bee and i like bees"])
-    result = runner.invoke(
-        main,
-        [
-            "JBSWY3DPEBWXSIDOMFWWKIDJOMQGEZLFEBQW4ZBAJEQGY2LLMUQGI33HEBQW4ZBAMNQXI===",
-            "-q",
-        ]
-    )
-    assert result.exit_code == 0
-    assert "dog" in result.output
+    print(res)
+
+    assert res.lower() == answer_str.lower()
+
+def test_base64():
+    res = decrypt(Config().library_default().complete_config(),
+                  "SGVsbG8gbXkgbmFtZSBpcyBiZWUgYW5kIEkgbGlrZSBkb2cgYW5kIGFwcGxlIGFuZCB0cmVl")
+
+    print(res)
+
+    assert res.lower() == answer_str.lower()
 
 
 def test_caesar():
-    runner = CliRunner()
-    result = runner.invoke(
-        main, ["Uryyb zl anzr vf orr naq V yvxr qbt naq png", "-q"],
-    )
-    assert result.exit_code == 0
-    assert "dog" in result.output
+    res = decrypt(Config().library_default().complete_config(),
+                  "Uryyb zl anzr vf orr naq V yvxr qbt naq nccyr naq gerr")
+    assert res.lower() == answer_str.lower()
 
 
-def test_base64_caesar():
-    runner = CliRunner()
-    result = runner.invoke(
-        main,
-        [
-            "01010011 01000111 01010110 01110011 01100010 01000111 00111000 01100111 01100010 01011000 01101011 01100111 01100010 01101101 01000110 01110100 01011010 01010011 01000010 01110000 01100011 01111001 01000010 01101001 01011010 01010111 01010101 01100111 01011001 01010111 00110101 01101011 01001001 01000101 01101011 01100111 01100010 01000111 01101100 01110010 01011010 01010011 01000010 01101011 01100010 00110010 01100011 01100111 01011001 01010111 00110101 01101011 01001001 01000111 01001110 01101000 01100100 01000011 01000010 01101001 01100100 01011000 01010001 01100111 01010011 01010011 01000010 01101000 01100010 01001000 01001110 01110110 01001001 01000111 01010010 01110110 01001001 01000111 01101000 01101000 01100011 01001000 01000010 01101100 01100010 01101001 01000010 00110000 01100010 01111001 01000010 01101100 01100010 01101101 01110000 01110110 01100101 01010011 01000010 00110011 01011001 01010111 01111000 01110010 01100011 01110111 00111101 00111101",
-            "-q",
-        ],
-    )
-    assert result.exit_code == 0
-    assert "dog" in result.output
+def test_binary_base64_caesar():
+    res = decrypt(Config().library_default().complete_config(),
+                  "01010110 01011000 01001010 00110101 01100101 01010111 01001001 01100111 01100101 01101101 01110111 "
+                  "01100111 01011001 01010111 00110101 00110110 01100011 01101001 01000010 00110010 01011010 01101001 "
+                  "01000010 01110110 01100011 01101110 01001001 01100111 01100010 01101101 01000110 01111000 01001001 "
+                  "01000110 01011001 01100111 01100101 01011000 01011010 00110100 01100011 01101001 01000010 01111000 "
+                  "01011001 01101110 01010001 01100111 01100010 01101101 01000110 01111000 01001001 01000111 00110101 "
+                  "01101010 01011001 00110011 01101100 01111001 01001001 01000111 00110101 01101000 01100011 01010011 "
+                  "01000010 01101110 01011010 01011000 01001010 01111001 00001010")
+    assert res.lower() == answer_str.lower()
 
 
 def test_vigenere():
-    runner = CliRunner()
-    result = runner.invoke(
-        main, ["Omstv uf vhul qz jlm hvk Q sqrm kwn iul jia", "-q"],
-    )
-    assert result.exit_code == 0
-    assert "dog" in result.output
+    res = decrypt(Config().library_default().complete_config(),
+                  "Rijvs ki rywi gc fco eln M jsoc nse krb ktnvi yxh rbic")
+    assert res.lower() == answer_str.lower()
 
 
 def test_binary():
-    runner = CliRunner()
-    result = runner.invoke(
-        main,
-        [
-            "01001000 01100101 01101100 01101100 01101111 00100000 01101101 01111001 00100000 01101110 01100001 01101101 01100101 00100000 01101001 01110011 00100000 01100010 01100101 01100101 00100000 01100001 01101110 01100100 00100000 01001001 00100000 01101100 01101001 01101011 01100101 00100000 01100100 01101111 01100111 00100000 01100001 01101110 01100100 00100000 01100011 01100001 01110100",
-            "-q",
-        ],
-    )
-    assert result.exit_code == 0
-    assert "dog" in result.output
+    res = decrypt(Config().library_default().complete_config(),
+                  "01001000 01100101 01101100 01101100 01101111 00100000 01101101 01111001 00100000 01101110 01100001 "
+                  "01101101 01100101 00100000 01101001 01110011 00100000 01100010 01100101 01100101 00100000 01100001 "
+                  "01101110 01100100 00100000 01001001 00100000 01101100 01101001 01101011 01100101 00100000 01100100 "
+                  "01101111 01100111 00100000 01100001 01101110 01100100 00100000 01100001 01110000 01110000 01101100 "
+                  "01100101 00100000 01100001 01101110 01100100 00100000 01110100 01110010 01100101 01100101")
+
+    assert res.lower() == answer_str.lower()
 
 
 def test_hex():
-    runner = CliRunner()
-    result = runner.invoke(
-        main,
-        [
-            "48 65 6c 6c 6f 20 6d 79 20 6e 61 6d 65 20 69 73 20 62 65 65 20 61 6e 64 20 49 20 6c 69 6b 65 20 64 6f 67 20 61 6e 64 20 63 61 74",
-            "-q",
-        ],
-    )
-    assert result.exit_code == 0
-    assert "dog" in result.output
+    res = decrypt(Config().library_default().complete_config(),
+                  "48656c6c6f206d79206e616d652069732062656520616e642049206c696b6520646f6720616e64206170706c6520616e6420"
+                  "74726565")
+
+    assert res.lower() == answer_str.lower()

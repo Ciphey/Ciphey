@@ -14,10 +14,10 @@ rich = "^4.0.0"
 loguru = "^0.5.0"
 pylint = "^2.5.2"
 flake8 = "^3.8.2"
-cipheydists = "^0.3.11"
-cipheycore = "^0.2.3"
+cipheydists = "^0.3.17"
+cipheycore = "^0.2.8"
 appdirs = "^1.4.4"
-typing_inspect = { version = "^0.6.0", python = "~3.6 || ~3.7" }
+typing_inspect = { version = "^0.6.0", python = "~3.7" }
 base58 = "^2.0.1"
 pybase62 = "^0.4.3"
 click = "^7.1.2"
