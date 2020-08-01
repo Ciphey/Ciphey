@@ -125,7 +125,7 @@ If you're having trouble with installing Ciphey, [read this.](https://docs.ciphe
 ## 🏃‍♀️Running Ciphey
 There are 3 ways to run Ciphey.
 1. File Input `ciphey - encrypted.txt`
-2. Unqualified input `ciphey -- "Encrypted input`
+2. Unqualified input `ciphey -- "Encrypted input"`
 3. Normal way `ciphey -t "Encrypted input"`
 
 ![Gif showing 3 ways to run Ciphey](Pictures_for_README/3ways.gif)
