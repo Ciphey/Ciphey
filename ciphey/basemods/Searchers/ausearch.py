@@ -134,6 +134,8 @@ class PriorityWorkQueue(Generic[PriorityType, T]):
 
     def get_work_chunk(self) -> List[T]:
         """Returns the best work for now"""
+        if len(self._sorted_priorities) == 0:
+            return []
         best_priority = self._sorted_priorities.pop(0)
         return self._queues.pop(best_priority)
 
@@ -224,6 +226,10 @@ class AuSearch(Searcher):
                 infos = [i.info for i in chunk]
                 # Work through all of this level's results
                 while len(chunk) != 0:
+                    if self.disable_priority:
+                        chunk += self.work.get_work_chunk()
+                        infos = [i.info for i in chunk]
+
                     logger.trace(f"{len(infos)} remaining on this level")
                     step_res = cipheycore.ausearch_minimise(infos)
                     edge: Edge = chunk.pop(step_res.index)
