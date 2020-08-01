@@ -49,6 +49,9 @@ class Cache:
         target[keyname] = val
         return val
 
+    def try_get(self, ctext: Any, keyname: str):
+        return self._cache[ctext].get(keyname)
+
 
 def split_resource_name(full_name: str) -> (str, str):
     return full_name.split("::", 1)

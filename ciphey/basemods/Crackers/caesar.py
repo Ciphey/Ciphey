@@ -9,7 +9,7 @@ Github: brandonskerritt
 """
 import sys
 from distutils import util
-from typing import Optional, Dict, Union, Set, List
+from typing import Optional, Dict, Union, Set, List, Tuple
 
 from loguru import logger
 import ciphey
@@ -53,16 +53,22 @@ class Caesar(ciphey.iface.Cracker[str]):
         analysis = self.cache.get_or_update(
             ctext,
             "cipheycore::simple_analysis",
-            lambda: cipheycore.analyse_string(message),
+            lambda: cipheycore.analyse_string(ctext),
         )
         logger.trace("Beginning cipheycore::caesar")
         possible_keys = cipheycore.caesar_crack(
-            analysis, self.expected, self.group, True, self.p_value
+            analysis, self.expected, self.group, self.p_value
         )
-
 
         n_candidates = len(possible_keys)
         logger.debug(f"Caesar returned {n_candidates} candidates")
+
+        if n_candidates == 0:
+            logger.trace(f"Filtering for better results")
+            analysis = cipheycore.analyse_string(ctext, self.group)
+            possible_keys = cipheycore.caesar_crack(
+                analysis, self.expected, self.group, self.p_value
+            )
 
         candidates = []
 
