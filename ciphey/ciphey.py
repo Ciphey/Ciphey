@@ -269,16 +269,15 @@ def main(**kwargs) -> Optional[dict]:
 
             # print("No inputs were given to Ciphey. For usage, run ciphey --help")
             return None
-    # if debug mode is on, run without spinner
-    if config.verbosity > 0:
+    # if debug or quiet mode is on, run without spinner
+    if config.verbosity != 0:
         result = decrypt(config, kwargs["text"])
-    elif config.verbosity == 0:
-        # else, run with spinner if verbosity is 0
-        with yaspin(Spinners.earth, text="Earth") as sp:
-            result = decrypt(config, kwargs["text"])
     else:
-        # else its below 0, so quiet mode is on. make it greppable""
-        result = decrypt(config, kwargs["text"])
+        # else, run with spinner if verbosity is 0
+        with yaspin(Spinners.earth) as sp:
+            result = decrypt(config, kwargs["text"])
+    if result is None:
+        result = "Could not find any solutions."
 
     print(result)
     return result
