@@ -66,7 +66,7 @@ And that's just the tip of the iceberg. For the full technical explanation, chec
 
 # 🔭 Ciphey vs CyberChef
 
-## 🔁 Base64 Encoded 64 times
+## 🔁 Base64 Encoded 42 times
 
 <table>
   <tr>
@@ -81,12 +81,12 @@ And that's just the tip of the iceberg. For the full technical explanation, chec
   </tr>
   <tr>
   <th>Time</th>
-    <td>4 seconds</td>
+    <td>2 seconds</td>
     <td>6 seconds</td>
   </tr>
     <tr>
   <th>Setup</th>
-    <td><ul><li>Set the regex param to "{"</li></ul></td>
+    <td><ul><li>Run ciphey on the file</li></ul></td>
     <td><ul><li>Set the regex param to "{"</li><li>You need to know how many times to recurse</li><li>You need to know it's Base64 all the way down</li><li>You need to load CyberChef (it's a bloated JS app)</li><li>Know enough about CyberChef to create this pipeline</li><li>Invert the match</li></ul></td>
   </tr>
 </table>
