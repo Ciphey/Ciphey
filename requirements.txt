@@ -4,7 +4,7 @@ astunparse==1.6.3
 cachetools==4.1.1
 certifi==2020.6.20
 chardet==3.0.4
-cipheycore==0.2.3
+cipheycore==0.2.8
 cipheydists==0.3.11
 colorama==0.4.3
 commonmark==0.9.1
