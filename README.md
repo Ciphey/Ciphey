@@ -27,10 +27,10 @@ Fully automated decryption tool using natural language processing & artifical in
 
 **NOTE** This README is being worked on for version 5. You can only install Ciphey via PyPi at the moment.
 
-| <p align="center"><a href="https://pypi.org/project/ciphey">🐍 Python (Universal) </a></p> | <p align="center"><a href="https://pypi.org/project/ciphey"> Arch </a></p> | <p align="center"><a href="https://pypi.org/project/ciphey"> Windows </a></p>  |
-| ----------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| <p align="center"><img src="Pictures_for_README/python.png" /></p>                        | <p align="center"><img src="Pictures_for_README/arch.png" /></p>           | <p align="center"><img src="Pictures_for_README/windows.png" /></p>                      |
-| `python3 -m pip install ciphey --upgrade`                                                 | `yay ciphey`                                                               | `winget ciphey`                                                               | 
+| <p align="center"><a href="https://pypi.org/project/ciphey">🐍 Python (Universal) </a></p> |
+| ----------------------------------------------------------------------------------------- |
+| <p align="center"><img src="Pictures_for_README/python.png" /></p>                        |                       |
+| `python3 -m pip install ciphey --upgrade`                                                 | 
 
 | Linux       | Mac OS | Windows     |
 | ----------- | ------ | ----------- |
