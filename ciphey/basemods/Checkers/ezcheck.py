@@ -10,8 +10,6 @@ from .format import JsonChecker
 
 @registry.register
 class EzCheck(Checker[str]):
-    checkers: List[Checker[str]] = []
-
     """
         This object is effectively a prebuilt quroum (with requirement 1) of common patterns
     """
@@ -28,6 +26,8 @@ class EzCheck(Checker[str]):
 
     def __init__(self, config: Config):
         super().__init__(config)
+
+        self.checkers: List[Checker[str]] = []
 
         # We need to modify the config for each of the objects
 

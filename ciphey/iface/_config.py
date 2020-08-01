@@ -1,5 +1,4 @@
 import os
-from abc import ABC, abstractmethod
 from typing import (
     Any,
     Dict,
@@ -24,18 +23,19 @@ from ._modules import Checker, Searcher, ResourceLoader
 class Cache:
     """Used to track state between levels of recursion to stop infinite loops, and to optimise repeating actions"""
 
-    _cache: Dict[Any, Dict[str, Any]] = {}
+    def __init__(self):
+        self._cache: Dict[Any, Dict[str, Any]] = {}
 
     def mark_ctext(self, ctext: Any) -> bool:
         if (type(ctext) == str or type(ctext) == bytes) and len(ctext) < 4:
-            logger.trace(f"Candidate {ctext} too short!")
+            logger.trace(f"Candidate {ctext.__repr__()} too short!")
             return False
 
         if ctext in self._cache:
-            logger.trace(f"Deduped {ctext}")
+            logger.trace(f"Deduped {ctext.__repr__()}")
             return False
 
-        logger.trace(f"New ctext {ctext}")
+        logger.trace(f"New ctext {ctext.__repr__()}")
 
         self._cache[ctext] = {}
         return True
@@ -60,18 +60,19 @@ def split_resource_name(full_name: str) -> (str, str):
 
 
 class Config:
-    verbosity: int = 0
-    searcher: str = "ausearch"
-    params: Dict[str, Dict[str, Union[str, List[str]]]] = {}
-    format: Dict[str, str] = {"in": "str", "out": "str"}
-    modules: List[str] = []
-    checker: str = "ezcheck"
-    default_dist: str = "cipheydists::dist::english"
-    timeout: Optional[int] = None
+    def __init__(self):
+        self.verbosity: int = 0
+        self.searcher: str = "ausearch"
+        self.params: Dict[str, Dict[str, Union[str, List[str]]]] = {}
+        self.format: Dict[str, str] = {"in": "str", "out": "str"}
+        self.modules: List[str] = []
+        self.checker: str = "ezcheck"
+        self.default_dist: str = "cipheydists::dist::english"
+        self.timeout: Optional[int] = None
 
-    _inst: Dict[type, Any] = {}
-    objs: Dict[str, Any] = {}
-    cache: Cache = Cache()
+        self._inst: Dict[type, Any] = {}
+        self.objs: Dict[str, Any] = {}
+        self.cache: Cache = Cache()
 
     @staticmethod
     def get_default_dir() -> str:

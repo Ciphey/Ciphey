@@ -92,7 +92,6 @@ class Node:
 
         return Node(parent=None, level=SearchLevel.input(ctext))
 
-
     def get_path(self):
         if self.parent is None:
             return [self.level]
@@ -202,9 +201,12 @@ class AuSearch(Searcher):
         self.expand_crackers(node)
 
     def search(self, ctext: Any) -> Optional[SearchResult]:
-        logger.add(sink=open("/tmp/foobar", "+w"), level="TRACE", colorize=True)
         logger.trace(f"""Beginning AuSearch with {"inverted" if self.invert_priority else "normal"} priority""")
-        root = Node.root(self._config(), ctext)
+
+        try:
+            root = Node.root(self._config(), ctext)
+        except DuplicateNode:
+            return None
 
         if type(ctext) == self._config().objs["format"]["out"]:
             check_res = self._config().objs["checker"](ctext)
@@ -264,173 +266,5 @@ class AuSearch(Searcher):
             "disable_priority": ParamSpec(req=False,
                                          desc="Disables the priority queue altogether. "
                                               "May be much faster, but will take *very* odd paths",
-                                         default="False")
+                                         default="True")
         }
-#
-# @registry.register
-# class AuSearch(Searcher):
-#     def findBestNode(self, nodes: List[Node]) -> Node:
-#         res: cipheycore.ausearch_res = cipheycore.ausearch_minimise([i.node_info for i in nodes])
-#         ret = nodes[res.index]
-#         logger.trace(f"Selected node {ret} with weight {res.weight}")
-#         return ret
-#
-#     def handleDecodings(
-#         self, parents: List[SearchLevel]
-#     ) -> List[List[SearchLevel]]:
-#         """
-#             If there exists a decoding that the checker returns true on, returns (True, result).
-#             Otherwise, returns (False, names and successful decodings)
-#
-#             The CrackResult object should only have the value field filled in
-#
-#             MUST NOT recurse into decodings! evaluate does that for you!
-#         """
-#         target = parents[-1].result.value
-#         ret = []
-#
-#         decoders = []
-#
-#         for decoder_type, decoder_class in registry[Decoder][type(target)].items():
-#             for decoder in decoder_class:
-#                 decoders.append(DecoderComparer(decoder))
-#         # Fun fact:
-#         #     with Python's glorious lists, inserting n elements into the right position (with bisect) is O(n^2)
-#         decoders.sort(reverse=True)
-#
-#         for decoder_cmp in decoders:
-#             logger.trace(f"Inspecting {decoder_cmp}")
-#             res = self._config()(decoder_cmp.value).decode(target)
-#             if res is None:
-#                 continue
-#             level = SearchLevel(
-#                 name=decoder_cmp.value.__name__.lower(),
-#                 result=CrackResult(value=res),
-#             )
-#             if type(res) == self._final_type:
-#                 check_res = self._checker(res)
-#                 if check_res is not None:
-#                     raise AuSearchSuccessful(parents)
-#             ret.append(parents + [level])
-#         return ret
-#
-#     def expand_decodings(self, parents: List[SearchLevel]) -> List[List[SearchLevel]]:
-#         dec_res = self.handleDecodings(parents)
-#         # Otherwise we go further into the decodings
-#
-#         ret = []
-#
-#         for decoding in dec_res:
-#             if self._config().cache.mark_ctext(decoding[-1].result.value):
-#                 ret += self.expand_decodings(decoding)
-#
-#         return ret
-#
-#     def expand(self, parents: List[SearchLevel], check: bool = True) -> List[Node]:
-#         result = parents[-1].result.value
-#         # logger.debug(f"Expanding {parents}")
-#
-#         # Deduplication
-#         if not self._config().cache.mark_ctext(result):
-#             return []
-#
-#         # We recurse into decodings *only*, as nested ciphers cause unnecessary headaches
-#         decodings = self.expand_decodings(parents)
-#
-#         success, dec_res = self.handleDecodings(result)
-#         if success:
-#             return True, SearchResult(path=parents + [dec_res[0]], check_res=dec_res[1])
-#
-#         nodes: List[Node] = []
-#
-#         for decoding in dec_res:
-#             # Don't check, as handleDecodings did that for us
-#             success, eval_res = self.expand(parents + [decoding], check=False)
-#             if success:
-#                 return True, eval_res
-#             nodes.extend(eval_res)
-#
-#         crackers: List[Cracker] = registry[Cracker[type(result)]]
-#         expected_time: float
-#
-#         # Worth doing this check twice to simplify code and allow a early return for decodings
-#         if type(result) == self._final_type:
-#             expected_time = self._checker.getExpectedRuntime(result)
-#         else:
-#             expected_time = 0
-#         for i in crackers:
-#             cracker = self._config()(i)
-#             crack_info: CrackInfo = cracker.getInfo(result)
-#             nodes.append(
-#                 Node(
-#                     cracker=cracker,
-#                     node_info=cipheycore.ausearch_node(crack_info.success_likelihood, crack_info.success_runtime,
-#                                                        crack_info.failure_runtime),
-#                     parents=parents,
-#                 )
-#             )
-#
-#         return False, nodes
-#
-#     def evaluate(self, node: Node) -> (bool, Union[List[SearchLevel], List[Node]]):
-#         # logger.debug(f"Evaluating {node}")
-#
-#         res = node.cracker.attemptCrack(node.parents[-1].result.value)
-#         # Detect if we succeeded, and if deduplication is needed
-#         logger.trace(f"Got {len(res)} results")
-#
-#         ret = []
-#         for i in res:
-#             success, res = self.expand(
-#                 node.parents
-#                 + [SearchLevel(name=type(node.cracker).__name__.lower(), result=i)]
-#             )
-#             if success:
-#                 return True, res
-#             ret.extend(res)
-#
-#         return False, ret
-#
-#     def search(self, ctext: Any) -> List[SearchLevel]:
-#         deadline = (
-#             datetime.now() + self._config().objs["timeout"]
-#             if self._config().timeout is not None
-#             else datetime.max
-#         )
-#
-#         success, expand_res = self.expand(
-#             [SearchLevel(name="input", result=CrackResult(value=ctext))]
-#         )
-#         if success:
-#             return expand_res
-#
-#         nodes = expand_res
-#
-#         while datetime.now() < deadline:
-#             # logger.trace(f"Have node tree {nodes}")
-#
-#             if len(nodes) == 0:
-#                 raise LookupError("Could not find any solutions")
-#
-#             best_node = self.findBestNode(nodes)
-#
-#             logger.trace(best_node)
-#
-#             nodes.remove(best_node)
-#             success, eval_res = self.evaluate(best_node)
-#             if success:
-#                 # logger.trace(f"Success with node {best_node}")
-#                 return eval_res
-#             nodes += eval_res
-#             logger.trace(f"AAA {nodes}")
-#
-#         raise TimeoutError("Search ran out of time")
-#
-#     @staticmethod
-#     def getParams() -> Optional[Dict[str, ParamSpec]]:
-#         pass
-#
-#     def __init__(self, config: Config):
-#         super().__init__(config)
-#         self._checker = config.objs["checker"]
-#         self._final_type = config.objs["format"]["out"]
