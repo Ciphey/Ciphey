@@ -5,7 +5,7 @@ cachetools==4.1.1
 certifi==2020.6.20
 chardet==3.0.4
 cipheycore==0.2.3
-cipheydists==0.3.11
+cipheydists==0.3.17
 colorama==0.4.3
 commonmark==0.9.1
 flake8==3.8.3
