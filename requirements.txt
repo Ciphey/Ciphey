@@ -42,7 +42,7 @@ scipy==1.4.1; python_version >= "3"
 six==1.15.0
 tensorboard==2.2.2
 tensorboard-plugin-wit==1.6.0.post3
-tensorflow==2.2.0
+tensorflow==2.3.0
 tensorflow-estimator==2.2.0
 termcolor==1.1.0
 tflite==2.2.0
