@@ -7,7 +7,7 @@ jobs:
         python-version: ['3.7', '3.8']
         os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
-    name: Python ${{ matrix.python-version }} on ${{ os }}
+    name: Python ${{ matrix.python-version }} on ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-python@v1
