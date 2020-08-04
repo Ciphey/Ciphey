@@ -17,4 +17,4 @@ jobs:
         architecture: x64
     - run: pip install nox==2020.5.24
     - run: pip install poetry==1.0.10
-    - run: nox
+    - run: python3 -m nox
