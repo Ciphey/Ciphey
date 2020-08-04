@@ -67,13 +67,6 @@ def print_help(ctx):
     "-t", "--text", help="The ciphertext you want to decrypt.", type=str,
 )
 @click.option(
-    "-i",
-    "--info",
-    help="Do you want information on the cipher used?",
-    type=bool,
-    is_flag=True,
-)
-@click.option(
     "-q", "--quiet", help="Decrease verbosity", type=int, count=True, default=None
 )
 @click.option(
@@ -147,10 +140,15 @@ def print_help(ctx):
     "--appdirs",
     help="Print the location of where Ciphey wants the settings file to be",
     type=bool,
-    is_flag = True,
+    is_flag=True,
+)
+@click.option(
+    "-f",
+    "--file",
+    type=click.File("rb"),
+    required=False
 )
 @click.argument("text_stdin", callback=get_name, required=False)
-@click.argument("file_stdin", type=click.File("rb"), required=False)
 def main(**kwargs):
     """Ciphey - Automated Decryption Tool
     
@@ -253,8 +251,10 @@ def main(**kwargs):
 
     # Finally, we load the plaintext
     if kwargs["text"] is None:
-        if kwargs["file_stdin"] is not None:
-            kwargs["text"] = kwargs["file_stdin"].read().decode("utf-8")
+        if kwargs["file"] is not None:
+            kwargs["text"] = kwargs["file"].read()
+            if config.objs["format"] != bytes:
+                kwargs["text"] = kwargs["text"].decode("utf-8")
         elif kwargs["text_stdin"] is not None:
             kwargs["text"] = kwargs["text_stdin"]
         else:

@@ -46,18 +46,17 @@ def black(session):
 
 @nox.session
 def safety(session):
-    with tempfile.NamedTemporaryFile() as requirements:
-        session.run(
-            "poetry",
-            "export",
-            "--dev",
-            "--format=requirements.txt",
-            "--without-hashes",
-            f"--output={requirements.name}",
-            external=True,
-        )
-        install_with_constraints(session, "safety")
-        session.run("safety", "check", f"--file={requirements.name}", "--full-report")
+    session.run(
+        "poetry",
+        "export",
+        "--dev",
+        "--format=requirements.txt",
+        "--without-hashes",
+        f"--output=requirements.txt",
+        external=True,
+    )
+    install_with_constraints(session, "safety")
+    session.run("safety", "check", f"--file={requirements.name}", "--full-report")
 
 
 @nox.session(python="3.8")
