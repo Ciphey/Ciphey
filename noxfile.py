@@ -10,7 +10,6 @@ locations = "ciphey/", "tests/", "docs/"
 nox.options.sessions = "safety", "tests"
 package = "ciphey"
 
-
 def install_with_constraints(session: Session, *args: str, **kwargs: Any) -> None:
     """Install packages constrained by Poetry's lock file.
     This function is a wrapper for nox.sessions.Session.install. It
@@ -24,16 +23,15 @@ def install_with_constraints(session: Session, *args: str, **kwargs: Any) -> Non
         args: Command-line arguments for pip.
         kwargs: Additional keyword arguments for Session.install.
     """
-    with tempfile.NamedTemporaryFile() as requirements:
-        session.run(
-            "poetry",
-            "export",
-            "--dev",
-            "--format=requirements.txt",
-            f"--output={requirements.name}",
-            external=True,
-        )
-        session.install(f"--constraint={requirements.name}", *args, **kwargs)
+    session.run(
+        "poetry",
+        "export",
+        "--dev",
+        "--format=requirements.txt",
+        "--output=requirements.txt",
+        external=True,
+    )
+    session.install("--constraint=requirements.txt", *args, **kwargs)
 
 
 # noxfile.py
@@ -52,11 +50,11 @@ def safety(session):
         "--dev",
         "--format=requirements.txt",
         "--without-hashes",
-        f"--output=requirements.txt",
+        "--output=requirements.txt",
         external=True,
     )
     install_with_constraints(session, "safety")
-    session.run("safety", "check", f"--file={requirements.name}", "--full-report")
+    session.run("safety", "check", "--file=requirements.txt", "--full-report")
 
 
 @nox.session(python="3.8")
