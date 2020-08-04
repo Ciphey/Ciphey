@@ -51,7 +51,7 @@ Ciphey can solve most things in 3 seconds or less.
 
 **The technical part.** Ciphey uses a custom built artifical intelligence module (_AuSearch_) with a _Cipher Detection Interface_ to approximate what something is encrypted with. And then a custom-built, customisable natural languge processing _Language Checker Interface_, which can detect when the given text becomes plaintext.
 
-And that's just the tip of the iceberg. For the full technical explanation, check out our [documentation](https://docs.ciphey.online/en/latest/howWork.html).
+And that's just the tip of the iceberg. For the full technical explanation, check out our [documentation](https://docs.ciphey.online/en/latest).
 
 # ✨ Features
 
