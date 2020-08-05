@@ -82,3 +82,10 @@ def test_new_line_strip_and_return():
     res = decrypt(Config().library_default().complete_config(), "pass\n")
 
     assert res.lower() == "pass\n"
+
+def test_new_line_at_start_returns():
+    # Language Checker should return True by stripping new line
+    # but the new line should be returned to the user as new lines are important
+    res = decrypt(Config().library_default().complete_config(), "\npass\n")
+
+    assert res.lower() == "\npass\n"
