@@ -2,11 +2,11 @@
 
 from typing import Optional, Dict, List
 
-from ciphey.iface import Config, T, U, Decoder, registry
+from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry
 
 
 @registry.register
-class Atbash(Decoder[T, U]):
+class Atbash(Decoder[str, str]):
     def decode(self, ctext: T) -> Optional[U]:
         '''
         Takes an encoded string and attempts to decode it according to the Atbash cipher.
@@ -39,6 +39,10 @@ class Atbash(Decoder[T, U]):
 
     def __init__(self, config: Config):
         super().__init__(config)
+
+    @staticmethod
+    def getParams() -> Optional[Dict[str, ParamSpec]]:
+        return None
 
     @staticmethod
     def getTarget() -> str:
