@@ -1,8 +1,8 @@
 <p align="center">
 ➡️ 
-<a href="https://docs.ciphey.online">Documentation</a> |
+<a href="https://docs.ciphey.online">Dokumentasi</a> |
 <a href="https://discord.ciphey.online">Discord</a> |
- <a href="https://docs.ciphey.online/en/latest/install.html">Installation Guide</a>
+ <a href="https://docs.ciphey.online/en/latest/install.html">Petunjuk Instalasi</a>
  ⬅️
 
 <br>
@@ -19,11 +19,11 @@
   
   <img src="https://github.com/brandonskerritt/Ciphey/workflows/Python%20application/badge.svg?branch=master" alt="Ciphey">
 <br>
-Fully automated decryption tool using natural language processing & artifical intelligence, along with some common sense.
+Alat dekripsi otomatis yang menggunakan pemrosesan bahasa alami & kecerdasan buatan, bersama dengan beberapa akal sehat.
 </p>
 <hr>
 
-## [Installation Guide](https://docs.ciphey.online/en/latest/install.html)
+## [Petunjuk Instalasi](https://docs.ciphey.online/en/latest/install.html)
 
 | <p align="center"><a href="https://pypi.org/project/ciphey">🐍 Python (Universal) </a></p> |
 | ----------------------------------------------------------------------------------------- |
@@ -37,34 +37,34 @@ Fully automated decryption tool using natural language processing & artifical in
 
 <hr>
 
-# 🤔 What is this?
-Ciphey is an automated decryption tool. Input encrypted text, get the decrypted text back.
-> "What type of encryption?"
+# 🤔 Apa itu Ciphey?
+Ciphey adalah sebuah alat dekripsi otomatis. Masukkan teks terenkripsi, dapatkan kembali teks yang didekripsi
+> "Jenis enkripsi apa?"
 
-That's the point. You don't know, you just know it's possibly encrypted. Ciphey will figure it out for you.
+Itulah intinya. Anda tidak tahu, Anda hanya tahu itu mungkin dienkripsi. Ciphey akan mencari tahu untuk Anda.
 
-Ciphey can solve most things in 3 seconds or less.
+Ciphey dapat mendekripsi kebanyakan hal dalam 3 detik atau kurang.
 
 <p align="center" href="https://asciinema.org/a/336257">
   <img src="Pictures_for_README/index.gif" alt="Ciphey demo">
 </p>
 
-**The technical part.** Ciphey uses a custom built artifical intelligence module (_AuSearch_) with a _Cipher Detection Interface_ to approximate what something is encrypted with. And then a custom-built, customisable natural languge processing _Language Checker Interface_, which can detect when the given text becomes plaintext.
+**Detail teknis** Ciphey mengunakan modul kecerdasan buatan (_AuSearch_) dengan sebuah _Antarmuka Deteksi Cipher_ untuk memperkirakan enkripsi teks yang diberikan. Dan kemudian, sebuah _Antarmuka Pemerika Bahasa_ yang dibuat khusus dipakai untuk mendeteksi kapan teks yang diberikan sudah terdekripsi.
 
-And that's just the tip of the iceberg. For the full technical explanation, check out our [documentation](https://docs.ciphey.online/en/latest).
+Dan itu hanya baru puncak dari gunung es. Untuk penjelasan teknis yang lebih lengkap, lihat [dokumentasi](https://docs.ciphey.online/en/latest) kita.
 
-# ✨ Features
+# ✨ Fitur-fitur
 
-- **20+ encryptions supported** such as encodings (binary, base64) and normal encryptions like Caesar cipher, Transposition and more. **[For the full list, click here](https://docs.ciphey.online/en/latest/ciphers.html)**
-- **Custom Built Artificial Intelligence with Augmented Search (AuSearch) for answering the question "what encryption was used?"** Resulting in decryptions taking less than 3 seconds. 
-- **Custom built natural language processing module** Ciphey can determine whether something is plaintext or not. It has an incredibly high accuracy, along with being fast.
-- **Multi Language Support** at present, only German & English (with AU, UK, CAN, USA variants).
-- **Supports encryptions** Which the alternatives such as CyberChef Magic do not. 
-- **[C++ core](https://github.com/Ciphey/CipheyCore)** Blazingly fast.
+- **Lebih dari 20 jenis enkripsi didukung** seperti penyandian (binary, base64) dan enkripsi normal seperti cipher Caesar, Transposisi dan banyak lagi. **[Untuk daftar lengkap, klik disini](https://docs.ciphey.online/en/latest/ciphers.html)**
+- **Ciphey mengunakan modul kecerdasan buatan dengan Pencarian Bertambah (_AuSearch_) untuk menjawab pertanyaan "enkripsi apa yang digunakan?"** Ini memunkinkan dekripsi untuk membutuhkan waktu kurang dari 3 detik. 
+- **Modul pemrosesan bahasa alami yang dibangun khusus** Ciphey dapat mendeteksi ketika sesuatu adalah teks biasa dengan akurasi yang sangat tinggi dan dengan cepat.
+- **Dukungan Multi Bahasa** saat ini, hanya Bahasa Jerman & Inggris (dengan varian AU, UK, CAN, USA) yang tersedia.
+- **Mendukung enkripsi** yang alternatif seperti CyberChef Magic tidak memiliki. 
+- **[Memakai inti C++](https://github.com/Ciphey/CipheyCore)** Sangat Cepat.
 
 # 🔭 Ciphey vs CyberChef
 
-## 🔁 Base64 Encoded 42 times
+## 🔁 Dikodekan Base64 42 kali
 
 <table>
   <tr>
@@ -78,23 +78,23 @@ And that's just the tip of the iceberg. For the full technical explanation, chec
     <td><img src="Pictures_for_README/not_dying.gif" alt="You"></td>
   </tr>
   <tr>
-  <th>Time</th>
-    <td>2 seconds</td>
-    <td>6 seconds</td>
+  <th>Durasi</th>
+    <td>2 detik</td>
+    <td>6 detik</td>
   </tr>
     <tr>
-  <th>Setup</th>
-    <td><ul><li>Run ciphey on the file</li></ul></td>
-    <td><ul><li>Set the regex param to "{"</li><li>You need to know how many times to recurse</li><li>You need to know it's Base64 all the way down</li><li>You need to load CyberChef (it's a bloated JS app)</li><li>Know enough about CyberChef to create this pipeline</li><li>Invert the match</li></ul></td>
+  <th>Pemakaian</th>
+    <td><ul><li>Jalankan ciphey pada file</li></ul></td>
+    <td><ul><li>Setel parameter regex menjadi "{"</li><li>Anda perlu tahu berapa kali untuk mengulang</li><li>Anda harus tahu teksnya dikodekan dengan Base64 sepenuhnya</li><li>Anda perluh memuat CyberChef (sebuah aplikasi JS yang besar)</li><li>Cukup tahu tentang CyberChef untuk menggunakannya dalam hal ini</li></ul></td>
   </tr>
 </table>
 
 
-<sub><b>Note</b> The gifs may load at different times, so one may appear significantly faster than another.</sub><br>
-<sub><b>A note on magic </b>CyberChef's most similar feature to Ciphey is Magic. Magic fails instantly on this input and crashes. The only way we could force CyberChef to compete was to manually define it.</sub>
+<sub><b>Catatan</b> Gif diatas dapat memuat pada waktu yang berbeda sehingga satu terlihat jauh lebih cepat daripada yang lain.</sub><br>
+<sub><b>Sebuah catatan tentang magic,</b> fitur CyberChef's yang paling mirip Ciphey. Magic gagal secara instan pada input ini dan cara satu-satunya untuk memaska CyberChef bersaing adalah untuk mendefinisikannya secara manual.</sub>
 
 
-We also tested CyberChef and Ciphey with a **6gb file**. Ciphey cracked it in **5 minutes and 54 seconds**. CyberChef crashed before it even started.
+Kami juga menguji CyberChef dan Ciphey dengan file sebesar **6gb**. Ciphey memecahkannya dalam **5 menit dan 54 detik** dan CyberChef gagal bahkan sebelum memulai.
 
 
 
@@ -102,13 +102,13 @@ We also tested CyberChef and Ciphey with a **6gb file**. Ciphey cracked it in **
 
 | **Name**                                   | ⚡ Ciphey ⚡ | 🤡 Katana 🤡 | 🐢 CyberChef Magic 🐢 |
 | ------------------------------------------ | ---------- | ---------- | ------------------- |
-| Advanced Language Checker                   | ✅          | ❌          | ✅                   |
-| Supports Encryptions                       | ✅          | ✅          | ❌                   |
-| Releases named after Dystopian themes 🌃    | ✅          | ❌          | ❌                   |
-| Supports hashes                            | ✅          | ✅          | ❌                   |
-| Easy to set up                             | ✅          | ❌          | ✅                   |
-| Can guess what something is encrypted with | ✅          | ❌          | ❌                   |
-| Created for hackers by hackers             | ✅          | ✅          | ❌                   |
+| Pemerika Bahasa yang Mahir                 | ✅         | ❌         | ✅                  |
+| Mendukung Enkripsi                         | ✅         | ✅         | ❌                  |
+| Rilis diberi nama sesuai tema Dystopian 🌃 | ✅         | ❌         | ❌                  |
+| Mendukung Fungsi Hash                      | ✅         | ✅         | ❌                  |
+| Mudah dipakai                              | ✅         | ❌         | ✅                  |
+| Dapat menebak enkripsi yang dipakai        | ✅         | ❌         | ❌                  |
+| Dibuat untuk peretas oleh peretas          | ✅         | ✅         | ❌                  |
 
 # 🎬 Getting Started
 
