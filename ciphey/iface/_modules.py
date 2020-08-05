@@ -40,7 +40,7 @@ class ParamSpec(NamedTuple):
     default: Optional[Any] = None
     list: bool = False
     config_ref: Optional[List[str]] = None
-    visible: bool = False
+    visible: bool = True
 
 
 class ConfigurableModule(ABC):
@@ -246,6 +246,10 @@ class SearchLevel(NamedTuple):
     name: str
     result: CrackResult
 
+    @staticmethod
+    def input(ctext: Any):
+        return SearchLevel(name="input", result=CrackResult(ctext))
+
 
 class SearchResult(NamedTuple):
     path: List[SearchLevel]
@@ -256,7 +260,7 @@ class Searcher(ConfigurableModule):
     """A very basic interface for code that plans out how to crack the ciphertext"""
 
     @abstractmethod
-    def search(self, ctext: Any) -> SearchResult:
+    def search(self, ctext: Any) -> Optional[SearchResult]:
         """Returns the path to the correct ciphertext"""
         pass
 
@@ -265,7 +269,7 @@ class Searcher(ConfigurableModule):
         super().__init__(config)
 
 
-def pretty_search_results(res: SearchResult, display_intermediate: bool = False):
+def pretty_search_results(res: SearchResult, display_intermediate: bool = False) -> str:
     ret: str = ""
     if len(res.check_res) != 0:
         ret += f"Checker: {res.check_res}\n"
@@ -291,15 +295,20 @@ def pretty_search_results(res: SearchResult, display_intermediate: bool = False)
         if not already_broken:
             ret += "\n"
 
-    # Skip the 'input' and print in reverse order
-    for i in res.path[1:][::-1]:
+    # Skip the 'input' and print in order
+    for i in res.path[1:]:
         add_one()
 
     # Remove trailing newline
-    ret += (
-        f"""Final result: [bold green]"{res.path[-1].result.value}"[\bold green]\n'"""
-    )
-    return ret[:-1]
+    ret = ret[:-1]
+
+    # If we didn't show intermediate steps, then print the final result
+    if not display_intermediate:
+        ret += (
+            f"""\nFinal result: [bold green]"{res.path[-1].result.value}"[\bold green]"""
+        )
+
+    return ret
 
 
 # Some common collection types

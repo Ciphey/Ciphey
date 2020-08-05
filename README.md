@@ -25,12 +25,10 @@ Fully automated decryption tool using natural language processing & artifical in
 
 ## [Installation Guide](https://docs.ciphey.online/en/latest/install.html)
 
-**NOTE** This README is being worked on for version 5. You can only install Ciphey via PyPi at the moment.
-
-| <p align="center"><a href="https://pypi.org/project/ciphey">🐍 Python (Universal) </a></p> | <p align="center"><a href="https://pypi.org/project/ciphey"> Arch </a></p> | <p align="center"><a href="https://pypi.org/project/ciphey"> Windows </a></p>  |
-| ----------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| <p align="center"><img src="Pictures_for_README/python.png" /></p>                        | <p align="center"><img src="Pictures_for_README/arch.png" /></p>           | <p align="center"><img src="Pictures_for_README/windows.png" /></p>                      |
-| `python3 -m pip install ciphey --upgrade`                                                 | `yay ciphey`                                                               | `winget ciphey`                                                               | 
+| <p align="center"><a href="https://pypi.org/project/ciphey">🐍 Python (Universal) </a></p> |
+| ----------------------------------------------------------------------------------------- |
+| <p align="center"><img src="Pictures_for_README/python.png" /></p>                        |                       |
+| `python3 -m pip install ciphey --upgrade`                                                 | 
 
 | Linux       | Mac OS | Windows     |
 | ----------- | ------ | ----------- |
@@ -53,20 +51,20 @@ Ciphey can solve most things in 3 seconds or less.
 
 **The technical part.** Ciphey uses a custom built artifical intelligence module (_AuSearch_) with a _Cipher Detection Interface_ to approximate what something is encrypted with. And then a custom-built, customisable natural languge processing _Language Checker Interface_, which can detect when the given text becomes plaintext.
 
-And that's just the tip of the iceberg. For the full technical explanation, check out our [documentation](https://docs.ciphey.online/en/latest/howWork.html).
+And that's just the tip of the iceberg. For the full technical explanation, check out our [documentation](https://docs.ciphey.online/en/latest).
 
 # ✨ Features
 
-- **20+ encryptions supported** such as hashes, encodings (binary, base64) and normal encryptions like Caesar cipher, Transposition and more. **[For the full list, click here](https://docs.ciphey.online/en/latest/ciphers.html)**
+- **20+ encryptions supported** such as encodings (binary, base64) and normal encryptions like Caesar cipher, Transposition and more. **[For the full list, click here](https://docs.ciphey.online/en/latest/ciphers.html)**
 - **Custom Built Artificial Intelligence with Augmented Search (AuSearch) for answering the question "what encryption was used?"** Resulting in decryptions taking less than 3 seconds. 
 - **Custom built natural language processing module** Ciphey can determine whether something is plaintext or not. It has an incredibly high accuracy, along with being fast.
 - **Multi Language Support** at present, only German & English (with AU, UK, CAN, USA variants).
-- **Supports hashes & encryptions** Which the alternatives such as CyberChef Magic do not. 
+- **Supports encryptions** Which the alternatives such as CyberChef Magic do not. 
 - **[C++ core](https://github.com/Ciphey/CipheyCore)** Blazingly fast.
 
 # 🔭 Ciphey vs CyberChef
 
-## 🔁 Base64 Encoded 64 times
+## 🔁 Base64 Encoded 42 times
 
 <table>
   <tr>
@@ -81,12 +79,12 @@ And that's just the tip of the iceberg. For the full technical explanation, chec
   </tr>
   <tr>
   <th>Time</th>
-    <td>4 seconds</td>
+    <td>2 seconds</td>
     <td>6 seconds</td>
   </tr>
     <tr>
   <th>Setup</th>
-    <td><ul><li>Set the regex param to "{"</li></ul></td>
+    <td><ul><li>Run ciphey on the file</li></ul></td>
     <td><ul><li>Set the regex param to "{"</li><li>You need to know how many times to recurse</li><li>You need to know it's Base64 all the way down</li><li>You need to load CyberChef (it's a bloated JS app)</li><li>Know enough about CyberChef to create this pipeline</li><li>Invert the match</li></ul></td>
   </tr>
 </table>
@@ -125,7 +123,7 @@ If you're having trouble with installing Ciphey, [read this.](https://docs.ciphe
 ## 🏃‍♀️Running Ciphey
 There are 3 ways to run Ciphey.
 1. File Input `ciphey - encrypted.txt`
-2. Unqualified input `ciphey -- "Encrypted input`
+2. Unqualified input `ciphey -- "Encrypted input"`
 3. Normal way `ciphey -t "Encrypted input"`
 
 ![Gif showing 3 ways to run Ciphey](Pictures_for_README/3ways.gif)
@@ -144,7 +142,7 @@ Ciphey was invented by [Brandon Skerritt](https://github.com/brandonskerritt) in
 
 Ciphey was revived & recreated by the [Cyber Security Society](https://www.cybersoc.cf/) for use in CTFs. If you're ever in Liverpool, consider giving a talk or sponsoring our events. Email us at `cybersecurity@society.liverpoolguild.org` to find out more 🤠
 
-**Major Credit** to George H for designing the searching algorithm among other things.
+**Major Credit** to George H for working out how we could use proper algorithms to speed up the search process.
 **Special thanks** to [varghalladesign](https://www.facebook.com/varghalladesign) for designing the logo. Check out their other design work!
 
 ## 🐕‍🦺 [Contributing](CONTRIBUTING.md)

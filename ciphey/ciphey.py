@@ -15,7 +15,7 @@ import os
 import warnings
 import argparse
 import sys
-from typing import Optional, Dict, Any, List
+from typing import Optional, Dict, Any, List, Union
 import bisect
 
 from ciphey.iface import SearchLevel
@@ -35,9 +35,11 @@ import time
 warnings.filterwarnings("ignore")
 
 
-def decrypt(config: iface.Config, ctext: Any) -> List[SearchLevel]:
+def decrypt(config: iface.Config, ctext: Any) -> Union[str, bytes]:
     """A simple alias for searching a ctext and makes the answer pretty"""
-    res: iface.SearchResult = config.objs["searcher"].search(ctext)
+    res: Optional[iface.SearchResult] = config.objs["searcher"].search(ctext)
+    if res is None:
+        return "Failed to crack"
     if config.verbosity < 0:
         return res.path[-1].result.value
     else:
@@ -63,13 +65,6 @@ def print_help(ctx):
 @click.command()
 @click.option(
     "-t", "--text", help="The ciphertext you want to decrypt.", type=str,
-)
-@click.option(
-    "-i",
-    "--info",
-    help="Do you want information on the cipher used?",
-    type=bool,
-    is_flag=True,
 )
 @click.option(
     "-q", "--quiet", help="Decrease verbosity", type=int, count=True, default=None
@@ -145,11 +140,16 @@ def print_help(ctx):
     "--appdirs",
     help="Print the location of where Ciphey wants the settings file to be",
     type=bool,
-    is_flag = True,
+    is_flag=True,
+)
+@click.option(
+    "-f",
+    "--file",
+    type=click.File("rb"),
+    required=False
 )
 @click.argument("text_stdin", callback=get_name, required=False)
-@click.argument("file_stdin", type=click.File("rb"), required=False)
-def main(**kwargs) -> Optional[dict]:
+def main(**kwargs):
     """Ciphey - Automated Decryption Tool
     
     Documentation: 
@@ -251,8 +251,10 @@ def main(**kwargs) -> Optional[dict]:
 
     # Finally, we load the plaintext
     if kwargs["text"] is None:
-        if kwargs["file_stdin"] is not None:
-            kwargs["text"] = kwargs["file_stdin"].read().decode("utf-8")
+        if kwargs["file"] is not None:
+            kwargs["text"] = kwargs["file"].read()
+            if config.objs["format"] != bytes:
+                kwargs["text"] = kwargs["text"].decode("utf-8")
         elif kwargs["text_stdin"] is not None:
             kwargs["text"] = kwargs["text_stdin"]
         else:
@@ -267,27 +269,17 @@ def main(**kwargs) -> Optional[dict]:
 
             # print("No inputs were given to Ciphey. For usage, run ciphey --help")
             return None
-    # if debug mode is on, run without spinner
-    try:
-        if config.verbosity > 0:
+
+    result: Optional[str]
+
+    # if debug or quiet mode is on, run without spinner
+    if config.verbosity != 0:
+        result = decrypt(config, kwargs["text"])
+    else:
+        # else, run with spinner if verbosity is 0
+        with yaspin(Spinners.earth, "Thinking") as sp:
             result = decrypt(config, kwargs["text"])
-        elif config.verbosity == 0:
-            # else, run with spinner if verbosity is 0
-            with yaspin(Spinners.earth, text="Earth") as sp:
-                result = decrypt(config, kwargs["text"])
-        else:
-            # else its below 0, so quiet mode is on. make it greppable""
-            result = decrypt(config, kwargs["text"])
-    except LookupError as e:
+    if result is None:
         result = "Could not find any solutions."
 
     print(result)
-    return result
-
-
-if __name__ == "__main__":
-    # withArgs because this function is only called
-    # if the program is run in terminal
-    result = main()
-    if result is not None:
-        print(result)

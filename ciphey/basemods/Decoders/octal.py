@@ -29,6 +29,7 @@ class Octal(ciphey.iface.Decoder[str, bytes]):
             for octal_char in octal_seq:
                 if len(octal_char) > 3:
                     logger.trace(f"Octal subseq too long")
+                    return None
                 n = int(octal_char, 8)
                 if n < 0:  # n cannot be greater than 255, as we checked that with the earlier length check
                     logger.trace(f"Non octal char {octal_char}")

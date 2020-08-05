@@ -1,5 +1,4 @@
 import os
-from abc import ABC, abstractmethod
 from typing import (
     Any,
     Dict,
@@ -24,16 +23,19 @@ from ._modules import Checker, Searcher, ResourceLoader
 class Cache:
     """Used to track state between levels of recursion to stop infinite loops, and to optimise repeating actions"""
 
-    _cache: Dict[Any, Dict[str, Any]] = {}
+    def __init__(self):
+        self._cache: Dict[Any, Dict[str, Any]] = {}
 
     def mark_ctext(self, ctext: Any) -> bool:
         if (type(ctext) == str or type(ctext) == bytes) and len(ctext) < 4:
-            logger.trace(f"Candidate {ctext} too short!")
+            logger.trace(f"Candidate {ctext.__repr__()} too short!")
             return False
 
         if ctext in self._cache:
-            logger.trace(f"Deduped {ctext}")
+            logger.trace(f"Deduped {ctext.__repr__()}")
             return False
+
+        logger.trace(f"New ctext {ctext.__repr__()}")
 
         self._cache[ctext] = {}
         return True
@@ -49,24 +51,28 @@ class Cache:
         target[keyname] = val
         return val
 
+    def try_get(self, ctext: Any, keyname: str):
+        return self._cache[ctext].get(keyname)
+
 
 def split_resource_name(full_name: str) -> (str, str):
     return full_name.split("::", 1)
 
 
 class Config:
-    verbosity: int = 0
-    searcher: str = "perfection"
-    params: Dict[str, Dict[str, Union[str, List[str]]]] = {}
-    format: Dict[str, str] = {"in": "str", "out": "str"}
-    modules: List[str] = []
-    checker: str = "ezcheck"
-    default_dist: str = "cipheydists::dist::twist"
-    timeout: Optional[int] = None
+    def __init__(self):
+        self.verbosity: int = 0
+        self.searcher: str = "ausearch"
+        self.params: Dict[str, Dict[str, Union[str, List[str]]]] = {}
+        self.format: Dict[str, str] = {"in": "str", "out": "str"}
+        self.modules: List[str] = []
+        self.checker: str = "ezcheck"
+        self.default_dist: str = "cipheydists::dist::english"
+        self.timeout: Optional[int] = None
 
-    _inst: Dict[type, Any] = {}
-    objs: Dict[str, Any] = {}
-    cache: Cache = Cache()
+        self._inst: Dict[type, Any] = {}
+        self.objs: Dict[str, Any] = {}
+        self.cache: Cache = Cache()
 
     @staticmethod
     def get_default_dir() -> str:
@@ -179,12 +185,12 @@ class Config:
 
         logger.debug(f"Loaded modules {_fwd.registry.get_all_names()}")
 
-    # Does all the loading and filling
-
-    def complete_config(self):
+    def complete_config(self) -> 'Config':
+        """This does all the loading for the config, and then returns itself"""
         self.load_modules()
         self.load_objs()
         self.update_log_level(self.verbosity)
+        return self
 
     def get_resource(self, res_name: str, t: Optional[Type] = None) -> Any:
         logger.trace(f"Loading resource {res_name} of type {t}")
@@ -195,6 +201,16 @@ class Config:
             return self(_fwd.registry.get_named(loader, ResourceLoader))(name)
         else:
             return self(_fwd.registry.get_named(loader, ResourceLoader[t]))(name)
+
+    # Setter methods for cleaner library API
+    def set_verbosity(self, i):
+        self.update_log_level(i)
+        return self
+
+    @staticmethod
+    def library_default():
+        """The default config for use in a library"""
+        return Config().set_verbosity(-1)
 
     def __str__(self):
         return str({
