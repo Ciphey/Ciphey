@@ -35,7 +35,7 @@ class Atbash(Decoder[str, str]):
 
     @staticmethod
     def priority() -> float:
-        return 0.05  # Not expected to show up often, but also very fast to check.
+        return 0.1  # Not expected to show up often, but also very fast to check.
 
     def __init__(self, config: Config):
         super().__init__(config)
