@@ -1,4 +1,5 @@
 # atbash.py
+# by lukasgabriel
 
 from typing import Optional, Dict, List
 
