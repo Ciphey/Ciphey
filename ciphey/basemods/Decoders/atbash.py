@@ -27,14 +27,14 @@ class Atbash(Decoder[str, str]):
         else:
             return None
 
-        for l in ctext:
-            if l in atbash_dict.keys():
+        for letter in ctext:
+            if letter in atbash_dict.keys():
                 # Match every letter of the input to its atbash counterpoint
-                dec += atbash_dict[l]
+                dec += atbash_dict[letter]
             else:
                 # If the current character is not in the defined alphabet,
                 # just accept it as-is (useful for numbers, punctuation,...)
-                dec += l
+                dec += letter
         return dec
 
     @staticmethod
