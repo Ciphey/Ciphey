@@ -46,6 +46,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "Bryzizzle",
+      "name": "Bryan",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/57810197?v=4",
+      "profile": "https://github.com/Bryzizzle",
+      "contributions": [
+        "translation",
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
