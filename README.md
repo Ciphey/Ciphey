@@ -1,10 +1,7 @@
 <p align="center">
-Translations
-<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/in/README.md>In</a>
-</p>
-
-<p align="center">
-
+Translations <br>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/in/README.md>🇮🇩In</a>
+ <br><br>
 ➡️ 
 <a href="https://docs.ciphey.online">Documentation</a> |
 <a href="https://discord.ciphey.online">Discord</a> |
