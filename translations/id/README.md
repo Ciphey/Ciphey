@@ -6,7 +6,7 @@
  ⬅️
 
 <br>
-  <img src="Pictures_for_README/binoculars.png" alt="Ciphey">
+  <img src="../../Pictures_for_README/binoculars.png" alt="Ciphey">
 </p>
 
 <p align="center">
@@ -27,7 +27,7 @@ Alat dekripsi otomatis yang menggunakan pemrosesan bahasa alami & kecerdasan bua
 
 | <p align="center"><a href="https://pypi.org/project/ciphey">🐍 Python (Universal) </a></p> |
 | ----------------------------------------------------------------------------------------- |
-| <p align="center"><img src="Pictures_for_README/python.png" /></p>                        |                       |
+| <p align="center"><img src="../../Pictures_for_README/python.png" /></p>                        |                       |
 | `python3 -m pip install ciphey --upgrade`                                                 | 
 
 | Linux       | Mac OS | Windows     |
@@ -46,7 +46,7 @@ Itulah intinya. Anda tidak tahu, Anda hanya tahu itu mungkin dienkripsi. Ciphey 
 Ciphey dapat mendekripsi kebanyakan hal dalam 3 detik atau kurang.
 
 <p align="center" href="https://asciinema.org/a/336257">
-  <img src="Pictures_for_README/index.gif" alt="Ciphey demo">
+  <img src="../../Pictures_for_README/index.gif" alt="Demo Ciphey">
 </p>
 
 **Detail teknis** Ciphey mengunakan modul kecerdasan buatan (_AuSearch_) dengan sebuah _Antarmuka Deteksi Cipher_ untuk memperkirakan enkripsi teks yang diberikan. Dan kemudian, sebuah _Antarmuka Pemerika Bahasa_ yang dibuat khusus dipakai untuk mendeteksi kapan teks yang diberikan sudah terdekripsi.
@@ -74,8 +74,8 @@ Dan itu hanya baru puncak dari gunung es. Untuk penjelasan teknis yang lebih len
   </tr>
   <tr>
   <th>Gif</th>
-    <td><img src="Pictures_for_README/ciphey_vs_cyberchef.gif" alt="The guy she tells you not to worry about"></td>
-    <td><img src="Pictures_for_README/not_dying.gif" alt="You"></td>
+    <td><img src="../../Pictures_for_README/ciphey_vs_cyberchef.gif" alt="The guy she tells you not to worry about"></td>
+    <td><img src="../../Pictures_for_README/not_dying.gif" alt="You"></td>
   </tr>
   <tr>
   <th>Durasi</th>
@@ -116,49 +116,50 @@ If you're having trouble with installing Ciphey, [read this.](https://docs.ciphe
 
 ## ‼️ Important Links (Docs, Installation guide, Discord Support)
 
-| Installation Guide | Documentation | Discord |
+| Petunjuk Instalasi | Dokumentasi | Discord |
 | ------------------ | ------------- | ------- |
-| 📖 [Installation Guide](https://docs.ciphey.online/en/latest/install.html) | 📚 [Documentation](https://docs.ciphey.online) | 🦜 [Discord](https://discord.ciphey.online)
+| 📖 [Petunjuk Instalasi](https://docs.ciphey.online/en/latest/install.html) | 📚 [Dokumentasi](https://docs.ciphey.online) | 🦜 [Discord](https://discord.ciphey.online)
 
-## 🏃‍♀️Running Ciphey
-There are 3 ways to run Ciphey.
-1. File Input `ciphey - encrypted.txt`
-2. Unqualified input `ciphey -- "Encrypted input"`
-3. Normal way `ciphey -t "Encrypted input"`
+## 🏃‍♀️Menggunakan Ciphey
+Ada 3 cara untuk memakai Ciphey.
+1. Input File `ciphey - encrypted.txt`
+2. Input Unqualified `ciphey -- "Teks terenkripsi di sini"`
+3. Cara Biasa `ciphey -t "Teks terenkripsi di sini"`
 
-![Gif showing 3 ways to run Ciphey](Pictures_for_README/3ways.gif)
+![Gif menunjukkan 3 cara untuk memakai Ciphey](../../Pictures_for_README/3ways.gif)
 
-To get rid of the progress bars, probability table, and all the noise use the quiet mode.
+Untuk menyingkirkan progress bar, tabel probabilitas, dan lain-lain gunakan mode senyap.
 
-```ciphey -t "encrypted text here" -q```
+```ciphey -t "teks terenkripsi di sini" -q```
 
-For a full list of arguments, run `ciphey --help`.
+Untuk daftar argumen lengkap, jalankan `ciphey --help`.
 
-### ⚗️ Importing Ciphey
-You can import Ciphey\'s main and use it in your own programs and code. `from Ciphey.__main__ import main`
+### ⚗️ Mengimpor Ciphey
+Anda dapat mengimpor file utama Ciphey dan menggunakannya dalam program dan kode Anda sendiri. `from Ciphey.__main__ import main`
 
-# 🎪 Contributors
-Ciphey was invented by [Brandon Skerritt](https://github.com/brandonskerritt) in 2008, and revived in 2019. Ciphey wouldn't be where it was today without [Cyclic3](https://github.com/Cyclic3) - president of UoL's Cyber Security Society.
+# 🎪 Kontributor
+Ciphey dibuat oleh [Brandon Skerritt](https://github.com/brandonskerritt) pada 2008, and dihidupkan kembali pada 2019. Ciphey tidak akan berada di ia berada tanpa [Cyclic3](https://github.com/Cyclic3) - presiden Cyber Security Society UoL.
 
-Ciphey was revived & recreated by the [Cyber Security Society](https://www.cybersoc.cf/) for use in CTFs. If you're ever in Liverpool, consider giving a talk or sponsoring our events. Email us at `cybersecurity@society.liverpoolguild.org` to find out more 🤠
+Ciphey dihidupkan & diciptakan kembali oleh [Cyber Security Society](https://www.cybersoc.cf/) untuk digunakan dalam CTFs. Jika Anda pernah berada di Liverpool, pertimbangkan untuk memberi ceramah atau mensponsori acara kami. Kirimkan email kepada kami di `cybersecurity@society.liverpoolguild.org` untuk mengetahui lebih lanjut 🤠
 
-**Major Credit** to George H for working out how we could use proper algorithms to speed up the search process.
-**Special thanks** to [varghalladesign](https://www.facebook.com/varghalladesign) for designing the logo. Check out their other design work!
+**Kredit Besar** kepada George H untuk mengetahui bagaimana kami dapat menggunakan algoritma yang tepat untuk mempercepat proses pencarian. \
+**Terima kasih khusus** untuk [varghalladesign](https://www.facebook.com/varghalladesign) untuk mendesain logo. Lihat karya desain mereka yang lain!
 
-## 🐕‍🦺 [Contributing](CONTRIBUTING.md)
-Don't be afraid to contribute! We have many, many things you can do to help out. Each of them labelled and easily explained with examples. If you're trying to contribute but stuck, tag @brandonskerritt in the GitHub issue ✨
+## 🐕‍🦺 [Berkontribusi](CONTRIBUTING.md)
+Jangan takut untuk berkontribusi! Kami memiliki banyak, banyak hal yang dapat Anda lakukan untuk membantu. Masing-masing diberi label dan mudah dijelaskan dengan contoh-contoh. Jika Anda mencoba berkontribusi tetapi macet, tag @brandonskerritt di sebuah GitHub issue ✨
 
-Alternatively, join the Discord group and send a message there (link in [contrib file](CONTRIBUTING.md)) or at the top of this README as a badge.
+Atau, bergabung dengan grup Discord kita dan kirim pesan di sana (link di [file contribusi](CONTRIBUTING.md)) atau di bagian atas README ini sebagai lencana.
 
-Please read the [contributing file](CONTRIBUTING.md) for exact details on how to contribute ✨
-## 💰 Financial Contributors
-The contributions will be used to fund not only the future of Ciphey and its authors, but also Cyber Security Society at the University of Liverpool.
+Silakan baca [file kontribusi](CONTRIBUTING.md) untuk detail yang tepat tentang cara berkontribusi ✨
 
-GitHub doesn't support "sponsor this project and we'll evenly distribute the money", so pick a link and we'll sort it out on our end 🥰
+## 💰 Kontributor Keuangan
+Semua kontribusi akan digunakan untuk mendanai tidak hanya masa depan Ciphey dan penulisnya, tetapi juga Cyber Security Society di Universitas Liverpool.
 
-## ✨ Contributors
+GitHub tidak mendukung "mensponsori proyek ini dan kami akan mendistribusikan uang secara merata", jadi salah satu link dan kami akan mengatasinya di pihak kami 🥰
 
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+## ✨ Kontributor
+
+Terima kasih kepada orang-orang hebat ini ([kunci emoji](https://allcontributors.org/docs/en/emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
@@ -176,4 +177,4 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- prettier-ignore-end -->
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+Proyek ini mengikuti spesifikasi [all-contributors](https://github.com/all-contributors/all-contributors). Kontribusi dalam bentuk apa pun dianjurkan!
