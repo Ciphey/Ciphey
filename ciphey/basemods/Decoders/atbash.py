@@ -1,5 +1,4 @@
-# atbash.py
-# by lukasgabriel
+# community
 
 from typing import Optional, Dict, List
 
@@ -21,22 +20,27 @@ class Atbash(Decoder[str, str]):
         letters = list('abcdefghijklmnopqrstuvwxyz')
         atbash_dict = {letters[i]:letters[::-1][i] for i in range(26)}
 
-        if type(ctext) == str:  # Ensure that cyphertext is a string 
-            ctext = ctext.lower()  # Normalize the string to all-lowercase letters
+        # Ensure that ciphertext is a string 
+        if type(ctext) == str:
+            # Normalize the string to all-lowercase letters
+            ctext = ctext.lower()
         else:
             return None
 
         for l in ctext:
             if l in atbash_dict.keys():
-                dec += atbash_dict[l]  # Match every letter of the input to its atbash counterpoint
+                # Match every letter of the input to its atbash counterpoint
+                dec += atbash_dict[l]
             else:
-                dec += l  # If the current character is not in the defined alphabet, 
-                          # just accept it as-is (useful for numbers, punctuation,...)
+                # If the current character is not in the defined alphabet, 
+                # just accept it as-is (useful for numbers, punctuation,...)
+                dec += l
         return dec
 
     @staticmethod
     def priority() -> float:
-        return 0.1  # Not expected to show up often, but also very fast to check.
+        # Not expected to show up often, but also very fast to check.
+        return 0.1
 
     def __init__(self, config: Config):
         super().__init__(config)
