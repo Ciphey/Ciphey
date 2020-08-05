@@ -183,5 +183,7 @@ class mathsHelper:
             Returns string without puncuation.
 
         """
-        text: str = str(text).translate(str.maketrans("", "", punctuation))
+        text: str = (str(text).translate(str.maketrans("", "", punctuation))).strip(
+            "\n"
+        )
         return text
