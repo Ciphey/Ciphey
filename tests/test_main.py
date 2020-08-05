@@ -60,3 +60,7 @@ def test_hex():
                   "74726565")
 
     assert res.lower() == answer_str.lower()
+
+def test_atbash():
+    res = decrypt(Config().library_default().complete_config(), "Svool nb mznv rh yvv zmw R orpv wlt zmw zkkov zmw givv")
+    assert res.lower() == answer_str.lower()
