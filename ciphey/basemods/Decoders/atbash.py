@@ -16,7 +16,7 @@ class Atbash(Decoder[str, str]):
             in the alphabet. Example: A -> Z, B -> Y, ... , M -> N and vice versa.
         """
 
-        dec = ""
+        result = ""
         letters = list("abcdefghijklmnopqrstuvwxyz")
         atbash_dict = {letters[i]: letters[::-1][i] for i in range(26)}
 
@@ -30,12 +30,12 @@ class Atbash(Decoder[str, str]):
         for letter in ctext:
             if letter in atbash_dict.keys():
                 # Match every letter of the input to its atbash counterpoint
-                dec += atbash_dict[letter]
+                result += atbash_dict[letter]
             else:
                 # If the current character is not in the defined alphabet,
                 # just accept it as-is (useful for numbers, punctuation,...)
-                dec += letter
-        return dec
+                result += letter
+        return result
 
     @staticmethod
     def priority() -> float:
