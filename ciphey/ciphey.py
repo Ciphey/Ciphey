@@ -92,13 +92,6 @@ def print_help(ctx):
     "-l", "--list-params", help="List the parameters of the selected module", type=bool,
 )
 @click.option(
-    "-O",
-    "--offline",
-    help="Run Ciphey in offline mode (no hash support)",
-    type=bool,
-    is_flag=True,
-)
-@click.option(
     "--searcher", help="Select the searching algorithm to use",
 )
 # HARLAN TODO XXX
