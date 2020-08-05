@@ -226,3 +226,10 @@ run.yml
 tests/interface.rst
 
 test.py
+
+# Mac OS Files
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
