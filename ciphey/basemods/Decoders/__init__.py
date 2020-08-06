@@ -1,1 +1,1 @@
-from . import morse, bases, unicode, reverse, octal, binary, hexadecimal, atbash
+from . import morse, bases, unicode, reverse, octal, binary, hexadecimal, atbash, galactic
