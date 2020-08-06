@@ -40,7 +40,7 @@ class Galactic(Decoder[str, str]):
             "⍊",
             "∴",
             "|",
-            "⨅",
+            "⨅", 
         ]
         letters = list("abcdefghijklmnopqrstuvwyz")
         galactic_dict = {galactic_letters[i]: letters[i] for i in range(25)}
@@ -60,25 +60,19 @@ class Galactic(Decoder[str, str]):
             .replace(" ̇", " x")
         )
         # Take out the problematic characters consisting of multiple symbols
-        print(ctext)
         for letter in ctext:
-            print(f"Letter is {letter}")
             if letter in galactic_dict.keys():
-                print(f"Letter {letter} matched to {galactic_dict[letter]}")
                 # Match every letter of the input to its galactic counterpoint
                 result += galactic_dict[letter]
             else:
-                print(f"Letter {letter} not matched")
                 # If the current character is not in the defined alphabet,
                 # just accept it as-is (useful for numbers, punctuation,...)
                 result += letter
-            print(f"Result is now {result}")
 
         result = result.replace("x ", "x")
         # Remove the trailing space (appearing as a leading space)
         # from the x that results from the diacritic replacement
         # TODO: Handle edge cases where x still does not show up
-        print(f"Final result is {result}")
         return result
 
     @staticmethod
