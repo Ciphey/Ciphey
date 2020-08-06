@@ -21,8 +21,8 @@ from ciphey.iface import ParamSpec, Cracker, CrackResult, T, CrackInfo, registry
 
 
 @registry.register
-class XorCrypt(ciphey.iface.Cracker[str]):
-    def getInfo(self, ctext: str) -> CrackInfo:
+class XorCrypt(ciphey.iface.Cracker[bytes]):
+    def getInfo(self, ctext: bytes) -> CrackInfo:
         if self.keysize is not None:
             analysis = self.cache.get_or_update(
                 ctext,
