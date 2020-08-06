@@ -1,1 +1,1 @@
-from . import caesar, vigenere
+from . import caesar, vigenere, xor_single, xorcrypt
