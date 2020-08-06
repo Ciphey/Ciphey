@@ -3,7 +3,7 @@
 
 from typing import Optional, Dict, List
 
-from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry
+from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, WordList
 
 
 @registry.register
@@ -15,36 +15,6 @@ class Galactic(Decoder[str, str]):
         """
 
         result = ""
-        galactic_letters = [
-            "ᔑ",
-            "ʖ",
-            "ᓵ",
-            "↸",
-            "ᒷ",
-            "⎓",
-            "⊣",
-            "⍑",
-            "╎",
-            "⋮",
-            "ꖌ",
-            "ꖎ",
-            "ᒲ",
-            "リ",
-            "𝙹",
-            "!",
-            "ᑑ",
-            "∷",
-            "ᓭ",
-            "ℸ",
-            "⚍",
-            "⍊",
-            "∴",
-            "|",
-            "⨅",
-        ]
-        letters = list("abcdefghijklmnopqrstuvwyz")
-        galactic_dict = {galactic_letters[i]: letters[i] for i in range(25)}
-
         ctext = (
             ctext.replace("||", "|")
             .replace("/", "")
@@ -54,9 +24,9 @@ class Galactic(Decoder[str, str]):
         )
         # Take out the problematic characters consisting of multiple symbols
         for letter in ctext:
-            if letter in galactic_dict.keys():
+            if letter in self.GALACTIC_DICT.keys():
                 # Match every letter of the input to its galactic counterpoint
-                result += galactic_dict[letter]
+                result += self.GALACTIC_DICT[letter]
             else:
                 # If the current character is not in the defined alphabet,
                 # just accept it as-is (useful for numbers, punctuation,...)
@@ -75,10 +45,19 @@ class Galactic(Decoder[str, str]):
 
     def __init__(self, config: Config):
         super().__init__(config)
+        self.GALACTIC_DICT = config.get_resource(
+            self._params()["dict"], WordList
+        )
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
-        return None
+        return {
+            "dict": ParamSpec(
+                desc="The galactic alphabet dictionary to use",
+                req=False,
+                default="cipheydists::translate::galactic",
+            )
+        }
 
     @staticmethod
     def getTarget() -> str:
