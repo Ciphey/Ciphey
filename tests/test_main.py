@@ -99,6 +99,7 @@ def test_new_line_at_start_returns():
 
     assert res.lower() == "\npass\n"
 
+
 def test_galactic():
     res = decrypt(
         Config().library_default().complete_config(),
