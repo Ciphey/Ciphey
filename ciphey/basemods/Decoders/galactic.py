@@ -40,7 +40,7 @@ class Galactic(Decoder[str, str]):
             "⍊",
             "∴",
             "|",
-            "⨅", 
+            "⨅",
         ]
         letters = list("abcdefghijklmnopqrstuvwyz")
         galactic_dict = {galactic_letters[i]: letters[i] for i in range(25)}
@@ -78,7 +78,7 @@ class Galactic(Decoder[str, str]):
     @staticmethod
     def priority() -> float:
         # Not expected to show up often, but also very fast to check.
-        return 0.05
+        return 0.01
 
     def __init__(self, config: Config):
         super().__init__(config)
