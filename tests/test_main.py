@@ -98,3 +98,10 @@ def test_new_line_at_start_returns():
     res = decrypt(Config().library_default().complete_config(), "\npass\n")
 
     assert res.lower() == "\npass\n"
+
+def test_galactic():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "⍑ᒷꖎꖎ𝙹 ᒲ|| リᔑᒲᒷ ╎ᓭ ʖᒷᒷ ᔑリ↸ i ꖎ╎ꖌᒷ ↸𝙹⊣ ᔑリ↸ ᔑ!¡!¡ꖎᒷ ᔑリ↸ ℸ ̣ ∷ᒷᒷ",
+    )
+    assert res.lower() == answer_str.lower()
