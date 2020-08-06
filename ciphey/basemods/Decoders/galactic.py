@@ -45,13 +45,6 @@ class Galactic(Decoder[str, str]):
         letters = list("abcdefghijklmnopqrstuvwyz")
         galactic_dict = {galactic_letters[i]: letters[i] for i in range(25)}
 
-        # Ensure that ciphertext is a string
-        if type(ctext) == str:
-            # Normalize the string to all-lowercase letters
-            ctext = ctext.lower()
-        else:
-            return None
-
         ctext = (
             ctext.replace("||", "|")
             .replace("/", "")
