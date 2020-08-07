@@ -108,15 +108,13 @@ def test_galactic():
     assert res.lower() == answer_str.lower()
 
 
-"""
-# see https://github.com/Ciphey/Ciphey/issues/262 for detailed explanation
+@pytest.mark.skip(reason="https://github.com/Ciphey/Ciphey/issues/262")
 def test_galactic_Xproblem():
         res = decrypt(
         Config().library_default().complete_config(),
         "𝙹 ̇/⎓𝙹∷↸ ℸ ̣ ⍑ᒷ  ̇/ ╎ᓭ ╎リ ℸ ̣ ⍑ᒷ ᒲ╎↸↸ꖎᒷ ℸ ̣ ⍑ᔑℸ ̣ ᓭ ∴⍑|| ╎ℸ ̣  ⎓ᔑ╎ꖎᓭ",
     )
     assert res.lower() == "oxford the x is in the middle thats why it fails"
-"""
 
 
 def XandY():
