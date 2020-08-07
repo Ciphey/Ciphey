@@ -3,18 +3,17 @@
 
 from distutils import util
 from typing import Optional, Dict, Union, Set, List
+from loguru import logger
 
 from ciphey.iface import ParamSpec, Cracker, CrackResult, CrackInfo, T, registry, Config
 
+
 @registry.register
 class XandY(Cracker[str]):
-    
     def getInfo(self, ctext: str) -> CrackInfo:
         # TODO Write something useful here
         return CrackInfo(
-            success_likelihood=1,
-            success_runtime=1e-5,
-            failure_runtime=1e-5,
+            success_likelihood=1, success_runtime=1e-5, failure_runtime=1e-5,
         )
 
     @staticmethod
@@ -27,6 +26,7 @@ class XandY(Cracker[str]):
         binary_array = binary_int.to_bytes(byte_number, "big")
         try:
             ascii_text = binary_array.decode()
+            logger.trace(f"Found possible solution: {ascii_text[:32]}...")
             return ascii_text
         except UnicodeDecodeError:
             return ""
@@ -41,24 +41,34 @@ class XandY(Cracker[str]):
         If this is the case, it attempts to regard those two letters as
         0 and 1 and then converts it to ascii text.
         """
+        logger.trace("Attempting X-Y replacement.")
+        variants = []
+        candidates = []
+        result = []
         ctext = ctext.lower().replace(" ", "").strip()
 
         # cset contains every unique value in the cstring
         cset = list(set(list(ctext)))
         if len(cset) != 2:
             # We only consider inputs with exactly two unique values
+            logger.trace("String contains more than two unique values. Skipping X-Y...")
             return None
         else:
+            logger.trace(f"String contains two unique values: {cset[0], cset[1]}")
             # Form both variants of the substitution
-            variant_one = ctext.replace(cset[0], "0").replace(cset[1], "1")
-            variant_two = ctext.replace(cset[0], "1").replace(cset[1], "0")
+            for i in range(2):
+                if i:
+                    variants.append(ctext.replace(cset[0], "1").replace(cset[1], "0"))
+                else:
+                    variants.append(ctext.replace(cset[0], "0").replace(cset[1], "1"))
             # Apply function to both variants and strip stray NULL characters
-            candidate_one = self.binary_to_ascii(variant_one).strip("\x00")
-            candidate_two = self.binary_to_ascii(variant_two).strip("\x00")
-            # Replace empty strings with NoneType
-            candidate_one = None if candidate_one == "" else candidate_one
-            candidate_two = None if candidate_two == "" else candidate_two
-        return [candidate_one, candidate_two]
+            for variant in variants:
+                candidates.append(self.binary_to_ascii(variant).strip("\x00"))
+            for i, candidate in enumerate(candidates):
+                if candidate != "":
+                    keyinfo = f"{cset[0]} -> {i} & {cset[1]} -> {str(int(not i))}"
+                    result.append(CrackResult(value=candidate, key_info=keyinfo))
+                    return result
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
@@ -83,7 +93,7 @@ class XandY(Cracker[str]):
                 req=False,
                 default=0.01,
             )
-            # TODO: Change this to match this class (it's copied over from caesar) 
+            # TODO: Change this to match this class (it's copied over from caesar)
         }
 
     def __init__(self, config: Config):
