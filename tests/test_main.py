@@ -1,5 +1,6 @@
 from ciphey import decrypt
 from ciphey.iface import Config
+import pytest
 
 answer_str = "Hello my name is bee and I like dog and apple and tree".lower()
 
@@ -110,7 +111,7 @@ def test_galactic():
 
 @pytest.mark.skip(reason="https://github.com/Ciphey/Ciphey/issues/262")
 def test_galactic_Xproblem():
-        res = decrypt(
+    res = decrypt(
         Config().library_default().complete_config(),
         "𝙹 ̇/⎓𝙹∷↸ ℸ ̣ ⍑ᒷ  ̇/ ╎ᓭ ╎リ ℸ ̣ ⍑ᒷ ᒲ╎↸↸ꖎᒷ ℸ ̣ ⍑ᔑℸ ̣ ᓭ ∴⍑|| ╎ℸ ̣  ⎓ᔑ╎ꖎᓭ",
     )
