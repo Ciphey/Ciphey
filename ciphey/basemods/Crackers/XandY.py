@@ -13,7 +13,7 @@ class XandY(Cracker[str]):
     def getInfo(self, ctext: str) -> CrackInfo:
         # TODO Write something useful here
         return CrackInfo(
-            success_likelihood=1, success_runtime=1e-5, failure_runtime=1e-5,
+            success_likelihood=0.5, success_runtime=1e-5, failure_runtime=1e-5,
         )
 
     @staticmethod
@@ -78,20 +78,10 @@ class XandY(Cracker[str]):
                 req=False,
                 config_ref=["default_dist"],
             ),
-            "group": ParamSpec(
-                desc="An ordered sequence of chars that make up the caesar cipher alphabet",
-                req=False,
-                default="",
-            ),
             "lower": ParamSpec(
                 desc="Whether or not the ciphertext should be converted to lowercase first",
                 req=False,
                 default=True,
-            ),
-            "p_value": ParamSpec(
-                desc="The p-value to use for standard frequency analysis",
-                req=False,
-                default=0.01,
             )
             # TODO: Change this to match this class (it's copied over from caesar)
         }
@@ -102,7 +92,5 @@ class XandY(Cracker[str]):
         self.lower: Union[str, bool] = self._params()["lower"]
         if type(self.lower) != bool:
             self.lower = util.strtobool(self.lower)
-        self.group = list(self._params()["group"])
         self.expected = config.get_resource(self._params()["expected"])
         self.cache = config.cache
-        self.p_value = self._params()["p_value"]
