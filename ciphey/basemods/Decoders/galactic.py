@@ -4,7 +4,7 @@
 from typing import Optional, Dict, List
 
 from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, WordList
-
+from loguru import logger
 
 @registry.register
 class Galactic(Decoder[str, str]):
@@ -14,6 +14,7 @@ class Galactic(Decoder[str, str]):
         (aka Minecraft Enchanting Table Symbols) and translates it to ASCII text.
         """
 
+        logger.trace("Attempting Standard Galactic Alphabet Decoder")
         result = ""
         ctext = (
             ctext.replace("||", "|")
@@ -22,6 +23,7 @@ class Galactic(Decoder[str, str]):
             .replace(" ̣ ", "")
             .replace(" ̇", " x")
         )
+        logger.trace(f"Modified string is {ctext}")
         # Take out the problematic characters consisting of multiple symbols
         for letter in ctext:
             if letter in self.GALACTIC_DICT.keys():
@@ -36,6 +38,7 @@ class Galactic(Decoder[str, str]):
         # Remove the trailing space (appearing as a leading space)
         # from the x that results from the diacritic replacement
         # TODO: Handle edge cases where x still does not show up
+        logger.trace(f"Decoded string is {result}")
         return result
 
     @staticmethod
