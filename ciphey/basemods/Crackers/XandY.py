@@ -4,18 +4,12 @@
 from distutils import util
 from typing import Optional, Dict, Union, Set, List
 
-
 from ciphey.iface import ParamSpec, Cracker, CrackResult, CrackInfo, T, registry, Config
 
 @registry.register
 class XandY(Cracker[str]):
     
     def getInfo(self, ctext: str) -> CrackInfo:
-        analysis = self.cache.get_or_update(
-            ctext,
-            "cipheycore::simple_analysis",
-            lambda: cipheycore.analyse_string(ctext),
-        )
         # TODO Write something useful here
         return CrackInfo(
             success_likelihood=1,
