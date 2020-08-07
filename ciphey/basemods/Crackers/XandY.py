@@ -11,7 +11,6 @@ from ciphey.iface import ParamSpec, Cracker, CrackResult, CrackInfo, T, registry
 @registry.register
 class XandY(Cracker[str]):
     def getInfo(self, ctext: str) -> CrackInfo:
-        # TODO Write something useful here
         return CrackInfo(
             success_likelihood=0.5, success_runtime=1e-5, failure_runtime=1e-5,
         )
@@ -77,20 +76,10 @@ class XandY(Cracker[str]):
                 desc="The expected distribution of the plaintext",
                 req=False,
                 config_ref=["default_dist"],
-            ),
-            "lower": ParamSpec(
-                desc="Whether or not the ciphertext should be converted to lowercase first",
-                req=False,
-                default=True,
             )
-            # TODO: Change this to match this class (it's copied over from caesar)
         }
 
     def __init__(self, config: Config):
-        # TODO: Change this to match this class (it's copied over from caesar)
         super().__init__(config)
-        self.lower: Union[str, bool] = self._params()["lower"]
-        if type(self.lower) != bool:
-            self.lower = util.strtobool(self.lower)
         self.expected = config.get_resource(self._params()["expected"])
         self.cache = config.cache
