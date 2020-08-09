@@ -82,6 +82,14 @@ def test_atbash():
         "Svool nb mznv rh yvv zmw R orpv wlt zmw zkkov zmw givv",
     )
     assert res.lower() == answer_str.lower()
+  
+
+def test_tap_code():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "5,2 3,4 4,2 1,3 4,3",
+    )
+    assert res.lower() == answer_str.lower()
 
 
 def test_new_line_strip_and_return():
@@ -98,3 +106,5 @@ def test_new_line_at_start_returns():
     res = decrypt(Config().library_default().complete_config(), "\npass\n")
 
     assert res.lower() == "\npass\n"
+
+    
