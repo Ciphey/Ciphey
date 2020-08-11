@@ -77,7 +77,7 @@ And that's just the tip of the iceberg. For the full technical explanation, chec
   </tr>
   <tr>
   <th>Gif</th>
-    <td><img src="Pictures_for_README/ciphey_vs_cyberchef.gif" alt="The guy she tells you not to worry about"></td>
+    <td><img src="Pictures_for_README/ciphey_gooder_cyberchef.gif" alt="The guy she tells you not to worry about"></td>
     <td><img src="Pictures_for_README/not_dying.gif" alt="You"></td>
   </tr>
   <tr>
