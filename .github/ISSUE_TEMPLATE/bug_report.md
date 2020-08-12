@@ -3,7 +3,6 @@ name: Bug report
 about: Create a report to help us improve
 title: ''
 labels: bug
-assignees: brandonskerritt
 
 ---
 
@@ -14,6 +13,9 @@ A clear and concise description of what the bug is.
 Steps to reproduce the behavior:
 1. What input did you use?
 2. What flags / arguments did you use?
+
+**Verbose Output**
+Run Ciphey with `ciphey -vvv` and paste the results (either as a file, or copied & pasted) into the GitHub issue comment. 
 
 **Expected behavior**
 A clear and concise description of what you expected to happen.

@@ -76,12 +76,21 @@ def test_hex():
     assert res.lower() == answer_str.lower()
 
 
+def test_atbash():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "Svool nb mznv rh yvv zmw R orpv wlt zmw zkkov zmw givv",
+    )
+    assert res.lower() == answer_str.lower()
+
+
 def test_new_line_strip_and_return():
     # Language Checker should return True by stripping new line
     # but the new line should be returned to the user as new lines are important
     res = decrypt(Config().library_default().complete_config(), "pass\n")
 
     assert res.lower() == "pass\n"
+
 
 def test_new_line_at_start_returns():
     # Language Checker should return True by stripping new line
