@@ -252,7 +252,7 @@ def main(**kwargs):
             kwargs["text"] = kwargs["text_stdin"]
         else:
             # else print help menu
-            print("[bold red]Error. No inputs were given to Ciphey. [\bold red]")
+            print("[bold red]Error. No inputs were given to Ciphey. [bold red]")
 
             @click.pass_context
             def all_procedure(ctx):
