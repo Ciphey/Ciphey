@@ -12,7 +12,7 @@ from ciphey.iface import ParamSpec, Cracker, CrackResult, CrackInfo, T, registry
 class XandY(Cracker[str]):
     def getInfo(self, ctext: str) -> CrackInfo:
         return CrackInfo(
-            success_likelihood=0.5, success_runtime=1e-5, failure_runtime=1e-5,
+            success_likelihood=0.1, success_runtime=1e-5, failure_runtime=1e-5,
         )
 
     @staticmethod
