@@ -1,5 +1,6 @@
 from ciphey import decrypt
 from ciphey.iface import Config
+import pytest
 
 answer_str = "Hello my name is bee and I like dog and apple and tree".lower()
 
@@ -98,3 +99,29 @@ def test_new_line_at_start_returns():
     res = decrypt(Config().library_default().complete_config(), "\npass\n")
 
     assert res.lower() == "\npass\n"
+
+
+def test_galactic():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "⍑ᒷꖎꖎ𝙹 ᒲ|| リᔑᒲᒷ ╎ᓭ ʖᒷᒷ ᔑリ↸ i ꖎ╎ꖌᒷ ↸𝙹⊣ ᔑリ↸ ᔑ!¡!¡ꖎᒷ ᔑリ↸ ℸ ̣ ∷ᒷᒷ",
+    )
+    assert res.lower() == answer_str.lower()
+
+
+@pytest.mark.skip(reason="https://github.com/Ciphey/Ciphey/issues/262")
+def test_galactic_Xproblem():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "𝙹 ̇/⎓𝙹∷↸ ℸ ̣ ⍑ᒷ  ̇/ ╎ᓭ ╎リ ℸ ̣ ⍑ᒷ ᒲ╎↸↸ꖎᒷ ℸ ̣ ⍑ᔑℸ ̣ ᓭ ∴⍑|| ╎ℸ ̣  ⎓ᔑ╎ꖎᓭ",
+    )
+    assert res.lower() == "oxford the x is in the middle thats why it fails"
+
+
+def XandY():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "xDDxDxxx xDDxxDxD xDDxDDxx xDDxDDxx xDDxDDDD xxDxxxxx xDDxDDxD xDDDDxxD xxDxxxxx xDDxDDDx xDDxxxxD xDDxDDxD xDDxxDxD xxDxxxxx xDDxDxxD xDDDxxDD xxDxxxxx xDDxxxDx xDDxxDxD xDDxxDxD xxDxxxxx xDDxxxxD xDDxDDDx xDDxxDxx xxDxxxxx xDxxDxxD xxDxxxxx xDDxDDxx xDDxDxxD xDDxDxDD xDDxxDxD xxDxxxxx xDDxxDxx xDDxDDDD xDDxxDDD xxDxxxxx xDDxxxxD xDDxDDDx xDDxxDxx xxDxxxxx xDDxxxxD xDDDxxxx xDDDxxxx xDDxDDxx xDDxxDxD xxDxxxxx xDDxxxxD xDDxDDDx xDDxxDxx xxDxxxxx xDDDxDxx xDDDxxDx xDDxxDxD xDDxxDxD",
+    )
+    assert res.lower() == answer_str.lower()
+
