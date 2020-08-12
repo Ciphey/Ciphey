@@ -183,9 +183,6 @@ def main(**kwargs):
     # Now we create the config object
     config = iface.Config()
 
-    # Default init the config object
-    config = iface.Config()
-
     # Load the settings file into the config
     load_msg: str
     cfg_arg = kwargs["config"]
@@ -224,7 +221,7 @@ def main(**kwargs):
         config.update_format("in", "bytes")
 
     if kwargs["bytes_output"] is not None:
-        config.update_format("in", "bytes")
+        config.update_format("out", "bytes")
 
     # Next, load the objects
     params = kwargs["param"]
