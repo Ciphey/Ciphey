@@ -221,7 +221,7 @@ def main(**kwargs):
         config.update_format("in", "bytes")
 
     if kwargs["bytes_output"] is not None:
-        config.update_format("in", "bytes")
+        config.update_format("out", "bytes")
 
     # Next, load the objects
     params = kwargs["param"]
