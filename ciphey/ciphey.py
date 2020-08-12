@@ -183,9 +183,6 @@ def main(**kwargs):
     # Now we create the config object
     config = iface.Config()
 
-    # Default init the config object
-    config = iface.Config()
-
     # Load the settings file into the config
     load_msg: str
     cfg_arg = kwargs["config"]
