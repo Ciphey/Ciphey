@@ -6,6 +6,7 @@ from typing import Optional, Dict, List
 from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, WordList
 from loguru import logger
 
+
 @registry.register
 class Galactic(Decoder[str, str]):
     def decode(self, ctext: T) -> Optional[U]:
@@ -13,8 +14,25 @@ class Galactic(Decoder[str, str]):
         Takes a string written in the 'Standard Galactic Alphabet' 
         (aka Minecraft Enchanting Table Symbols) and translates it to ASCII text.
         """
-
         logger.trace("Attempting Standard Galactic Alphabet Decoder")
+
+        # To avoid complications, only move forward with the decoding if we can
+        # reasonably assume that the input string is written in the galactic alphabet
+        galactic_matches = 0
+        for symbol in self.GALACTIC_DICT.keys():
+            # These symbols are assumed to be frequent enough in regular
+            # text to be skipped when counting the matches. All others are counted.
+            if symbol in ctext and symbol not in ["!", "|"]:
+                galactic_matches += 1
+            else:
+                continue
+        if galactic_matches == 0:
+            logger.trace(
+                "No matching galactic alphabet letters found. Skipping galactic decoder..."
+            )
+            return None
+        logger.trace(f"{galactic_matches} galactic alphabet letters found. ")
+
         result = ""
         ctext = (
             ctext.replace("||", "|")
@@ -37,7 +55,6 @@ class Galactic(Decoder[str, str]):
         result = result.replace("x ", "x")
         # Remove the trailing space (appearing as a leading space)
         # from the x that results from the diacritic replacement
-        # TODO: Handle edge cases where x still does not show up
         logger.trace(f"Decoded string is {result}")
         return result
 
@@ -48,9 +65,7 @@ class Galactic(Decoder[str, str]):
 
     def __init__(self, config: Config):
         super().__init__(config)
-        self.GALACTIC_DICT = config.get_resource(
-            self._params()["dict"], WordList
-        )
+        self.GALACTIC_DICT = config.get_resource(self._params()["dict"], WordList)
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
