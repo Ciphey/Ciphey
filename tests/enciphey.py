@@ -68,7 +68,7 @@ class encipher_crypto:  # pragma: no cover
             self.base58_ripple,
             self.b62,
         ]
-        self.morse_dict = dict(cipheydists.get_charset("morse"))
+        self.morse_dict = dict(cipheydists.get_translate("morse"))
         self.letters = string.ascii_lowercase
         self.group = cipheydists.get_charset("english")["lcase"]
 
