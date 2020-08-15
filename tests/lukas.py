@@ -26,7 +26,7 @@ class atbash_encode():
     Encodes an input string with the Atbash cipher.
     '''
     def __init__(self, text:str):
-        self.text = text
+        self.text = text.lower()
         self.letters = list("abcdefghijklmnopqrstuvwxyz")
         self.atbash_dict = {self.letters[::-1][i]: self.letters[i] for i in range(26)}
         self.ctext = ""
@@ -45,7 +45,12 @@ class atbash_encode():
 
 class XY_encrypt():
     '''
-    TODO docstring
+    Encrypts an input string using binary substitution (called XandY in Ciphey) in which
+    first, the input string is converted to its binary representation and then the 0s and 1s
+    of the binary string are replaced with any two characters. 
+    - flip: Which of the two possible rotations of the substitute characters is used?
+    - randomize: If True, random spaces are inserted into the cstring, which Ciphey can handle.
+    - key: Which two characters are used to represent the 0s and 1s?
     '''
     def __init__(self, text: str, flip: bool = bool(random.randint(0, 1)), randomize:bool = True, key: list = None):
         self.ASCII = list(chr(x).encode() for x in range(128))
