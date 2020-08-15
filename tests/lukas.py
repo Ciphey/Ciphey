@@ -26,7 +26,7 @@ class XY_encrypt():
     TODO docstring
     '''
     def __init__(self, text: str, flip: bool = bool(random.randint(0, 1)), randomize:bool = True, key: list = None):
-        self.ASCII = list((chr(x).encode() for x in range(128))
+        self.ASCII = list(chr(x).encode() for x in range(128))
         self.text = text.lower()
         self.ctext = ""
         self.flip = flip
