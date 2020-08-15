@@ -21,6 +21,28 @@ class galactic_encode():
         return self.ctext
 
 
+class atbash_encode():
+    '''
+    Encodes an input string with the Atbash cipher.
+    '''
+    def __init__(self, text:str):
+        self.text = text
+        self.letters = list("abcdefghijklmnopqrstuvwxyz")
+        self.atbash_dict = {self.letters[::-1][i]: self.letters[i] for i in range(26)}
+        self.ctext = ""
+
+    def encode(self):
+        for letter in self.text:
+            if letter in self.atbash_dict.keys():
+                # Match every letter of the input to its atbash counterpoint
+                self.ctext += self.atbash_dict[letter]
+            else:
+                # If the current character is not in the defined alphabet,
+                # just accept it as-is (useful for numbers, punctuation,...)
+                self.ctext += letter
+        return self.ctext
+
+
 class XY_encrypt():
     '''
     TODO docstring
