@@ -12,6 +12,8 @@ import base58
 import base62
 import re
 
+import lukas
+
 
 class encipher:
 
