@@ -1,4 +1,6 @@
 import base64
+import base58
+import base62
 import types
 
 import ciphey
@@ -19,10 +21,11 @@ def _dispatch(self: Any, ctext: str, func: Callable[[str], bytes]) -> Optional[b
         logger.trace(f"Failed to decode {self.getTarget()}")
         return None
 
-
 _bases = {
     "base16": (base64.b16decode, 0.4),
     "base32": (base64.b32decode, 0.01),
+    "base58": {base58.b58decode, 0.01},
+    "base62": {base62.decode, 0.01},
     "base64": (base64.b64decode, 0.4),
     "base85": (base64.b85decode, 0.01),
     "ascii85": (base64.a85decode, 0.1),
