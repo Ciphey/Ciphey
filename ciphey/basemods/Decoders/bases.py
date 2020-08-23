@@ -27,6 +27,8 @@ _bases = {
     "base58": {base58.b58decode, 0.01},
     "base62": {base62.decode, 0.01},
     "base64": (base64.b64decode, 0.4),
+    # How would I add this?
+    # base58.b58decode(b'StVrDLaUATiyKyV', alphabet=base58.RIPPLE_ALPHABET)
     "base85": (base64.b85decode, 0.01),
     "ascii85": (base64.a85decode, 0.1),
 }
@@ -46,3 +48,4 @@ for name, (decoder, priority) in _bases.items():
                         exec_body=lambda x: gen_class(name, decoder, priority, x))
 
     ciphey.iface.registry.register(t)
+
