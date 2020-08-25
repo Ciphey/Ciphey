@@ -63,7 +63,7 @@ class XY_encrypt:
         randomize: bool = True,
         key: list = None,
     ):
-        self.ASCII = list(chr(x).encode() for x in range(128))
+        self.ASCII = list(chr(x) for x in range(32, 127))
         self.text = text.lower()
         self.ctext = ""
         self.flip = flip
