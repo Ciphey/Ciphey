@@ -18,6 +18,7 @@ import ciphey
 import cipheycore
 
 from ciphey.iface import ParamSpec, Cracker, CrackResult, T, CrackInfo, registry
+from ciphey.common import fix_case
 
 
 @registry.register
@@ -80,7 +81,7 @@ class Vigenere(ciphey.iface.Cracker[str]):
         #     raise 0
         return [
             CrackResult(
-                value=cipheycore.vigenere_decrypt(ctext, candidate.key, self.group),
+                value=fix_case(cipheycore.vigenere_decrypt(ctext, candidate.key, self.group), ctext),
                 key_info="".join([self.group[i] for i in candidate.key]),
             )
             for candidate in possible_keys[:min(len(possible_keys), 10)]
