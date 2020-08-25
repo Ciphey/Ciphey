@@ -173,5 +173,5 @@ class Vigenere(ciphey.iface.Cracker[str]):
         self.keysize = self._params().get("keysize")
         if self.keysize is not None:
             self.keysize = int(self.keysize)
-        self.p_value = self._params()["p_value"]
+        self.p_value = float(self._params()["p_value"])
         self.MAX_KEY_LENGTH = 16
