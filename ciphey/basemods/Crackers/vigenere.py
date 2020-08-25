@@ -28,7 +28,7 @@ class Vigenere(ciphey.iface.Cracker[str]):
             analysis = self.cache.get_or_update(
                 ctext,
                 f"vigenere::{self.keysize}",
-                lambda: cipheycore.analyse_string(ctext, self.keysize, self.group),
+                lambda: cipheycore.analyse_string(ctext.lower(), self.keysize, self.group),
             )
 
             return CrackInfo(
@@ -41,7 +41,7 @@ class Vigenere(ciphey.iface.Cracker[str]):
         likely_lens = self.cache.get_or_update(
             ctext,
             f"vigenere::likely_lens",
-            lambda: cipheycore.vigenere_likely_key_lens(ctext, self.expected, self.group, self.p_value),
+            lambda: cipheycore.vigenere_likely_key_lens(ctext.lower(), self.expected, self.group, self.p_value),
         )
 
         for keysize in likely_lens:
@@ -71,7 +71,7 @@ class Vigenere(ciphey.iface.Cracker[str]):
         return "vigenere"
 
     def crackOne(
-        self, ctext: str, analysis: cipheycore.windowed_analysis_res
+        self, ctext: str, analysis: cipheycore.windowed_analysis_res, real_ctext: str
     ) -> List[CrackResult]:
         possible_keys = cipheycore.vigenere_crack(
             analysis, self.expected, self.group, self.p_value
@@ -81,7 +81,7 @@ class Vigenere(ciphey.iface.Cracker[str]):
         #     raise 0
         return [
             CrackResult(
-                value=fix_case(cipheycore.vigenere_decrypt(ctext, candidate.key, self.group), ctext),
+                value=fix_case(cipheycore.vigenere_decrypt(ctext, candidate.key, self.group), real_ctext),
                 key_info="".join([self.group[i] for i in candidate.key]),
             )
             for candidate in possible_keys[:min(len(possible_keys), 10)]
@@ -102,15 +102,16 @@ class Vigenere(ciphey.iface.Cracker[str]):
                 self.cache.get_or_update(
                     ctext,
                     f"vigenere::{self.keysize}",
-                    lambda: cipheycore.analyse_string(ctext, self.keysize, self.group),
+                    lambda: cipheycore.analyse_string(message, self.keysize, self.group),
                 ),
+                ctext
             )
         else:
             arrs = []
             likely_lens = self.cache.get_or_update(
                 ctext,
                 f"vigenere::likely_lens",
-                lambda: cipheycore.vigenere_likely_key_lens(ctext, self.expected, self.group),
+                lambda: cipheycore.vigenere_likely_key_lens(message, self.expected, self.group),
             )
             possible_lens = [i for i in likely_lens]
             possible_lens.sort(key=lambda i: i.p_value)
@@ -123,8 +124,9 @@ class Vigenere(ciphey.iface.Cracker[str]):
                         self.cache.get_or_update(
                             ctext,
                             f"vigenere::{i.len}",
-                            lambda: cipheycore.analyse_string(ctext, i.len, self.group),
+                            lambda: cipheycore.analyse_string(message, i.len, self.group),
                         ),
+                        ctext
                     )
                 )
 
