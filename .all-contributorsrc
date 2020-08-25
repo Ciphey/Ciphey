@@ -75,6 +75,15 @@
         "code",
         "bug"
       ]
+    },
+    {
+      "login": "DarshanBhoi",
+      "name": "Darshan",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/70128281?v=4",
+      "profile": "https://github.com/DarshanBhoi",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
