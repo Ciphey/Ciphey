@@ -119,4 +119,4 @@ class Caesar(ciphey.iface.Cracker[str]):
         self.group = list(self._params()["group"])
         self.expected = config.get_resource(self._params()["expected"])
         self.cache = config.cache
-        self.p_value = self._params()["p_value"]
+        self.p_value = float(self._params()["p_value"])
