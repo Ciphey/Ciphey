@@ -54,6 +54,9 @@
       "profile": "https://github.com/TheAlcanian",
       "contributions": [
         "bug"
+      ]
+    },
+    {
       "login": "Bryzizzle",
       "name": "Bryan",
       "avatar_url": "https://avatars0.githubusercontent.com/u/57810197?v=4",
@@ -69,7 +72,17 @@
       "avatar_url": "https://avatars0.githubusercontent.com/u/52338810?v=4",
       "profile": "https://lukasgabriel.net",
       "contributions": [
-        "code"
+        "code",
+        "bug"
+      ]
+    },
+    {
+      "login": "DarshanBhoi",
+      "name": "Darshan",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/70128281?v=4",
+      "profile": "https://github.com/DarshanBhoi",
+      "contributions": [
+        "bug"
       ]
     }
   ],
