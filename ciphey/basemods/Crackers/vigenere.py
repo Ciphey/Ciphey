@@ -47,9 +47,7 @@ class Vigenere(ciphey.iface.Cracker[str]):
         for keysize in likely_lens:
             # Store the analysis
             analysis = self.cache.get_or_update(
-                ctext,
-                f"vigenere::{keysize.len}",
-                lambda: keysize.tab
+                ctext, f"vigenere::{keysize.len}", lambda: keysize.tab
             )
         if len(likely_lens) == 0:
             return CrackInfo(
@@ -60,7 +58,7 @@ class Vigenere(ciphey.iface.Cracker[str]):
             )
 
         return CrackInfo(
-            success_likelihood=0*likely_lens[0].p_value,
+            success_likelihood=0 * likely_lens[0].p_value,
             # TODO: actually calculate runtimes
             success_runtime=2e-4,
             failure_runtime=2e-4,
@@ -76,7 +74,9 @@ class Vigenere(ciphey.iface.Cracker[str]):
         possible_keys = cipheycore.vigenere_crack(
             analysis, self.expected, self.group, self.p_value
         )
-        logger.trace(f"Vigenere crack got keys: {[[i for i in candidate.key] for candidate in possible_keys]}")
+        logger.trace(
+            f"Vigenere crack got keys: {[[i for i in candidate.key] for candidate in possible_keys]}"
+        )
         # if len(possible_keys) and possible_keys[0].p_value < 0.9999999:
         #     raise 0
         return [
@@ -84,7 +84,7 @@ class Vigenere(ciphey.iface.Cracker[str]):
                 value=fix_case(cipheycore.vigenere_decrypt(ctext, candidate.key, self.group), real_ctext),
                 key_info="".join([self.group[i] for i in candidate.key]),
             )
-            for candidate in possible_keys[:min(len(possible_keys), 10)]
+            for candidate in possible_keys[: min(len(possible_keys), 10)]
         ]
 
     def attemptCrack(self, ctext: str) -> List[CrackResult]:

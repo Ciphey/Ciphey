@@ -18,6 +18,7 @@ import cipheycore
 from ciphey.iface import ParamSpec, CrackResult, T, CrackInfo, registry
 from ciphey.common import fix_case
 
+
 @registry.register
 class Caesar(ciphey.iface.Cracker[str]):
     def getInfo(self, ctext: str) -> CrackInfo:

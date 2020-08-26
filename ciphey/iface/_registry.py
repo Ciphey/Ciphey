@@ -65,7 +65,9 @@ class Registry:
             if len(args) == 0:
                 for i in input_type.__orig_bases__:
                     if module_type is not None:
-                        raise TypeError(f"Type derived from multiple registrable base classes {i} and {module_type}")
+                        raise TypeError(
+                            f"Type derived from multiple registrable base classes {i} and {module_type}"
+                        )
                     module_base = get_origin(i)
                     if module_base not in self._modules:
                         continue
@@ -75,7 +77,9 @@ class Registry:
                     if not issubclass(input_type, i):
                         continue
                     if module_type is not None:
-                        raise TypeError(f"Type derived from multiple registrable base classes {i} and {module_type}")
+                        raise TypeError(
+                            f"Type derived from multiple registrable base classes {i} and {module_type}"
+                        )
                     module_type = i
             if module_type is None:
                 raise TypeError("No registrable base class")
@@ -101,7 +105,9 @@ class Registry:
         name_target[1].add(module_type)
 
         if target is not None and issubclass(module_base, Targeted):
-            self._targets.setdefault(target, {}).setdefault(module_type, []).append(input_type)
+            self._targets.setdefault(target, {}).setdefault(module_type, []).append(
+                input_type
+            )
 
         return input_type
 
