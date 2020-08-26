@@ -10,4 +10,5 @@ from . import (
     galactic,
     base62,
     base58,
+    base58_ripple,
 )
