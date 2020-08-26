@@ -23,7 +23,7 @@ class Octal(ciphey.iface.Decoder[str, bytes]):
             # Concatted octal must be formed of octal triplets
             if len(text) % 3 != 0:
                 return None
-            octal_seq = [text[i:i+3] for i in range(0, len(text), 3)]
+            octal_seq = [text[i : i + 3] for i in range(0, len(text), 3)]
             logger.trace(f"Trying chunked octal {octal_seq}")
         try:
             for octal_char in octal_seq:
@@ -31,7 +31,9 @@ class Octal(ciphey.iface.Decoder[str, bytes]):
                     logger.trace(f"Octal subseq too long")
                     return None
                 n = int(octal_char, 8)
-                if n < 0:  # n cannot be greater than 255, as we checked that with the earlier length check
+                if (
+                    n < 0
+                ):  # n cannot be greater than 255, as we checked that with the earlier length check
                     logger.trace(f"Non octal char {octal_char}")
                     return None
                 str_converted.append(n)

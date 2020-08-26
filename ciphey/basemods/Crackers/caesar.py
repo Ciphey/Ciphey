@@ -17,6 +17,7 @@ import cipheycore
 
 from ciphey.iface import ParamSpec, CrackResult, T, CrackInfo, registry
 
+
 @registry.register
 class Caesar(ciphey.iface.Cracker[str]):
     def getInfo(self, ctext: str) -> CrackInfo:
@@ -78,8 +79,6 @@ class Caesar(ciphey.iface.Cracker[str]):
             candidates.append(CrackResult(value=translated, key_info=candidate.key))
 
         return candidates
-
-
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
