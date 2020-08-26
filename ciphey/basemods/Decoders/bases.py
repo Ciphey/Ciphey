@@ -24,7 +24,6 @@ _bases = {
     "base16": (base64.b16decode, 0.4),
     "base32": (base64.b32decode, 0.01),
     "base64": (base64.b64decode, 0.4),
-    # base58.b58decode(b'StVrDLaUATiyKyV', alphabet=base58.RIPPLE_ALPHABET)
     "base85": (base64.b85decode, 0.01),
     "ascii85": (base64.a85decode, 0.1),
 }
