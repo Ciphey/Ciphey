@@ -4,6 +4,7 @@
 from typing import Optional, Dict, List
 
 from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, WordList
+from ciphey.common import fix_case
 
 
 @registry.register
@@ -20,14 +21,7 @@ class Atbash(Decoder[str, str]):
         result = ""
         atbash_dict = {self.ALPHABET[i]: self.ALPHABET[::-1][i] for i in range(26)}
 
-        # Ensure that ciphertext is a string
-        if type(ctext) == str:
-            # Normalize the string to all-lowercase letters
-            ctext = ctext.lower()
-        else:
-            return None
-
-        for letter in ctext:
+        for letter in ctext.lower():
             if letter in atbash_dict.keys():
                 # Match every letter of the input to its atbash counterpoint
                 result += atbash_dict[letter]
@@ -35,7 +29,7 @@ class Atbash(Decoder[str, str]):
                 # If the current character is not in the defined alphabet,
                 # just accept it as-is (useful for numbers, punctuation,...)
                 result += letter
-        return result
+        return fix_case(result, ctext)
 
     @staticmethod
     def priority() -> float:
