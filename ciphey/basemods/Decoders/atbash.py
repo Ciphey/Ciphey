@@ -3,7 +3,7 @@
 
 from typing import Optional, Dict, List
 
-from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry
+from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, WordList
 
 
 @registry.register
@@ -18,8 +18,7 @@ class Atbash(Decoder[str, str]):
         """
 
         result = ""
-        letters = list("abcdefghijklmnopqrstuvwxyz")
-        atbash_dict = {letters[i]: letters[::-1][i] for i in range(26)}
+        atbash_dict = {self.ALPHABET[i]: self.ALPHABET[::-1][i] for i in range(26)}
 
         # Ensure that ciphertext is a string
         if type(ctext) == str:
@@ -45,10 +44,17 @@ class Atbash(Decoder[str, str]):
 
     def __init__(self, config: Config):
         super().__init__(config)
+        self.ALPHABET = config.get_resource(self._params()["dict"], WordList)
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
-        return None
+        return {
+            "dict": ParamSpec(
+                desc="The alphabet used for the atbash operation.",
+                req=False,
+                default="cipheydists::list::englishAlphabet",
+            )
+        }
 
     @staticmethod
     def getTarget() -> str:
