@@ -78,7 +78,7 @@ class XandY(Cracker[str]):
                     f"{delimiter} occurs {val} times and is least frequent character & probable delimiter."
                 )
                 # Remove the delimiter from the ctext and compute new cset
-                ctext.replace(delimiter, "")
+                ctext = ctext.replace(delimiter, "")
                 cset = list(set(list(ctext)))
 
             # Form both variants of the substitution
