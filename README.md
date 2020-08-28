@@ -28,10 +28,11 @@ Fully automated decryption tool using natural language processing & artifical in
 
 ## [Installation Guide](https://docs.ciphey.online/en/latest/install.html)
 
-| <p align="center"><a href="https://pypi.org/project/ciphey">🐍 Python (Universal) </a></p> |
-| ----------------------------------------------------------------------------------------- |
-| <p align="center"><img src="Pictures_for_README/python.png" /></p>                        |                       |
-| `python3 -m pip install ciphey --upgrade`                                                 | 
+| <p align="center"><a href="https://pypi.org/project/ciphey">🐍 Python | <p align="center"><a href="https://pypi.org/project/ciphey">🐋 Docker (Universal) |
+| --------------------------- | ---------------------------------|
+| <p align="center"><img src="Pictures_for_README/python.png" /></p> | <p align="center"><img src="Pictures_for_README/docker.png" /></p> |
+| `python3 -m pip install ciphey --upgrade`  | `docker run -it --rm remnux/ciphey` | 
+
 
 | Linux       | Mac OS | Windows     |
 | ----------- | ------ | ----------- |
@@ -119,9 +120,9 @@ If you're having trouble with installing Ciphey, [read this.](https://docs.ciphe
 
 ## ‼️ Important Links (Docs, Installation guide, Discord Support)
 
-| Installation Guide | Documentation | Discord |
-| ------------------ | ------------- | ------- |
-| 📖 [Installation Guide](https://docs.ciphey.online/en/latest/install.html) | 📚 [Documentation](https://docs.ciphey.online) | 🦜 [Discord](https://discord.ciphey.online)
+| Installation Guide | Documentation | Discord | Docker Image (from REMnux)
+| ------------------ | ------------- | ------- | ------- | 
+| 📖 [Installation Guide](https://docs.ciphey.online/en/latest/install.html) | 📚 [Documentation](https://docs.ciphey.online) | 🦜 [Discord](https://discord.ciphey.online) | 🐋 [Docker Documentation](https://docs.remnux.org/run-tools-in-containers/remnux-containers#ciphey)
 
 ## 🏃‍♀️Running Ciphey
 There are 3 ways to run Ciphey.
