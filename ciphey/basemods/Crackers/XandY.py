@@ -29,10 +29,9 @@ class XandY(Cracker[str]):
             logger.trace(f"Found possible solution: {ascii_text[:32]}...")
             return ascii_text
         except UnicodeDecodeError as e:
-            logger.trace("X-Y Cracker ecountered UnicodeDecodeError when trying to crack ctext.")
-            logger.trace(e)
+            logger.trace(f"X-Y Cracker ecountered UnicodeDecodeError when trying to crack ctext: {e}")
             return ""
-
+    
     @staticmethod
     def getTarget() -> str:
         return "XandY"
@@ -55,25 +54,26 @@ class XandY(Cracker[str]):
 
         # cset contains every unique value in the ctext
         cset = list(set(list(ctext)))
+        cset_len = len(cset)
 
-        if not 1 < len(cset) < 4:
+        if not 1 < cset_len < 4:
             # We only consider inputs with two or three unique values
-            logger.trace(
-                "String does not contain two or three unique values. Skipping X-Y..."
-            )
+            logger.trace("String does not contain two or three unique values. Skipping X-Y...")
             return None
 
         else:
-            logger.trace(f"String contains {len(cset)} unique values: {cset}")
+            logger.trace(f"String contains {cset_len} unique values: {cset}")
 
             # In case of three unique values, we regard the least frequent character as the delimiter
-            if len(cset) == 3:
+            if cset_len == 3:
                 # Count each unique character in the set to determine the least frequent one
                 counting_list = []
                 for char in cset:
                     counting_list.append(ctext.count(char))
-                val, idx = min((val, idx) for (idx, val) in enumerate(counting_list))
-                delimiter = cset[idx]
+                val, index = min(
+                    (val, index) for (index, val) in enumerate(counting_list)
+                )
+                delimiter = cset[index]
                 logger.trace(
                     f"{delimiter} occurs {val} times and is least frequent character & probable delimiter."
                 )
