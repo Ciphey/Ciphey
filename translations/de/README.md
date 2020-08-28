@@ -10,7 +10,7 @@
  ⬅️
 
 <br>
-  <img src="Pictures_for_README/binoculars.png" alt="Ciphey">
+  <img src="https://github.com/Ciphey/Ciphey/raw/master/Pictures_for_README/binoculars.png" alt="Ciphey">
 </p>
 
 <p align="center">
@@ -31,7 +31,7 @@ Vollautomatisiertes Entschlüsselungs-Tool, gestützt durch algorithmische Sprac
 
 | <p align="center"><a href="https://pypi.org/project/ciphey">🐍 Python | <p align="center"><a href="https://pypi.org/project/ciphey">🐋 Docker (Universell) |
 | --------------------------- | ---------------------------------|
-| <p align="center"><img src="Pictures_for_README/python.png" /></p> | <p align="center"><img src="Pictures_for_README/docker.png" /></p> |
+| <p align="center"><img src="https://github.com/Ciphey/Ciphey/raw/master/Pictures_for_README/python.png" /></p> | <p align="center"><img src="https://github.com/Ciphey/Ciphey/raw/master/Pictures_for_README/docker.png" /></p> |
 | `python3 -m pip install ciphey --upgrade`  | `docker run -it --rm remnux/ciphey` | 
 
 
@@ -51,7 +51,7 @@ Das ist die Frage. Auch wenn die Art der Verschlüsselung unbekannt ist (und led
 Ciphey hat in den meisten Fällen nach circa 3 Sekunden eine Lösung parat.
 
 <p align="center" href="https://asciinema.org/a/336257">
-  <img src="Pictures_for_README/index.gif" alt="Ciphey demo">
+  <img src="https://github.com/Ciphey/Ciphey/raw/master/Pictures_for_README/index.gif" alt="Ciphey demo">
 </p>
 
 **Der technische Teil.** In Ciphey kommt ein maßgeschneidertes KI-Modul (_AuSearch_) mit Verschlüsselungserkennung (_Cipher Detection Interface_) zum Einsatz, das abschätzen kann, mit welcher Methode etwas verschlüsselt wurde. Daraufhin prüft ein dediziertes Spracherkennungs-Interface (_Language Checker Interface_), ob es sich bei dem nun entschlüsselten Text um Klartext handelt.
@@ -79,8 +79,8 @@ Und das ist erst die Spitze des Eisbergs! Eine vollständige technische Erkläru
   </tr>
   <tr>
   <th>Gif</th>
-    <td><img src="Pictures_for_README/ciphey_gooder_cyberchef.gif" alt="Der Typ, bei dem sie meint, du sollst dir keine Sorgen machen."></td>
-    <td><img src="Pictures_for_README/not_dying.gif" alt="Du"></td>
+    <td><img src="https://github.com/Ciphey/Ciphey/raw/master/Pictures_for_README/ciphey_gooder_cyberchef.gif" alt="Der Typ, bei dem sie meint, du sollst dir keine Sorgen machen."></td>
+    <td><img src="https://github.com/Ciphey/Ciphey/raw/master/Pictures_for_README/not_dying.gif" alt="Du"></td>
   </tr>
   <tr>
   <th>Zeit</th>
