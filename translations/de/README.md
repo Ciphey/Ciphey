@@ -131,7 +131,7 @@ Es gibt 3 Möglichkeiten, Ciphey auszuführen:
 2. Unqualifizierter Input `ciphey -- "Verschlüsselter Input"`
 3. Standard `ciphey -t "Verschlüsselter Input"`
 
-![GIF zeigt drei Möglichkeiten, Ciphey auszuführen.](Pictures_for_README/3ways.gif)
+![GIF zeigt drei Möglichkeiten, Ciphey auszuführen.](https://github.com/Ciphey/Ciphey/raw/lukas-add-german-docs/Pictures_for_README/3ways.gif)
 
 Um die Fortschrittsanzeige, Wahrscheinlichkeitstabelle und andere Anzeigen loszuwerden, kann Ciphey im *Quiet Mode* ausgeführt werden:
 
