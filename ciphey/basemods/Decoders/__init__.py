@@ -11,4 +11,5 @@ from . import (
     base62,
     base58,
     base58_ripple,
+    base91,
 )
