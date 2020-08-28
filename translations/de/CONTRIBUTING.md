@@ -2,7 +2,7 @@ Hallo!
 
 Du hast also Interesse daran, etwas zu Ciphey beizutragen? 🤔
 
-Vielleicht ist Dir nicht ganz klar, wo Du am besten anfangen sollst. Oder vielleicht denkst Du, Deine Programmierfähigkeiten seien "nicht gut genug". Was letzteres angeht - totaler Unsinn! Uns macht "schlechter Code" rein gar nichts aus. Ganz davon abgesehen spricht die Tatsache, dass Du dieses Dokument liest dafür, dass Du ein hervorragender Programmierer bist. Schließlich nehmen nur die wenigsten Anfänger an GitHub-Projekten teil. 😉
+Vielleicht ist Dir nicht ganz klar, wo Du am besten anfangen sollst. Oder vielleicht denkst Du, Deine Programmierfähigkeiten seien "nicht gut genug". Was letzteres angeht - totaler Unsinn! Uns macht "schlechter Code" rein gar nichts aus. Ganz davon abgesehen spricht die Tatsache, dass Du dieses Dokument liest dafür, dass Du eine hervorragende Programmiererin/ein hervorragender Programmierer bist. Schließlich nehmen nur die wenigsten Anfänger\*innen an GitHub-Projekten teil. 😉
 
 Hier sind ein paar Möglichkeiten, wie Du etwas beitragen kannst:
 * Füge eine neue Sprache hinzu 🧏
@@ -15,7 +15,7 @@ Wenn das alles etwas schwer klingt, keine Sorge! Dieses Dokument begeleitet dich
 Zu guter Letzt sind wir Dir natürlich auch noch unheimlich dankbar! 🙏
 
 
-Wir haben einen Discord-Server, in dem Du Kontakt zu den Entwicklern aufnehmen und Hilfe erhalten kannst. Alternativ kannst Du ein GitHub-Issue mit deinem Vorschlag eröffnen. 
+Wir haben einen Discord-Server, in dem Du Kontakt zu den Entwicklerinnen & Entwicklern aufnehmen und Hilfe erhalten kannst. Alternativ kannst Du ein GitHub-Issue mit deinem Vorschlag eröffnen. 
 
 [Discord-Server](https://discord.gg/KfyRUWw)
 # Wie kann Ich beitragen?
