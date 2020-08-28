@@ -30,6 +30,7 @@ Selbstverständlich werden wir Dich in der Liste der Mitwirkenden für Deine har
 
 ### Anmerkung für Deutschsprachige:
 Falls Du Hilfe dabei brauchst, die noch nicht übersetzten Teile der englischen Dokumentation zu lesen - oder deine Codekommentare lieber auf Deutsch schreibst - stehe ich Dir gerne für die Übersetzung zur Seite: [@lukasgabriel auf GitHub](https://github.com/lukasgabriel) oder [@flyomotive auf Twitter](https://twitter.com/flyomotive) und im Discord.
+Die deutsche Vereinbarung über den Verhaltenskodex der Mitwirkenden [findest Du hier](translations\de\CODE_OF_CONDUCT.de.md).
 
 # Eine neue Sprache hinzufügen 🧏
 Die default-Spracherkennung `brandon` funktioniert mit mehreren Sprachen.
