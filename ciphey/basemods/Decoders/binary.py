@@ -44,7 +44,7 @@ class Binary(ciphey.iface.Decoder[str, bytes]):
             # Remove final bit of whitespace
             text = text.replace(" ", "")
             # Split into bytes, and test
-            return self.try_split([text[i:i+8] for i in range(0, len(text), 8)])
+            return self.try_split([text[i : i + 8] for i in range(0, len(text), 8)])
         # Catch bad octal chars
         except ValueError:
             return None

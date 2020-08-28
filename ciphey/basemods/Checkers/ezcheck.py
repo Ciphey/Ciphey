@@ -43,9 +43,6 @@ class EzCheck(Checker[str]):
         # Finally, the Brandon checker, as it is the slowest
         self.checkers.append(config(Brandon))
 
-
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
         pass
-
-

@@ -10,6 +10,7 @@ locations = "ciphey/", "tests/", "docs/"
 nox.options.sessions = "safety", "tests"
 package = "ciphey"
 
+
 def install_with_constraints(session: Session, *args: str, **kwargs: Any) -> None:
     """Install packages constrained by Poetry's lock file.
     This function is a wrapper for nox.sessions.Session.install. It

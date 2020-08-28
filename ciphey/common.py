@@ -1,5 +1,6 @@
 """Some useful adapters"""
-from typing import Any
+from typing import Any, List
+import inspect
 
 import cipheycore
 
@@ -11,10 +12,9 @@ def id_lambda(value: Any):
     return lambda *args: value
 
 
-def cached_freq_analysis(ctext, config):
-    base = config.objs.setdefault("cached_freq_analysis", ctext)
-    res = base.get("cached_freq_analysis")
-    if res is not None:
-        return res
-
-    base["cached_freq_analysis"] = cipheycore.analyse_string(ctext)
+def fix_case(target: str, base: str) -> str:
+    """Returns the lower-case string target with the case of base"""
+    ret = ''.join([target[i].upper() if base[i].isupper() else target[i] for i in range(len(target))])
+    # print([base[i].isupper() for i in range(len(target))])
+    # print(ret)
+    return ''.join([target[i].upper() if base[i].isupper() else target[i] for i in range(len(target))])
