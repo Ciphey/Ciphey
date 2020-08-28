@@ -1,49 +1,55 @@
-Howdy! 
+Hallo! 
 
-So, you're interested in contributing to Ciphey? 🤔
+Du hast also Interesse daran, etwas zu Ciphey beizutragen? 🤔
 
-But maybe you're confused as to where to start, or you believe your coding skills aren't "good enough". Well, for the latter - that's ridiculous! We're perfectly okay with "bad code", and even then, if you're reading this document you're probably a great programmer. I mean, newbies don't often learn to contribute to GitHub projects 😉
+Vielleicht ist Dir nicht ganz klar, wo Du am besten anfangen sollst. Oder vielleicht denkst Du, Deine Programmierfähigkeiten seien "nicht gut genug". Was letzteres angeht - totaler Unsinn! Uns macht "schlechter Code" rein gar nichts aus. Ganz davon abgesehen spricht die Tatsache, dass Du dieses Dokument liest dafür, dass Du ein hervorragender Programmierer bist. Schließlich nehmen nur die wenigsten Anfänger an GitHub-Projekten teil. 😉
 
-Here are some ways you can contribute to Ciphey:
-* Add a new language 🧏
-* Add more encryption methods 📚
-* Create more documentation (very important‼️  We would be eternally grateful)
-* Fix bugs submitted via GitHub issues (we can support you in this 😊)
-* Refactor the code base 🥺
+Hier sind ein paar Möglichkeiten, wie Du etwas beitragen kannst:
+* Füge eine neue Sprache hinzu 🧏
+* Entwickle eine neue Entschüsselungsmethode, die uns bisher noch fehlt. 📚 [siehe hier für die Liste](https://github.com/Ciphey/Ciphey/issues/63)
+* Erstelle mehr Dokumentation (sehr wichtig‼️  Wir wären Dir ewig dankbar)
+* Behebe Bugs, die in GitHub Issues eingereicht wurden (wir können Dich hierbei unterstützen 😊)
+* Unsere Codebase refaktorisieren 🥺
 
-If these sound hard, do not worry! This document will walk you through exactly how to achieve any of these. And also.... Your name will be added to Ciphey's contributors list, and we'll be eternally grateful! 🙏
+Wenn das alles etwas schwer klingt, keine Sorge! Dieses Dokument begeleitet dich Schritt-für-Schritt bis zum Erfolg. Außerdem.... Dein Name wird zu Cipheys Liste der Mitwirkenden hinzugefügt! 
+Zu guter Letzt sind wir Dir natürlich auch noch unheimlich dankbar! 🙏
 
 
-We have a small Discord chat for you to talk to the developers and get some help. Alternatively, write a GitHub issue for your suggestion. If you want to be added to the Discord, DM us or ask us somehow.
+Wir haben einen Discord-Server, in dem Du Kontakt zu den Entwicklern aufnehmen und Hilfe erhalten kannst. Alternativ kannst Du ein GitHub-Issue mit deinem Vorschlag eröffnen. 
 
-[Discord Server](https://discord.gg/KfyRUWw)
-# How to contribute
-Ciphey is always in need of more decryption tools! To learn how to integrate code into ciphey, check out:
-* https://docs.ciphey.online/en/latest/makingCiphers.html for a simple tutorial
-* https://docs.ciphey.online/en/latest/extending.html for a API reference
+[Discord-Server](https://discord.gg/KfyRUWw)
+# Wie kann Ich beitragen?
+Ciphey braucht immer neue Entschlüsselungsmodule! Um herauszufinden, wie Du Deinen Code in Ciphey integrieren kannst, schau hier rein:
+* https://docs.ciphey.online/en/latest/makingCiphers.html für eine einfache Anleitung.
+* https://docs.ciphey.online/en/latest/extending.html für die API-Reference.
 
-It'd be nice if you wrote some tests for it, by simply copying a function in the Ciphey/tests/test_main.py and replacing the ciphertext with something encoded with your cipher. If you don't add tests, we will probably still merge it, but it will be much harder for us to diagnose bugs!
+Es wäre toll, wenn Du ein paar Tests für Deinen Code schreiben könntest. Das ist ganz einfach: 
+Kopiere Deine Funktion nach Ciphey/tests/test_main.py und ersetze den `ciphertext` mit etwas, das mit Deiner Methode verschlüsselt wurde. Wir werden wahrscheinlich auch Code ohne Tests mergen, dieser ist aber schwerer zu debuggen.
 
-It goes without saying that we will add you to the list of contributors for your hard work!
+Selbstverständlich werden wir Dich in der Liste der Mitwirkenden für Deine harte Arbeit würdigen!
 
-# Add a new language 🧏
-The default language checker, `brandon`, works with multiple languages. Now, this may sound daunting.
-But honestly, all you've got to do is take a dictionary, do a little analysis (we've written code to help you with this), add the dictionaries and analysis to a repo. And then add the option to `settings.yml`.
+### Anmerkung für Deutschsprachige:
+Falls Du Hilfe dabei brauchst, die noch nicht übersetzten Teile der englischen Dokumentation zu lesen - oder deine Codekommentare lieber auf Deutsch schreibst - stehe ich Dir gerne für die Übersetzung zur Seite: [@lukasgabriel auf GitHub](https://github.com/lukasgabriel) oder [@flyomotive auf Twitter](https://twitter.com/flyomotive) und im Discord.
 
-# Create more documentation
-Documentation is the most important part of Ciphey. No documentation is extreme code debt, and we don't want that. 
+# Eine neue Sprache hinzufügen 🧏
+Die default-Spracherkennung `brandon` funktioniert mit mehreren Sprachen.
+Obwohl es vielleicht etwas kompliziert klingt, ist es ganz einfach, eine Sprache hinzuzufügen:
+Du brauchst nur ein Wörterbuch der Sprache, das Du mithilfe eines unserer Tools analysierst. Danach fügst Du das Wörterbuch und die Analyse unserem Repository hinzu. Zuletzt fügst Du die Sprachoption der `settings.yml` hinzu.
 
-And trust me when I say, if you contribute to great documentation you will be seen on the same level as code contributors. Documentation is absolutely vital.
+# Erstelle Dokumentation
+Die Dokumentation ist der wichtigste Teil von Ciphey. Fehlende Dokumentation stellt eine enorme [technische Schuld](https://de.wikipedia.org/wiki/Technische_Schulden) dar - welche wir natürlich vermeiden wollen.
 
-There's lots of ways you can add documentation.
-* Doc strings in the code
-* Improving our current documentation (README, this file, our Read The Docs pages)
-* Translating documentation
+Eins ist sicher: Wenn Du gute Dokumentation beiträgst, wirst Du genauso geschätzt wie alle, die guten Code beitragen! Code zu dokumentieren ist absolut überlebenswichtig für jedes Projekt.
 
-And much more!
+Es gibt viele Wege, zur Dokumentation beizutragen:
+* Docstrings direkt im Code
+* Verbesserung unserer bisherigen Dokumentation (READMEs, Contrib-Datei, unsere *Read The Docs* Seiten,...)
+* Übersetzung von Dokumentation
 
-# Fix Bugs
-Visit our GitHub issues page to find all the bugs Ciphey has! And squash them, you'll be added to the contributors list ;)
+Und viele weitere!
 
-# Refacor the code base
-Not all of Ciphey follows PEP8, and some of the code is repeated.
+# Bugs beheben
+Besuche unsere GitHub Issues, um zu sehen, welche Bugs momentan vorliegen. Wenn Du Bugs behebst, kommst Du selbstverständlich auf die Liste der Mitwirkenden ;-)
+
+# Die Codebase refaktorisieren
+PEP8 wird nicht von unserem gesamten Code eingehalten - und viele Teile des Codes bestehen doppelt.
