@@ -135,12 +135,7 @@ def print_help(ctx):
     type=bool,
     is_flag=True,
 )
-@click.option(
-    "-f",
-    "--file",
-    type=click.File("rb"),
-    required=False
-)
+@click.option("-f", "--file", type=click.File("rb"), required=False)
 @click.argument("text_stdin", callback=get_name, required=False)
 def main(**kwargs):
     """Ciphey - Automated Decryption Tool
@@ -177,7 +172,9 @@ def main(**kwargs):
     if "appdirs" in kwargs and kwargs["appdirs"]:
         dirs = AppDirs("Ciphey", "Ciphey")
         path_to_config = dirs.user_config_dir
-        print(f"The settings.yml file should be at {os.path.join(path_to_config, 'settings.yml')}")
+        print(
+            f"The settings.yml file should be at {os.path.join(path_to_config, 'settings.yml')}"
+        )
         return None
 
     # Now we create the config object

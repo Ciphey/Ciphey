@@ -34,5 +34,3 @@ class JsonChecker(Checker[str]):
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
         pass
-
-
