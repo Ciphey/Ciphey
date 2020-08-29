@@ -129,8 +129,7 @@ def test_new_line_at_start_returns():
 
 def test_base58_normal():
     res = decrypt(
-        Config().library_default().complete_config(),
-        "6qYhNwsP46Mn4gy6gyANfsMm2icAxGFA6gnFjVm9phYHeby7PZm3vthiXxSU77teQgTFGbHETn",
+        Config().library_default().complete_config(), "6qYhNwsP46Mn4gy6gyANfsMm2icAxGFA6gnFjVm9phYHeby7PZm3vthiXxSU77teQgTFGbHETn"
     )
     # res = res.decode("utf-8")
     assert res.lower() == answer_str.lower()
@@ -142,4 +141,11 @@ def test_base62():
         Config().library_default().complete_config(), ".3vQº·îP=.ã.ÿîÌ¤U¤.[hù>.Ñü.¨zj{D"
     )
     res = res.decode("utf-8")
+    assert res.lower() == answer_str.lower()
+
+@pytest.mark.skip(reason="This test appears to run infiniitely.")
+def test_base91():
+    res = decrypt(
+        Config().library_default().complete_config(), """>OwJh>=/fV@$x88j9ZNKB*ge$yV%lE%ZKi,<d,TX2$0t,,cjPD@JY<UCHRWznuWoQPD"""
+    )
     assert res.lower() == answer_str.lower()
