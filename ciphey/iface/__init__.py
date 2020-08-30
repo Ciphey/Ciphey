@@ -14,6 +14,7 @@ from ._modules import (
     ParamSpec,
     WordList,
     Distribution,
+    Translation,
     T,
     U,
     pretty_search_results,

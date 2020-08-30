@@ -3,7 +3,7 @@
 
 from typing import Optional, Dict, List
 
-from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, WordList
+from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, Translation
 from loguru import logger
 
 
@@ -65,7 +65,7 @@ class Galactic(Decoder[str, str]):
 
     def __init__(self, config: Config):
         super().__init__(config)
-        self.GALACTIC_DICT = config.get_resource(self._params()["dict"], WordList)
+        self.GALACTIC_DICT = config.get_resource(self._params()["dict"], Translation)
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
