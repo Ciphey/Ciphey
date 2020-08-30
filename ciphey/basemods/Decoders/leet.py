@@ -16,6 +16,7 @@ class Leet(ciphey.iface.Decoder[str, str]):
         for src, dst in self.translate.items():
             text = text.replace(src, dst)
         return text
+
     @staticmethod
     def getParams() -> Optional[Dict[str, Dict[str, Any]]]:
         pass
