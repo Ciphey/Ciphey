@@ -22,7 +22,7 @@ class Leet(ciphey.iface.Decoder[str, str]):
 
     @staticmethod
     def priority() -> float:
-        return 0.015
+        return 0.05
 
     def __init__(self, config: ciphey.iface.Config):
         super().__init__(config)
