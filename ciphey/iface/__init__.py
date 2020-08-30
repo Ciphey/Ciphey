@@ -7,7 +7,7 @@ from ._modules import \
     Searcher, SearchResult, SearchLevel, \
     ResourceLoader, \
     ParamSpec, \
-    WordList, Distribution, \
+    WordList, Distribution, Translation, \
     T, U, \
     pretty_search_results
 
