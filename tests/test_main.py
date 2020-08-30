@@ -110,12 +110,14 @@ def test_XandY():
     )
     assert res.lower() == answer_str.lower()
 
+
 def leet():
     res = decrypt(
         Config().library_default().complete_config(),
         "|-|3770 my nam3 is 833 and 1 lIke D06 AND 4|>|>13 4 7R33",
     )
     assert res.lower() == answer_str
+
 
 def test_new_line_strip_and_return():
     # Language Checker should return True by stripping new line
@@ -135,23 +137,24 @@ def test_new_line_at_start_returns():
 
 def test_base58_normal():
     res = decrypt(
-        Config().library_default().complete_config(), "6qYhNwsP46Mn4gy6gyANfsMm2icAxGFA6gnFjVm9phYHeby7PZm3vthiXxSU77teQgTFGbHETn"
+        Config().library_default().complete_config(),
+        "6qYhNwsP46Mn4gy6gyANfsMm2icAxGFA6gnFjVm9phYHeby7PZm3vthiXxSU77teQgTFGbHETn",
     )
     # res = res.decode("utf-8")
     assert res.lower() == answer_str.lower()
 
 
-@pytest.mark.skip(reason="This test appears to run infiniitely.")
 def test_base62():
     res = decrypt(
-        Config().library_default().complete_config(), ".3vQº·îP=.ã.ÿîÌ¤U¤.[hù>.Ñü.¨zj{D"
+        Config().library_default().complete_config(),
+        "2mQvnz9Yevvb7DRCuyDltsP31vJLToR5pjE9orWkzHMUsht2kbC96PLbZ1sdIocsGHENrzC2n",
     )
-    res = res.decode("utf-8")
     assert res.lower() == answer_str.lower()
 
-@pytest.mark.skip(reason="This test appears to run infiniitely.")
+
 def test_base91():
     res = decrypt(
-        Config().library_default().complete_config(), """>OwJh>=/fV@$x88j9ZNKB*ge$yV%lE%ZKi,<d,TX2$0t,,cjPD@JY<UCHRWznuWoQPD"""
+        Config().library_default().complete_config(),
+        ">OwJh>=/fV@$x88j9ZNKB*ge$yV%lE%ZKi,<d,TX2$0t,,cjPD@JY<UCHRWznuWoQPD",
     )
     assert res.lower() == answer_str.lower()
