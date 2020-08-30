@@ -110,6 +110,12 @@ def XandY():
     )
     assert res == answer_str
 
+def leet():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "|-|3770 my nam3 is 833 and 1 lIke D06 AND 4|>|>13 4 7R33",
+    )
+    assert res.lower() == answer_str
 
 def test_new_line_strip_and_return():
     # Language Checker should return True by stripping new line
