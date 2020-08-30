@@ -73,7 +73,8 @@
       "profile": "https://lukasgabriel.net",
       "contributions": [
         "code",
-        "bug"
+        "bug",
+        "translation"
       ]
     },
     {
@@ -83,6 +84,15 @@
       "profile": "https://github.com/DarshanBhoi",
       "contributions": [
         "bug"
+      ]
+    },
+    {
+      "login": "SkeletalDemise",
+      "name": "SkeletalDemise",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/29117662?v=4",
+      "profile": "https://github.com/SkeletalDemise",
+      "contributions": [
+        "code"
       ]
     }
   ],

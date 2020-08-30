@@ -1,6 +1,7 @@
 # community
 # by https://github.com/lukasgabriel
 
+import re
 from distutils import util
 from typing import Optional, Dict, Union, Set, List
 from loguru import logger
@@ -27,39 +28,66 @@ class XandY(Cracker[str]):
             ascii_text = binary_array.decode()
             logger.trace(f"Found possible solution: {ascii_text[:32]}...")
             return ascii_text
-        except UnicodeDecodeError:
+        except UnicodeDecodeError as e:
+            logger.trace(f"X-Y Cracker ecountered UnicodeDecodeError when trying to crack ctext: {e}")
             return ""
-
+    
     @staticmethod
     def getTarget() -> str:
         return "XandY"
 
     def attemptCrack(self, ctext: str) -> List[CrackResult]:
         """
-        Checks an input if it only consists of two different letters.
-        If this is the case, it attempts to regard those two letters as
-        0 and 1 and then converts it to ascii text.
+        Checks an input if it only consists of two or three different letters.
+        If this is the case, it attempts to regard those letters as
+        0 and 1 (with the third characters as an optional delimiter) and then 
+        converts it to ascii text.
         """
         logger.trace("Attempting X-Y replacement.")
         variants = []
         candidates = []
         result = []
-        ctext = ctext.lower().replace(" ", "").strip()
 
-        # cset contains every unique value in the cstring
+        # Convert the ctext to all-lowercase and regex-match & replace all whitespace
+        ctext = ctext.lower()
+        ctext = re.sub(r"\s+", "", ctext, flags=re.UNICODE)
+
+        # cset contains every unique value in the ctext
         cset = list(set(list(ctext)))
-        if len(cset) != 2:
-            # We only consider inputs with exactly two unique values
-            logger.trace("String contains more than two unique values. Skipping X-Y...")
+        cset_len = len(cset)
+
+        if not 1 < cset_len < 4:
+            # We only consider inputs with two or three unique values
+            logger.trace("String does not contain two or three unique values. Skipping X-Y...")
             return None
+
         else:
-            logger.trace(f"String contains two unique values: {cset[0], cset[1]}")
+            logger.trace(f"String contains {cset_len} unique values: {cset}")
+
+            # In case of three unique values, we regard the least frequent character as the delimiter
+            if cset_len == 3:
+                # Count each unique character in the set to determine the least frequent one
+                counting_list = []
+                for char in cset:
+                    counting_list.append(ctext.count(char))
+                val, index = min(
+                    (val, index) for (index, val) in enumerate(counting_list)
+                )
+                delimiter = cset[index]
+                logger.trace(
+                    f"{delimiter} occurs {val} times and is least frequent character & probable delimiter."
+                )
+                # Remove the delimiter from the ctext and compute new cset
+                ctext = ctext.replace(delimiter, "")
+                cset = list(set(list(ctext)))
+
             # Form both variants of the substitution
             for i in range(2):
                 if i:
                     variants.append(ctext.replace(cset[0], "1").replace(cset[1], "0"))
                 else:
                     variants.append(ctext.replace(cset[0], "0").replace(cset[1], "1"))
+
             # Apply function to both variants and strip stray NULL characters
             for variant in variants:
                 candidates.append(self.binary_to_ascii(variant).strip("\x00"))
@@ -67,6 +95,7 @@ class XandY(Cracker[str]):
                 if candidate != "":
                     keyinfo = f"{cset[0]} -> {i} & {cset[1]} -> {str(int(not i))}"
                     result.append(CrackResult(value=candidate, key_info=keyinfo))
+                    logger.trace(f"X-Y cracker - Returning results: {result}")
                     return result
 
     @staticmethod

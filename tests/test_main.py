@@ -103,12 +103,12 @@ def test_galactic_Xproblem():
     assert res.lower() == "oxford the x is in the middle thats why it fails"
 
 
-def XandY():
+def test_XandY():
     res = decrypt(
         Config().library_default().complete_config(),
         "xDDxDxxx xDDxxDxD xDDxDDxx xDDxDDxx xDDxDDDD xxDxxxxx xDDxDDxD xDDDDxxD xxDxxxxx xDDxDDDx xDDxxxxD xDDxDDxD xDDxxDxD xxDxxxxx xDDxDxxD xDDDxxDD xxDxxxxx xDDxxxDx xDDxxDxD xDDxxDxD xxDxxxxx xDDxxxxD xDDxDDDx xDDxxDxx xxDxxxxx xDxxDxxD xxDxxxxx xDDxDDxx xDDxDxxD xDDxDxDD xDDxxDxD xxDxxxxx xDDxxDxx xDDxDDDD xDDxxDDD xxDxxxxx xDDxxxxD xDDxDDDx xDDxxDxx xxDxxxxx xDDxxxxD xDDDxxxx xDDDxxxx xDDxDDxx xDDxxDxD xxDxxxxx xDDxxxxD xDDxDDDx xDDxxDxx xxDxxxxx xDDDxDxx xDDDxxDx xDDxxDxD xDDxxDxD",
     )
-    assert res == answer_str
+    assert res.lower() == answer_str.lower()
 
 def leet():
     res = decrypt(
@@ -132,3 +132,26 @@ def test_new_line_at_start_returns():
 
     assert res.lower() == "\npass\n"
 
+
+def test_base58_normal():
+    res = decrypt(
+        Config().library_default().complete_config(), "6qYhNwsP46Mn4gy6gyANfsMm2icAxGFA6gnFjVm9phYHeby7PZm3vthiXxSU77teQgTFGbHETn"
+    )
+    # res = res.decode("utf-8")
+    assert res.lower() == answer_str.lower()
+
+
+@pytest.mark.skip(reason="This test appears to run infiniitely.")
+def test_base62():
+    res = decrypt(
+        Config().library_default().complete_config(), ".3vQº·îP=.ã.ÿîÌ¤U¤.[hù>.Ñü.¨zj{D"
+    )
+    res = res.decode("utf-8")
+    assert res.lower() == answer_str.lower()
+
+@pytest.mark.skip(reason="This test appears to run infiniitely.")
+def test_base91():
+    res = decrypt(
+        Config().library_default().complete_config(), """>OwJh>=/fV@$x88j9ZNKB*ge$yV%lE%ZKi,<d,TX2$0t,,cjPD@JY<UCHRWznuWoQPD"""
+    )
+    assert res.lower() == answer_str.lower()

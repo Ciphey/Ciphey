@@ -1,4 +1,5 @@
 from ciphey.basemods.Checkers.brandon import Brandon
+
 config = dict()
 lc = config["checker"](config)
 import unittest

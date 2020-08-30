@@ -43,7 +43,7 @@ mewakili sebuah proyek atau komunitas termasuk dalam menggunakan alamat email re
 ## Penegakan
 
 Kejadian perilaku kasar, pelecehan, atau tidak dapat diterima yang terjadi
-dapat dilaporkan kepada tim inti proyek di [INSERT EMAIL ADDRESS]. Semua keluhan
+dapat dilaporkan kepada tim inti proyek di brandon_skerrit. Semua keluhan
 akan ditinjau, diselidiki dan akan menghasilkan tanggapan yang dianggap perlu
 dan sesuai dengan keadaan. Tim inti proyek berkewajiban menjaga kerahasiaan pelapor yang berkenaan dengan pelaporan suatu insiden. Rincian lebih lanjut tentang kebijakan penegakan khusus akan dipublikasikan secara terpisah.
 
