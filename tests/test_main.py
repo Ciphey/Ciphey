@@ -140,7 +140,14 @@ def test_base58_normal():
         Config().library_default().complete_config(),
         "6qYhNwsP46Mn4gy6gyANfsMm2icAxGFA6gnFjVm9phYHeby7PZm3vthiXxSU77teQgTFGbHETn",
     )
-    # res = res.decode("utf-8")
+    assert res.lower() == answer_str.lower()
+
+
+def test_base58_ripple():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "aqY64A1PhaM8hgyagyw4C1Mmp5cwxGEwag8EjVm9F6YHebyfPZmsvt65XxS7ffteQgTEGbHNT8",
+    )
     assert res.lower() == answer_str.lower()
 
 
