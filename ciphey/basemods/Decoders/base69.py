@@ -1,6 +1,6 @@
-# community
 # by https://github.com/lukasgabriel
 # translated to Python and adapted for Ciphey from the JS original at https://github.com/pshihn/base69
+
 
 from math import floor, ceil
 
@@ -11,13 +11,12 @@ from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry
 
 @registry.register
 class Base69(Decoder[str, str]):
-
     def chars_to_byte(self, s: str):
         return (69 * self.CHARS.index(s[1])) + (self.CHARS.index(s[0]))
 
     def decode_chunk(self, s: str):
         padded_bytes = s.endswith("=")
-        
+
         decoded = [0 for _ in range(8)]
         for i in range(8):
             decoded[i] = (
@@ -32,7 +31,6 @@ class Base69(Decoder[str, str]):
             t2 = decoded[i + 1] >> (7 - i - 1)
             result[i] = t1 | t2
         return result
-
 
     def decode(self, ctext: T) -> Optional[U]:
         """
@@ -59,14 +57,15 @@ class Base69(Decoder[str, str]):
                     result[n + i * 7] = elem % 256
         return bytearray(result).decode()
 
-
     @staticmethod
     def priority() -> float:
         # Not expected to show up often, but also very fast to check.
         return 0.05
 
     def __init__(self, config: Config):
-        self.CHARS = list('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/-*<>|') # To be moved to CipheyDists
+        self.CHARS = list(
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/-*<>|"
+        )  # To be moved to CipheyDists
         super().__init__(config)
 
     @staticmethod
