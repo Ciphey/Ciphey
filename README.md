@@ -4,7 +4,7 @@ Translations <br>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/de/README.md>🇩🇪 DE   </a>
  <br><br>
 ➡️ 
-<a href="https://docs.ciphey.online">Documentation</a> |
+<a href="https://github.com/Ciphey/Ciphey/wiki">Documentation</a> |
 <a href="https://discord.ciphey.online">Discord</a> |
  <a href="https://docs.ciphey.online/en/latest/install.html">Installation Guide</a>
  ⬅️
@@ -56,7 +56,7 @@ Ciphey can solve most things in 3 seconds or less.
 
 **The technical part.** Ciphey uses a custom built artifical intelligence module (_AuSearch_) with a _Cipher Detection Interface_ to approximate what something is encrypted with. And then a custom-built, customisable natural languge processing _Language Checker Interface_, which can detect when the given text becomes plaintext.
 
-And that's just the tip of the iceberg. For the full technical explanation, check out our [documentation](https://docs.ciphey.online/en/latest).
+And that's just the tip of the iceberg. For the full technical explanation, check out our [documentation](https://github.com/Ciphey/Ciphey/wiki).
 
 # ✨ Features
 
@@ -123,7 +123,7 @@ If you're having trouble with installing Ciphey, [read this.](https://docs.ciphe
 
 | Installation Guide | Documentation | Discord | Docker Image (from REMnux)
 | ------------------ | ------------- | ------- | ------- | 
-| 📖 [Installation Guide](https://docs.ciphey.online/en/latest/install.html) | 📚 [Documentation](https://docs.ciphey.online) | 🦜 [Discord](https://discord.ciphey.online) | 🐋 [Docker Documentation](https://docs.remnux.org/run-tools-in-containers/remnux-containers#ciphey)
+| 📖 [Installation Guide](https://github.com/Ciphey/Ciphey/wiki/Installation) | 📚 [Documentation](https://github.com/Ciphey/Ciphey/wiki) | 🦜 [Discord](https://discord.ciphey.online) | 🐋 [Docker Documentation](https://docs.remnux.org/run-tools-in-containers/remnux-containers#ciphey)
 
 ## 🏃‍♀️Running Ciphey
 There are 3 ways to run Ciphey.
@@ -143,19 +143,19 @@ For a full list of arguments, run `ciphey --help`.
 You can import Ciphey\'s main and use it in your own programs and code. `from Ciphey.__main__ import main`
 
 # 🎪 Contributors
-Ciphey was invented by [Brandon Skerritt](https://github.com/brandonskerritt) in 2008, and revived in 2019. Ciphey wouldn't be where it was today without [Cyclic3](https://github.com/Cyclic3) - president of UoL's Cyber Security Society.
+Ciphey was invented by [Brandon](https://github.com/brandonskerritt) in 2008, and revived in 2019. Ciphey wouldn't be where it was today without [Cyclic3](https://github.com/Cyclic3) - president of UoL's Cyber Security Society.
 
 Ciphey was revived & recreated by the [Cyber Security Society](https://www.cybersoc.cf/) for use in CTFs. If you're ever in Liverpool, consider giving a talk or sponsoring our events. Email us at `cybersecurity@society.liverpoolguild.org` to find out more 🤠
 
 **Major Credit** to George H for working out how we could use proper algorithms to speed up the search process.
 **Special thanks** to [varghalladesign](https://www.facebook.com/varghalladesign) for designing the logo. Check out their other design work!
 
-## 🐕‍🦺 [Contributing](CONTRIBUTING.md)
+## 🐕‍🦺 [Contributing](https://github.com/Ciphey/Ciphey/wiki/Contributing)
 Don't be afraid to contribute! We have many, many things you can do to help out. Each of them labelled and easily explained with examples. If you're trying to contribute but stuck, tag @brandonskerritt in the GitHub issue ✨
 
-Alternatively, join the Discord group and send a message there (link in [contrib file](CONTRIBUTING.md)) or at the top of this README as a badge.
+Alternatively, join the Discord group and send a message there (link in [contrib file](https://github.com/Ciphey/Ciphey/wiki/Contributing)) or at the top of this README as a badge.
 
-Please read the [contributing file](CONTRIBUTING.md) for exact details on how to contribute ✨
+Please read the [contributing file](https://github.com/Ciphey/Ciphey/wiki/Contributing) for exact details on how to contribute ✨
 ## 💰 Financial Contributors
 The contributions will be used to fund not only the future of Ciphey and its authors, but also Cyber Security Society at the University of Liverpool.
 
