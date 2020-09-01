@@ -55,7 +55,7 @@ class Base69(Decoder[str, str]):
                 insert = self.decode_chunk(chunk_string)
                 for n, elem in enumerate(insert):
                     result[n + i * 7] = elem % 256
-        return bytearray(result).decode()
+        return bytearray(result).decode().strip("\x00")
 
     @staticmethod
     def priority() -> float:
