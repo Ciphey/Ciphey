@@ -144,7 +144,7 @@ def test_base69():
     assert res == answer_str
 
 
-@pytest.mark.skip(reason="This test appears to run infiniitely.")
+@pytest.mark.skip(reason="This test appears to run infinitely.")
 def test_base62():
     res = decrypt(
         Config().library_default().complete_config(), ".3vQº·îP=.ã.ÿîÌ¤U¤.[hù>.Ñü.¨zj{D"
