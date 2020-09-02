@@ -41,6 +41,7 @@ class Base69(Decoder[str, str]):
 
         if ctext[:-1] == "=":
             extra_bytes = int(ctext[clen - 2])
+            # ctext = ctext[0:0 - extra_bytes]
 
         CHUNK_COUNT = ceil(clen / 16)
         result = [0 for _ in range(CHUNK_COUNT * 7 - extra_bytes)]
@@ -63,8 +64,8 @@ class Base69(Decoder[str, str]):
         return 0.05
 
     def __init__(self, config: Config):
-        self.CHARS = config.get_resource(self._params()["dict"], WordList)
         super().__init__(config)
+        self.CHARS = config.get_resource(self._params()["dict"], WordList)
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
