@@ -6,7 +6,7 @@ from math import floor, ceil
 
 from typing import Optional, Dict, List
 
-from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry
+from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, WordList
 
 
 @registry.register
@@ -63,14 +63,18 @@ class Base69(Decoder[str, str]):
         return 0.05
 
     def __init__(self, config: Config):
-        self.CHARS = list(
-            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/-*<>|"
-        )  # To be moved to CipheyDists
+        self.CHARS = config.get_resource(self._params()["dict"], WordList)
         super().__init__(config)
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
-        return None
+        return {
+            "dict": ParamSpec(
+                desc="The charset used for the decoder.",
+                req=False,
+                default="cipheydists::list::base69",
+            )
+        }
 
     @staticmethod
     def getTarget() -> str:
