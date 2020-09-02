@@ -94,6 +94,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "cclauss",
+      "name": "Christian Clauss",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/3709715?v=4",
+      "profile": "https://www.patreon.com/cclauss",
+      "contributions": [
+        "code",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
