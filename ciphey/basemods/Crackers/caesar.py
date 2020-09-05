@@ -107,10 +107,6 @@ class Caesar(ciphey.iface.Cracker[str]):
             # TODO: add "filter" param
         }
 
-    @staticmethod
-    def scoreUtility() -> float:
-        return 1.5
-
     def __init__(self, config: ciphey.iface.Config):
         super().__init__(config)
         self.lower: Union[str, bool] = self._params()["lower"]
