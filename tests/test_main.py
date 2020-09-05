@@ -165,3 +165,11 @@ def test_base91():
         ">OwJh>=/fV@$x88j9ZNKB*ge$yV%lE%ZKi,<d,TX2$0t,,cjPD@JY<UCHRWznuWoQPD",
     )
     assert res.lower() == answer_str.lower()
+
+
+def test_decimal():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "72 101 108 108 111 32 109 121 32 110 97 109 101 32 105 115 32 98 101 101 32 97 110 100 32 73 32 108 105 107 101 32 100 111 103 32 97 110 100 32 97 112 112 108 101 32 97 110 100 32 116 114 101 101",
+    )
+    assert res.lower() == answer_str.lower()
