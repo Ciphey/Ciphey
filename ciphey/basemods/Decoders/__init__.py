@@ -12,5 +12,6 @@ from . import (
     base58,
     base58_ripple,
     base91,
-    leet
+    leet,
+    decimal,
 )
