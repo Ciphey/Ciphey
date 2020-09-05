@@ -40,7 +40,7 @@ class Caesar(ciphey.iface.Cracker[str]):
         return "caesar"
 
     def attemptCrack(self, ctext: str) -> List[CrackResult]:
-        logger.debug("Trying caesar cipher")
+        logger.debug(f"Trying caesar cipher on {ctext}")
         # Convert it to lower case
         #
         # TODO: handle different alphabets
@@ -106,10 +106,6 @@ class Caesar(ciphey.iface.Cracker[str]):
             )
             # TODO: add "filter" param
         }
-
-    @staticmethod
-    def scoreUtility() -> float:
-        return 1.5
 
     def __init__(self, config: ciphey.iface.Config):
         super().__init__(config)

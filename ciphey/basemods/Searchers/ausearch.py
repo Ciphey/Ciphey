@@ -202,10 +202,9 @@ class AuSearch(Searcher):
         if self.invert_priority:
             priority = -priority
 
-
         self.work.add_work(priority, additional_work)
 
-    def recursive_expand(self, node: Node) -> None:
+    def expand_decodings(self, node: None) -> None:
         logger.trace(f"Expanding depth {node.depth} encodings")
 
         val = node.level.result.value
@@ -223,10 +222,14 @@ class AuSearch(Searcher):
                 continue
 
             logger.trace(f"Nesting encodings")
-            self.recursive_expand(new_node)
-            # Now we add the cracker edges
-        # Doing this last allows us to catch nested encodings faster
-        self.expand_crackers(node)
+            self.recursive_expand(new_node, False)
+
+    def recursive_expand(self, node: Node, nested: bool=True) -> None:
+        self.expand_decodings(node)
+
+        # Doing this last allows us to catch simple nested encodings faster
+        if not nested or self.enable_nested:
+            self.expand_crackers(node)
 
     def search(self, ctext: Any) -> Optional[SearchResult]:
         logger.trace(
@@ -244,7 +247,7 @@ class AuSearch(Searcher):
                 return SearchResult(check_res=check_res, path=[root.level])
 
         try:
-            self.recursive_expand(root)
+            self.recursive_expand(root, False)
 
             while True:
                 if self.work.empty():
@@ -293,10 +296,16 @@ class AuSearch(Searcher):
         self.work = PriorityWorkQueue()  # Has to be defined here because of sharing
         self.invert_priority = bool(distutils.util.strtobool(self._params()["invert_priority"]))
         self.priority_cap = int(self._params()["priority_cap"])
+        self.enable_nested = bool(distutils.util.strtobool(self._params()["enable_nested"]))
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
         return {
+            "enable_nested": ParamSpec(req=False,
+                                       desc="Enables nested ciphers. "
+                                            "Incredibly slow, and not guaranteed to terminate",
+                                       default="False"),
+
             "invert_priority": ParamSpec(req=False,
                                          desc="Causes more complex encodings to be looked at first. "
                                               "Good for deeply buried encodings.",
