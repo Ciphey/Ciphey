@@ -2,6 +2,7 @@
 # translated to Python and adapted for Ciphey from the JS original at https://github.com/pshihn/base69
 
 
+import re
 from math import floor, ceil
 
 from typing import Optional, Dict, List
@@ -36,12 +37,13 @@ class Base69(Decoder[str, str]):
         """
         Performs Base69 decoding
         """
+        # Remove whitespace
+        ctext = re.sub(r"\s+", "", ctext, flags=re.UNICODE)
         extra_bytes = 0
         clen = len(ctext)
 
         if ctext[:-1] == "=":
             extra_bytes = int(ctext[clen - 2])
-            # ctext = ctext[0:0 - extra_bytes]
 
         CHUNK_COUNT = ceil(clen / 16)
         result = [0 for _ in range(CHUNK_COUNT * 7 - extra_bytes)]
@@ -60,8 +62,9 @@ class Base69(Decoder[str, str]):
 
     @staticmethod
     def priority() -> float:
-        # Not expected to show up often, but also very fast to check.
-        return 0.05
+        # If this becomes lower or equal to the reverse, it breaks.
+        # So I'll set it to 0.2 for now since it is very fast anyways.
+        return 0.2
 
     def __init__(self, config: Config):
         super().__init__(config)
