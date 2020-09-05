@@ -40,7 +40,7 @@ class Caesar(ciphey.iface.Cracker[str]):
         return "caesar"
 
     def attemptCrack(self, ctext: str) -> List[CrackResult]:
-        logger.debug("Trying caesar cipher")
+        logger.debug(f"Trying caesar cipher on {ctext}")
         # Convert it to lower case
         #
         # TODO: handle different alphabets
