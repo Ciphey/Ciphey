@@ -39,8 +39,6 @@ class XorSingle(ciphey.iface.Cracker[bytes]):
 
     def attemptCrack(self, ctext: bytes) -> List[CrackResult]:
         logger.debug("Trying xor single cipher")
-        # Convert it to lower case
-        #
         # TODO: handle different alphabets
 
         logger.trace("Beginning cipheycore simple analysis")

@@ -48,15 +48,15 @@ class XorCrypt(ciphey.iface.Cracker[bytes]):
             return CrackInfo(
                 success_likelihood=0,
                 # TODO: actually calculate runtimes
-                success_runtime=2e-4,
-                failure_runtime=2e-4,
+                success_runtime=2e-3,
+                failure_runtime=2e-2,
             )
 
         return CrackInfo(
             success_likelihood=0.9, # Dunno, but it's quite likely
             # TODO: actually calculate runtimes
-            success_runtime=2e-4,
-            failure_runtime=2e-4,
+            success_runtime=2e-3,
+            failure_runtime=2e-2,
         )
 
     @staticmethod
