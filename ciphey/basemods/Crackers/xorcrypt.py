@@ -12,6 +12,7 @@ from distutils import util
 from typing import Optional, Dict, Union, Set, List
 
 import re
+import base64
 
 from loguru import logger
 import ciphey
@@ -79,7 +80,7 @@ class XorCrypt(ciphey.iface.Cracker[bytes]):
         ]
 
     def attemptCrack(self, ctext: bytes) -> List[CrackResult]:
-        logger.debug("Trying xorcrypt cipher")
+        logger.debug(f"Trying xorcrypt cipher on {base64.b64encode(ctext)}")
 
         # Analysis must be done here, where we know the case for the cache
         if self.keysize is not None:
@@ -97,15 +98,25 @@ class XorCrypt(ciphey.iface.Cracker[bytes]):
                 f"xorcrypt::likely_lens",
                 lambda: cipheycore.xorcrypt_guess_len(ctext),
             )
+
             logger.trace(f"Got possible length {len}")
-            return self.crackOne(
-                ctext,
-                self.cache.get_or_update(
+
+            if len < 2:
+                return []
+
+            ret = []
+            # Fuzz around
+            for i in range(min(len - 2, 2), len + 2):
+                ret += self.crackOne(
                     ctext,
-                    f"xorcrypt::{len}",
-                    lambda: cipheycore.analyse_bytes(ctext, len),
-                ),
-            )
+                    self.cache.get_or_update(
+                        ctext,
+                        f"xorcrypt::{len}",
+                        lambda: cipheycore.analyse_bytes(ctext, len),
+                    )
+                )
+
+            return ret
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
@@ -122,7 +133,7 @@ class XorCrypt(ciphey.iface.Cracker[bytes]):
             "p_value": ciphey.iface.ParamSpec(
                 desc="The p-value to use for windowed frequency analysis",
                 req=False,
-                default=0.01,
+                default=0.001,
             ),
         }
 
