@@ -337,7 +337,7 @@ class AuSearch(Searcher):
             "max_cipher_depth": ParamSpec(req=False,
                                           desc="The depth at which we stop trying to crack ciphers. "
                                                "Set to 0 to disable",
-                                          default="5"),
+                                          default="0"),
             "max_depth": ParamSpec(req=False,
                                    desc="The depth at which we give up. "
                                         "Set to 0 to disable",
