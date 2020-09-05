@@ -23,7 +23,7 @@ Translations <br>
   
   <img src="https://github.com/brandonskerritt/Ciphey/workflows/Python%20application/badge.svg?branch=master" alt="Ciphey">
 <br>
-Fully automated decryption tool using natural language processing & artificial intelligence, along with some common sense.
+Fully automated decryption/decoding/cracking tool using natural language processing & artificial intelligence, along with some common sense.
 </p>
 <hr>
 
@@ -43,7 +43,8 @@ Fully automated decryption tool using natural language processing & artificial i
 <hr>
 
 # 🤔 What is this?
-Ciphey is an automated decryption tool. Input encrypted text, get the decrypted text back.
+Input encrypted text, get the decrypted text back.
+
 > "What type of encryption?"
 
 That's the point. You don't know, you just know it's possibly encrypted. Ciphey will figure it out for you.
@@ -54,17 +55,23 @@ Ciphey can solve most things in 3 seconds or less.
   <img src="Pictures_for_README/index.gif" alt="Ciphey demo">
 </p>
 
-**The technical part.** Ciphey uses a custom built artifical intelligence module (_AuSearch_) with a _Cipher Detection Interface_ to approximate what something is encrypted with. And then a custom-built, customisable natural languge processing _Language Checker Interface_, which can detect when the given text becomes plaintext.
+Ciphey aims to be a tool to automate a lot of decryptions & decodings such as multiple base encodings, classical ciphers, hashes or more advanced cryptography. 
+
+If you don't know much about cryptography, or you want to quickly check the ciphertext before working on it yourself, Ciphey is for you.
+
+**The technical part.** Ciphey uses a custom built artificial intelligence module (_AuSearch_) with a _Cipher Detection Interface_ to approximate what something is encrypted with. And then a custom-built, customisable natural language processing _Language Checker Interface_, which can detect when the given text becomes plaintext.
+
+No neural networks or bloated AI here. We only use what is fast and minimal.
 
 And that's just the tip of the iceberg. For the full technical explanation, check out our [documentation](https://github.com/Ciphey/Ciphey/wiki).
 
 # ✨ Features
 
-- **20+ encryptions supported** such as encodings (binary, base64) and normal encryptions like Caesar cipher, Transposition and more. **[For the full list, click here](https://github.com/Ciphey/Ciphey/wiki/Supported-Ciphers)**
+- **30+ encryptions supported** such as encodings (binary, base64) and normal encryptions like Caesar cipher, repeating-key XOR and more. **[For the full list, click here](https://github.com/Ciphey/Ciphey/wiki/Supported-Ciphers)**
 - **Custom Built Artificial Intelligence with Augmented Search (AuSearch) for answering the question "what encryption was used?"** Resulting in decryptions taking less than 3 seconds. 
-- **Custom built natural language processing module** Ciphey can determine whether something is plaintext or not. It has an incredibly high accuracy, along with being fast.
+- **Custom built natural language processing module** Ciphey can determine whether something is plaintext or not. Whether that plaintext is JSON, a CTF flag or English Ciphey can get it in a couple of milliseconds.
 - **Multi Language Support** at present, only German & English (with AU, UK, CAN, USA variants).
-- **Supports encryptions** Which the alternatives such as CyberChef Magic do not. 
+- **Supports encryptions and hashes** Which the alternatives such as CyberChef Magic do not. 
 - **[C++ core](https://github.com/Ciphey/CipheyCore)** Blazingly fast.
 
 # 🔭 Ciphey vs CyberChef
@@ -151,11 +158,14 @@ Ciphey was revived & recreated by the [Cyber Security Society](https://www.cyber
 **Special thanks** to [varghalladesign](https://www.facebook.com/varghalladesign) for designing the logo. Check out their other design work!
 
 ## 🐕‍🦺 [Contributing](https://github.com/Ciphey/Ciphey/wiki/Contributing)
-Don't be afraid to contribute! We have many, many things you can do to help out. Each of them labelled and easily explained with examples. If you're trying to contribute but stuck, tag @brandonskerritt in the GitHub issue ✨
+Don't be afraid to contribute! We have many, many things you can do to help out. Each of them labelled and easily explained with examples. If you're trying to contribute but stuck, tag @bee-san or @cyclic3 in the GitHub issue ✨
 
 Alternatively, join the Discord group and send a message there (link in [contrib file](https://github.com/Ciphey/Ciphey/wiki/Contributing)) or at the top of this README as a badge.
 
 Please read the [contributing file](https://github.com/Ciphey/Ciphey/wiki/Contributing) for exact details on how to contribute ✨
+
+By doing so, you'll get your name added to the README below and get to be apart of an ever-growing project!
+[![Stargazers over time](https://starchart.cc/Ciphey/Ciphey.svg)](https://starchart.cc/Ciphey/Ciphey)
 ## 💰 Financial Contributors
 The contributions will be used to fund not only the future of Ciphey and its authors, but also Cyber Security Society at the University of Liverpool.
 
