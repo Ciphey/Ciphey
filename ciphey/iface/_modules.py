@@ -313,4 +313,5 @@ def pretty_search_results(res: SearchResult, display_intermediate: bool = False)
 
 # Some common collection types
 Distribution = Dict[str, float]
+Translation = Dict[str, str]
 WordList = Set[str]

@@ -12,7 +12,7 @@ class Base62(Decoder[str, str]):
         Performs Base62 decoding
         """
         try:
-            return base62.encode(ctext).decode("utf-8")
+            return base62.decodebytes(ctext).decode("utf-8")
         except Exception:
             return None
 
