@@ -16,20 +16,18 @@ import ciphey
 import cipheycore
 
 from ciphey.iface import ParamSpec, CrackResult, T, CrackInfo, registry
-from ciphey.common import fix_case
-
 
 @registry.register
-class Caesar(ciphey.iface.Cracker[str]):
+class XorSingle(ciphey.iface.Cracker[bytes]):
     def getInfo(self, ctext: str) -> CrackInfo:
         analysis = self.cache.get_or_update(
             ctext,
             "cipheycore::simple_analysis",
-            lambda: cipheycore.analyse_string(ctext),
+            lambda: cipheycore.analyse_bytes(ctext),
         )
 
         return CrackInfo(
-            success_likelihood=cipheycore.caesar_detect(analysis, self.expected),
+            success_likelihood=cipheycore.xor_single_detect(analysis, self.expected),
             # TODO: actually calculate runtimes
             success_runtime=1e-5,
             failure_runtime=1e-5,
@@ -37,47 +35,37 @@ class Caesar(ciphey.iface.Cracker[str]):
 
     @staticmethod
     def getTarget() -> str:
-        return "caesar"
+        return "xor_single"
 
-    def attemptCrack(self, ctext: str) -> List[CrackResult]:
-        logger.debug(f"Trying caesar cipher on {ctext}")
-        # Convert it to lower case
-        #
+    def attemptCrack(self, ctext: bytes) -> List[CrackResult]:
+        logger.debug("Trying xor single cipher")
         # TODO: handle different alphabets
-        if self.lower:
-            message = ctext.lower()
-        else:
-            message = ctext
 
         logger.trace("Beginning cipheycore simple analysis")
+        logger.trace(f"{ctext}")
 
         # Hand it off to the core
         analysis = self.cache.get_or_update(
             ctext,
             "cipheycore::simple_analysis",
-            lambda: cipheycore.analyse_string(ctext),
+            lambda: cipheycore.analyse_bytes(ctext),
         )
-        logger.trace("Beginning cipheycore::caesar")
-        possible_keys = cipheycore.caesar_crack(
-            analysis, self.expected, self.group, self.p_value
+        logger.trace("Beginning cipheycore::xor_single")
+        possible_keys = cipheycore.xor_single_crack(
+            analysis, self.expected, self.p_value
         )
 
         n_candidates = len(possible_keys)
-        logger.debug(f"Caesar returned {n_candidates} candidates")
-
-        if n_candidates == 0:
-            logger.trace(f"Filtering for better results")
-            analysis = cipheycore.analyse_string(ctext, self.group)
-            possible_keys = cipheycore.caesar_crack(
-                analysis, self.expected, self.group, self.p_value
-            )
+        logger.debug(f"XOR single returned {n_candidates} candidates")
 
         candidates = []
 
         for candidate in possible_keys:
+            translated = cipheycore.xor_single_decrypt(ctext, candidate.key)
             logger.trace(f"Candidate {candidate.key} has prob {candidate.p_value}")
-            translated = cipheycore.caesar_decrypt(message, candidate.key, self.group)
-            candidates.append(CrackResult(value=fix_case(translated, ctext), key_info=candidate.key))
+            candidates.append(CrackResult(value=translated, key_info=candidate.key))
+
+        logger.trace(f"{candidates}")
 
         return candidates
 
@@ -89,16 +77,6 @@ class Caesar(ciphey.iface.Cracker[str]):
                 req=False,
                 config_ref=["default_dist"],
             ),
-            "group": ciphey.iface.ParamSpec(
-                desc="An ordered sequence of chars that make up the caesar cipher alphabet",
-                req=False,
-                default="abcdefghijklmnopqrstuvwxyz",
-            ),
-            "lower": ciphey.iface.ParamSpec(
-                desc="Whether or not the ciphertext should be converted to lowercase first",
-                req=False,
-                default=True,
-            ),
             "p_value": ciphey.iface.ParamSpec(
                 desc="The p-value to use for standard frequency analysis",
                 req=False,
@@ -107,12 +85,12 @@ class Caesar(ciphey.iface.Cracker[str]):
             # TODO: add "filter" param
         }
 
+    @staticmethod
+    def scoreUtility() -> float:
+        return 1.5
+
     def __init__(self, config: ciphey.iface.Config):
         super().__init__(config)
-        self.lower: Union[str, bool] = self._params()["lower"]
-        if type(self.lower) != bool:
-            self.lower = util.strtobool(self.lower)
-        self.group = list(self._params()["group"])
         self.expected = config.get_resource(self._params()["expected"])
         self.cache = config.cache
-        self.p_value = float(self._params()["p_value"])
+        self.p_value = self._params()["p_value"]

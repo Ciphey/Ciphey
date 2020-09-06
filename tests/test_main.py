@@ -1,7 +1,8 @@
 from ciphey import decrypt
 from ciphey.iface import Config
+import pytest
 
-answer_str = "Hello my name is bee and I like dog and apple and tree".lower()
+answer_str = "Hello my name is bee and I like dog and apple and tree"
 
 
 def test_plaintext():
@@ -9,7 +10,7 @@ def test_plaintext():
 
     print(res)
 
-    assert res.lower() == answer_str.lower()
+    assert res == answer_str
 
 
 def test_base64():
@@ -18,9 +19,7 @@ def test_base64():
         "SGVsbG8gbXkgbmFtZSBpcyBiZWUgYW5kIEkgbGlrZSBkb2cgYW5kIGFwcGxlIGFuZCB0cmVl",
     )
 
-    print(res)
-
-    assert res.lower() == answer_str.lower()
+    assert res == answer_str
 
 
 def test_caesar():
@@ -28,7 +27,8 @@ def test_caesar():
         Config().library_default().complete_config(),
         "Uryyb zl anzr vf orr naq V yvxr qbt naq nccyr naq gerr",
     )
-    assert res.lower() == answer_str.lower()
+
+    assert res == answer_str
 
 
 def test_binary_base64_caesar():
@@ -42,7 +42,8 @@ def test_binary_base64_caesar():
         "01101010 01011001 00110011 01101100 01111001 01001001 01000111 00110101 01101000 01100011 01010011 "
         "01000010 01101110 01011010 01011000 01001010 01111001 00001010",
     )
-    assert res.lower() == answer_str.lower()
+
+    assert res == answer_str
 
 
 def test_vigenere():
@@ -50,7 +51,8 @@ def test_vigenere():
         Config().library_default().complete_config(),
         "Rijvs ki rywi gc fco eln M jsoc nse krb ktnvi yxh rbic",
     )
-    assert res.lower() == answer_str.lower()
+
+    assert res == answer_str
 
 
 def test_binary():
@@ -63,7 +65,7 @@ def test_binary():
         "01100101 00100000 01100001 01101110 01100100 00100000 01110100 01110010 01100101 01100101",
     )
 
-    assert res.lower() == answer_str.lower()
+    assert res == answer_str
 
 
 def test_hex():
@@ -73,13 +75,21 @@ def test_hex():
         "74726565",
     )
 
-    assert res.lower() == answer_str.lower()
+    assert res == answer_str
 
 
 def test_atbash():
     res = decrypt(
         Config().library_default().complete_config(),
         "Svool nb mznv rh yvv zmw R orpv wlt zmw zkkov zmw givv",
+    )
+    assert res == answer_str
+
+
+def test_galactic():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "⍑ᒷꖎꖎ𝙹 ᒲ|| リᔑᒲᒷ ╎ᓭ ʖᒷᒷ ᔑリ↸ i ꖎ╎ꖌᒷ ↸𝙹⊣ ᔑリ↸ ᔑ!¡!¡ꖎᒷ ᔑリ↸ ℸ ̣ ∷ᒷᒷ",
     )
     assert res.lower() == answer_str.lower()
   
@@ -90,6 +100,31 @@ def test_tap_code():
         "5,2 3,4 4,2 1,3 4,3",
     )
     assert res.lower() == answer_str.lower()
+
+
+@pytest.mark.skip(reason="https://github.com/Ciphey/Ciphey/issues/262")
+def test_galactic_Xproblem():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "𝙹 ̇/⎓𝙹∷↸ ℸ ̣ ⍑ᒷ  ̇/ ╎ᓭ ╎リ ℸ ̣ ⍑ᒷ ᒲ╎↸↸ꖎᒷ ℸ ̣ ⍑ᔑℸ ̣ ᓭ ∴⍑|| ╎ℸ ̣  ⎓ᔑ╎ꖎᓭ",
+    )
+    assert res.lower() == "oxford the x is in the middle thats why it fails"
+
+
+def test_XandY():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "xDDxDxxx xDDxxDxD xDDxDDxx xDDxDDxx xDDxDDDD xxDxxxxx xDDxDDxD xDDDDxxD xxDxxxxx xDDxDDDx xDDxxxxD xDDxDDxD xDDxxDxD xxDxxxxx xDDxDxxD xDDDxxDD xxDxxxxx xDDxxxDx xDDxxDxD xDDxxDxD xxDxxxxx xDDxxxxD xDDxDDDx xDDxxDxx xxDxxxxx xDxxDxxD xxDxxxxx xDDxDDxx xDDxDxxD xDDxDxDD xDDxxDxD xxDxxxxx xDDxxDxx xDDxDDDD xDDxxDDD xxDxxxxx xDDxxxxD xDDxDDDx xDDxxDxx xxDxxxxx xDDxxxxD xDDDxxxx xDDDxxxx xDDxDDxx xDDxxDxD xxDxxxxx xDDxxxxD xDDxDDDx xDDxxDxx xxDxxxxx xDDDxDxx xDDDxxDx xDDxxDxD xDDxxDxD",
+    )
+    assert res.lower() == answer_str.lower()
+
+
+def leet():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "|-|3770 my nam3 is 833 and 1 lIke D06 AND 4|>|>13 4 7R33",
+    )
+    assert res.lower() == answer_str
 
 
 def test_new_line_strip_and_return():
@@ -107,4 +142,59 @@ def test_new_line_at_start_returns():
 
     assert res.lower() == "\npass\n"
 
+
+def test_base58_normal():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "6qYhNwsP46Mn4gy6gyANfsMm2icAxGFA6gnFjVm9phYHeby7PZm3vthiXxSU77teQgTFGbHETn",
+    )
+    assert res.lower() == answer_str.lower()
+
+
+def test_base58_ripple():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "aqY64A1PhaM8hgyagyw4C1Mmp5cwxGEwag8EjVm9F6YHebyfPZmsvt65XxS7ffteQgTEGbHNT8",
+    )
+    assert res.lower() == answer_str.lower()
+
+
+def test_base62():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "2mQvnz9Yevvb7DRCuyDltsP31vJLToR5pjE9orWkzHMUsht2kbC96PLbZ1sdIocsGHENrzC2n",
+    )
+    assert res.lower() == answer_str.lower()
+
+
+def test_base91():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        ">OwJh>=/fV@$x88j9ZNKB*ge$yV%lE%ZKi,<d,TX2$0t,,cjPD@JY<UCHRWznuWoQPD",
+    )
+    assert res.lower() == answer_str.lower()
+
+
+def test_decimal():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "72 101 108 108 111 32 109 121 32 110 97 109 101 32 105 115 32 98 101 101 32 97 110 100 32 73 32 108 105 107 101 32 100 111 103 32 97 110 100 32 97 112 112 108 101 32 97 110 100 32 116 114 101 101",
+    )
+    assert res.lower() == answer_str.lower()
+
+
+def test_base69():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "kAZAtABBeB8A-AoB8ADBNAhBLA1AFBgA0AXBfBGATAVAFBgAwAWBHB<ACAkA-AnB0AVBnBNBDARAZBiBQAYAtAhBhABA<ArB4AbAMANBDAFAXBfBQAdAOAmArAUAAA2=",
+    )
+    assert res == answer_str
     
+    
+def test_prisoner_tap_code():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "4,4 1,5 4,3 4,4  3,4 3,3 1,5  4,4 5,2 3,4  4,4 2,3 4,2 1,5 1,5",
+    )
+    assert res == "test one two three" 
+

@@ -5,7 +5,8 @@ from typing import (
     Optional,
     List,
     Type,
-    Union, Callable,
+    Union,
+    Callable,
 )
 import pydoc
 
@@ -84,7 +85,11 @@ class Config:
         for a, b in config_file.items():
             self.update(a, b)
 
-    def load_file(self, path: str = os.path.join(get_default_dir.__func__(), "config.yml"), create=False):
+    def load_file(
+        self,
+        path: str = os.path.join(get_default_dir.__func__(), "config.yml"),
+        create=False,
+    ):
         try:
             with open(path, "r+") as file:
                 return self.merge_dict(yaml.safe_load(file))
@@ -147,10 +152,7 @@ class Config:
             "ERROR",
             "CRITICAL",
         ]
-        loud_list = [
-            "DEBUG",
-            "TRACE"
-        ]
+        loud_list = ["DEBUG", "TRACE"]
         verbosity_name: str
         if verbosity == 0:
             verbosity_name = "WARNING"
@@ -167,11 +169,16 @@ class Config:
             return
         logger.configure()
         if self.verbosity > 0:
-            logger.add(sink=sys.stderr, level=verbosity_name, colorize=sys.stderr.isatty())
+            logger.add(
+                sink=sys.stderr, level=verbosity_name, colorize=sys.stderr.isatty()
+            )
             logger.opt(colors=True)
         else:
             logger.add(
-                sink=sys.stderr, level=verbosity_name, colorize=False, format="{message}"
+                sink=sys.stderr,
+                level=verbosity_name,
+                colorize=False,
+                format="{message}",
             )
         logger.debug(f"Verbosity set to level {verbosity} ({verbosity_name})")
 
@@ -185,7 +192,7 @@ class Config:
 
         logger.debug(f"Loaded modules {_fwd.registry.get_all_names()}")
 
-    def complete_config(self) -> 'Config':
+    def complete_config(self) -> "Config":
         """This does all the loading for the config, and then returns itself"""
         self.load_modules()
         self.load_objs()
@@ -213,16 +220,18 @@ class Config:
         return Config().set_verbosity(-1)
 
     def __str__(self):
-        return str({
-            "verbosity": self.verbosity,
-            "searcher": self.searcher,
-            "params": self.params,
-            "format": self.format,
-            "modules": self.modules,
-            "checker": self.checker,
-            "default_dist": self.default_dist,
-            "timeout": self.timeout
-        })
+        return str(
+            {
+                "verbosity": self.verbosity,
+                "searcher": self.searcher,
+                "params": self.params,
+                "format": self.format,
+                "modules": self.modules,
+                "checker": self.checker,
+                "default_dist": self.default_dist,
+                "timeout": self.timeout,
+            }
+        )
 
 
 _fwd.config = Config

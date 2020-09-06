@@ -60,8 +60,6 @@ class RegexList(ciphey.iface.Checker[str]):
     def getParams() -> Optional[Dict[str, ParamSpec]]:
         return {
             "resource": ParamSpec(
-                req=True,
-                desc="A list of regexes that could be matched",
-                list=True,
+                req=True, desc="A list of regexes that could be matched", list=True,
             )
         }

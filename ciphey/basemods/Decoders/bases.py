@@ -39,7 +39,10 @@ def gen_class(name, decoder, priority, ns):
 
 
 for name, (decoder, priority) in _bases.items():
-    t = types.new_class(name, (ciphey.iface.Decoder[str, bytes],),
-                        exec_body=lambda x: gen_class(name, decoder, priority, x))
+    t = types.new_class(
+        name,
+        (ciphey.iface.Decoder[str, bytes],),
+        exec_body=lambda x: gen_class(name, decoder, priority, x),
+    )
 
     ciphey.iface.registry.register(t)

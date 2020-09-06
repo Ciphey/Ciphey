@@ -9,10 +9,10 @@ import json
 
 
 @registry.register
-class JsonChecker(Checker[str]):
+class Enttropy(Checker[str]):
 
     """
-        This object is effectively a prebuilt quroum (with requirement 1) of common patterns
+        Uses entropy to determine plaintext
     """
 
     def check(self, text: T) -> Optional[str]:
