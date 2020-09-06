@@ -4,7 +4,7 @@ from ciphey.iface import ParamSpec, Config, Decoder, registry
 
 
 @registry.register
-class DNAtoBinary(Decoder[str, str]):
+class dna(Decoder[str, str]):
     def decode(self, ctext: str) -> Optional[str]:
         """Write the code that decodes here
         ctext -> the input to the function
