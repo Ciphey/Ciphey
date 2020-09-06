@@ -10,20 +10,19 @@ class prisoner_tap_code(Decoder[str, str]):
     def decode(self, ctext: T) -> Optional[U]:
         try:
             output = ""
-            print(ctext)
             combinations = ctext.split(" ")
             for fragment in combinations:
-                print(fragment)
                 if fragment == "":
                     output += ""
-                y, x = fragment.split(",")
-                y, x = int(y), int(x)
-                output += self.TABLE[y][x]
-            print(output.lower())
+                try:
+                    y, x = fragment.split(",")
+                    y, x = int(y), int(x)
+                    output += self.TABLE[y][x]
+                except:
+                    output += fragment
             return output.lower()
 
         except Exception as e:
-            print(e)
             return None
 
     @staticmethod
