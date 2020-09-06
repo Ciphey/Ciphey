@@ -14,4 +14,5 @@ from . import (
     base91,
     leet,
     decimal,
+    base69,
 )

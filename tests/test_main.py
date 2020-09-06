@@ -173,3 +173,12 @@ def test_decimal():
         "72 101 108 108 111 32 109 121 32 110 97 109 101 32 105 115 32 98 101 101 32 97 110 100 32 73 32 108 105 107 101 32 100 111 103 32 97 110 100 32 97 112 112 108 101 32 97 110 100 32 116 114 101 101",
     )
     assert res.lower() == answer_str.lower()
+
+
+def test_base69():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "kAZAtABBeB8A-AoB8ADBNAhBLA1AFBgA0AXBfBGATAVAFBgAwAWBHB<ACAkA-AnB0AVBnBNBDARAZBiBQAYAtAhBhABA<ArB4AbAMANBDAFAXBfBQAdAOAmArAUAAA2=",
+    )
+    assert res == answer_str
+
