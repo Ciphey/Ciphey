@@ -136,14 +136,6 @@ def test_base58_normal():
     assert res.lower() == answer_str.lower()
 
 
-def test_base69():
-    res = decrypt(
-        Config().library_default().complete_config(),
-        "kAZAtABBeB8A-AoB8ADBNAhBLA1AFBgA0AXBfBGATAVAFBgAwAWBHB<ACAkA-AnB0AVBnBNBDARAZBiBQAYAtAhBhABA<ArB4AbAMANBDAFAXBfBQAdAOAmArAUAAA2=",
-    )
-    assert res == answer_str
-
-
 @pytest.mark.skip(reason="This test appears to run infinitely.")
 def test_base62():
     res = decrypt(
@@ -160,3 +152,10 @@ def test_base91():
         """>OwJh>=/fV@$x88j9ZNKB*ge$yV%lE%ZKi,<d,TX2$0t,,cjPD@JY<UCHRWznuWoQPD""",
     )
     assert res.lower() == answer_str.lower()
+
+def test_base69():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "kAZAtABBeB8A-AoB8ADBNAhBLA1AFBgA0AXBfBGATAVAFBgAwAWBHB<ACAkA-AnB0AVBnBNBDARAZBiBQAYAtAhBhABA<ArB4AbAMANBDAFAXBfBQAdAOAmArAUAAA2=",
+    )
+    assert res == answer_str
