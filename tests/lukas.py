@@ -132,7 +132,7 @@ class prisoner_tap_encrypt:
         ]
         self.text = text.upper()
 
-    def encrypt(self):
+    def encode(self):
         for letter in self.text:
             if letter in self.tablelist:
                 out += f"{(self.tablelist.index(letter) // 5) + 1},{(self.tablelist.index(letter) % 5) + 1} "
