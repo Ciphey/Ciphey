@@ -1,4 +1,4 @@
-from ciphey.LanguageChecker import LanguageChecker as lc
+from ciphey.LanguageChecker import LanguageChecker
 import unittest
 from loguru import logger
 
@@ -52,9 +52,7 @@ class testIntegration(unittest.TestCase):
         )
         result = lc.check("r jabbi tb y jyg ygiuygytff  u0")
         result = lc.check("ld oiu oj uh t t er s d gf hg g  h h")
-        result = lc.check(
-            "posa   idijdsa ije i vi ijerijofdj ouhsaf oiuhas  oihd "
-        )
+        result = lc.check("posa   idijdsa ije i vi ijerijofdj ouhsaf oiuhas  oihd ")
         result = lc.check(
             "Likwew e wqrew rwr safdsa dawe r3d hg jyrt dwqefp ;g;;' [ [sadqa ]]."
         )

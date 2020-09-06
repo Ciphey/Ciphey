@@ -135,12 +135,7 @@ def print_help(ctx):
     type=bool,
     is_flag=True,
 )
-@click.option(
-    "-f",
-    "--file",
-    type=click.File("rb"),
-    required=False
-)
+@click.option("-f", "--file", type=click.File("rb"), required=False)
 @click.argument("text_stdin", callback=get_name, required=False)
 def main(**kwargs):
     """Ciphey - Automated Decryption Tool
@@ -177,13 +172,12 @@ def main(**kwargs):
     if "appdirs" in kwargs and kwargs["appdirs"]:
         dirs = AppDirs("Ciphey", "Ciphey")
         path_to_config = dirs.user_config_dir
-        print(f"The settings.yml file should be at {os.path.join(path_to_config, 'settings.yml')}")
+        print(
+            f"The settings.yml file should be at {os.path.join(path_to_config, 'settings.yml')}"
+        )
         return None
 
     # Now we create the config object
-    config = iface.Config()
-
-    # Default init the config object
     config = iface.Config()
 
     # Load the settings file into the config
@@ -224,7 +218,7 @@ def main(**kwargs):
         config.update_format("in", "bytes")
 
     if kwargs["bytes_output"] is not None:
-        config.update_format("in", "bytes")
+        config.update_format("out", "bytes")
 
     # Next, load the objects
     params = kwargs["param"]
@@ -252,7 +246,7 @@ def main(**kwargs):
             kwargs["text"] = kwargs["text_stdin"]
         else:
             # else print help menu
-            print("[bold red]Error. No inputs were given to Ciphey. [\bold red]")
+            print("[bold red]Error. No inputs were given to Ciphey. [bold red]")
 
             @click.pass_context
             def all_procedure(ctx):

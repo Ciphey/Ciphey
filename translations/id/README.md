@@ -1,4 +1,9 @@
 <p align="center">
+<p align="center">
+Terjemahan <br>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/README.md>🇬🇧 EN   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/de/README.md>🇩🇪 DE   </a>
+ <br><br>
 ➡️ 
 <a href="https://docs.ciphey.online">Dokumentasi</a> |
 <a href="https://discord.ciphey.online">Discord</a> |
@@ -25,10 +30,10 @@ Alat dekripsi otomatis yang menggunakan pemrosesan bahasa alami & kecerdasan bua
 
 ## [Petunjuk Instalasi](https://docs.ciphey.online/en/latest/install.html)
 
-| <p align="center"><a href="https://pypi.org/project/ciphey">🐍 Python (Universal) </a></p> |
-| ----------------------------------------------------------------------------------------- |
-| <p align="center"><img src="../../Pictures_for_README/python.png" /></p>                        |                       |
-| `python3 -m pip install ciphey --upgrade`                                                 | 
+| <p align="center"><a href="https://pypi.org/project/ciphey">🐍 Python | <p align="center"><a href="https://pypi.org/project/ciphey">🐋 Docker (Universal) |
+| --------------------------- | ---------------------------------|
+| <p align="center"><img src="Pictures_for_README/python.png" /></p> | <p align="center"><img src="Pictures_for_README/docker.png" /></p> |
+| `python3 -m pip install ciphey --upgrade`  | `docker run -it --rm remnux/ciphey` |                                                | 
 
 | Linux       | Mac OS | Windows     |
 | ----------- | ------ | ----------- |

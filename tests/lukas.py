@@ -95,7 +95,7 @@ class XY_encrypt:
 
         return self.ctext
 
-
+      
 class prisoner_tap_encrypt:
     """
     Encodes a string with the prisoner tap code.

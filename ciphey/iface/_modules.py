@@ -305,7 +305,7 @@ def pretty_search_results(res: SearchResult, display_intermediate: bool = False)
     # If we didn't show intermediate steps, then print the final result
     if not display_intermediate:
         ret += (
-            f"""\nFinal result: [bold green]"{res.path[-1].result.value}"[\bold green]"""
+            f"""\nFinal result: [bold green]"{res.path[-1].result.value}"[bold green]"""
         )
 
     return ret
@@ -313,4 +313,5 @@ def pretty_search_results(res: SearchResult, display_intermediate: bool = False)
 
 # Some common collection types
 Distribution = Dict[str, float]
+Translation = Dict[str, str]
 WordList = Set[str]
