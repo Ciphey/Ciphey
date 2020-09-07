@@ -6,7 +6,7 @@ Translations <br>
 ➡️ 
 <a href="https://github.com/Ciphey/Ciphey/wiki">Documentation</a> |
 <a href="https://discord.ciphey.online">Discord</a> |
- <a href="https://docs.ciphey.online/en/latest/install.html">Installation Guide</a>
+ <a href="https://github.com/Ciphey/Ciphey/wiki/Installation">Installation Guide</a>
  ⬅️
 
 <br>
@@ -20,7 +20,6 @@ Translations <br>
   <a href="https://discord.gg/wM3scnc"><img alt="Discord" src="https://img.shields.io/discord/728245678895136898"></a>
 <a href="https://pypi.org/project/ciphey/"><img src="https://img.shields.io/pypi/v/ciphey.svg"></a>
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="Ciphey">
- <img src="https://app.codacy.com/project/badge/Grade/20f5064d0b1a4184aa65c0c8deff863a">
 
   
   <img src="https://github.com/brandonskerritt/Ciphey/workflows/Python%20application/badge.svg?branch=master" alt="Ciphey">
@@ -29,7 +28,7 @@ Fully automated decryption/decoding/cracking tool using natural language process
 </p>
 <hr>
 
-## [Installation Guide](https://docs.ciphey.online/en/latest/install.html)
+## [Installation Guide](https://github.com/Ciphey/Ciphey/wiki/Installation)
 
 | <p align="center"><a href="https://pypi.org/project/ciphey">🐍 Python | <p align="center"><a href="https://pypi.org/project/ciphey">🐋 Docker (Universal) |
 | --------------------------- | ---------------------------------|
@@ -126,7 +125,7 @@ We also tested CyberChef and Ciphey with a **6gb file**. Ciphey cracked it in **
 
 # 🎬 Getting Started
 
-If you're having trouble with installing Ciphey, [read this.](https://docs.ciphey.online/en/latest/install.html)
+If you're having trouble with installing Ciphey, [read this.](https://github.com/Ciphey/Ciphey/wiki/Common-Issues-&-Their-Solutions)
 
 ## ‼️ Important Links (Docs, Installation guide, Discord Support)
 
@@ -195,6 +194,8 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/SkeletalDemise"><img src="https://avatars1.githubusercontent.com/u/29117662?v=4" width="100px;" alt=""/><br /><sub><b>SkeletalDemise</b></sub></a><br /><a href="https://github.com/Ciphey/Ciphey/commits?author=SkeletalDemise" title="Code">💻</a></td>
     <td align="center"><a href="https://www.patreon.com/cclauss"><img src="https://avatars3.githubusercontent.com/u/3709715?v=4" width="100px;" alt=""/><br /><sub><b>Christian Clauss</b></sub></a><br /><a href="https://github.com/Ciphey/Ciphey/commits?author=cclauss" title="Code">💻</a> <a href="https://github.com/Ciphey/Ciphey/issues?q=author%3Acclauss" title="Bug reports">🐛</a></td>
     <td align="center"><a href="http://machinexa.xss.ht"><img src="https://avatars1.githubusercontent.com/u/60662297?v=4" width="100px;" alt=""/><br /><sub><b>Machinexa2</b></sub></a><br /><a href="#content-machinexa2" title="Content">🖋</a></td>
+    <td align="center"><a href="https://github.com/anantverma275"><img src="https://avatars1.githubusercontent.com/u/18184503?v=4" width="100px;" alt=""/><br /><sub><b>Anant Verma</b></sub></a><br /><a href="https://github.com/Ciphey/Ciphey/commits?author=anantverma275" title="Code">💻</a> <a href="https://github.com/Ciphey/Ciphey/issues?q=author%3Aanantverma275" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/XVXTOR"><img src="https://avatars1.githubusercontent.com/u/40268197?v=4" width="100px;" alt=""/><br /><sub><b>XVXTOR</b></sub></a><br /><a href="https://github.com/Ciphey/Ciphey/commits?author=XVXTOR" title="Documentation">📖</a></td>
   </tr>
 </table>
 
