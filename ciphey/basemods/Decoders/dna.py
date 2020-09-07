@@ -10,7 +10,7 @@ class dna(Decoder[str, str]):
         ctext -> the input to the function
         returns string
         """
-        print(ctext)
+        # print(ctext)
         # A=00 T=01 G=10 C=11
         return ctext.upper().replace("A", "00").replace("T", "01").replace("G", "10").replace("C", "11")
 

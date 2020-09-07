@@ -181,4 +181,11 @@ def test_base69():
         "kAZAtABBeB8A-AoB8ADBNAhBLA1AFBgA0AXBfBGATAVAFBgAwAWBHB<ACAkA-AnB0AVBnBNBDARAZBiBQAYAtAhBhABA<ArB4AbAMANBDAFAXBfBQAdAOAmArAUAAA2=",
     )
     assert res == answer_str
-
+    
+    
+def test_dna():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "HELLO MY N00ME IS BEE 00ND I LIKE DO10 00ND 00PPLE 00ND 01REE",
+    )
+    assert res == answer_str.upper()
