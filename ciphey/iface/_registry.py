@@ -58,17 +58,6 @@ class Registry:
         else:
             target = None
 
-        # Replace checker with polymorphic checker
-        if issubclass(input_type, Checker):
-            if len(args) == 0:
-                arg = [get_args(i) for i in input_type.__orig_bases__ if get_origin(i) == Checker][0]
-                if len(arg) != 1:
-                    raise TypeError(f"No argument for Checker")
-                converted = input_type.convert({arg[0]})
-            else:
-                converted = input_type.convert(set(args))
-            return self._real_register(converted)
-
         if issubclass(input_type, Searcher):
             module_type = module_base = Searcher
             module_args = ()
@@ -98,6 +87,19 @@ class Registry:
                     module_type = i
             if module_type is None:
                 raise TypeError("No registrable base class")
+
+            # Replace input type with polymorphic checker if required
+            if issubclass(input_type, Checker):
+                if len(args) == 0:
+                    arg = [get_args(i) for i in input_type.__orig_bases__ if get_origin(i) == Checker][0]
+                    if len(arg) != 1:
+                        raise TypeError(f"No argument for Checker")
+                    input_type = input_type.convert({arg[0]})
+                else:
+                    input_type = input_type.convert(set(args))
+                self._register_one(input_type, PolymorphicChecker, [])
+                # Refresh the names with the new type
+                name_target = self._names[name] = (input_type, {PolymorphicChecker})
 
             # Now handle the difference between register and register_multi
             if len(args) == 0:
