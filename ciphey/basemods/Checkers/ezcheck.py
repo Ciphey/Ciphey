@@ -18,7 +18,7 @@ class EzCheck(Checker[str]):
     def check(self, text: str) -> Optional[str]:
         for checker in self.checkers:
             res = checker.check(text)
-            if res is not None and self.decider.check(text) is not None:
+            if res is not None and self.decider is not None and self.decider.check(text) is not None:
                 return res
         return None
 
@@ -29,7 +29,9 @@ class EzCheck(Checker[str]):
         super().__init__(config)
 
         self.checkers: List[Checker[str]] = []
-        self.decider = config(HumanChecker)
+        # Disable human checker for automated systems
+        if config.verbosity >= 0:
+            self.decider = config(HumanChecker)
 
         # We need to modify the config for each of the objects
 
