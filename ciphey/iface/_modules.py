@@ -102,6 +102,24 @@ class Targeted(ABC):
         pass
 
 
+class PolymorphicChecker(ConfigurableModule):
+    @abstractmethod
+    def check(self, text) -> Optional[str]:
+        """Should return some description (or an empty string) on success, otherwise return None"""
+        pass
+
+    @abstractmethod
+    def getExpectedRuntime(self, text) -> float:
+        pass
+
+    def __call__(self, *args):
+        return self.check(*args)
+
+    @abstractmethod
+    def __init__(self, config: Config):
+        super().__init__(config)
+
+
 class Checker(Generic[T], ConfigurableModule):
     @abstractmethod
     def check(self, text: T) -> Optional[str]:
@@ -118,6 +136,35 @@ class Checker(Generic[T], ConfigurableModule):
     @abstractmethod
     def __init__(self, config: Config):
         super().__init__(config)
+
+    @classmethod
+    def convert(cls, expected: Set[type]):
+        class PolyWrapperClass(PolymorphicChecker):
+            @staticmethod
+            def getParams() -> Optional[Dict[str, ParamSpec]]:
+                return cls.getParams()
+
+            def check(self, text) -> Optional[str]:
+                """Should return some description (or an empty string) on success, otherwise return None"""
+                if type(text) not in expected:
+                    return None
+                else:
+                    return self._base.check(text)
+
+            def getExpectedRuntime(self, text) -> float:
+                if type(text) not in expected:
+                    return 0
+                else:
+                    return self._base.getExpectedRuntime(text)
+
+            def __init__(self, config: Config):
+                super().__init__(config)
+                # This is easier than inheritance
+                self._base = cls(config)
+
+        PolyWrapperClass.__name__ = cls.__name__
+
+        return PolyWrapperClass
 
 
 # class Detector(Generic[T], ConfigurableModule, KnownUtility, Targeted):
