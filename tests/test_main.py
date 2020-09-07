@@ -181,8 +181,8 @@ def test_base69():
         "kAZAtABBeB8A-AoB8ADBNAhBLA1AFBgA0AXBfBGATAVAFBgAwAWBHB<ACAkA-AnB0AVBnBNBDARAZBiBQAYAtAhBhABA<ArB4AbAMANBDAFAXBfBQAdAOAmArAUAAA2=",
     )
     assert res == answer_str
-    
-    
+
+
 def test_dna():
     res = decrypt(
         Config().library_default().complete_config(),
