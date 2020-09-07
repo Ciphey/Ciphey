@@ -1,8 +1,13 @@
-from cryptography.x509 import Certificate
+from typing import Tuple, Any
 
-class Der(bytes):
-    pass
+from cryptography.x509 import Certificate as X509
+from cryptography.hazmat.primitives.asymmetric.rsa import RSAPublicKey, RSAPrivateKey
+from cryptography.hazmat.primitives.asymmetric.dh import DHPublicKey, DHPrivateKey
 
 
-X509 = Certificate
+class PublicKey(Tuple):
+    key: Any
 
+
+class PrivateKey(Tuple):
+    key: Any
