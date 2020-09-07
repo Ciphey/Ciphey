@@ -107,16 +107,15 @@
       ]
     },
     {
-          "login": "machinexa2",
+      "login": "machinexa2",
       "name": "Machinexa2",
       "avatar_url": "https://avatars1.githubusercontent.com/u/60662297?v=4",
       "profile": "http://machinexa.xss.ht",
       "contributions": [
         "content"
-        ]
-        },
+      ]
+    },
     {
-
       "login": "anantverma275",
       "name": "Anant Verma",
       "avatar_url": "https://avatars1.githubusercontent.com/u/18184503?v=4",
@@ -124,6 +123,15 @@
       "contributions": [
         "code",
         "bug"
+      ]
+    },
+    {
+      "login": "XVXTOR",
+      "name": "XVXTOR",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/40268197?v=4",
+      "profile": "https://github.com/XVXTOR",
+      "contributions": [
+        "doc"
       ]
     }
   ],
