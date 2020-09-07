@@ -165,6 +165,7 @@ Alternatively, join the Discord group and send a message there (link in [contrib
 Please read the [contributing file](https://github.com/Ciphey/Ciphey/wiki/Contributing) for exact details on how to contribute ✨
 
 By doing so, you'll get your name added to the README below and get to be apart of an ever-growing project!
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/692a53d8906e458ea828460d6122805e)](https://app.codacy.com/gh/Ciphey/Ciphey?utm_source=github.com&utm_medium=referral&utm_content=Ciphey/Ciphey&utm_campaign=Badge_Grade_Dashboard)
 [![Stargazers over time](https://starchart.cc/Ciphey/Ciphey.svg)](https://starchart.cc/Ciphey/Ciphey)
 ## 💰 Financial Contributors
 The contributions will be used to fund not only the future of Ciphey and its authors, but also Cyber Security Society at the University of Liverpool.
