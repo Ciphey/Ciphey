@@ -214,6 +214,23 @@ class Config:
         self.update_log_level(i)
         return self
 
+    def set_spinner(self, spinner):
+        self.objs["spinner"] = spinner
+
+    def pause_spinner_handle(self):
+        spinner = self.objs.get("spinner")
+
+        class PausedSpinner:
+            def __enter__(self):
+                if spinner is not None:
+                    spinner.stop()
+
+            def __exit__(self, exc_type, exc_val, exc_tb):
+                if spinner is not None:
+                    spinner.start()
+
+        return PausedSpinner()
+
     @staticmethod
     def library_default():
         """The default config for use in a library"""
