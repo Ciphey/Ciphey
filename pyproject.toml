@@ -21,6 +21,7 @@ click = "^7.1.2"
 click-spinner = "^0.1.10"
 pyyaml = "^5.3.1"
 yaspin = ">=0.17,<1.1"
+cryptography = "^3.0"
 
 # Ciphey internals
 cipheydists = "^0.3.31"
