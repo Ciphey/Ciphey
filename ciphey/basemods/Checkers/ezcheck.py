@@ -6,28 +6,30 @@ from ciphey.iface import registry, Checker, ParamSpec, T, Config
 from .regex import RegexList
 from .brandon import Brandon
 from .format import JsonChecker
+from .human import HumanChecker
 
 
 @registry.register
 class EzCheck(Checker[str]):
     """
-        This object is effectively a prebuilt quroum (with requirement 1) of common patterns
+        This object is effectively a prebuilt quroum (with requirement 1) of common patterns, followed by a human check
     """
 
-    def check(self, text: T) -> Optional[str]:
+    def check(self, text: str) -> Optional[str]:
         for checker in self.checkers:
             res = checker.check(text)
-            if res is not None:
+            if res is not None and self.decider.check(text) is not None:
                 return res
         return None
 
     def getExpectedRuntime(self, text: T) -> float:
-        return sum(i.getExpectedRuntime(text) for i in self.checkers)
+        return sum(i.getExpectedRuntime(text) for i in self.checkers) + self.decider.getExpectedRuntime(text)
 
     def __init__(self, config: Config):
         super().__init__(config)
 
         self.checkers: List[Checker[str]] = []
+        self.decider = config(HumanChecker)
 
         # We need to modify the config for each of the objects
 

@@ -265,6 +265,7 @@ def main(**kwargs):
     else:
         # else, run with spinner if verbosity is 0
         with yaspin(Spinners.earth, "Thinking") as sp:
+            config.set_spinner(sp)
             result = decrypt(config, kwargs["text"])
     if result is None:
         result = "Could not find any solutions."
