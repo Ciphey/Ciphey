@@ -12,7 +12,7 @@ from .human import HumanChecker
 @registry.register
 class EzCheck(Checker[str]):
     """
-        This object is effectively a prebuilt quroum (with requirement 1) of common patterns, followed by a human check
+        This object is effectively a prebuilt quorum (with requirement 1) of common patterns, followed by a human check
     """
 
     def check(self, text: str) -> Optional[str]:
