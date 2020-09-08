@@ -137,19 +137,6 @@ class Checker(Generic[T], ConfigurableModule):
     def __init__(self, config: Config):
         super().__init__(config)
 
-class Tagger(Generic[T], ConfigurableModule, Targeted):
-    @abstractmethod
-    def taggedModules(self, modules: T) -> Set[T]:
-        """Given a list of modules, return the set of modules which match
-        the tags"""
-        pass
-
-    def __call__(self, *args):
-        return self.check(*args)
-
-    @abstractmethod
-    def __init__(self, config: Config):
-        super().__init__(config)
     @classmethod
     def convert(cls, expected: Set[type]):
         class PolyWrapperClass(PolymorphicChecker):
@@ -178,6 +165,21 @@ class Tagger(Generic[T], ConfigurableModule, Targeted):
         PolyWrapperClass.__name__ = cls.__name__
 
         return PolyWrapperClass
+
+
+class Tagger(Generic[T], ConfigurableModule, Targeted):
+    @abstractmethod
+    def taggedModules(self, modules: T) -> Set[T]:
+        """Given a list of modules, return the set of modules which match
+        the tags"""
+        pass
+
+    def __call__(self, *args):
+        return self.check(*args)
+
+    @abstractmethod
+    def __init__(self, config: Config):
+        super().__init__(config)
 
 
 # class Detector(Generic[T], ConfigurableModule, KnownUtility, Targeted):
