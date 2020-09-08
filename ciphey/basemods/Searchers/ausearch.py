@@ -142,9 +142,7 @@ class PriorityWorkQueue(Generic[PriorityType, T]):
     _queues: Dict[Any, List[T]]
 
     def add_work(self, priority: PriorityType, work: List[T]) -> None:
-        logger.trace(
-            f"""Adding work at depth {priority}"""
-        )
+        logger.trace(f"""Adding work at depth {priority}""")
 
         idx = bisect.bisect_left(self._sorted_priorities, priority)
         if (
@@ -205,7 +203,9 @@ class AuSearch(Searcher):
 
         for i in self.get_crackers_for(type(res)):
             inst = self._config()(i)
-            additional_work.append(Edge(source=node, route=inst, info=convert_edge_info(inst.getInfo(res))))
+            additional_work.append(
+                Edge(source=node, route=inst, info=convert_edge_info(inst.getInfo(res)))
+            )
         priority = min(node.depth, self.priority_cap)
         if self.invert_priority:
             priority = -priority
@@ -230,7 +230,7 @@ class AuSearch(Searcher):
             logger.trace(f"Nesting encodings")
             self.recursive_expand(new_node, False)
 
-    def recursive_expand(self, node: Node, nested: bool=True) -> None:
+    def recursive_expand(self, node: Node, nested: bool = True) -> None:
         if node.depth >= self.max_depth:
             return
 
@@ -312,9 +312,13 @@ class AuSearch(Searcher):
         self._checker: Checker = config.objs["checker"]
         self._target_type: type = config.objs["format"]["out"]
         self.work = PriorityWorkQueue()  # Has to be defined here because of sharing
-        self.invert_priority = bool(distutils.util.strtobool(self._params()["invert_priority"]))
+        self.invert_priority = bool(
+            distutils.util.strtobool(self._params()["invert_priority"])
+        )
         self.priority_cap = int(self._params()["priority_cap"])
-        self.enable_nested = bool(distutils.util.strtobool(self._params()["enable_nested"]))
+        self.enable_nested = bool(
+            distutils.util.strtobool(self._params()["enable_nested"])
+        )
         self.max_cipher_depth = int(self._params()["max_cipher_depth"])
         if self.max_cipher_depth == 0:
             self.max_cipher_depth = math.inf
@@ -325,24 +329,32 @@ class AuSearch(Searcher):
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
         return {
-            "enable_nested": ParamSpec(req=False,
-                                       desc="Enables nested ciphers. "
-                                            "Incredibly slow, and not guaranteed to terminate",
-                                       default="False"),
-
-            "invert_priority": ParamSpec(req=False,
-                                         desc="Causes more complex encodings to be looked at first. "
-                                              "Good for deeply buried encodings.",
-                                         default="False"),
-            "max_cipher_depth": ParamSpec(req=False,
-                                          desc="The depth at which we stop trying to crack ciphers. "
-                                               "Set to 0 to disable",
-                                          default="0"),
-            "max_depth": ParamSpec(req=False,
-                                   desc="The depth at which we give up. "
-                                        "Set to 0 to disable",
-                                   default="0"),
-            "priority_cap": ParamSpec(req=False,
-                                      desc="Sets the maximum depth before we give up ordering items.",
-                                      default="2"),
+            "enable_nested": ParamSpec(
+                req=False,
+                desc="Enables nested ciphers. "
+                "Incredibly slow, and not guaranteed to terminate",
+                default="False",
+            ),
+            "invert_priority": ParamSpec(
+                req=False,
+                desc="Causes more complex encodings to be looked at first. "
+                "Good for deeply buried encodings.",
+                default="False",
+            ),
+            "max_cipher_depth": ParamSpec(
+                req=False,
+                desc="The depth at which we stop trying to crack ciphers. "
+                "Set to 0 to disable",
+                default="0",
+            ),
+            "max_depth": ParamSpec(
+                req=False,
+                desc="The depth at which we give up. " "Set to 0 to disable",
+                default="0",
+            ),
+            "priority_cap": ParamSpec(
+                req=False,
+                desc="Sets the maximum depth before we give up ordering items.",
+                default="2",
+            ),
         }

@@ -28,7 +28,9 @@ class Vigenere(ciphey.iface.Cracker[str]):
             analysis = self.cache.get_or_update(
                 ctext,
                 f"vigenere::{self.keysize}",
-                lambda: cipheycore.analyse_string(ctext.lower(), self.keysize, self.group),
+                lambda: cipheycore.analyse_string(
+                    ctext.lower(), self.keysize, self.group
+                ),
             )
 
             val = cipheycore.vigenere_detect(analysis, self.expected)
@@ -45,7 +47,9 @@ class Vigenere(ciphey.iface.Cracker[str]):
         likely_lens = self.cache.get_or_update(
             ctext,
             f"vigenere::likely_lens",
-            lambda: cipheycore.vigenere_likely_key_lens(ctext.lower(), self.expected, self.group, self.detect_p_value),
+            lambda: cipheycore.vigenere_likely_key_lens(
+                ctext.lower(), self.expected, self.group, self.detect_p_value
+            ),
         )
 
         likely_lens_cpy = likely_lens
@@ -65,7 +69,9 @@ class Vigenere(ciphey.iface.Cracker[str]):
                 failure_runtime=2e-2,
             )
 
-        logger.debug(f"Vigenere has likelihood {likely_lens[0].p_value} with lens {[i.len for i in likely_lens]}")
+        logger.debug(
+            f"Vigenere has likelihood {likely_lens[0].p_value} with lens {[i.len for i in likely_lens]}"
+        )
 
         return CrackInfo(
             success_likelihood=likely_lens[0].p_value,
@@ -85,7 +91,7 @@ class Vigenere(ciphey.iface.Cracker[str]):
             analysis, self.expected, self.group, self.p_value
         )
         if len(possible_keys) > self.clamp:
-            possible_keys = possible_keys[:self.clamp]
+            possible_keys = possible_keys[: self.clamp]
         logger.trace(
             f"Vigenere crack got keys: {[[i for i in candidate.key] for candidate in possible_keys]}"
         )
@@ -93,9 +99,12 @@ class Vigenere(ciphey.iface.Cracker[str]):
         #     raise 0
         return [
             CrackResult(
-                value=fix_case(cipheycore.vigenere_decrypt(ctext, candidate.key, self.group), real_ctext),
+                value=fix_case(
+                    cipheycore.vigenere_decrypt(ctext, candidate.key, self.group),
+                    real_ctext,
+                ),
                 key_info="".join([self.group[i] for i in candidate.key]),
-                misc_info=f"p-value was {candidate.p_value}"
+                misc_info=f"p-value was {candidate.p_value}",
             )
             for candidate in possible_keys[: min(len(possible_keys), 10)]
         ]
@@ -115,16 +124,20 @@ class Vigenere(ciphey.iface.Cracker[str]):
                 self.cache.get_or_update(
                     ctext,
                     f"vigenere::{self.keysize}",
-                    lambda: cipheycore.analyse_string(message, self.keysize, self.group),
+                    lambda: cipheycore.analyse_string(
+                        message, self.keysize, self.group
+                    ),
                 ),
-                ctext
+                ctext,
             )
         else:
             arrs = []
             likely_lens = self.cache.get_or_update(
                 ctext,
                 f"vigenere::likely_lens",
-                lambda: cipheycore.vigenere_likely_key_lens(message, self.expected, self.group),
+                lambda: cipheycore.vigenere_likely_key_lens(
+                    message, self.expected, self.group
+                ),
             )
             possible_lens = [i for i in likely_lens]
             possible_lens.sort(key=lambda i: i.p_value)
@@ -137,9 +150,11 @@ class Vigenere(ciphey.iface.Cracker[str]):
                         self.cache.get_or_update(
                             ctext,
                             f"vigenere::{i.len}",
-                            lambda: cipheycore.analyse_string(message, i.len, self.group),
+                            lambda: cipheycore.analyse_string(
+                                message, i.len, self.group
+                            ),
                         ),
-                        ctext
+                        ctext,
                     )
                 )
 

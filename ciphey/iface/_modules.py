@@ -119,6 +119,20 @@ class Checker(Generic[T], ConfigurableModule):
     def __init__(self, config: Config):
         super().__init__(config)
 
+class Tagger(Generic[T], ConfigurableModule, Targeted):
+    @abstractmethod
+    def taggedModules(self, modules: T) -> Set[T]:
+        """Given a list of modules, return the set of modules which match
+        the tags"""
+        pass
+
+    def __call__(self, *args):
+        return self.check(*args)
+
+    @abstractmethod
+    def __init__(self, config: Config):
+        super().__init__(config)
+
 
 # class Detector(Generic[T], ConfigurableModule, KnownUtility, Targeted):
 #     @abstractmethod

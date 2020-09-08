@@ -57,5 +57,9 @@ class Binary(ciphey.iface.Decoder[str, bytes]):
     def priority() -> float:
         return 0.3
 
+    @staticmethod
+    def tags() -> set:
+        return set("binary", "popular", "core", "decoder", "numbersBased")
+
     def __init__(self, config: ciphey.iface.Config):
         super().__init__(config)

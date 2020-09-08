@@ -17,6 +17,7 @@ import cipheycore
 
 from ciphey.iface import ParamSpec, CrackResult, T, CrackInfo, registry
 
+
 @registry.register
 class XorSingle(ciphey.iface.Cracker[bytes]):
     def getInfo(self, ctext: str) -> CrackInfo:

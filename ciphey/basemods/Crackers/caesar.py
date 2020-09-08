@@ -77,7 +77,9 @@ class Caesar(ciphey.iface.Cracker[str]):
         for candidate in possible_keys:
             logger.trace(f"Candidate {candidate.key} has prob {candidate.p_value}")
             translated = cipheycore.caesar_decrypt(message, candidate.key, self.group)
-            candidates.append(CrackResult(value=fix_case(translated, ctext), key_info=candidate.key))
+            candidates.append(
+                CrackResult(value=fix_case(translated, ctext), key_info=candidate.key)
+            )
 
         return candidates
 

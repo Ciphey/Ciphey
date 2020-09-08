@@ -6,7 +6,14 @@ import loguru
 
 import ciphey
 import cipheydists
-from ciphey.iface import ParamSpec, Config, registry, WordList, Distribution, Translation
+from ciphey.iface import (
+    ParamSpec,
+    Config,
+    registry,
+    WordList,
+    Distribution,
+    Translation,
+)
 
 
 @registry.register_multi(WordList, Distribution, Translation)
