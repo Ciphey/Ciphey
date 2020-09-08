@@ -1,6 +1,5 @@
 import distutils
 import math
-from abc import abstractmethod, ABC
 import bisect
 from copy import copy
 from functools import lru_cache
@@ -10,10 +9,7 @@ from typing import (
     Optional,
     Dict,
     Any,
-    NamedTuple,
     Union,
-    Set,
-    Tuple,
     TypeVar,
 )
 from ciphey.iface import (
@@ -23,16 +19,13 @@ from ciphey.iface import (
     Searcher,
     ParamSpec,
     CrackInfo,
-    registry,
     SearchLevel,
     CrackResult,
     SearchResult,
     Decoder,
-    DecoderComparer,
     registry,
     Checker,
 )
-from datetime import datetime
 from loguru import logger
 import cipheycore
 from dataclasses import dataclass
@@ -69,7 +62,6 @@ class Node:
             raise DuplicateNode()
 
         checker: Checker = config.objs["checker"]
-        target_type: type = config.objs["format"]["out"]
         ret = Node(
             parent=None,
             level=SearchLevel(
@@ -79,10 +71,9 @@ class Node:
         )
         edge = Edge(source=source, route=route, dest=ret)
         ret.parent = edge
-        if type(result) == target_type:
-            check_res = checker(result)
-            if check_res is not None:
-                raise AuSearchSuccessful(target=ret, info=check_res)
+        check_res = checker(result)
+        if check_res is not None:
+            raise AuSearchSuccessful(target=ret, info=check_res)
         return ret
 
     @staticmethod
@@ -91,7 +82,6 @@ class Node:
             raise DuplicateNode()
 
         checker: Checker = config.objs["checker"]
-        target_type: type = config.objs["format"]["out"]
         # Edges do not directly contain containers, so this is fine
         edge = copy(edge_template)
         ret = Node(
@@ -100,10 +90,9 @@ class Node:
             depth=edge.source.depth + 1,
         )
         edge.dest = ret
-        if type(result.value) == target_type:
-            check_res = checker(result.value)
-            if check_res is not None:
-                raise AuSearchSuccessful(target=ret, info=check_res)
+        check_res = checker(result.value)
+        if check_res is not None:
+            raise AuSearchSuccessful(target=ret, info=check_res)
         return ret
 
     @staticmethod
@@ -212,7 +201,7 @@ class AuSearch(Searcher):
 
         self.work.add_work(priority, additional_work)
 
-    def expand_decodings(self, node: None) -> None:
+    def expand_decodings(self, node: Node) -> None:
         val = node.level.result.value
 
         for decoder in self.get_decoders_for(type(val)):
@@ -252,10 +241,9 @@ class AuSearch(Searcher):
         except DuplicateNode:
             return None
 
-        if type(ctext) == self._config().objs["format"]["out"]:
-            check_res = self._config().objs["checker"](ctext)
-            if check_res is not None:
-                return SearchResult(check_res=check_res, path=[root.level])
+        check_res = self._config().objs["checker"](ctext)
+        if check_res is not None:
+            return SearchResult(check_res=check_res, path=[root.level])
 
         try:
             self.recursive_expand(root, False)
@@ -310,7 +298,6 @@ class AuSearch(Searcher):
     def __init__(self, config: Config):
         super().__init__(config)
         self._checker: Checker = config.objs["checker"]
-        self._target_type: type = config.objs["format"]["out"]
         self.work = PriorityWorkQueue()  # Has to be defined here because of sharing
         self.invert_priority = bool(
             distutils.util.strtobool(self._params()["invert_priority"])
