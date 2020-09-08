@@ -13,5 +13,6 @@ from . import (
     baudot,
     multi_tap,
     url,
-    tap_code,
+    keys,
+    tap_code
 )

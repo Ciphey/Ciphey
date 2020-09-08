@@ -9,7 +9,7 @@ import cryptography.exceptions
 from loguru import logger
 
 from ciphey.common import id_lambda
-from ciphey.iface import Decoder, PrivateKey, PublicKey, Config, X509, ParamSpec, registry
+from ciphey.iface import Decoder, PrivateKey, PublicKey, Config, X509, ParamSpec, registry, RSAPrivateKey, RSAPublicKey
 
 backend = default_backend()
 
@@ -25,13 +25,16 @@ def _dispatch(self: Any, ctext: str, func: Callable):
     except cryptography.exceptions.UnsupportedAlgorithm:
         logger.trace(f"Unknown key type {self.getTarget()}")
 
+
 _decoders = {
-    "pem_private": ((lambda x: load_pem_private_key(x.encode(), None, backend=backend)), 0.01, str, PrivateKey),
-    "pem_public": ((lambda x: load_pem_public_key(x.encode(), backend=backend)), 0.01, str, PublicKey),
+    "pem_private": ((lambda x: PrivateKey(load_pem_private_key(x.encode(), None, backend=backend))), 0.01, str, PrivateKey),
+    "pem_public": ((lambda x: PublicKey(load_pem_public_key(x.encode(), backend=backend))), 0.01, str, PublicKey),
     "pem_x509": ((lambda x: load_pem_public_key(x.encode(), backend=backend)), 0.01, str, X509),
-    "der_private": ((lambda x: load_der_private_key(x.encode(), None, backend=backend)), 0.01, str, bytes),
-    "der_public": ((lambda x: load_der_public_key(x.encode(), backend=backend)), 0.01, str, bytes),
+    "der_private": ((lambda x: PrivateKey(load_der_private_key(x.encode(), None, backend=backend))), 0.01, str, bytes),
+    "der_public": ((lambda x: PublicKey(load_der_public_key(x.encode(), backend=backend))), 0.01, str, bytes),
     "der_x509": ((lambda x: load_der_x509_certificate(x.encode(), backend=backend)), 0.01, str, X509),
+    "rsa_private": ((lambda x: x.key if x.key is RSAPrivateKey else None), 0.01, PrivateKey, RSAPrivateKey),
+    "rsa_public": ((lambda x: x.key if x.key is RSAPublicKey else None), 0.01, PublicKey, RSAPublicKey),
 }
 
 

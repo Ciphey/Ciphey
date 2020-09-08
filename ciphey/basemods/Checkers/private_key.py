@@ -1,6 +1,6 @@
-from typing import Optional
+from typing import Optional, Dict
 
-from ciphey.iface import PrivateKey, registry, Checker, Config
+from ciphey.iface import PrivateKey, registry, Checker, Config, ParamSpec
 
 
 @registry.register
