@@ -65,7 +65,7 @@ class Config:
         self.verbosity: int = 0
         self.searcher: str = "ausearch"
         self.params: Dict[str, Dict[str, Union[str, List[str]]]] = {}
-        self.format: Dict[str, str] = {"in": "str", "out": "str"}
+        self.format: str = "str"
         self.modules: List[str] = []
         self.checker: str = "ezcheck"
         self.default_dist: str = "cipheydists::dist::english"
@@ -126,17 +126,15 @@ class Config:
         else:
             target[name] = value
 
-    def update_format(self, paramname: str, value: Optional[Any]):
+    def update_format(self, value: Optional[str]):
         if value is not None:
-            self.format[paramname] = value
+            self.format = value
 
     def load_objs(self):
         # Basic type conversion
         if self.timeout is not None:
             self.objs["timeout"] = datetime.timedelta(seconds=int(self.timeout))
-        self.objs["format"] = {
-            key: pydoc.locate(value) for key, value in self.format.items()
-        }
+        self.objs["format"] = pydoc.locate(self.format)
 
         # Checkers do not depend on any other config object
         logger.trace(f"Registry is {_fwd.registry._reg[PolymorphicChecker]}")
