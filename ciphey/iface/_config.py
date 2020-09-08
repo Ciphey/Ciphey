@@ -18,7 +18,7 @@ import yaml
 import appdirs
 
 from . import _fwd
-from ._modules import Checker, Searcher, ResourceLoader
+from ._modules import Checker, Searcher, ResourceLoader, PolymorphicChecker
 
 
 class Cache:
@@ -70,7 +70,6 @@ class Config:
         self.checker: str = "ezcheck"
         self.default_dist: str = "cipheydists::dist::english"
         self.timeout: Optional[int] = None
-
         self._inst: Dict[type, Any] = {}
         self.objs: Dict[str, Any] = {}
         self.cache: Cache = Cache()
@@ -139,8 +138,9 @@ class Config:
             key: pydoc.locate(value) for key, value in self.format.items()
         }
 
-        # Checkers do not depend on anything
-        self.objs["checker"] = self(_fwd.registry.get_named(self.checker, Checker))
+        # Checkers do not depend on any other config object
+        logger.trace(f"Registry is {_fwd.registry._reg[PolymorphicChecker]}")
+        self.objs["checker"] = self(_fwd.registry.get_named(self.checker, PolymorphicChecker))
         # Searchers only depend on checkers
         self.objs["searcher"] = self(_fwd.registry.get_named(self.searcher, Searcher))
 
@@ -213,6 +213,23 @@ class Config:
     def set_verbosity(self, i):
         self.update_log_level(i)
         return self
+
+    def set_spinner(self, spinner):
+        self.objs["spinner"] = spinner
+
+    def pause_spinner_handle(self):
+        spinner = self.objs.get("spinner")
+
+        class PausedSpinner:
+            def __enter__(self):
+                if spinner is not None:
+                    spinner.stop()
+
+            def __exit__(self, exc_type, exc_val, exc_tb):
+                if spinner is not None:
+                    spinner.start()
+
+        return PausedSpinner()
 
     @staticmethod
     def library_default():

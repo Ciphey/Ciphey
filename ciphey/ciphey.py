@@ -18,7 +18,7 @@ import sys
 from typing import Optional, Dict, Any, List, Union
 import bisect
 
-from ciphey.iface import SearchLevel
+from ciphey.iface import SearchLevel, registry
 from . import iface
 
 from rich import print
@@ -102,16 +102,6 @@ def print_help(ctx):
     "-b",
     "--bytes-input",
     help="Forces ciphey to use binary mode for the input. Rather experimental and may break things!",
-    is_flag=True,
-    default=None,
-)
-# HARLAN TODO XXX
-# I switched this to a boolean flag system
-# https://click.palletsprojects.com/en/7.x/options/#boolean-flags
-@click.option(
-    "-B",
-    "--bytes-output",
-    help="Forces ciphey to use binary mode for the output. Rather experimental and may break things!",
     is_flag=True,
     default=None,
 )
@@ -217,9 +207,6 @@ def main(**kwargs):
     if kwargs["bytes_input"] is not None:
         config.update_format("in", "bytes")
 
-    if kwargs["bytes_output"] is not None:
-        config.update_format("out", "bytes")
-
     # Next, load the objects
     params = kwargs["param"]
     if params is not None:
@@ -240,7 +227,7 @@ def main(**kwargs):
     if kwargs["text"] is None:
         if kwargs["file"] is not None:
             kwargs["text"] = kwargs["file"].read()
-            if config.objs["format"] != bytes:
+            if config.objs["format"]["in"] != bytes:
                 kwargs["text"] = kwargs["text"].decode("utf-8")
         elif kwargs["text_stdin"] is not None:
             kwargs["text"] = kwargs["text_stdin"]
@@ -265,6 +252,7 @@ def main(**kwargs):
     else:
         # else, run with spinner if verbosity is 0
         with yaspin(Spinners.earth, "Thinking") as sp:
+            config.set_spinner(sp)
             result = decrypt(config, kwargs["text"])
     if result is None:
         result = "Could not find any solutions."
