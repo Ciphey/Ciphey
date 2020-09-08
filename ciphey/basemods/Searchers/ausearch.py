@@ -82,7 +82,6 @@ class Node:
             raise DuplicateNode()
 
         checker: Checker = config.objs["checker"]
-        target_type: type = config.objs["format"]["out"]
         # Edges do not directly contain containers, so this is fine
         edge = copy(edge_template)
         ret = Node(
@@ -91,10 +90,9 @@ class Node:
             depth=edge.source.depth + 1,
         )
         edge.dest = ret
-        if type(result.value) == target_type:
-            check_res = checker(result.value)
-            if check_res is not None:
-                raise AuSearchSuccessful(target=ret, info=check_res)
+        check_res = checker(result.value)
+        if check_res is not None:
+            raise AuSearchSuccessful(target=ret, info=check_res)
         return ret
 
     @staticmethod
