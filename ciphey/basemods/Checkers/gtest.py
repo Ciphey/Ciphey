@@ -9,24 +9,19 @@ import json
 
 
 @registry.register
-class JsonChecker(Checker[str]):
+class GTestChecker(Checker[str]):
 
     """
     G-test of fitness, similar to Chi squared.
     """
 
     def check(self, text: T) -> Optional[str]:
-        logger.trace(f"Trying json checker")
-
-        try:
-            json.loads(text)
-            return ""
-        except ValueError:
-            return None
+        logger.trace(f"Trying entropy checker")
+        pass
 
     def getExpectedRuntime(self, text: T) -> float:
         # TODO: actually bench this
-        return 1e-7 * len(text)  # From benchmarks I found online
+        return 4e-7 * len(text)
 
     def __init__(self, config: Config):
         super().__init__(config)

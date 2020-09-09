@@ -16,17 +16,13 @@ class Enttropy(Checker[str]):
     """
 
     def check(self, text: T) -> Optional[str]:
-        logger.trace(f"Trying json checker")
-
-        try:
-            json.loads(text)
-            return ""
-        except ValueError:
-            return None
+        logger.trace(f"Trying entropy checker")
+        pass
 
     def getExpectedRuntime(self, text: T) -> float:
         # TODO: actually bench this
-        return 1e-7 * len(text)  # From benchmarks I found online
+        # Uses benchmark from Discord
+        return 2e-7 * len(text)
 
     def __init__(self, config: Config):
         super().__init__(config)
