@@ -5,7 +5,7 @@ from loguru import logger
 from . import brandon
 from ciphey.iface import registry, Checker, ParamSpec, T, Config
 
-import json
+import orjson
 
 
 @registry.register
@@ -23,7 +23,7 @@ class JsonChecker(Checker[str]):
             return None
 
         try:
-            json.loads(text)
+            orjson.loads(text)
             return ""
         except ValueError:
             return None
