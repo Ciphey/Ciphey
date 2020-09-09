@@ -244,7 +244,7 @@ def main(**kwargs):
 
     if config.objs["format"] == str and type(kwargs["text"]) is bytes:
         kwargs["text"] = kwargs["text"].decode("utf-8")
-    elif config.objs["format"] == bytes and type(kwargs["text"]) is str:
+    elif config.objs["format"] == str and type(kwargs["text"]) is str:
         kwargs["text"] = kwargs["text"].encode("utf-8")
     else:
         raise TypeError(f"Cannot load type {config.format}")
