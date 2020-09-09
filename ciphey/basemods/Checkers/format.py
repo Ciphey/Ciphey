@@ -18,6 +18,10 @@ class JsonChecker(Checker[str]):
     def check(self, text: T) -> Optional[str]:
         logger.trace(f"Trying json checker")
 
+        # https://github.com/Ciphey/Ciphey/issues/389
+        if text.isdigit():
+            return None
+
         try:
             json.loads(text)
             return ""
