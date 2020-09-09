@@ -147,9 +147,10 @@ class Brandon(ciphey.iface.Checker[str]):
         location = 0
         end = percent
 
+        if text_length <= 0:
+            return False
+
         while location <= text_length:
-            if text_length <= 0:
-                return False
             # chunks the text, so only gets THRESHOLD chunks of text at a time
             text = list(text)
             to_analyse = text[location:end]
