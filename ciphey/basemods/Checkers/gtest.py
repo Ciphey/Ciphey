@@ -9,10 +9,10 @@ import json
 
 
 @registry.register
-class Enttropy(Checker[str]):
+class GTestChecker(Checker[str]):
 
     """
-        Uses entropy to determine plaintext
+    G-test of fitness, similar to Chi squared.
     """
 
     def check(self, text: T) -> Optional[str]:
@@ -21,8 +21,7 @@ class Enttropy(Checker[str]):
 
     def getExpectedRuntime(self, text: T) -> float:
         # TODO: actually bench this
-        # Uses benchmark from Discord
-        return 2e-7 * len(text)
+        return 4e-7 * len(text)
 
     def __init__(self, config: Config):
         super().__init__(config)
