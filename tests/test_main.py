@@ -182,3 +182,10 @@ def test_base69():
     )
     assert res == answer_str
 
+def test_base69():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "192848183123171",
+    )
+    assert res != "192848183123171"
+
