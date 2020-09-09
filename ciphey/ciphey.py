@@ -100,8 +100,8 @@ def print_help(ctx):
 # True for bytes input, False for str
 @click.option(
     "-b",
-    "--bytes-input",
-    help="Forces ciphey to use binary mode for the input. Rather experimental and may break things!",
+    "--bytes",
+    help="Forces ciphey to use binary mode for the input",
     is_flag=True,
     default=None,
 )
@@ -204,8 +204,8 @@ def main(**kwargs):
         config.modules += list(module_arg)
 
     # We need to load formats BEFORE we instantiate objects
-    if kwargs["bytes_input"] is not None:
-        config.update_format("in", "bytes")
+    if kwargs["bytes"] is not None:
+        config.update_format("bytes")
 
     # Next, load the objects
     params = kwargs["param"]
@@ -227,8 +227,6 @@ def main(**kwargs):
     if kwargs["text"] is None:
         if kwargs["file"] is not None:
             kwargs["text"] = kwargs["file"].read()
-            if config.objs["format"]["in"] != bytes:
-                kwargs["text"] = kwargs["text"].decode("utf-8")
         elif kwargs["text_stdin"] is not None:
             kwargs["text"] = kwargs["text_stdin"]
         else:
@@ -243,6 +241,13 @@ def main(**kwargs):
 
             # print("No inputs were given to Ciphey. For usage, run ciphey --help")
             return None
+
+    if config.objs["format"] == str and type(kwargs["text"]) is bytes:
+        kwargs["text"] = kwargs["text"].decode("utf-8")
+    elif config.objs["format"] == bytes and type(kwargs["text"]) is str:
+        kwargs["text"] = kwargs["text"].encode("utf-8")
+    else:
+        raise TypeError(f"Cannot load type {config.format}")
 
     result: Optional[str]
 
