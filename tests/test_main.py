@@ -185,7 +185,7 @@ def test_base69():
 def test_base69():
     res = decrypt(
         Config().library_default().complete_config(),
-        "192848183123171",
+        "0110100001100101011011000110110001101111",
     )
-    assert res != "192848183123171"
+    assert res != "0110100001100101011011000110110001101111"
 
