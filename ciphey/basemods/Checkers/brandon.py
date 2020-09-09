@@ -148,6 +148,8 @@ class Brandon(ciphey.iface.Checker[str]):
         end = percent
 
         while location <= text_length:
+            if text_length <= 0:
+                return False
             # chunks the text, so only gets THRESHOLD chunks of text at a time
             text = list(text)
             to_analyse = text[location:end]
@@ -208,13 +210,11 @@ class Brandon(ciphey.iface.Checker[str]):
         text = self.clean_text(text)
         logger.trace(f'Text split to "{text}"')
         if text == "":
+            logger.trace("Returning None from Brandon as the text cleaned is none.")
             return None
 
         length_text = len(text)
 
-        # "Phase 1": {0: {"check": 0.02}, 110: {"stop": 0.15}, 150: {"stop": 0.28}}
-
-        # Phase 1 checking
 
         what_to_use = {}
 
