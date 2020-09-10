@@ -9,12 +9,12 @@ class URL(Decoder[T, U]):
     def decode(self, ctext: T) -> Optional[U]:
         """Write the code that decodes here
         ctext -> the input to the function
-        returns string
-    """
-        try:
-            ctext = ctext.replace("+", " ")  # replace + sign with spacebar for unquote
-            return unquote(ctext)  #built-in function that decodes URL coding
-        except Exception:
+        returns string"""
+        ctext = ctext.replace("+", " ")  # replace + sign with spacebar for unquote
+        result = unquote(ctext)  #built-in function that decodes URL coding
+        if ctext != result:
+            return result
+        else:
             return None
 
     @staticmethod
@@ -22,7 +22,7 @@ class URL(Decoder[T, U]):
         """How often is this seen in a CTF out of 1
         Returns float
         """
-        return 0.3
+        return 0.05
 
     def __init__(self, config: Config):
         super().__init__(config)

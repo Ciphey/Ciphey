@@ -1,6 +1,6 @@
 from . import (
     morse,
-    URL,
+    url,
     bases,
     unicode,
     reverse,
