@@ -242,12 +242,14 @@ def main(**kwargs):
             # print("No inputs were given to Ciphey. For usage, run ciphey --help")
             return None
 
-    if config.objs["format"] == str and type(kwargs["text"]) is bytes:
+    if issubclass(config.objs["format"], type(kwargs["text"])):
+        pass
+    elif config.objs["format"] == str and type(kwargs["text"]) is bytes:
         kwargs["text"] = kwargs["text"].decode("utf-8")
     elif config.objs["format"] == bytes and type(kwargs["text"]) is str:
         kwargs["text"] = kwargs["text"].encode("utf-8")
     else:
-        raise TypeError(f"Cannot load type {config.format}")
+        raise TypeError(f"Cannot load type {config.format} from {type(kwargs['text'])}")
 
     result: Optional[str]
 
