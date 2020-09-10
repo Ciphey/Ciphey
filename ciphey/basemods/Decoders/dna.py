@@ -18,14 +18,15 @@ class Dna(Decoder[str, str]):
         ctext = re.sub(r"[,;:\-\s]", "", ctext)
         ctext = " ".join(ctext[i : i + 3] for i in range(0, len(ctext), 3))
         ctext_split = ctext.split(" ")
+        dna_keys = self.DNA_DICT.keys()
 
-        try:
-            for i in ctext_split:
+        for i in ctext_split:
+            if i in dna_keys:
                 ctext_decoded += self.DNA_DICT[i]
-            logger.debug(f"DNA decoded string is {ctext_decoded}")
-            return ctext_decoded
-        except Exception:
-            return None
+            else:
+                return None
+        logger.debug(f"DNA successful, returning '{ctext_decoded}'")
+        return ctext_decoded
 
     @staticmethod
     def priority() -> float:
