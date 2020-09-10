@@ -16,4 +16,5 @@ from . import (
     leet,
     decimal,
     base69,
+    baudot,
 )
