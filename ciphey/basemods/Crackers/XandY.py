@@ -29,9 +29,11 @@ class XandY(Cracker[str]):
             logger.trace(f"Found possible solution: {ascii_text[:32]}...")
             return ascii_text
         except UnicodeDecodeError as e:
-            logger.trace(f"X-Y Cracker ecountered UnicodeDecodeError when trying to crack ctext: {e}")
+            logger.trace(
+                f"X-Y Cracker ecountered UnicodeDecodeError when trying to crack ctext: {e}"
+            )
             return ""
-    
+
     @staticmethod
     def getTarget() -> str:
         return "XandY"
@@ -58,7 +60,9 @@ class XandY(Cracker[str]):
 
         if not 1 < cset_len < 4:
             # We only consider inputs with two or three unique values
-            logger.trace("String does not contain two or three unique values. Skipping X-Y...")
+            logger.trace(
+                "String does not contain two or three unique values. Skipping X-Y..."
+            )
             return None
 
         else:

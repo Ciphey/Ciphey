@@ -91,7 +91,11 @@ class Registry:
             # Replace input type with polymorphic checker if required
             if issubclass(input_type, Checker):
                 if len(args) == 0:
-                    arg = [get_args(i) for i in input_type.__orig_bases__ if get_origin(i) == Checker][0]
+                    arg = [
+                        get_args(i)
+                        for i in input_type.__orig_bases__
+                        if get_origin(i) == Checker
+                    ][0]
                     if len(arg) != 1:
                         raise TypeError(f"No argument for Checker")
                     input_type = input_type.convert({arg[0]})

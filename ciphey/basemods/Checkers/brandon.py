@@ -216,7 +216,6 @@ class Brandon(ciphey.iface.Checker[str]):
 
         length_text = len(text)
 
-
         what_to_use = {}
 
         # this code decides what checker / threshold to use

@@ -11,7 +11,7 @@ class HumanChecker(Checker[str]):
 
     def check(self, text: str) -> Optional[str]:
         with self._config().pause_spinner_handle():
-            response = input(f'Result {text.__repr__()} (y/N): ').lower()
+            response = input(f"Result {text.__repr__()} (y/N): ").lower()
         if response == "y":
             return ""
         elif response == "n" or response == "":

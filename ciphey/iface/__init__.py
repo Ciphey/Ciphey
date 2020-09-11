@@ -18,7 +18,7 @@ from ._modules import (
     T,
     U,
     pretty_search_results,
-    PolymorphicChecker
+    PolymorphicChecker,
 )
 
 from ._registry import get_args, get_origin

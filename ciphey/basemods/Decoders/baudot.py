@@ -3,6 +3,7 @@ from typing import Optional, Dict, List
 
 from ciphey.iface import ParamSpec, Config, T, U, Decoder, registry, Translation
 
+
 @registry.register_multi((str, str), (bytes, bytes))
 class Baudot(Decoder[str, str]):
     def decode(self, ctext: T) -> Optional[U]:
@@ -10,7 +11,6 @@ class Baudot(Decoder[str, str]):
         ctext -> the input to the function
         returns string
     """
-
 
         ret = ""
         switch_to_digit_map = 0

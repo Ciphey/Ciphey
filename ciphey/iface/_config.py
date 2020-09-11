@@ -138,7 +138,9 @@ class Config:
 
         # Checkers do not depend on any other config object
         logger.trace(f"Registry is {_fwd.registry._reg[PolymorphicChecker]}")
-        self.objs["checker"] = self(_fwd.registry.get_named(self.checker, PolymorphicChecker))
+        self.objs["checker"] = self(
+            _fwd.registry.get_named(self.checker, PolymorphicChecker)
+        )
         # Searchers only depend on checkers
         self.objs["searcher"] = self(_fwd.registry.get_named(self.searcher, Searcher))
 

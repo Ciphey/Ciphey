@@ -53,7 +53,7 @@ class XorCrypt(ciphey.iface.Cracker[bytes]):
             )
 
         return CrackInfo(
-            success_likelihood=0.9, # Dunno, but it's quite likely
+            success_likelihood=0.9,  # Dunno, but it's quite likely
             # TODO: actually calculate runtimes
             success_runtime=2e-3,
             failure_runtime=2e-2,
@@ -66,17 +66,17 @@ class XorCrypt(ciphey.iface.Cracker[bytes]):
     def crackOne(
         self, ctext: bytes, analysis: cipheycore.windowed_analysis_res
     ) -> List[CrackResult]:
-        possible_keys = cipheycore.xorcrypt_crack(
-            analysis, self.expected, self.p_value
-        )
+        possible_keys = cipheycore.xorcrypt_crack(analysis, self.expected, self.p_value)
 
-        logger.trace(f"xorcrypt crack got keys: {[[i for i in candidate.key] for candidate in possible_keys]}")
+        logger.trace(
+            f"xorcrypt crack got keys: {[[i for i in candidate.key] for candidate in possible_keys]}"
+        )
         return [
             CrackResult(
                 value=cipheycore.xorcrypt_decrypt(ctext, candidate.key),
                 key_info="0x" + "".join(["{:02x}".format(i) for i in candidate.key]),
             )
-            for candidate in possible_keys[:min(len(possible_keys), 10)]
+            for candidate in possible_keys[: min(len(possible_keys), 10)]
         ]
 
     def attemptCrack(self, ctext: bytes) -> List[CrackResult]:
@@ -113,7 +113,7 @@ class XorCrypt(ciphey.iface.Cracker[bytes]):
                         ctext,
                         f"xorcrypt::{len}",
                         lambda: cipheycore.analyse_bytes(ctext, len),
-                    )
+                    ),
                 )
 
             return ret
