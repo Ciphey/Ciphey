@@ -16,4 +16,5 @@ from . import (
     decimal,
     base69,
     baudot,
+    url,
 )
