@@ -1,26 +1,28 @@
 from typing import Optional, Dict, List
+
+from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry
+
 from urllib.parse import unquote
 
-from ciphey.iface import ParamSpec, Config, T, U, Decoder, registry
 
-
-@registry.register_multi((str, str), (bytes, bytes))
-class URL(Decoder[T, U]):
+@registry.register
+class Url(Decoder[str, str]):
     def decode(self, ctext: T) -> Optional[U]:
-        """Given a string the function will try and decode URL coding,
-        returns string if indeed URL coding else returns None"""
-        ctext = ctext.replace("+", " ")  # replace + sign with spacebar for unquote
-        result = unquote(ctext)  #built-in function that decodes URL coding
-        if ctext != result:
-            return result
-        else:
+        """
+        Performs URL decoding
+        """
+        ctext = ctext.replace("+", " ")  # Replace + sign with a space for unquote
+        try:
+            result = unquote(ctext)  # Built-in function that decodes URL encoding
+            if result != ctext:
+                return result
+            else:
+                return None
+        except Exception:
             return None
 
     @staticmethod
     def priority() -> float:
-        """How often is this seen in a CTF out of 1
-        Returns float
-        """
         return 0.05
 
     def __init__(self, config: Config):
@@ -28,12 +30,8 @@ class URL(Decoder[T, U]):
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
-        """The parameters this returns"""
         pass
 
     @staticmethod
     def getTarget() -> str:
-        """The name of the decoding ussed
-        returns string
-        """
-        return "URLCoding"
+        return "url"
