@@ -2,7 +2,7 @@ from typing import Optional, Dict, List
 
 from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry
 
-from urllib.parse import unquote
+from urllib.parse import unquote_plus
 
 
 @registry.register
@@ -11,9 +11,8 @@ class Url(Decoder[str, str]):
         """
         Performs URL decoding
         """
-        ctext = ctext.replace("+", " ")  # Replace + sign with a space for unquote
         try:
-            result = unquote(ctext)  # Built-in function that decodes URL encoding
+            result = unquote_plus(ctext, errors="strict")
             if result != ctext:
                 return result
             else:
