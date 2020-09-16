@@ -261,8 +261,8 @@ pygments==2.7.0 \
 pylint==2.6.0 \
     --hash=sha256:bfe68f020f8a0fece830a22dd4d5dddb4ecc6137db04face4c3420a46a52239f \
     --hash=sha256:bb4a908c9dadbc3aac18860550e870f58e1a02c9f2c204fdf5693d73be061210
-pynvim==0.4.1 \
-    --hash=sha256:55e918d664654cfa1c9889d3dbe7c63e9f338df5d49471663f78d54c85e84c58
+pynvim==0.4.2 \
+    --hash=sha256:6bc6204d465de5888a0c5e3e783fe01988b032e22ae87875912280bef0e40f8f
 pyparsing==2.4.7 \
     --hash=sha256:ef9d7589ef3c200abe66653d3f1ab1033c3c419ae9b9bdb1240a85b024efc88b \
     --hash=sha256:c203ec8783bf771a155b207279b9bccb8dea02d8f0c9e5f8ead507bc3246ecc1
