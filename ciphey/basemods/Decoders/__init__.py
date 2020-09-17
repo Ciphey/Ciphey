@@ -17,4 +17,5 @@ from . import (
     base69,
     baudot,
     multi_tap,
+    url,
 )
