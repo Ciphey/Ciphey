@@ -199,6 +199,13 @@ def test_baudot():
     assert res == answer_str.upper()
 
 
+def test_multi_tap():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "44 33 555 555 666 0 6 999 0 66 2 6 33 0 444 7777 0 22 33 33 0 2 66 3 0 444 0 555 444 55 33 0 3 666 4 0 2 66 3 0 2 7 7 555 33 0 2 66 3 0 8 777 33 33",
+    )
+    assert res == answer_str.upper()
+
 def test_url():
     res = decrypt(
         Config().library_default().complete_config(),
