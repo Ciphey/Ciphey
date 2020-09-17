@@ -16,5 +16,6 @@ from . import (
     decimal,
     base69,
     baudot,
+    multi_tap,
     url,
 )
