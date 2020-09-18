@@ -6,7 +6,7 @@ You're suggesting that we run all tests and see if we get 25% Imo that would be 
 Okay, Chi squared is out then! 
 
 > Perhaps we can return an object from the cracker which states what tests have been performed, to save time on redundant analysis. With such information, brandon could make an intelligent decision to just use a wordlist if enough analysis was performed, and the more detailed analysis if it wasn't.
-This is entirely possible. I will add support to `brandon` checker to skip phase 1 if it receives an dictionary with key `"phase1": True` for `True == skip phase 1`. 
+This is entirely possible. I will add support to `brandon` checker to skip phase 1 if it receives a dictionary with key `"phase1": True` for `True == skip phase 1`. 
 
 If you have more tests, let me know and I can factor them in.
 
