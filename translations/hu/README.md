@@ -48,7 +48,6 @@ Teljesen automatizált dekódoló program, mely a mesterséges intelligenciát �
 # 🤔 Mi is ez?
 Kódolt szöveg be, dekódolt szöveg ki.
 
-> "What type of encryption?"
 > "Milyen kódolással működik?"
 
 A lényeg, hogy nem tudjuk előre a kódolást, csak azt, hogy a bizonyos szöveg titkosítva van. A Ciphey kitalálja nekünk a helyes kódolást.
@@ -65,8 +64,7 @@ A Ciphey-t neked találták ki ha nem vagy jártas a kriptográfia világában v
 
 **Mélyvíz.** Ciphey egy egyedi mesterséges intelligencia modult használ (_AuSearch_), egy úgynevezett _Cipher Detection Interface_-szel egybekötve, hogy megállapítsa egy adott szöveg hogyan van titkosítva. Ezek után egy egyedileg készített, bővíthető, természetes nyelvfeldolgozó _Language Checker Interface_-en keresztül észleli, hogy mikor kerül értelmezhetőve az adott titkosított szöveg.
 
-Ráadásul ez még csak a jéghegy teteje. A teljes technikai tudnivalók itt érhetők el (angolul):
-And that's just the tip of the iceberg. For the full technical explanation, check out our [documentation](https://github.com/Ciphey/Ciphey/wiki).
+Ráadásul ez még csak a jéghegy teteje. A teljes technikai tudnivalók itt érhetők el (angolul): [dokumentáció](https://github.com/Ciphey/Ciphey/wiki).
 
 # ✨ Funkciók
 
@@ -140,7 +138,7 @@ Ciphey három fajta módon is futtatható
 2. Ismeretlen bemenet `ciphey -- "Titkosított szöveg"`
 3. Normális mód `ciphey -t "Titkosított szöveg"`
 
-![Gif showing 3 ways to run Ciphey](Pictures_for_README/3ways.gif)
+![Gif showing 3 ways to run Ciphey](https://github.com/Ciphey/Ciphey/raw/master/Pictures_for_README/3ways.gif)
 
 Csendes módban eltűnik a haladásjelző, valószínűség táblázat és minden más zaj.
 
