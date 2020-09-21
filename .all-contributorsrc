@@ -160,6 +160,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "TuxTheXplorer",
+      "name": "TuxTheXplorer",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/37508897?v=4",
+      "profile": "https://tuxthexplorer.github.io/",
+      "contributions": [
+        "translation"
+      ]
     }
   ],
   "contributorsPerLine": 7,
