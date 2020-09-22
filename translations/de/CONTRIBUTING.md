@@ -20,8 +20,8 @@ Wir haben einen Discord-Server, in dem Du Kontakt zu den Entwicklerinnen & Entwi
 [Discord-Server](https://discord.gg/KfyRUWw)
 # Wie kann Ich beitragen?
 Ciphey braucht immer neue Entschlüsselungsmodule! Um herauszufinden, wie Du Deinen Code in Ciphey integrieren kannst, schau hier rein:
-* https://docs.ciphey.online/en/latest/makingCiphers.html für eine einfache Anleitung.
-* https://docs.ciphey.online/en/latest/extending.html für die API-Reference.
+* https://github.com/Ciphey/Ciphey/wiki/Adding-your-own-ciphers für eine einfache Anleitung.
+* https://github.com/Ciphey/Ciphey/wiki/Extending-Ciphey für die API-Reference.
 
 Es wäre toll, wenn Du ein paar Tests für Deinen Code schreiben könntest. Das ist ganz einfach: 
 Kopiere Deine Funktion nach Ciphey/tests/test_main.py und ersetze den `ciphertext` mit etwas, das mit Deiner Methode verschlüsselt wurde. Wir werden wahrscheinlich auch Code ohne Tests mergen, dieser ist aber schwerer zu debuggen.
