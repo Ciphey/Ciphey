@@ -4,7 +4,7 @@ version = "5.5.3"
 description = "Automated Decryption Tool"
 authors = ["Brandon <brandon@skerritt.blog>"]
 license = "MIT"
-documentation = "https://docs.ciphey.online"
+documentation = "https://github.com/Ciphey/Ciphey/wiki"
 exclude = ["tests/hansard.txt"]
 readme = "README.md"
 

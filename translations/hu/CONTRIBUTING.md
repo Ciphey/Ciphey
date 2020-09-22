@@ -19,8 +19,8 @@ Van egy kis Discord szerverünk, ahol beszélgethetsz a fejlesztőkkel, és seg�
 [Discord Server](https://discord.gg/KfyRUWw)
 # Hogy lehet hozzájárulni
 A Ciphey-nak mindig több dekódoló eszközre van szüksége! Ha meg szeretnéd tudni, hogyan integrálhatsz egy kódot a titkosításba, nézdd meg ezeket:
-* https://docs.ciphey.online/en/latest/makingCiphers.html Egyszerű példa
-* https://docs.ciphey.online/en/latest/extending.html API referencia
+* https://github.com/Ciphey/Ciphey/wiki/Adding-your-own-ciphers Egyszerű példa
+* https://github.com/Ciphey/Ciphey/wiki/Extending-Ciphey API referencia
 
 Jó lenne, ha néhány tesztet írnál rá, egyszerűen másolj át egy függvényt a Ciphey / tests / test_main.py fájlba, és cseréld le a rejtjelszöveget a titkosításával kódolt valamire. Ha nem adsz hozzá teszteket, valószínűleg továbbra is egyesítjük a kódot, de sokkal nehezebb lesz diagnosztizálnunk a hibákat!
 
