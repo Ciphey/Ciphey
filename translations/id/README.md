@@ -5,9 +5,9 @@ Terjemahan <br>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/de/README.md>🇩🇪 DE   </a>
  <br><br>
 ➡️ 
-<a href="https://docs.ciphey.online">Dokumentasi</a> |
+<a href="https://github.com/Ciphey/Ciphey/wiki">Dokumentasi</a> |
 <a href="https://discord.ciphey.online">Discord</a> |
- <a href="https://docs.ciphey.online/en/latest/install.html">Petunjuk Instalasi</a>
+ <a href="https://github.com/Ciphey/Ciphey/wiki/Installation">Petunjuk Instalasi</a>
  ⬅️
 
 <br>
@@ -28,7 +28,7 @@ Alat dekripsi otomatis yang menggunakan pemrosesan bahasa alami & kecerdasan bua
 </p>
 <hr>
 
-## [Petunjuk Instalasi](https://docs.ciphey.online/en/latest/install.html)
+## [Petunjuk Instalasi](https://github.com/Ciphey/Ciphey/wiki/Installation)
 
 | <p align="center"><a href="https://pypi.org/project/ciphey">🐍 Python | <p align="center"><a href="https://pypi.org/project/ciphey">🐋 Docker (Universal) |
 | --------------------------- | ---------------------------------|
@@ -56,11 +56,11 @@ Ciphey dapat mendekripsi kebanyakan hal dalam 3 detik atau kurang.
 
 **Detail teknis** Ciphey mengunakan modul kecerdasan buatan (_AuSearch_) dengan sebuah _Antarmuka Deteksi Cipher_ untuk memperkirakan enkripsi teks yang diberikan. Dan kemudian, sebuah _Antarmuka Pemerika Bahasa_ yang dibuat khusus dipakai untuk mendeteksi kapan teks yang diberikan sudah terdekripsi.
 
-Dan itu hanya baru puncak dari gunung es. Untuk penjelasan teknis yang lebih lengkap, lihat [dokumentasi](https://docs.ciphey.online/en/latest) kita.
+Dan itu hanya baru puncak dari gunung es. Untuk penjelasan teknis yang lebih lengkap, lihat [dokumentasi](https://github.com/Ciphey/Ciphey/wiki) kita.
 
 # ✨ Fitur-fitur
 
-- **Lebih dari 20 jenis enkripsi didukung** seperti penyandian (binary, base64) dan enkripsi normal seperti cipher Caesar, Transposisi dan banyak lagi. **[Untuk daftar lengkap, klik disini](https://docs.ciphey.online/en/latest/ciphers.html)**
+- **Lebih dari 20 jenis enkripsi didukung** seperti penyandian (binary, base64) dan enkripsi normal seperti cipher Caesar, Transposisi dan banyak lagi. **[Untuk daftar lengkap, klik disini](https://github.com/Ciphey/Ciphey/wiki/Supported-Ciphers)**
 - **Ciphey mengunakan modul kecerdasan buatan dengan Pencarian Bertambah (_AuSearch_) untuk menjawab pertanyaan "enkripsi apa yang digunakan?"** Ini memunkinkan dekripsi untuk membutuhkan waktu kurang dari 3 detik. 
 - **Modul pemrosesan bahasa alami yang dibangun khusus** Ciphey dapat mendeteksi ketika sesuatu adalah teks biasa dengan akurasi yang sangat tinggi dan dengan cepat.
 - **Dukungan Multi Bahasa** saat ini, hanya Bahasa Jerman & Inggris (dengan varian AU, UK, CAN, USA) yang tersedia.
@@ -117,13 +117,13 @@ Kami juga menguji CyberChef dan Ciphey dengan file sebesar **6gb**. Ciphey memec
 
 # 🎬 Getting Started
 
-If you're having trouble with installing Ciphey, [read this.](https://docs.ciphey.online/en/latest/install.html)
+If you're having trouble with installing Ciphey, [read this.](https://github.com/Ciphey/Ciphey/wiki/Common-Issues-&-Their-Solutions)
 
 ## ‼️ Important Links (Docs, Installation guide, Discord Support)
 
 | Petunjuk Instalasi | Dokumentasi | Discord |
 | ------------------ | ------------- | ------- |
-| 📖 [Petunjuk Instalasi](https://docs.ciphey.online/en/latest/install.html) | 📚 [Dokumentasi](https://docs.ciphey.online) | 🦜 [Discord](https://discord.ciphey.online)
+| 📖 [Petunjuk Instalasi](https://github.com/Ciphey/Ciphey/wiki/Installation) | 📚 [Dokumentasi](https://github.com/Ciphey/Ciphey/wiki) | 🦜 [Discord](https://discord.ciphey.online)
 
 ## 🏃‍♀️Menggunakan Ciphey
 Ada 3 cara untuk memakai Ciphey.
