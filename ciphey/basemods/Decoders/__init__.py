@@ -18,5 +18,4 @@ from . import (
     baudot,
     multi_tap,
     url,
-    rot47,
 )
