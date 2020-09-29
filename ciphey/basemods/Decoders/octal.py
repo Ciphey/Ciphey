@@ -7,7 +7,7 @@ from ciphey.iface import registry
 
 
 @registry.register
-class Octal(ciphey.iface.Decoder[str, bytes]):
+class Octal(ciphey.iface.Decoder[str]):
     @staticmethod
     def getTarget() -> str:
         return "octal"

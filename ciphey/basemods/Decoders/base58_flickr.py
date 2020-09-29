@@ -6,7 +6,7 @@ import base58
 
 
 @registry.register
-class Base58_flickr(Decoder[str, str]):
+class Base58_flickr(Decoder[str]):
     def decode(self, ctext: T) -> Optional[U]:
         """
         Performs Base58 (Flickr) decoding

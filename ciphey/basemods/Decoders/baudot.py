@@ -3,8 +3,8 @@ from typing import Optional, Dict, List
 
 from ciphey.iface import ParamSpec, Config, T, U, Decoder, registry, Translation
 
-@registry.register_multi((str, str), (bytes, bytes))
-class Baudot(Decoder[str, str]):
+@registry.register
+class Baudot(Decoder[str]):
     def decode(self, ctext: T) -> Optional[U]:
         """Write the code that decodes here
         ctext -> the input to the function

@@ -6,7 +6,7 @@ import base91
 
 
 @registry.register
-class Base91(Decoder[str, str]):
+class Base91(Decoder[str]):
     def decode(self, ctext: T) -> Optional[U]:
         """
         Performs Base91 decoding

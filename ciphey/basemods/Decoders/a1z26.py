@@ -8,7 +8,7 @@ import re
 
 
 @registry.register
-class A1z26(Decoder[str, str]):
+class A1z26(Decoder[str]):
     def decode(self, ctext: T) -> Optional[U]:
         """
         Performs A1Z26 decoding

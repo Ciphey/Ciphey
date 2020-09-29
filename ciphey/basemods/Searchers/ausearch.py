@@ -177,7 +177,7 @@ class AuSearch(Searcher):
 
     @lru_cache()  # To save extra sorting
     def get_decoders_for(self, t: type):
-        ret = [j for i in registry[Decoder][t].values() for j in i]
+        ret = registry[Decoder[t]]
         ret.sort(key=lambda x: x.priority(), reverse=True)
         return ret
 

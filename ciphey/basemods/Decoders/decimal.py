@@ -8,7 +8,7 @@ import re
 
 
 @registry.register
-class Decimal(Decoder[str, str]):
+class Decimal(Decoder[str]):
     def decode(self, ctext: T) -> Optional[U]:
         """
         Performs Decimal decoding

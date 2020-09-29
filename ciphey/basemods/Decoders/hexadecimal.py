@@ -7,7 +7,7 @@ from ciphey.iface import registry
 
 
 @registry.register
-class Hex(ciphey.iface.Decoder[str, bytes]):
+class Hex(ciphey.iface.Decoder[str]):
     @staticmethod
     def getTarget() -> str:
         return "hex"

@@ -6,7 +6,7 @@ from urllib.parse import unquote_plus
 
 
 @registry.register
-class Url(Decoder[str, str]):
+class Url(Decoder[str]):
     def decode(self, ctext: T) -> Optional[U]:
         """
         Performs URL decoding

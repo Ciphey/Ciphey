@@ -9,7 +9,7 @@ import re
 
 
 @registry.register
-class Binary(ciphey.iface.Decoder[str, bytes]):
+class Binary(ciphey.iface.Decoder[str]):
     @staticmethod
     def getTarget() -> str:
         return "binary"

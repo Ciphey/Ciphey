@@ -6,7 +6,7 @@ import base62
 
 
 @registry.register
-class Base62(Decoder[str, str]):
+class Base62(Decoder[str]):
     def decode(self, ctext: T) -> Optional[U]:
         """
         Performs Base62 decoding

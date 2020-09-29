@@ -8,7 +8,7 @@ import re
 
 
 @registry.register
-class Dna(Decoder[str, str]):
+class Dna(Decoder[str]):
     def decode(self, ctext: T) -> Optional[U]:
         """
         Performs DNA decoding

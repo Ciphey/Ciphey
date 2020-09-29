@@ -8,7 +8,7 @@ from zmq.utils import z85
 
 
 @registry.register
-class Z85(Decoder[str, str]):
+class Z85(Decoder[str]):
     def decode(self, ctext: T) -> Optional[U]:
         """
         Performs Z85 decoding

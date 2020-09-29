@@ -8,7 +8,7 @@ import re
 
 
 @registry.register
-class Dtmf(Decoder[str, str]):
+class Dtmf(Decoder[str]):
     def decode(self, ctext: T) -> Optional[U]:
         """
         Performs DTMF decoding

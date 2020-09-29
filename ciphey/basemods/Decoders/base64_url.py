@@ -6,7 +6,7 @@ import base64
 
 
 @registry.register
-class Base64_url(Decoder[str, str]):
+class Base64_url(Decoder[str]):
     def decode(self, ctext: T) -> Optional[U]:
         """
         Performs Base64 URL decoding

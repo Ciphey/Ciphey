@@ -8,7 +8,7 @@ from loguru import logger
 
 
 @registry.register
-class Galactic(Decoder[str, str]):
+class Galactic(Decoder[str]):
     def decode(self, ctext: T) -> Optional[U]:
         """
         Takes a string written in the 'Standard Galactic Alphabet' 

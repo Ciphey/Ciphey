@@ -11,7 +11,7 @@ from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, WordList
 
 
 @registry.register
-class Base69(Decoder[str, str]):
+class Base69(Decoder[str]):
     def chars_to_byte(self, s: str):
         return (69 * self.CHARS.index(s[1])) + (self.CHARS.index(s[0]))
 

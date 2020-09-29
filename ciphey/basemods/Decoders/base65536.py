@@ -4,9 +4,8 @@ from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry
 
 import base65536
 
-
 @registry.register
-class Base65536(Decoder[str, str]):
+class Base65536(Decoder[str]):
     def decode(self, ctext: T) -> Optional[U]:
         """
         Performs Base65536 decoding

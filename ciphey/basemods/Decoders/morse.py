@@ -6,7 +6,7 @@ from ciphey.iface import registry
 
 
 @registry.register
-class MorseCode(ciphey.iface.Decoder[str, str]):
+class MorseCode(ciphey.iface.Decoder[str]):
     # A priority list for char/word boundaries
     BOUNDARIES = {" ": 1, "/": 2, "\n": 3}
     PURGE = {ord(c): None for c in BOUNDARIES.keys()}

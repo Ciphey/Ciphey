@@ -7,7 +7,7 @@ from ciphey.iface import registry, Translation, ParamSpec
 
 
 @registry.register
-class Leet(ciphey.iface.Decoder[str, str]):
+class Leet(ciphey.iface.Decoder[str]):
     @staticmethod
     def getTarget() -> str:
         return "leet"

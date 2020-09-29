@@ -7,7 +7,7 @@ from ciphey.iface import registry
 
 
 @registry.register
-class Utf8(ciphey.iface.Decoder[bytes, str]):
+class Utf8(ciphey.iface.Decoder[bytes]):
     @staticmethod
     def getTarget() -> str:
         return "utf8"

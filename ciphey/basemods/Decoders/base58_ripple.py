@@ -6,7 +6,7 @@ import base58
 
 
 @registry.register
-class Base58_ripple(Decoder[str, str]):
+class Base58_ripple(Decoder[str]):
     def decode(self, ctext: T) -> Optional[U]:
         """
         Performs Base62 decoding

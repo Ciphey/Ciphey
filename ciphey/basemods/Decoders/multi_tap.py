@@ -4,13 +4,13 @@ from ciphey.iface import ParamSpec, Config, T, U, Decoder, registry
 
 
 @registry.register
-class multiTap(Decoder[str, str]):
+class MultiTap(Decoder[str]):
     def decode(self, ctext: str) -> Optional[str]:
         decode_text = ""
         for x in ctext.split():
             if x == self.SPACE_DIGIT:  # check if it space
                 decode_text += " "
-            elif not multiTap.valid_code_part(x):
+            elif not MultiTap.valid_code_part(x):
                 return None
             else:
                 decode_text += self.decode_num_to_char(x)
@@ -23,7 +23,7 @@ class multiTap(Decoder[str, str]):
             return False
 
         # if not all the digits are the same
-        if not multiTap.is_all_dup(code):
+        if not MultiTap.is_all_dup(code):
             return False
 
         if int(code[0]) not in range(2, 10):
@@ -40,8 +40,8 @@ class multiTap(Decoder[str, str]):
 
     @staticmethod
     def decode_num_to_char(number: str) -> str:
-        index = multiTap.calculate_index(number)
-        return multiTap.number_index_to_char(index)
+        index = MultiTap.calculate_index(number)
+        return MultiTap.number_index_to_char(index)
 
     @staticmethod
     def number_index_to_char(index_number: int) -> str:
@@ -52,7 +52,7 @@ class multiTap(Decoder[str, str]):
     def calculate_index(number: str) -> int:
         first_number_as_int = int(number[0])
 
-        number_index = multiTap.get_index_from_first_digit(first_number_as_int)
+        number_index = MultiTap.get_index_from_first_digit(first_number_as_int)
 
         # add to index the number of the char : "22" -> index += 1
         num_rest_numbers = len(number) - 1

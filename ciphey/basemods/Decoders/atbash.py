@@ -8,7 +8,7 @@ from ciphey.common import fix_case
 
 
 @registry.register
-class Atbash(Decoder[str, str]):
+class Atbash(Decoder[str]):
     def decode(self, ctext: T) -> Optional[U]:
         """
         Takes an encoded string and attempts to decode it according to the Atbash cipher.
