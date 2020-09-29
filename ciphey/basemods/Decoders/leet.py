@@ -1,4 +1,4 @@
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, Set
 
 from loguru import logger
 
@@ -11,6 +11,10 @@ class Leet(ciphey.iface.Decoder[str]):
     @staticmethod
     def getTarget() -> str:
         return "leet"
+
+    @staticmethod
+    def getTags() -> Set[str]:
+        return {"leet", "substitution"}
 
     def decode(self, text: str) -> Optional[str]:
         for src, dst in self.translate.items():

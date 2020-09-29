@@ -1,4 +1,4 @@
-from typing import Optional, Dict, List
+from typing import Optional, Dict, List, Set
 
 from ciphey.iface import ParamSpec, Config, T, U, Decoder, registry
 
@@ -22,3 +22,7 @@ class Reverse(Decoder):
     @staticmethod
     def getTarget() -> str:
         return "reverse"
+
+    @staticmethod
+    def getTags() -> Set[str]:
+        return {"reverse"}

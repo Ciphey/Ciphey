@@ -35,6 +35,7 @@ def gen_class(name, decoder, priority, ns):
     ns["getParams"] = ciphey.common.id_lambda(None)
     ns["getTarget"] = ciphey.common.id_lambda(name)
     ns["priority"] = ciphey.common.id_lambda(priority)
+    ns["getTags"] = ciphey.common.id_lambda({name, "base"})
     ns["__init__"] = lambda self, config: super(type(self), self).__init__(config)
 
 

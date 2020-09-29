@@ -1,4 +1,4 @@
-from typing import Optional, Dict, Any, List
+from typing import Optional, Dict, Any, List, Set
 import re
 from loguru import logger
 import ciphey
@@ -18,6 +18,10 @@ class MorseCode(ciphey.iface.Decoder[str]):
     @staticmethod
     def getTarget() -> str:
         return "morse"
+
+    @staticmethod
+    def getTags() -> Set[str]:
+        return {"morse", "substitution", "telecom"}
 
     def decode(self, text: str) -> Optional[str]:
         logger.trace("Attempting morse code")

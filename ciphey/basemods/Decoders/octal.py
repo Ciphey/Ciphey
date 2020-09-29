@@ -1,4 +1,4 @@
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, Set
 
 from loguru import logger
 
@@ -11,6 +11,10 @@ class Octal(ciphey.iface.Decoder[str]):
     @staticmethod
     def getTarget() -> str:
         return "octal"
+
+    @staticmethod
+    def getTags() -> Set[str]:
+        return {"octal", "base"}
 
     def decode(self, text: str) -> Optional[bytes]:
         """

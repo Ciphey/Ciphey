@@ -1,5 +1,5 @@
 import re
-from typing import Optional, Dict, List
+from typing import Optional, Dict, List, Set
 
 from ciphey.iface import ParamSpec, Config, T, U, Decoder, registry, Translation
 
@@ -56,3 +56,7 @@ class Baudot(Decoder[str]):
         returns string
         """
         return "baudot"
+
+    @staticmethod
+    def getTags() -> Set[str]:
+        return {"baudot", "substitution", "telecom"}

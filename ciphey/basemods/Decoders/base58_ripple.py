@@ -1,4 +1,4 @@
-from typing import Optional, Dict, List
+from typing import Optional, Dict, List, Set
 
 from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry
 
@@ -33,3 +33,8 @@ class Base58_ripple(Decoder[str]):
     @staticmethod
     def getTarget() -> str:
         return "base58_ripple"
+
+    @staticmethod
+    def getTags() -> Set[str]:
+        return {"base58", "base"}
+

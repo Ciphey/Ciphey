@@ -1,4 +1,4 @@
-from typing import Optional, Dict, List
+from typing import Optional, Dict, List, Set
 
 from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry
 
@@ -39,3 +39,7 @@ class Z85(Decoder[str]):
     @staticmethod
     def getTarget() -> str:
         return "z85"
+
+    @staticmethod
+    def getTags() -> Set[str]:
+        return {"z85", "base"}

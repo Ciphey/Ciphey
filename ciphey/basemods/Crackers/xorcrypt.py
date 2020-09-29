@@ -63,6 +63,10 @@ class XorCrypt(ciphey.iface.Cracker[bytes]):
     def getTarget() -> str:
         return "xorcrypt"
 
+    @staticmethod
+    def getTags() -> Set[str]:
+        return {"xorcrypt", "basic", "xor"}
+
     def crackOne(
         self, ctext: bytes, analysis: cipheycore.windowed_analysis_res
     ) -> List[CrackResult]:

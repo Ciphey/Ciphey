@@ -1,4 +1,4 @@
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, Set
 
 from loguru import logger
 
@@ -28,7 +28,7 @@ class Utf8(ciphey.iface.Decoder[bytes]):
 
     @staticmethod
     def getName() -> str:
-        return "UTF-8"
+        return "utf-8"
 
     @staticmethod
     def priority() -> float:
@@ -36,3 +36,7 @@ class Utf8(ciphey.iface.Decoder[bytes]):
 
     def __init__(self, config: ciphey.iface.Config):
         super().__init__(config)
+
+    @staticmethod
+    def getTags() -> Set[str]:
+        return {"utf-8", "unicode", "text"}

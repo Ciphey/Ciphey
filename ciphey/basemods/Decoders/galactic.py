@@ -1,7 +1,7 @@
 # community
 # by https://github.com/lukasgabriel
 
-from typing import Optional, Dict, List
+from typing import Optional, Dict, List, Set
 
 from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, Translation
 from loguru import logger
@@ -80,3 +80,7 @@ class Galactic(Decoder[str]):
     @staticmethod
     def getTarget() -> str:
         return "galactic"
+
+    @staticmethod
+    def getTags() -> Set[str]:
+        return {"galactic", "substitution"}

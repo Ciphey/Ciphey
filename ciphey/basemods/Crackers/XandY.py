@@ -36,6 +36,10 @@ class XandY(Cracker[str]):
     def getTarget() -> str:
         return "XandY"
 
+    @staticmethod
+    def getTags() -> Set[str]:
+        return {"XandY", "basic", "substitution"}
+
     def attemptCrack(self, ctext: str) -> List[CrackResult]:
         """
         Checks an input if it only consists of two or three different letters.

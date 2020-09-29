@@ -1,4 +1,4 @@
-from typing import Optional, Dict, List
+from typing import Optional, Dict, List, Set
 
 from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry
 
@@ -34,3 +34,7 @@ class Url(Decoder[str]):
     @staticmethod
     def getTarget() -> str:
         return "url"
+
+    @staticmethod
+    def getTags() -> Set[str]:
+        return {"url", "web"}

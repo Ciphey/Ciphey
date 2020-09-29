@@ -37,6 +37,10 @@ class XorSingle(ciphey.iface.Cracker[bytes]):
     def getTarget() -> str:
         return "xor_single"
 
+    @staticmethod
+    def getTags() -> Set[str]:
+        return {"xor_single", "basic", "xor"}
+
     def attemptCrack(self, ctext: bytes) -> List[CrackResult]:
         logger.debug("Trying xor single cipher")
         # TODO: handle different alphabets

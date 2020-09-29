@@ -5,7 +5,7 @@
 import re
 from math import floor, ceil
 
-from typing import Optional, Dict, List
+from typing import Optional, Dict, List, Set
 
 from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, WordList
 
@@ -86,3 +86,7 @@ class Base69(Decoder[str]):
     @staticmethod
     def getTarget() -> str:
         return "base69"
+
+    @staticmethod
+    def getTags() -> Set[str]:
+        return {"base69", "base"}

@@ -1,4 +1,4 @@
-from typing import Optional, Dict, Any, List
+from typing import Optional, Dict, Any, List, Set
 
 from loguru import logger
 
@@ -13,6 +13,10 @@ class Binary(ciphey.iface.Decoder[str]):
     @staticmethod
     def getTarget() -> str:
         return "binary"
+
+    @staticmethod
+    def getTags() -> Set[str]:
+        return {"binary", "base"}
 
     def try_split(self, split_text: List[str]):
         ret = []

@@ -102,6 +102,20 @@ class Targeted(ABC):
         pass
 
 
+class Tagged(ABC):
+    @staticmethod
+    @abstractmethod
+    def getTags() -> Set[str]:
+        """Should return the target that this object attacks/decodes"""
+        pass
+
+    @classmethod
+    def check_compatible(cls, good: Set[str], bad: Set[str]) -> bool:
+        """Helpful wrapper to check if a Tagged class is compatible with a set of tags"""
+        tags = cls.getTags()
+        return good.issubset(tags) and bad.isdisjoint(tags)
+
+
 class PolymorphicChecker(ConfigurableModule):
     @abstractmethod
     def check(self, text) -> Optional[str]:
@@ -179,7 +193,7 @@ class Checker(Generic[T], ConfigurableModule):
 #     def __init__(self, config: Config): super().__init__(config)
 
 
-class Decoder(Generic[T], ConfigurableModule, Targeted):
+class Decoder(Generic[T], ConfigurableModule, Targeted, Tagged):
     """Represents the undoing of some encoding"""
 
     @abstractmethod
@@ -234,7 +248,7 @@ class CrackInfo(NamedTuple):
     failure_runtime: float
 
 
-class Cracker(Generic[T], ConfigurableModule, Targeted):
+class Cracker(Generic[T], ConfigurableModule, Targeted, Tagged):
     @abstractmethod
     def getInfo(self, ctext: T) -> CrackInfo:
         """Should return some informed guesses on resource consumption when run on `ctext`"""

@@ -1,7 +1,7 @@
 # community
 # by https://github.com/lukasgabriel
 
-from typing import Optional, Dict, List
+from typing import Optional, Dict, List, Set
 
 from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, WordList
 from ciphey.common import fix_case
@@ -53,3 +53,7 @@ class Atbash(Decoder[str]):
     @staticmethod
     def getTarget() -> str:
         return "atbash"
+
+    @staticmethod
+    def getTags() -> Set[str]:
+        return {"atbash", "substitution"}

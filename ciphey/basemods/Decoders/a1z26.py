@@ -1,4 +1,4 @@
-from typing import Optional, Dict, List
+from typing import Optional, Dict, List, Set
 
 from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry
 
@@ -42,7 +42,7 @@ class A1z26(Decoder[str]):
 
     @staticmethod
     def priority() -> float:
-        return 0.05
+        return 0.01
 
     def __init__(self, config: Config):
         super().__init__(config)
@@ -54,3 +54,7 @@ class A1z26(Decoder[str]):
     @staticmethod
     def getTarget() -> str:
         return "a1z26"
+
+    @staticmethod
+    def getTags() -> Set[str]:
+        return {"a1z26", "substitution"}

@@ -1,4 +1,4 @@
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, Set
 
 from loguru import logger
 
@@ -7,10 +7,14 @@ from ciphey.iface import registry
 
 
 @registry.register
-class Hex(ciphey.iface.Decoder[str]):
+class Hexadecimal(ciphey.iface.Decoder[str]):
     @staticmethod
     def getTarget() -> str:
-        return "hex"
+        return "hexadecimal"
+
+    @staticmethod
+    def getTags() -> Set[str]:
+        return {"hexadecimal", "base"}
 
     def decode(self, text: str) -> Optional[bytes]:
         """

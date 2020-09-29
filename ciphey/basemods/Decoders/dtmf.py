@@ -1,4 +1,4 @@
-from typing import Optional, Dict, List
+from typing import Optional, Dict, List, Set
 
 from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, Translation
 
@@ -49,3 +49,7 @@ class Dtmf(Decoder[str]):
     @staticmethod
     def getTarget() -> str:
         return "dtmf"
+
+    @staticmethod
+    def getTags() -> Set[str]:
+        return {"dtmf", "substitution", "telecom"}

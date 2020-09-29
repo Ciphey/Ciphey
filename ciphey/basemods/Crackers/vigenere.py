@@ -78,6 +78,10 @@ class Vigenere(ciphey.iface.Cracker[str]):
     def getTarget() -> str:
         return "vigenere"
 
+    @staticmethod
+    def getTags() -> Set[str]:
+        return {"vigenere", "basic", "substitution"}
+
     def crackOne(
         self, ctext: str, analysis: cipheycore.windowed_analysis_res, real_ctext: str
     ) -> List[CrackResult]:

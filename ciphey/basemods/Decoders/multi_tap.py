@@ -1,4 +1,4 @@
-from typing import Optional, Dict, List
+from typing import Optional, Dict, List, Set
 
 from ciphey.iface import ParamSpec, Config, T, U, Decoder, registry
 
@@ -86,4 +86,8 @@ class MultiTap(Decoder[str]):
 
     @staticmethod
     def getTarget() -> str:
-        return "Multi-tap"
+        return "multi-tap"
+
+    @staticmethod
+    def getTags() -> Set[str]:
+        return {"multi-tap", "substitution", "telecom"}

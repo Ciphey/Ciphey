@@ -1,4 +1,4 @@
-from typing import Optional, Dict, List
+from typing import Optional, Dict, List, Set
 
 from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry
 
@@ -31,3 +31,7 @@ class Base91(Decoder[str]):
     @staticmethod
     def getTarget() -> str:
         return "base91"
+
+    @staticmethod
+    def getTags() -> Set[str]:
+        return {"base91", "base"}
