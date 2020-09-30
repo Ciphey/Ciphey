@@ -12,14 +12,7 @@ class tap_code(Decoder[str, str]):
             output = ""
             combinations = ctext.split(" ")
             for fragment in combinations:
-                if "1,3" in fragment:
-                    temp = output
-                    temp += "K"
-                    output += "C"
-                else:
                     output += self.TABLE.get(fragment)
-                    temp += self.TABLE.get(fragment)
-
             return output
 
         except Exception as e:
