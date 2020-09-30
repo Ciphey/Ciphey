@@ -8,10 +8,6 @@ from ciphey.iface import registry, Translation, ParamSpec
 
 @registry.register
 class Leet(ciphey.iface.Decoder[str, str]):
-    @staticmethod
-    def getTarget() -> str:
-        return "leet"
-
     def decode(self, text: str) -> Optional[str]:
         for src, dst in self.translate.items():
             text = text.replace(src, dst)
@@ -38,3 +34,7 @@ class Leet(ciphey.iface.Decoder[str, str]):
                 default="cipheydists::translate::leet",
             )
         }
+
+    @staticmethod
+    def getTarget() -> str:
+        return "leet"

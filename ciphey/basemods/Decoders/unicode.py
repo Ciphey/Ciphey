@@ -8,10 +8,6 @@ from ciphey.iface import registry
 
 @registry.register
 class Utf8(ciphey.iface.Decoder[bytes, str]):
-    @staticmethod
-    def getTarget() -> str:
-        return "utf8"
-
     def decode(self, text: bytes) -> Optional[str]:
         logger.trace("Attempting utf-8 decode")
         try:
@@ -23,10 +19,6 @@ class Utf8(ciphey.iface.Decoder[bytes, str]):
             return None
 
     @staticmethod
-    def getParams() -> Optional[Dict[str, Dict[str, Any]]]:
-        pass
-
-    @staticmethod
     def getName() -> str:
         return "UTF-8"
 
@@ -36,3 +28,11 @@ class Utf8(ciphey.iface.Decoder[bytes, str]):
 
     def __init__(self, config: ciphey.iface.Config):
         super().__init__(config)
+
+    @staticmethod
+    def getParams() -> Optional[Dict[str, Dict[str, Any]]]:
+        pass
+
+    @staticmethod
+    def getTarget() -> str:
+        return "utf8"
