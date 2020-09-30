@@ -2,7 +2,6 @@ import base64
 import types
 
 import ciphey
-import binascii
 from typing import Callable, Optional, Any, Dict
 
 from loguru import logger

@@ -1,7 +1,5 @@
 from typing import Optional, Dict, Any
 
-from loguru import logger
-
 import ciphey
 from ciphey.iface import registry, Translation, ParamSpec
 

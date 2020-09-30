@@ -1,5 +1,4 @@
 from typing import Optional, Dict, Any, List
-import re
 from loguru import logger
 import ciphey
 from ciphey.iface import registry
