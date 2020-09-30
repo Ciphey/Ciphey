@@ -188,6 +188,15 @@
       "contributions": [
         "translation"
       ]
+    },
+    {
+      "login": "malathit",
+      "name": "Malathi",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/2684148?v=4",
+      "profile": "https://github.com/malathit",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
