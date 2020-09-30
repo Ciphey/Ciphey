@@ -197,6 +197,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "HexChaos",
+      "name": "Jack",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/8947820?v=4",
+      "profile": "https://hexchaos.xyz/",
+      "contributions": [
+        "translation"
+      ]
     }
   ],
   "contributorsPerLine": 7,
