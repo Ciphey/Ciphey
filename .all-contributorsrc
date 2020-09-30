@@ -179,6 +179,15 @@
         "code",
         "bug"
       ]
+    },
+    {
+      "login": "Termack",
+      "name": "Filipe",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/26333901?v=4",
+      "profile": "https://github.com/Termack",
+      "contributions": [
+        "translation"
+      ]
     }
   ],
   "contributorsPerLine": 7,
