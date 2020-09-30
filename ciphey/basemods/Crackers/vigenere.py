@@ -89,8 +89,6 @@ class Vigenere(ciphey.iface.Cracker[str]):
         logger.trace(
             f"Vigenere crack got keys: {[[i for i in candidate.key] for candidate in possible_keys]}"
         )
-        # if len(possible_keys) and possible_keys[0].p_value < 0.9999999:
-        #     raise 0
         return [
             CrackResult(
                 value=fix_case(cipheycore.vigenere_decrypt(ctext, candidate.key, self.group), real_ctext),

@@ -10,26 +10,6 @@ import re
 
 @registry.register
 class Binary(ciphey.iface.Decoder[str, bytes]):
-    @staticmethod
-    def getTarget() -> str:
-        return "binary"
-
-    def try_split(self, split_text: List[str]):
-        ret = []
-
-        for i in split_text:
-            if len(i) == 0:
-                continue
-            val = int(i, 2)
-            if val > 255 or val < 0:
-                return None
-            ret.append(val)
-
-        if len(ret) != 0:
-            ret = bytes(ret)
-            logger.debug(f"binary successful, returning {ret.__repr__()}")
-            return ret
-
     def decode(self, text: str) -> Optional[bytes]:
         try:
             text = re.sub(r"[^\S \n]", " ", text, flags=re.UNICODE)
@@ -49,9 +29,21 @@ class Binary(ciphey.iface.Decoder[str, bytes]):
         except ValueError:
             return None
 
-    @staticmethod
-    def getParams() -> Optional[Dict[str, Dict[str, Any]]]:
-        pass
+    def try_split(self, split_text: List[str]):
+        ret = []
+
+        for i in split_text:
+            if len(i) == 0:
+                continue
+            val = int(i, 2)
+            if val > 255 or val < 0:
+                return None
+            ret.append(val)
+
+        if len(ret) != 0:
+            ret = bytes(ret)
+            logger.debug(f"binary successful, returning {ret.__repr__()}")
+            return ret
 
     @staticmethod
     def priority() -> float:
@@ -59,3 +51,11 @@ class Binary(ciphey.iface.Decoder[str, bytes]):
 
     def __init__(self, config: ciphey.iface.Config):
         super().__init__(config)
+
+    @staticmethod
+    def getParams() -> Optional[Dict[str, Dict[str, Any]]]:
+        pass
+
+    @staticmethod
+    def getTarget() -> str:
+        return "binary"

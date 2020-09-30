@@ -15,6 +15,4 @@ def id_lambda(value: Any):
 def fix_case(target: str, base: str) -> str:
     """Returns the lower-case string target with the case of base"""
     ret = ''.join([target[i].upper() if base[i].isupper() else target[i] for i in range(len(target))])
-    # print([base[i].isupper() for i in range(len(target))])
-    # print(ret)
     return ''.join([target[i].upper() if base[i].isupper() else target[i] for i in range(len(target))])

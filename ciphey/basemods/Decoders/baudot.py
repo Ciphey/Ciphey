@@ -6,12 +6,6 @@ from ciphey.iface import ParamSpec, Config, T, U, Decoder, registry, Translation
 @registry.register_multi((str, str), (bytes, bytes))
 class Baudot(Decoder[str, str]):
     def decode(self, ctext: T) -> Optional[U]:
-        """Write the code that decodes here
-        ctext -> the input to the function
-        returns string
-    """
-
-
         ret = ""
         switch_to_digit_map = 0
         if type(ctext) == str:
@@ -31,9 +25,6 @@ class Baudot(Decoder[str, str]):
 
     @staticmethod
     def priority() -> float:
-        """How often is this seen in a CTF out of 1
-        Returns float
-        """
         return 0.05
 
     def __init__(self, config: Config):
@@ -52,7 +43,4 @@ class Baudot(Decoder[str, str]):
 
     @staticmethod
     def getTarget() -> str:
-        """The name of the decoding ussed
-        returns string
-        """
         return "baudot"
