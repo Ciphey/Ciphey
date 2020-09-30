@@ -169,6 +169,16 @@
       "contributions": [
         "translation"
       ]
+    },
+    {
+      "login": "Itamai",
+      "name": "Itamai",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/53093696?v=4",
+      "profile": "https://github.com/Itamai",
+      "contributions": [
+        "code",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
