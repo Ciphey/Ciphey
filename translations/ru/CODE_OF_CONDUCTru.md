@@ -42,4 +42,4 @@
 
 Настоящий Кодекс поведения основан на Пакте участника, версия 1.4, доступная по адресу: https://www.contributor-covenant.org/de/version/1/4/code-of-conduct.html.
 
-Переведено с помощью www.DeepL.com/Translator (бесплатная версия)
+
