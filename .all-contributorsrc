@@ -179,6 +179,42 @@
         "code",
         "bug"
       ]
+    },
+    {
+      "login": "Termack",
+      "name": "Filipe",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/26333901?v=4",
+      "profile": "https://github.com/Termack",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "malathit",
+      "name": "Malathi",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/2684148?v=4",
+      "profile": "https://github.com/malathit",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "HexChaos",
+      "name": "Jack",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/8947820?v=4",
+      "profile": "https://hexchaos.xyz/",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "yafkari",
+      "name": "Younes",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/41365655?v=4",
+      "profile": "https://github.com/yafkari",
+      "contributions": [
+        "translation"
+      ]
     }
   ],
   "contributorsPerLine": 7,
