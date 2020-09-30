@@ -275,7 +275,7 @@ class Brandon(ciphey.iface.Checker[str]):
         _keys = list(key)
         _keys = list(map(int, _keys))
         if length_text >= int(_keys[-1]):
-            what_to_use = key[_keys[-1]]
+            what_to_use = list(key)[_keys.index(_keys[-1])]
         else:
             # this algorithm finds the smallest possible fit for the text
             for counter, i in reversed(list(enumerate(_keys))):
