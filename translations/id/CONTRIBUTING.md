@@ -19,8 +19,8 @@ Kami memiliki Discord server kecil agar Anda dapat berbicara dengan pengembang C
 [Server Discord](https://discord.gg/KfyRUWw)
 # Bagaimana cara berkontribusi?
 Ciphey selalu membutuhkan lebih banyak alat dekripsi! Untuk mempelajari cara mengintegrasikan kode ke dalam ciphey, bacalah:
-* https://docs.ciphey.online/en/latest/makingCiphers.html untuk tutorial sederhana
-* https://docs.ciphey.online/en/latest/extending.html untuk referensi API
+* https://github.com/Ciphey/Ciphey/wiki/Adding-your-own-ciphers untuk tutorial sederhana
+* https://github.com/Ciphey/Ciphey/wiki/Extending-Ciphey untuk referensi API
 
 Akan lebih bagus jika anda bisa menulis beberapa test untuknya. Ini bisa dilakukan hanya dengan menyalin fungsi di Ciphey/tests/test_main.py dan menganti ciphertest dengan sesuatu yang dikodekan dengan cipher anda. Jika anda tidak menambahkan test, ada kemungkinan besar kami akan tetap menggabungkannya, tetapi akan lebih sulit bagi kamu untuk mendiagnosis bug!
 

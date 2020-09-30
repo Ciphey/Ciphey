@@ -4,9 +4,9 @@
 <a href=https://github.com/Ciphey/Ciphey/tree/master/README.md>🇬🇧 EN   </a>
  <br><br>
 ➡️ 
-<a href="https://docs.ciphey.online">Dokumentation</a> |
+<a href="https://github.com/Ciphey/Ciphey/wiki">Dokumentation</a> |
 <a href="https://discord.ciphey.online">Discord</a> |
- <a href="https://docs.ciphey.online/en/latest/install.html">Installationshilfe</a>
+ <a href="https://github.com/Ciphey/Ciphey/wiki/Installation">Installationshilfe</a>
  ⬅️
 
 <br>
@@ -27,7 +27,7 @@ Vollautomatisiertes Entschlüsselungs-Tool, gestützt durch algorithmische Sprac
 </p>
 <hr>
 
-## [Installationshilfe](https://docs.ciphey.online/en/latest/install.html)
+## [Installationshilfe](https://github.com/Ciphey/Ciphey/wiki/Installation)
 
 | <p align="center"><a href="https://pypi.org/project/ciphey">🐍 Python | <p align="center"><a href="https://pypi.org/project/ciphey">🐋 Docker (Universell) |
 | --------------------------- | ---------------------------------|
@@ -117,13 +117,13 @@ Außerdem haben wir Ciphey und CyberChef mit einer **6GB Eingabedatei** gegenein
 
 # 🎬 Erste Schritte
 
-Bei Problemen bei der Installation von Ciphey, [hier weiterlesen.](https://docs.ciphey.online/en/latest/install.html)
+Bei Problemen bei der Installation von Ciphey, [hier weiterlesen.](https://github.com/Ciphey/Ciphey/wiki/Common-Issues-&-Their-Solutions)
 
 ## ‼️ Wichtige Links (Docs, Installationshilfe, Discord Support)
 
 | Installationshilfe | Dokumentation | Discord | Docker Image (von REMnux)
 | ------------------ | ------------- | ------- | ------- | 
-| 📖 [Installationshilfe](https://docs.ciphey.online/en/latest/install.html) | 📚 [Dokumentation](https://docs.ciphey.online) | 🦜 [Discord](https://discord.ciphey.online) | 🐋 [Docker Dokumentation](https://docs.remnux.org/run-tools-in-containers/remnux-containers#ciphey)
+| 📖 [Installationshilfe](https://github.com/Ciphey/Ciphey/wiki/Installation) | 📚 [Dokumentation](https://github.com/Ciphey/Ciphey/wiki) | 🦜 [Discord](https://discord.ciphey.online) | 🐋 [Docker Dokumentation](https://docs.remnux.org/run-tools-in-containers/remnux-containers#ciphey)
 
 ## 🏃‍♀️Ciphey ausführen
 Es gibt 3 Möglichkeiten, Ciphey auszuführen:

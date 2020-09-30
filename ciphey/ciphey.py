@@ -5,7 +5,7 @@
 ██║     ██║██╔═══╝ ██╔══██║██╔══╝    ╚██╔╝  
 ╚██████╗██║██║     ██║  ██║███████╗   ██║ 
 https://github.com/ciphey
-https://docs.ciphey.online
+https://github.com/Ciphey/Ciphey/wiki
 
 The cycle goes:
 main -> argparsing (if needed) -> call_encryption -> new Ciphey object -> decrypt() -> produceProbTable ->
@@ -131,7 +131,7 @@ def main(**kwargs):
     """Ciphey - Automated Decryption Tool
     
     Documentation: 
-    https://docs.ciphey.online\n
+    https://github.com/Ciphey/Ciphey/wiki\n
     Discord (support here, we're online most of the day):
     https://discord.ciphey.online/\n
     GitHub: 

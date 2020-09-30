@@ -4,13 +4,13 @@ version = "5.5.3"
 description = "Automated Decryption Tool"
 authors = ["Brandon <brandon@skerritt.blog>"]
 license = "MIT"
-documentation = "https://docs.ciphey.online"
+documentation = "https://github.com/Ciphey/Ciphey/wiki"
 exclude = ["tests/hansard.txt"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.7"
-rich = ">=4,<7"
+rich = ">=4,<8"
 loguru = "^0.5.0"
 pylint = "^2.5.2"
 flake8 = "^3.8.2"
