@@ -12,10 +12,6 @@ class Leet(ciphey.iface.Decoder[str, str]):
         return text
 
     @staticmethod
-    def getParams() -> Optional[Dict[str, Dict[str, Any]]]:
-        pass
-
-    @staticmethod
     def priority() -> float:
         return 0.05
 
