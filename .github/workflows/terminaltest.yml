@@ -2,12 +2,12 @@ on: pull_request
 name: Ciphey terminal test
 jobs:
   terminal_test:
-    name: Test Ciphey using terminal
+    name: On ubuntu-latest with python
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         python-version: [3.7, 3.8]
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
