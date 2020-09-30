@@ -3,7 +3,7 @@
 
 
 import re
-from math import floor, ceil
+from math import ceil
 
 from typing import Optional, Dict, List
 
@@ -12,27 +12,6 @@ from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, WordList
 
 @registry.register
 class Base69(Decoder[str, str]):
-    def chars_to_byte(self, s: str):
-        return (69 * self.CHARS.index(s[1])) + (self.CHARS.index(s[0]))
-
-    def decode_chunk(self, s: str):
-        padded_bytes = s.endswith("=")
-
-        decoded = [0 for _ in range(8)]
-        for i in range(8):
-            decoded[i] = (
-                0
-                if i == 7 and padded_bytes
-                else self.chars_to_byte(s[i * 2 : i * 2 + 2])
-            )
-
-        result = [0 for _ in range(7)]
-        for i in range(7):
-            t1 = decoded[i] << (i + 1)
-            t2 = decoded[i + 1] >> (7 - i - 1)
-            result[i] = t1 | t2
-        return result
-
     def decode(self, ctext: T) -> Optional[U]:
         """
         Performs Base69 decoding
@@ -62,6 +41,27 @@ class Base69(Decoder[str, str]):
             return bytearray(result).decode().strip("\x00")
         except:
             return None
+
+    def decode_chunk(self, s: str):
+        padded_bytes = s.endswith("=")
+
+        decoded = [0 for _ in range(8)]
+        for i in range(8):
+            decoded[i] = (
+                0
+                if i == 7 and padded_bytes
+                else self.chars_to_byte(s[i * 2 : i * 2 + 2])
+            )
+
+        result = [0 for _ in range(7)]
+        for i in range(7):
+            t1 = decoded[i] << (i + 1)
+            t2 = decoded[i + 1] >> (7 - i - 1)
+            result[i] = t1 | t2
+        return result
+
+    def chars_to_byte(self, s: str):
+        return (69 * self.CHARS.index(s[1])) + (self.CHARS.index(s[0]))
 
     @staticmethod
     def priority() -> float:
