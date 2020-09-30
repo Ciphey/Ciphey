@@ -4,7 +4,7 @@ Translations <br>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/de/README.md>🇩🇪 DE   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/hu/README.md>🇭🇺 HU   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/pt-br/README.md>🇧🇷 PT-BR   </a>
-<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/ru/README.md>🇷🇺 RU   </a> 
+<a href=https://github.com/Ciphey/Ciphey/blob/master/translations/ru/readme.md>🇷🇺 RU   </a> 
  <br><br>
 ➡️ 
 <a href="https://github.com/Ciphey/Ciphey/wiki">Documentation</a> |
