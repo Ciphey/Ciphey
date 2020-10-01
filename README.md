@@ -1,5 +1,5 @@
 <p align="center">
-Translations <br>
+翻译 <br>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/id/README.md>🇮🇩 ID   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/de/README.md>🇩🇪 DE   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/hu/README.md>🇭🇺 HU   </a>
@@ -7,9 +7,9 @@ Translations <br>
 <a href=https://github.com/Ciphey/Ciphey/blob/master/translations/ru/readme.md>🇷🇺 RU   </a> 
  <br><br>
 ➡️ 
-<a href="https://github.com/Ciphey/Ciphey/wiki">Documentation</a> |
-<a href="https://discord.ciphey.online">Discord</a> |
- <a href="https://github.com/Ciphey/Ciphey/wiki/Installation">Installation Guide</a>
+<a href="https://github.com/Ciphey/Ciphey/wiki">文献资料</a> |
+<a href="https://discord.ciphey.online">Discord 链接</a> |
+ <a href="https://github.com/Ciphey/Ciphey/wiki/Installation">安装指南</a>
  ⬅️
 
 <br>
@@ -27,13 +27,13 @@ Translations <br>
   
   <img src="https://github.com/brandonskerritt/Ciphey/workflows/Python%20application/badge.svg?branch=master" alt="Ciphey">
 <br>
-Fully automated decryption/decoding/cracking tool using natural language processing & artificial intelligence, along with some common sense.
+使用自然语言处理和人工智能以及一些全自动解密/解码/破解工具。
 </p>
 <hr>
 
-## [Installation Guide](https://github.com/Ciphey/Ciphey/wiki/Installation)
+## [安装指南](https://github.com/Ciphey/Ciphey/wiki/Installation)
 
-| <p align="center"><a href="https://pypi.org/project/ciphey">🐍 Python | <p align="center"><a href="https://pypi.org/project/ciphey">🐋 Docker (Universal) |
+| <p align="center"><a href="https://pypi.org/project/ciphey">🐍 Python | <p align="center"><a href="https://pypi.org/project/ciphey">🐋 Docker (普遍) |
 | --------------------------- | ---------------------------------|
 | <p align="center"><img src="Pictures_for_README/python.png" /></p> | <p align="center"><img src="Pictures_for_README/docker.png" /></p> |
 | `python3 -m pip install ciphey --upgrade`  | `docker run -it --rm remnux/ciphey` | 
@@ -46,45 +46,41 @@ Fully automated decryption/decoding/cracking tool using natural language process
 
 <hr>
 
-# 🤔 What is this?
-Input encrypted text, get the decrypted text back.
+# 🤔 这是什么?
+输入加密的文本，取回解密的文本。
 
-> "What type of encryption?"
+> "什么类型的加密?"
 
-That's the point. You don't know, you just know it's possibly encrypted. Ciphey will figure it out for you.
-
-Ciphey can solve most things in 3 seconds or less.
+这才是重点。您不知道，只是知道它可能已加密。 Ciphey将为您解决。
+Ciphey可以在3秒或更短的时间内解密大多数加密的文本。
 
 <p align="center" href="https://asciinema.org/a/336257">
   <img src="Pictures_for_README/index.gif" alt="Ciphey demo">
 </p>
 
-Ciphey aims to be a tool to automate a lot of decryptions & decodings such as multiple base encodings, classical ciphers, hashes or more advanced cryptography. 
+Ciphey旨在成为一种工具，用于自动执行许多解密和解码，例如多种基本编码，经典密码，哈希或更高级的加密技术。
 
-If you don't know much about cryptography, or you want to quickly check the ciphertext before working on it yourself, Ciphey is for you.
+如果您对密码学不太了解，或者想在自己进行密文处理之前快速检查密文，那么Ciphey就是您的理想之选。
+**技术部分.** Ciphey使用带有(Cipher Detection Interface)和（_AuSearch_）的定制构建的人工智能来近似加密内容。然后是定制的，可定制的自然语言处理_Language Checker Interface_，它可以检测给定文本何时变为纯文本。
+这里没有神经网络或缓慢的AI。我们只使用快速和最小的东西。
+那只是冰山一角. 如果您要完整的技术部分的解释, 看看我们的 [文件资料](https://github.com/Ciphey/Ciphey/wiki).
 
-**The technical part.** Ciphey uses a custom built artificial intelligence module (_AuSearch_) with a _Cipher Detection Interface_ to approximate what something is encrypted with. And then a custom-built, customisable natural language processing _Language Checker Interface_, which can detect when the given text becomes plaintext.
+# ✨ 特征
 
-No neural networks or bloated AI here. We only use what is fast and minimal.
+- **支持30+的加密法 ** 例如编码（二进制，base64）和常规加密（例如Caesar密码，重复密钥XOR等）。 **[有关完整列表，请单击此处](https://github.com/Ciphey/Ciphey/wiki/Supported-Ciphers)**
+- **具有增强搜索功能的定制人工智能（AuSearch）可以回答“使用了哪种加密技术?"** 解密时间不到3秒。
+- **定制的自然语言处理系统** Ciphey 可以确定某些东西是否是纯文本。无论该纯文本是JSON，CTF标志还是英语Ciphey，都可以在几毫秒内获得它。
+- **多国语言支持** 目前，仅有德语和英语（带有AU，UK，CAN，USA变体）。
+- **支持加密和哈希** 诸如CyberChef Magic之类的替代品则没有。
+- **[C++ 核心](https://github.com/Ciphey/CipheyCore)** 这会是整个过程变得非常快。
 
-And that's just the tip of the iceberg. For the full technical explanation, check out our [documentation](https://github.com/Ciphey/Ciphey/wiki).
+# 🔭 Ciphey 与 CyberChef 的对比
 
-# ✨ Features
-
-- **30+ encryptions supported** such as encodings (binary, base64) and normal encryptions like Caesar cipher, repeating-key XOR and more. **[For the full list, click here](https://github.com/Ciphey/Ciphey/wiki/Supported-Ciphers)**
-- **Custom Built Artificial Intelligence with Augmented Search (AuSearch) for answering the question "what encryption was used?"** Resulting in decryptions taking less than 3 seconds. 
-- **Custom built natural language processing module** Ciphey can determine whether something is plaintext or not. Whether that plaintext is JSON, a CTF flag or English Ciphey can get it in a couple of milliseconds.
-- **Multi Language Support** at present, only German & English (with AU, UK, CAN, USA variants).
-- **Supports encryptions and hashes** Which the alternatives such as CyberChef Magic do not. 
-- **[C++ core](https://github.com/Ciphey/CipheyCore)** Blazingly fast.
-
-# 🔭 Ciphey vs CyberChef
-
-## 🔁 Base64 Encoded 42 times
+## 🔁 Base64加密42次
 
 <table>
   <tr>
-  <th>Name</th>
+  <th>名字</th>
     <th>⚡ Ciphey ⚡ </th>
     <th>🐢 CyberChef 🐢</th>
   </tr>
@@ -94,47 +90,47 @@ And that's just the tip of the iceberg. For the full technical explanation, chec
     <td><img src="Pictures_for_README/not_dying.gif" alt="You"></td>
   </tr>
   <tr>
-  <th>Time</th>
-    <td>2 seconds</td>
-    <td>6 seconds</td>
+  <th>时间</th>
+    <td>2 秒</td>
+    <td>6 秒</td>
   </tr>
     <tr>
-  <th>Setup</th>
-    <td><ul><li>Run ciphey on the file</li></ul></td>
-    <td><ul><li>Set the regex param to "{"</li><li>You need to know how many times to recurse</li><li>You need to know it's Base64 all the way down</li><li>You need to load CyberChef (it's a bloated JS app)</li><li>Know enough about CyberChef to create this pipeline</li><li>Invert the match</li></ul></td>
+  <th>建立</th>
+    <td><ul><li>在文件上运行ciphey</li></ul></td>
+    <td><ul><li>将正则表达式参数设置为 "{"</li><li>您需要知道要重复多少次</li><li>您需要一直知道它是使用Base64加密法</li><li>您需要运行 CyberChef (它是以个超级超级慢的JS 应用程式)</li><li>对CyberChef有足够了解以创建此管道</li><li>反转比赛</li></ul></td>
   </tr>
 </table>
 
 
-<sub><b>Note</b> The gifs may load at different times, so one may appear significantly faster than another.</sub><br>
-<sub><b>A note on magic </b>CyberChef's most similar feature to Ciphey is Magic. Magic fails instantly on this input and crashes. The only way we could force CyberChef to compete was to manually define it.</sub>
+<sub><b>Note</b> 这些gif可能在不同的时间加载，因此一个gif的显示速度可能明显快于另一个.</sub><br>
+<sub><b>魔术笔记 </b>CyberChef与Ciphey最相似的功能是Magic。魔术在此输入上立即失败并崩溃。我们迫使CyberChef竞争的唯一方法是手动定义它。</sub>
 
 
-We also tested CyberChef and Ciphey with a **6gb file**. Ciphey cracked it in **5 minutes and 54 seconds**. CyberChef crashed before it even started.
+我们还使用** 6gb文件**测试了CyberChef和Ciphey。 Ciphey在** 5分钟54秒内破解了它。 CyberChef在开始之前就系统崩溃了。
 
 
 
-## 📊 Ciphey vs Katana vs CyberChef Magic
+## 📊 Ciphey 和 Katana 和 CyberChef Magic 的对比
 
-| **Name**                                   | ⚡ Ciphey ⚡ | 🗡️ Katana 🗡️ | 🐢 CyberChef Magic 🐢 |
+| **名字**                                   | ⚡ Ciphey ⚡ | 🗡️ Katana 🗡️ | 🐢 CyberChef Magic 🐢 |
 | ------------------------------------------ | ---------- | ---------- | ------------------- |
-| Advanced Language Checker                   | ✅          | ❌          | ✅                   |
-| Supports Encryptions                       | ✅          | ✅          | ❌                   |
-| Releases named after Dystopian themes 🌃    | ✅          | ❌          | ❌                   |
-| Supports hashes                            | ✅          | ✅          | ❌                   |
-| Easy to set up                             | ✅          | ❌          | ✅                   |
-| Can guess what something is encrypted with | ✅          | ❌          | ❌                   |
-| Created for hackers by hackers             | ✅          | ✅          | ❌                   |
+| 高级语言检查器                              | ✅          | ❌          | ✅                   |
+| 支持加密法                                  | ✅          | ✅          | ❌                   |
+| 以反乌托邦主题命名的发行🌃                   | ✅          | ❌          | ❌                   |
+| 支持哈希算法                                | ✅          | ✅          | ❌                   |
+| 易于设置                                    | ✅          | ❌          | ✅                   |
+| 可以猜测使用什么加密                         | ✅          | ❌          | ❌                   |
+|由黑客为黑客创建                              | ✅          | ✅          | ❌                   |
 
-# 🎬 Getting Started
+# 🎬 入门
 
-If you're having trouble with installing Ciphey, [read this.](https://github.com/Ciphey/Ciphey/wiki/Common-Issues-&-Their-Solutions)
+如果您在安装Ciphey时遇到问题，请 [阅读此内容](https://github.com/Ciphey/Ciphey/wiki/Common-Issues-&-Their-Solutions)
 
-## ‼️ Important Links (Docs, Installation guide, Discord Support)
+## ‼️ 重要链接（文档，安装指南，Discord链接）
 
-| Installation Guide | Documentation | Discord | Docker Image (from REMnux)
+| 安装指南            | 文献资料      | Discord | Docker 图像（来自REMnux）
 | ------------------ | ------------- | ------- | ------- | 
-| 📖 [Installation Guide](https://github.com/Ciphey/Ciphey/wiki/Installation) | 📚 [Documentation](https://github.com/Ciphey/Ciphey/wiki) | 🦜 [Discord](https://discord.ciphey.online) | 🐋 [Docker Documentation](https://docs.remnux.org/run-tools-in-containers/remnux-containers#ciphey)
+| 📖 [安装指南](https://github.com/Ciphey/Ciphey/wiki/Installation) | 📚 [文献资料](https://github.com/Ciphey/Ciphey/wiki) | 🦜 [Discord](https://discord.ciphey.online) | 🐋 [Docker 文献资料](https://docs.remnux.org/run-tools-in-containers/remnux-containers#ciphey)
 
 ## 🏃‍♀️Running Ciphey
 There are 3 ways to run Ciphey.
@@ -176,8 +172,7 @@ The contributions will be used to fund not only the future of Ciphey and its aut
 GitHub doesn't support "sponsor this project and we'll evenly distribute the money", so pick a link and we'll sort it out on our end 🥰
 
 ## ✨ Contributors
-
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+感谢这些很棒的人([表情符号](https://allcontributors.org/docs/en/emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
