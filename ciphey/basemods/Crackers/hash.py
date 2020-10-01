@@ -56,12 +56,6 @@ def gamma(ctext, hashtype):
 
 
 def delta(ctext, hashtype):
-    # data = {'auth':'8272hgt', 'hash':ctext, 'string':'','Submit':'Submit'}
-    # response = requests.post('http://hashcrack.com/index.php' , data).text
-    # match = re.search(r'<span class=hervorheb2>(.*?)</span></div></TD>', response)
-    # if match:
-    #    return match.group(1)
-    # else:
     return None
 
 

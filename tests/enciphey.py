@@ -23,7 +23,6 @@ class encipher:
         """Inits the encipher object """
         self.text = self.read_text()
         self.MAX_SENTENCE_LENGTH = 5
-        # ntlk.download("punkt")
         self.crypto = encipher_crypto()
 
     def read_text(self):  # pragma: no cover
@@ -192,5 +191,3 @@ class encipher_crypto:  # pragma: no cover
         return base62.decode(str(re.sub(r"[^A-Za-z1-9]+", "", text)))
 
 
-# obj = encipher()
-# print(obj.getRandomEncryptedSentence())
