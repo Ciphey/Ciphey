@@ -1,49 +1,45 @@
-Howdy! 
+你好！
 
-So, you're interested in contributing to Ciphey? 🤔
+您有兴趣为Ciphey做贡献吗？ 🤔
 
-Perhaps you're confused as to where to start, or you believe your coding skills aren't "good enough"? Well, for the latter - that's ridiculous! We're perfectly okay with "bad code" and even then, if you're reading this document you're probably a great programmer. I mean, newbies don't often learn to contribute to GitHub projects 😉
+也许您对从哪里开始感到困惑，或者您认为自己的编码技能还不够“好”？好吧，对于后者-这太荒谬了！我们对“错误的代码”完全没问题，即使如此，如果您正在阅读本文档，您可能也是一个不错的程序员。我的意思是，新手通常不会学会为GitHub项目做贡献 😉
 
-Here are some ways you can contribute to Ciphey:
-* Add a new language 🧏
-* Add more encryption methods 📚
-* Create more documentation (very important! We would be eternally grateful)
-* Fix bugs submitted via GitHub issues (we can support you in this 😊)
-* Refactor the code base 🥺
-
-If these sound hard, do not worry! This document will walk you through exactly how to achieve any of these. Also, your name will be added to Ciphey's contributors list, and we'll be eternally grateful! 🙏
+您可以通过以下方法为Ciphey做出贡献:
+* 新增语言 🧏
+* 添加更多加密方法 📚
+* 创建更多文档（非常重要！我们将非常感激）
+* 修复通过GitHub问题提交的错误（我们可以在此方面为您提供支持😊)
+* 重构代码库 🥺
 
 
-We have a small Discord chat for you to talk to the developers and get some help. Alternatively, you can write a GitHub issue for your suggestion. If you want to be added to the Discord, DM us or ask us somehow.
+如果这些听起来很难，请不要担心！本文档将引导您确切地实现这些目标。另外，您的名字也会被添加到Ciphey的贡献者列表中，我们将永远感谢您！ 🙏
 
-[Discord Server](https://discord.gg/KfyRUWw)
-# How to contribute
-Ciphey is always in need of more decryption tools! To learn how to integrate code into ciphey, check out:
-* https://github.com/Ciphey/Ciphey/wiki/Adding-your-own-ciphers for a simple tutorial
-* https://github.com/Ciphey/Ciphey/wiki/Extending-Ciphey for a API reference
+我们有一个小的Discord聊天室供您与开发人员交谈并获得帮助。或者，您可以为您的建议写一个GitHub问题。如果您想加入Discord，请与我们联系或以某种方式询问我们[Discord 链接](https://discord.gg/KfyRUWw)
+# 如何贡献
+Ciphey始终需要更多解密工具！要了解如何将代码集成到ciphey中，请查看:
+* https://github.com/Ciphey/Ciphey/wiki/Adding-your-own-ciphers 一个非常简单的教程
+* https://github.com/Ciphey/Ciphey/wiki/Extending-Ciphey 有关API的参考
 
-It would be nice if you wrote some tests for it, by simply copying a function in the Ciphey/tests/test_main.py and replacing the ciphertext with something encoded with your cipher. If you don't add tests, we will probably still merge it, but it will be much harder for us to diagnose bugs!
+如果您为此编写了一些测试，那就很好了，只需在Ciphey / tests / test_main.py中复制一个函数，并用用密码编码的内容替换密文。如果您不添加测试，我们可能仍会合并它，但是对我们来说，诊断错误会更加困难！
+不用说，我们将把您添加到您的辛勤工作的贡献者名单中！
 
-It goes without saying that we will add you to the list of contributors for your hard work!
+# 新增语言 🧏
+默认的语言检查器“ brandon”可使用多种语言。现在，这听起来令人生畏。
+但老实说，您要做的就是拿字典，做一些分析（我们编写了代码来帮助您），将字典和分析添加到仓库中。然后将选项添加到“ settings.yml”。
 
-# Add a new language 🧏
-The default language checker, `brandon`, works with multiple languages. Now, this may sound daunting.
-But honestly, all you've got to do is take a dictionary, do a little analysis (we've written code to help you with this), add the dictionaries and analysis to a repo. And then add the option to `settings.yml`.
+# 创建更多文档
+文档是Ciphey最重要的部分。没有文档是极端的代码负担，我们不希望如此。
+当我说的时候请相信我，如果您为出色的文档做出了贡献，那么您将与代码贡献者处于同一水平。文档非常重要。
 
-# Create more documentation
-Documentation is the most important part of Ciphey. No documentation is extreme code debt, and we don't want that. 
+您可以通过多种方式添加文档.
+* 代码中的文档字符串
+* 改进我们当前的文档（自述文件，此文件，Ciphey Wiki页面）
+* 翻译文件 （这是非常重要的，越多的语言版本越好）
 
-Trust me when I say, if you contribute to great documentation you will be seen on the same level as code contributors. Documentation is absolutely vital.
+以及更多！
 
-There are lots of ways you can add documentation.
-* Doc strings in the code
-* Improving our current documentation (README, this file, our Ciphey Wiki pages)
-* Translating documentation
+# 修正代码中的错误
+访问我们的GitHub问题页面，查找Ciphey的所有错误！压扁它们，您将被添加到贡献者列表。 ;）
 
-And much more!
-
-# Fix bugs
-Visit our GitHub issues page to find all the bugs that Ciphey has! Squash them, and you'll be added to the contributors list. ;)
-
-# Refactor the code base
-Not all of Ciphey follows PEP8, and some of the code is repeated.
+# 重构代码库
+并非所有Ciphey都遵循PEP8，并且某些代码会重复。
