@@ -1,25 +1,15 @@
 from typing import Optional, Dict, Any
 
-from loguru import logger
-
 import ciphey
 from ciphey.iface import registry, Translation, ParamSpec
 
 
 @registry.register
 class Leet(ciphey.iface.Decoder[str, str]):
-    @staticmethod
-    def getTarget() -> str:
-        return "leet"
-
     def decode(self, text: str) -> Optional[str]:
         for src, dst in self.translate.items():
             text = text.replace(src, dst)
         return text
-
-    @staticmethod
-    def getParams() -> Optional[Dict[str, Dict[str, Any]]]:
-        pass
 
     @staticmethod
     def priority() -> float:
@@ -38,3 +28,7 @@ class Leet(ciphey.iface.Decoder[str, str]):
                 default="cipheydists::translate::leet",
             )
         }
+
+    @staticmethod
+    def getTarget() -> str:
+        return "leet"

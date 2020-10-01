@@ -239,7 +239,6 @@ def main(**kwargs):
 
             all_procedure()
 
-            # print("No inputs were given to Ciphey. For usage, run ciphey --help")
             return None
 
     if issubclass(config.objs["format"], type(kwargs["text"])):
