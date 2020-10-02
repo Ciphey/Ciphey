@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from enum import IntEnum
 from typing import (
     Any,
     Callable,
@@ -10,7 +11,7 @@ from typing import (
     TypeVar,
     Type,
     Union,
-    Set,
+    Set, FrozenSet, Iterable,
 )
 import pydoc
 
@@ -22,6 +23,14 @@ from ._fwd import config as Config
 
 T = TypeVar("T")
 U = TypeVar("U")
+
+
+class Level(IntEnum):
+    VeryCommon = 0,
+    Common = 1,
+    Uncommon = 2,
+    Rare = 3,
+    VeryRare = 4
 
 
 class ParamSpec(NamedTuple):
@@ -94,26 +103,24 @@ class ConfigurableModule(ABC):
             self._checkParams()
 
 
-class Targeted(ABC):
+class Pickable(ABC):
     @staticmethod
     @abstractmethod
-    def getTarget() -> str:
-        """Should return the target that this object attacks/decodes"""
-        pass
-
-
-class Tagged(ABC):
-    @staticmethod
-    @abstractmethod
-    def getTags() -> Set[str]:
+    def getTags() -> FrozenSet[str]:
         """Should return the target that this object attacks/decodes"""
         pass
 
     @classmethod
-    def check_compatible(cls, good: Set[str], bad: Set[str]) -> bool:
+    def check_compatible(cls, good: Iterable[str], bad: Iterable[str]) -> bool:
         """Helpful wrapper to check if a Tagged class is compatible with a set of tags"""
         tags = cls.getTags()
-        return good.issubset(tags) and bad.isdisjoint(tags)
+        return not tags.isdisjoint(good) and tags.isdisjoint(bad)
+
+    @staticmethod
+    @abstractmethod
+    def getLevel() -> Level:
+        """What proportion of decodings are this?"""
+        pass
 
 
 class PolymorphicChecker(ConfigurableModule):
@@ -193,17 +200,11 @@ class Checker(Generic[T], ConfigurableModule):
 #     def __init__(self, config: Config): super().__init__(config)
 
 
-class Decoder(Generic[T], ConfigurableModule, Targeted, Tagged):
+class Decoder(Generic[T], ConfigurableModule, Pickable):
     """Represents the undoing of some encoding"""
 
     @abstractmethod
     def decode(self, ctext: T) -> Optional:
-        pass
-
-    @staticmethod
-    @abstractmethod
-    def priority() -> float:
-        """What proportion of decodings are this?"""
         pass
 
     def __call__(self, *args):
@@ -248,7 +249,7 @@ class CrackInfo(NamedTuple):
     failure_runtime: float
 
 
-class Cracker(Generic[T], ConfigurableModule, Targeted, Tagged):
+class Cracker(Generic[T], ConfigurableModule, Pickable):
     @abstractmethod
     def getInfo(self, ctext: T) -> CrackInfo:
         """Should return some informed guesses on resource consumption when run on `ctext`"""

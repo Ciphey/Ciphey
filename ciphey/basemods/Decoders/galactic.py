@@ -3,7 +3,7 @@
 
 from typing import Optional, Dict, List, Set
 
-from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, Translation
+from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, Translation, Level
 from loguru import logger
 
 
@@ -78,8 +78,8 @@ class Galactic(Decoder[str]):
         }
 
     @staticmethod
-    def getTarget() -> str:
-        return "galactic"
+    def getLevel() -> Level:
+        return Level.VeryRare
 
     @staticmethod
     def getTags() -> Set[str]:

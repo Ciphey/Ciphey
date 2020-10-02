@@ -1,6 +1,6 @@
 from typing import Optional, Dict, List, Set
 
-from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, Translation
+from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, Translation, Level
 
 from loguru import logger
 
@@ -9,6 +9,10 @@ import re
 
 @registry.register
 class Dna(Decoder[str]):
+    @staticmethod
+    def getLevel() -> Level:
+        return Level.VeryRare
+
     def decode(self, ctext: T) -> Optional[U]:
         """
         Performs DNA decoding
@@ -28,10 +32,6 @@ class Dna(Decoder[str]):
         logger.debug(f"DNA successful, returning '{ctext_decoded}'")
         return ctext_decoded
 
-    @staticmethod
-    def priority() -> float:
-        return 0.2
-
     def __init__(self, config: Config):
         super().__init__(config)
         self.DNA_DICT = config.get_resource(self._params()["dict"], Translation)
@@ -45,10 +45,6 @@ class Dna(Decoder[str]):
                 default="cipheydists::translate::dna",
             )
         }
-
-    @staticmethod
-    def getTarget() -> str:
-        return "dna"
 
     @staticmethod
     def getTags() -> Set[str]:

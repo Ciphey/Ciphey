@@ -15,7 +15,7 @@ from loguru import logger
 import ciphey
 import cipheycore
 
-from ciphey.iface import ParamSpec, CrackResult, T, CrackInfo, registry
+from ciphey.iface import ParamSpec, CrackResult, T, CrackInfo, registry, Level
 from ciphey.common import fix_case
 
 
@@ -36,8 +36,8 @@ class Caesar(ciphey.iface.Cracker[str]):
         )
 
     @staticmethod
-    def getTarget() -> str:
-        return "caesar"
+    def getLevel() -> Level:
+        return Level.Common
 
     @staticmethod
     def getTags() -> Set[str]:

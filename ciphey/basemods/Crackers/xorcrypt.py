@@ -18,7 +18,7 @@ from loguru import logger
 import ciphey
 import cipheycore
 
-from ciphey.iface import ParamSpec, Cracker, CrackResult, T, CrackInfo, registry
+from ciphey.iface import ParamSpec, Cracker, CrackResult, T, CrackInfo, registry, Level
 
 
 @registry.register
@@ -60,8 +60,8 @@ class XorCrypt(ciphey.iface.Cracker[bytes]):
         )
 
     @staticmethod
-    def getTarget() -> str:
-        return "xorcrypt"
+    def getLevel() -> Level:
+        return Level.Common
 
     @staticmethod
     def getTags() -> Set[str]:

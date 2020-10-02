@@ -7,7 +7,7 @@ from math import floor, ceil
 
 from typing import Optional, Dict, List, Set
 
-from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, WordList
+from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, WordList, Level
 
 
 @registry.register
@@ -63,12 +63,6 @@ class Base69(Decoder[str]):
         except:
             return None
 
-    @staticmethod
-    def priority() -> float:
-        # If this becomes lower or equal to the reverse, it breaks.
-        # So I'll set it to 0.2 for now since it is very fast anyways.
-        return 0.2
-
     def __init__(self, config: Config):
         super().__init__(config)
         self.CHARS = config.get_resource(self._params()["dict"], WordList)
@@ -84,9 +78,9 @@ class Base69(Decoder[str]):
         }
 
     @staticmethod
-    def getTarget() -> str:
-        return "base69"
-
-    @staticmethod
     def getTags() -> Set[str]:
         return {"base69", "base"}
+
+    @staticmethod
+    def getLevel() -> Level:
+        return Level.VeryRare

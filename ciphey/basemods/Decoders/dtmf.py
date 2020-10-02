@@ -1,6 +1,6 @@
 from typing import Optional, Dict, List, Set
 
-from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, Translation
+from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, Translation, Level
 
 from loguru import logger
 
@@ -28,10 +28,6 @@ class Dtmf(Decoder[str]):
         logger.debug(f"DTMF successful, returning '{ctext_decoded}'")
         return ctext_decoded
 
-    @staticmethod
-    def priority() -> float:
-        return 0.2
-
     def __init__(self, config: Config):
         super().__init__(config)
         self.DTMF_DICT = config.get_resource(self._params()["dict"], Translation)
@@ -47,8 +43,8 @@ class Dtmf(Decoder[str]):
         }
 
     @staticmethod
-    def getTarget() -> str:
-        return "dtmf"
+    def getLevel() -> Level:
+        return Level.VeryRare
 
     @staticmethod
     def getTags() -> Set[str]:

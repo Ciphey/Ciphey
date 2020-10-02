@@ -1,6 +1,6 @@
 from typing import Optional, Dict, List, Set
 
-from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry
+from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, Level
 
 from urllib.parse import unquote_plus
 
@@ -20,10 +20,6 @@ class Url(Decoder[str]):
         except Exception:
             return None
 
-    @staticmethod
-    def priority() -> float:
-        return 0.05
-
     def __init__(self, config: Config):
         super().__init__(config)
 
@@ -32,8 +28,8 @@ class Url(Decoder[str]):
         pass
 
     @staticmethod
-    def getTarget() -> str:
-        return "url"
+    def getLevel() -> Level:
+        return Level.VeryCommon
 
     @staticmethod
     def getTags() -> Set[str]:

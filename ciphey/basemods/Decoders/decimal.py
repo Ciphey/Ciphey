@@ -1,6 +1,6 @@
 from typing import Optional, Dict, List, Set
 
-from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry
+from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, Level
 
 from loguru import logger
 
@@ -40,8 +40,8 @@ class Decimal(Decoder[str]):
             return None
 
     @staticmethod
-    def priority() -> float:
-        return 0.05
+    def getLevel() -> Level:
+        return Level.Uncommon
 
     def __init__(self, config: Config):
         super().__init__(config)
@@ -49,10 +49,6 @@ class Decimal(Decoder[str]):
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
         return None
-
-    @staticmethod
-    def getTarget() -> str:
-        return "decimal"
 
     @staticmethod
     def getTags() -> Set[str]:

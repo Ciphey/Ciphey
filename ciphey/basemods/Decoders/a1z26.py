@@ -1,6 +1,6 @@
 from typing import Optional, Dict, List, Set
 
-from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry
+from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, Level
 
 from loguru import logger
 
@@ -40,21 +40,18 @@ class A1z26(Decoder[str]):
         except Exception:
             return None
 
-    @staticmethod
-    def priority() -> float:
-        return 0.01
-
     def __init__(self, config: Config):
         super().__init__(config)
+
+    @staticmethod
+    def getLevel() -> Level:
+        return Level.Uncommon
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
         return None
 
     @staticmethod
-    def getTarget() -> str:
-        return "a1z26"
-
-    @staticmethod
     def getTags() -> Set[str]:
         return {"a1z26", "substitution"}
+

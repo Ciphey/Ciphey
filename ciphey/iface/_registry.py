@@ -35,7 +35,6 @@ class Registry:
 
     _reg: Dict[Type, RegElem] = {}
     _names: Dict[str, Tuple[Type, Set[Type]]] = {}
-    _targets: Dict[str, Dict[Type, List[Type]]] = {}
     _modules = {Checker, Cracker, Decoder, ResourceLoader, Searcher, PolymorphicChecker}
 
     def _register_one(self, input_type, module_base, module_args):
@@ -52,11 +51,6 @@ class Registry:
     def _real_register(self, input_type: type, *args) -> Type:
         name = input_type.__name__.lower()
         name_target = self._names[name] = (input_type, set())
-
-        if issubclass(input_type, Targeted):
-            target = input_type.getTarget()
-        else:
-            target = None
 
         if issubclass(input_type, Searcher):
             module_type = module_base = Searcher
@@ -122,11 +116,6 @@ class Registry:
                     name_target[1].add(module_type[module_args])
 
         name_target[1].add(module_type)
-
-        if target is not None and issubclass(module_base, Targeted):
-            self._targets.setdefault(target, {}).setdefault(module_type, []).append(
-                input_type
-            )
 
         return input_type
 

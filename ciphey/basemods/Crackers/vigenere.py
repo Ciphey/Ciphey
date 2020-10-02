@@ -17,7 +17,7 @@ from loguru import logger
 import ciphey
 import cipheycore
 
-from ciphey.iface import ParamSpec, Cracker, CrackResult, T, CrackInfo, registry
+from ciphey.iface import ParamSpec, Cracker, CrackResult, T, CrackInfo, registry, Level
 from ciphey.common import fix_case
 
 
@@ -75,8 +75,8 @@ class Vigenere(ciphey.iface.Cracker[str]):
         )
 
     @staticmethod
-    def getTarget() -> str:
-        return "vigenere"
+    def getLevel() -> Level:
+        return Level.Uncommon
 
     @staticmethod
     def getTags() -> Set[str]:

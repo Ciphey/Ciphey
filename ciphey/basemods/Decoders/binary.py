@@ -3,7 +3,7 @@ from typing import Optional, Dict, Any, List, Set
 from loguru import logger
 
 import ciphey
-from ciphey.iface import registry
+from ciphey.iface import registry, Level
 
 import re
 
@@ -11,14 +11,15 @@ import re
 @registry.register
 class Binary(ciphey.iface.Decoder[str]):
     @staticmethod
-    def getTarget() -> str:
-        return "binary"
+    def getLevel() -> Level:
+        return Level.Common
 
     @staticmethod
     def getTags() -> Set[str]:
-        return {"binary", "base"}
+        return {"binary", "base2", "base"}
 
-    def try_split(self, split_text: List[str]):
+    @staticmethod
+    def try_split(split_text: List[str]):
         ret = []
 
         for i in split_text:
@@ -56,10 +57,6 @@ class Binary(ciphey.iface.Decoder[str]):
     @staticmethod
     def getParams() -> Optional[Dict[str, Dict[str, Any]]]:
         pass
-
-    @staticmethod
-    def priority() -> float:
-        return 0.3
 
     def __init__(self, config: ciphey.iface.Config):
         super().__init__(config)

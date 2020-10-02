@@ -3,14 +3,14 @@ from typing import Optional, Dict, Any, Set
 from loguru import logger
 
 import ciphey
-from ciphey.iface import registry
+from ciphey.iface import registry, Level
 
 
 @registry.register
 class Octal(ciphey.iface.Decoder[str]):
     @staticmethod
-    def getTarget() -> str:
-        return "octal"
+    def getLevel() -> Level:
+        return Level.Rare
 
     @staticmethod
     def getTags() -> Set[str]:
@@ -50,10 +50,6 @@ class Octal(ciphey.iface.Decoder[str]):
     @staticmethod
     def getParams() -> Optional[Dict[str, Dict[str, Any]]]:
         pass
-
-    @staticmethod
-    def priority() -> float:
-        return 0.025
 
     def __init__(self, config: ciphey.iface.Config):
         super().__init__(config)

@@ -2,7 +2,7 @@ from typing import Optional, Dict, Any, List, Set
 import re
 from loguru import logger
 import ciphey
-from ciphey.iface import registry
+from ciphey.iface import registry, Level
 
 
 @registry.register
@@ -16,8 +16,8 @@ class MorseCode(ciphey.iface.Decoder[str]):
     MORSE_CODE_DICT_INV: Dict[str, str]
 
     @staticmethod
-    def getTarget() -> str:
-        return "morse"
+    def getLevel() -> Level:
+        return Level.Uncommon
 
     @staticmethod
     def getTags() -> Set[str]:
@@ -94,10 +94,6 @@ class MorseCode(ciphey.iface.Decoder[str]):
     @staticmethod
     def getName() -> str:
         return "morse"
-
-    @staticmethod
-    def priority() -> float:
-        return 0.05
 
     def __init__(self, config: ciphey.iface.Config):
         super().__init__(config)

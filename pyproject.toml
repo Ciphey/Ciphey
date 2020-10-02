@@ -9,22 +9,29 @@ exclude = ["tests/hansard.txt"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
+# General stuff
 python = "^3.7"
 rich = ">=4,<8"
 loguru = "^0.5.0"
 pylint = "^2.5.2"
 flake8 = "^3.8.2"
-cipheydists = "^0.3.31"
-cipheycore = "^0.3.1"
 appdirs = "^1.4.4"
 typing_inspect = { version = "^0.6.0", python = "~3.7" }
-base58 = "^2.0.1"
-base91 = "^1.0.1"
-pybase62 = "^0.4.3"
 click = "^7.1.2"
 click-spinner = "^0.1.10"
 pyyaml = "^5.3.1"
 yaspin = ">=0.17,<1.1"
+
+# Ciphey internals
+cipheydists = "^0.3.31"
+cipheycore = "^0.3.1"
+
+# Encodings
+base58 = "^2.0.1"
+pybase62 = "^0.4.3"
+base91 = "^1.0.1"
+base65536 = "^0.1.1"
+pyzmq = ">=18.0.0, <20.0.0" # We can be rather lax with this
 
 [tool.poetry.dev-dependencies]
 pytest-cov = "^2.9.0"

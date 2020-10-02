@@ -3,14 +3,14 @@ from typing import Optional, Dict, Any, Set
 from loguru import logger
 
 import ciphey
-from ciphey.iface import registry, Translation, ParamSpec
+from ciphey.iface import registry, Translation, ParamSpec, Level
 
 
 @registry.register
 class Leet(ciphey.iface.Decoder[str]):
     @staticmethod
-    def getTarget() -> str:
-        return "leet"
+    def getLevel() -> Level:
+        return Level.VeryRare
 
     @staticmethod
     def getTags() -> Set[str]:
@@ -24,10 +24,6 @@ class Leet(ciphey.iface.Decoder[str]):
     @staticmethod
     def getParams() -> Optional[Dict[str, Dict[str, Any]]]:
         pass
-
-    @staticmethod
-    def priority() -> float:
-        return 0.05
 
     def __init__(self, config: ciphey.iface.Config):
         super().__init__(config)

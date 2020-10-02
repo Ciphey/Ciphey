@@ -15,10 +15,15 @@ from loguru import logger
 import ciphey
 import cipheycore
 
-from ciphey.iface import ParamSpec, CrackResult, T, CrackInfo, registry
+from ciphey.iface import ParamSpec, CrackResult, T, CrackInfo, registry, Level
+
 
 @registry.register
 class XorSingle(ciphey.iface.Cracker[bytes]):
+    @staticmethod
+    def getLevel() -> Level:
+        return Level.Uncommon
+
     def getInfo(self, ctext: str) -> CrackInfo:
         analysis = self.cache.get_or_update(
             ctext,
@@ -32,10 +37,6 @@ class XorSingle(ciphey.iface.Cracker[bytes]):
             success_runtime=1e-5,
             failure_runtime=1e-5,
         )
-
-    @staticmethod
-    def getTarget() -> str:
-        return "xor_single"
 
     @staticmethod
     def getTags() -> Set[str]:

@@ -1,4 +1,5 @@
 import os
+from dataclasses import dataclass
 from typing import (
     Any,
     Dict,
@@ -6,7 +7,7 @@ from typing import (
     List,
     Type,
     Union,
-    Callable,
+    Callable, Set,
 )
 import pydoc
 
@@ -18,7 +19,7 @@ import yaml
 import appdirs
 
 from . import _fwd
-from ._modules import Checker, Searcher, ResourceLoader, PolymorphicChecker
+from ._modules import Checker, Searcher, ResourceLoader, PolymorphicChecker, Level
 
 
 class Cache:
@@ -59,6 +60,17 @@ class Cache:
 def split_resource_name(full_name: str) -> (str, str):
     return full_name.split("::", 1)
 
+@dataclass
+class Selector:
+    """
+        Selection process:
+
+    """
+
+    domain: Set[str]
+    blacklist: Set[str]
+    whitelist: Set[str]
+    level: Level
 
 class Config:
     def __init__(self):

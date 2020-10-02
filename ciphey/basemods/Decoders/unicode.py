@@ -3,14 +3,14 @@ from typing import Optional, Dict, Any, Set
 from loguru import logger
 
 import ciphey
-from ciphey.iface import registry
+from ciphey.iface import registry, Level
 
 
 @registry.register
 class Utf8(ciphey.iface.Decoder[bytes]):
     @staticmethod
-    def getTarget() -> str:
-        return "utf8"
+    def getLevel() -> Level:
+        return Level.VeryCommon
 
     def decode(self, text: bytes) -> Optional[str]:
         logger.trace("Attempting utf-8 decode")
@@ -29,10 +29,6 @@ class Utf8(ciphey.iface.Decoder[bytes]):
     @staticmethod
     def getName() -> str:
         return "utf-8"
-
-    @staticmethod
-    def priority() -> float:
-        return 0.9
 
     def __init__(self, config: ciphey.iface.Config):
         super().__init__(config)

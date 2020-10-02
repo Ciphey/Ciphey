@@ -6,7 +6,7 @@ from distutils import util
 from typing import Optional, Dict, Union, Set, List
 from loguru import logger
 
-from ciphey.iface import ParamSpec, Cracker, CrackResult, CrackInfo, T, registry, Config
+from ciphey.iface import ParamSpec, Cracker, CrackResult, CrackInfo, T, registry, Config, Level
 
 
 @registry.register
@@ -31,10 +31,10 @@ class XandY(Cracker[str]):
         except UnicodeDecodeError as e:
             logger.trace(f"X-Y Cracker ecountered UnicodeDecodeError when trying to crack ctext: {e}")
             return ""
-    
+
     @staticmethod
-    def getTarget() -> str:
-        return "XandY"
+    def getLevel() -> Level:
+        return Level.Uncommon
 
     @staticmethod
     def getTags() -> Set[str]:

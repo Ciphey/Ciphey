@@ -1,17 +1,16 @@
 import re
 from typing import Optional, Dict, List, Set
 
-from ciphey.iface import ParamSpec, Config, T, U, Decoder, registry, Translation
+from ciphey.iface import ParamSpec, Config, T, U, Decoder, registry, Translation, Level
+
 
 @registry.register
 class Baudot(Decoder[str]):
+    @staticmethod
+    def getLevel() -> Level:
+        return Level.VeryRare
+
     def decode(self, ctext: T) -> Optional[U]:
-        """Write the code that decodes here
-        ctext -> the input to the function
-        returns string
-    """
-
-
         ret = ""
         switch_to_digit_map = 0
         if type(ctext) == str:
@@ -29,13 +28,6 @@ class Baudot(Decoder[str]):
         else:
             return None
 
-    @staticmethod
-    def priority() -> float:
-        """How often is this seen in a CTF out of 1
-        Returns float
-        """
-        return 0.05
-
     def __init__(self, config: Config):
         super().__init__(config)
         self.BAUDOT_DICT = config.get_resource(self._params()["dict"], Translation)
@@ -49,13 +41,6 @@ class Baudot(Decoder[str]):
                 default="cipheydists::translate::baudot",
             )
         }
-
-    @staticmethod
-    def getTarget() -> str:
-        """The name of the decoding ussed
-        returns string
-        """
-        return "baudot"
 
     @staticmethod
     def getTags() -> Set[str]:
