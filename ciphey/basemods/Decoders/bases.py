@@ -1,15 +1,10 @@
-import base58
-import base62
 import base64
-import base91
-import base65536
-from zmq.utils import z85
 import types
-from dataclasses import dataclass
-from typing import Callable, Optional, Any
-from loguru import logger
+
 import ciphey
-from ciphey.iface import Level
+from typing import Callable, Optional, Any, Dict
+
+from loguru import logger
 
 
 def _dispatch(self: Any, ctext: str, func: Callable[[str], bytes]) -> Optional[bytes]:

@@ -35,18 +35,13 @@ class MultiTap(Decoder[str]):
         return True
 
     @staticmethod
-    def is_all_dup(code):
-        return len(set(code)) == 1
-
-    @staticmethod
     def decode_num_to_char(number: str) -> str:
         index = MultiTap.calculate_index(number)
         return MultiTap.number_index_to_char(index)
 
     @staticmethod
-    def number_index_to_char(index_number: int) -> str:
-        start_ascii_value = ord("A")
-        return chr(start_ascii_value + index_number)
+    def is_all_dup(code):
+        return len(set(code)) == 1
 
     @staticmethod
     def calculate_index(number: str) -> int:
@@ -59,6 +54,11 @@ class MultiTap(Decoder[str]):
         number_index += num_rest_numbers
 
         return number_index
+
+    @staticmethod
+    def number_index_to_char(index_number: int) -> str:
+        start_ascii_value = ord("A")
+        return chr(start_ascii_value + index_number)
 
     @staticmethod
     def get_index_from_first_digit(first_digit: int) -> int:

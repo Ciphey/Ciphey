@@ -1,0 +1,43 @@
+on: pull_request
+name: Ciphey terminal test
+jobs:
+  terminal_test:
+    name: On ubuntu-latest with python
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [3.7, 3.8]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Build ciphey
+      run: |
+        python -m pip install poetry==1.0.5
+        poetry install
+    - name: Test ciphey with plain text
+      run: |
+        plain_text="hello. Testing Ciphey."
+        ciphey_out=$(poetry run ciphey -q -t "$plain_text")
+        if [ "$ciphey_out" == "$plain_text" ]
+        then
+          exit 0
+        else
+          echo "Ciphey decryption on plain text failed"
+          exit 1
+        fi
+    - name: Test ciphey with base64 encoded text
+      run: |
+        plain_text="hello. Testing Ciphey."
+        base64_encoded=$(echo -n "$plain_text" | base64)
+        ciphey_out=$(poetry run ciphey -q -t "$base64_encoded")
+        if [ "$ciphey_out" == "$plain_text" ]
+        then
+          exit 0
+        else
+          echo "Ciphey decryption on base64 encoded string failed"
+          exit 1
+        fi 

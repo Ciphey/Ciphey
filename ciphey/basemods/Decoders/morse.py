@@ -15,14 +15,6 @@ class MorseCode(ciphey.iface.Decoder[str]):
     MORSE_CODE_DICT: Dict[str, str]
     MORSE_CODE_DICT_INV: Dict[str, str]
 
-    @staticmethod
-    def getLevel() -> Level:
-        return Level.Uncommon
-
-    @staticmethod
-    def getTags() -> Set[str]:
-        return {"morse", "substitution", "telecom"}
-
     def decode(self, text: str) -> Optional[str]:
         logger.trace("Attempting morse code")
 
@@ -82,6 +74,15 @@ class MorseCode(ciphey.iface.Decoder[str]):
         return result.strip().upper()
 
     @staticmethod
+    def getLevel() -> Level:
+        return Level.Uncommon
+
+    @staticmethod
+    def getTags() -> Set[str]:
+        return {"morse", "substitution", "telecom"}
+
+
+    @staticmethod
     def getParams() -> Optional[Dict[str, ciphey.iface.ParamSpec]]:
         return {
             "dict": ciphey.iface.ParamSpec(
@@ -90,10 +91,6 @@ class MorseCode(ciphey.iface.Decoder[str]):
                 default="cipheydists::translate::morse",
             )
         }
-
-    @staticmethod
-    def getName() -> str:
-        return "morse"
 
     def __init__(self, config: ciphey.iface.Config):
         super().__init__(config)

@@ -10,6 +10,29 @@ import re
 
 @registry.register
 class Binary(ciphey.iface.Decoder[str]):
+    def decode(self, text: str) -> Optional[bytes]:
+        try:
+            text = re.sub(r"[^\S \n]", " ", text, flags=re.UNICODE)
+            text = text.replace("\n", " ")
+
+            existing_split = self.try_split(text.split(" "))
+            if existing_split is not None:
+                return existing_split
+
+            # Now we try our own grouping
+
+            # Remove final bit of whitespace
+            text = text.replace(" ", "")
+            # Split into bytes, and test
+            return self.try_split([text[i : i + 8] for i in range(0, len(text), 8)])
+        # Catch bad octal chars
+        except ValueError:
+            return None
+
+    @staticmethod
+    def getParams() -> Optional[Dict[str, Dict[str, Any]]]:
+        pass
+
     @staticmethod
     def getLevel() -> Level:
         return Level.Common
@@ -34,29 +57,6 @@ class Binary(ciphey.iface.Decoder[str]):
             ret = bytes(ret)
             logger.debug(f"binary successful, returning {ret.__repr__()}")
             return ret
-
-    def decode(self, text: str) -> Optional[bytes]:
-        try:
-            text = re.sub(r"[^\S \n]", " ", text, flags=re.UNICODE)
-            text = text.replace("\n", " ")
-
-            existing_split = self.try_split(text.split(" "))
-            if existing_split is not None:
-                return existing_split
-
-            # Now we try our own grouping
-
-            # Remove final bit of whitespace
-            text = text.replace(" ", "")
-            # Split into bytes, and test
-            return self.try_split([text[i : i + 8] for i in range(0, len(text), 8)])
-        # Catch bad octal chars
-        except ValueError:
-            return None
-
-    @staticmethod
-    def getParams() -> Optional[Dict[str, Dict[str, Any]]]:
-        pass
 
     def __init__(self, config: ciphey.iface.Config):
         super().__init__(config)

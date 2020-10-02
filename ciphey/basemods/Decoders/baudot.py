@@ -1,15 +1,11 @@
 import re
-from typing import Optional, Dict, List, Set
+from typing import Optional, Dict, List
 
-from ciphey.iface import ParamSpec, Config, T, U, Decoder, registry, Translation, Level
+from ciphey.iface import ParamSpec, Config, T, U, Decoder, registry, Translation
 
 
 @registry.register
 class Baudot(Decoder[str]):
-    @staticmethod
-    def getLevel() -> Level:
-        return Level.VeryRare
-
     def decode(self, ctext: T) -> Optional[U]:
         ret = ""
         switch_to_digit_map = 0
@@ -45,3 +41,8 @@ class Baudot(Decoder[str]):
     @staticmethod
     def getTags() -> Set[str]:
         return {"baudot", "substitution", "telecom"}
+
+    @staticmethod
+    def getLevel() -> Level:
+        return Level.VeryRare
+
