@@ -1,10 +1,18 @@
 import base64
+import base58
+import base62
+import base91
+import base65536
+from zmq.utils import z85
 import types
+from dataclasses import dataclass
 
 import ciphey
 from typing import Callable, Optional, Any, Dict
 
 from loguru import logger
+
+from ciphey.iface import Level
 
 
 def _dispatch(self: Any, ctext: str, func: Callable[[str], bytes]) -> Optional[bytes]:
@@ -14,7 +22,7 @@ def _dispatch(self: Any, ctext: str, func: Callable[[str], bytes]) -> Optional[b
         result = func(ctext)
         logger.debug(f"{self.getTarget()} successful, returning {result}")
         return result
-    except ValueError:
+    except (KeyError, ValueError):
         logger.trace(f"Failed to decode {self.getTarget()}")
         return None
 
@@ -36,13 +44,14 @@ FLICKR_ALPHABET = b"123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ"
 # or, for specialisations of other decodings
 #
 # "<name>": BaseSpec(<function>, <level>, frozenset(<root encoding>))
+
 _bases = {
     "base16": BaseSpec(lambda x: base64.b16decode(x, casefold=True), Level.VeryCommon),
     "base32": BaseSpec(lambda x: base64.b32decode(x, casefold=True), Level.Uncommon),
     "base58": BaseSpec(base58.b58decode, Level.Rare),
     "base58_flickr": BaseSpec(lambda x: base58.b58decode(x, alphabet=FLICKR_ALPHABET), Level.VeryRare, frozenset({"base58"})),
     "base58_ripple": BaseSpec(lambda x: base58.b58decode(x, alphabet=base58.RIPPLE_ALPHABET), Level.VeryRare, frozenset({"base58"})),
-    "base62": BaseSpec(base62.decode, Level.VeryRare),
+    "base62": BaseSpec(base62.decodebytes, Level.VeryRare),
     "base64": BaseSpec(base64.b64decode, Level.VeryCommon),
     "base64_url": BaseSpec(lambda x: base64.urlsafe_b64decode(x + "=" * (4 - len(x) % 4)), Level.Uncommon, frozenset({"base64", "web"})),
     "base85": BaseSpec(base64.b85decode, Level.Rare),

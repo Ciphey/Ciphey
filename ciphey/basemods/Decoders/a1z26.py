@@ -1,4 +1,4 @@
-from typing import Optional, Dict, List, Set
+from typing import Optional, Dict, FrozenSet
 
 from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, Level
 
@@ -18,7 +18,6 @@ class A1z26(Decoder[str]):
         ctext_split = re.split(r"[ ,;:\-\n]", ctext)
         delimiters = set(sorted(re.sub(r"[^ ,;:\-\n]", "", ctext)))
         ctext_num = re.sub(r"[,;:\-\s]", "", ctext)
-        ctext_decoded = ""
         if ctext_num.isnumeric() is False:
             logger.trace("Failed to decode A1Z26 due to non numeric character(s)")
             return None
@@ -52,6 +51,6 @@ class A1z26(Decoder[str]):
         return None
 
     @staticmethod
-    def getTags() -> Set[str]:
-        return {"a1z26", "substitution"}
+    def getTags() -> FrozenSet[str]:
+        return frozenset({"a1z26", "substitution"})
 

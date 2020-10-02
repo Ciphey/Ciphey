@@ -1,4 +1,4 @@
-from typing import Optional, Dict, List, Set
+from typing import Optional, Dict, FrozenSet
 
 from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, Translation, Level
 
@@ -47,5 +47,5 @@ class Dtmf(Decoder[str]):
         return Level.VeryRare
 
     @staticmethod
-    def getTags() -> Set[str]:
-        return {"dtmf", "substitution", "telecom"}
+    def getTags() -> FrozenSet[str]:
+        return frozenset({"dtmf", "substitution", "telecom"})

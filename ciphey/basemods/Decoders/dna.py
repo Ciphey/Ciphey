@@ -1,4 +1,4 @@
-from typing import Optional, Dict, List, Set
+from typing import Optional, Dict, FrozenSet
 
 from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, Translation, Level
 
@@ -47,5 +47,5 @@ class Dna(Decoder[str]):
         }
 
     @staticmethod
-    def getTags() -> Set[str]:
-        return {"dna", "substitution"}
+    def getTags() -> FrozenSet[str]:
+        return frozenset({"dna", "substitution"})

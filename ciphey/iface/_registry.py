@@ -133,8 +133,9 @@ class Registry:
 
         target_subtypes = get_args(i)
         target_list = self._reg.setdefault(target_type, {})
-        for subtype in target_subtypes:
+        for subtype in target_subtypes[:-1]:
             target_list = target_list.setdefault(subtype, {})
+        target_list = target_list.setdefault(target_subtypes[-1], [])
         return target_list
 
     def get_named(self, name: str, type_constraint: Type = None) -> Any:

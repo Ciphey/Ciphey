@@ -1,7 +1,7 @@
 # community
 # by https://github.com/lukasgabriel
 
-from typing import Optional, Dict, List, Set
+from typing import Optional, Dict, FrozenSet
 
 from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, WordList, Level
 from ciphey.common import fix_case
@@ -49,5 +49,5 @@ class Atbash(Decoder[str]):
         }
 
     @staticmethod
-    def getTags() -> Set[str]:
-        return {"atbash", "substitution"}
+    def getTags() -> FrozenSet[str]:
+        return frozenset({"atbash", "substitution"})

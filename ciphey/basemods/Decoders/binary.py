@@ -1,4 +1,4 @@
-from typing import Optional, Dict, Any, List, Set
+from typing import Optional, Dict, Any, List, FrozenSet
 
 from loguru import logger
 
@@ -38,8 +38,8 @@ class Binary(ciphey.iface.Decoder[str]):
         return Level.Common
 
     @staticmethod
-    def getTags() -> Set[str]:
-        return {"binary", "base2", "base"}
+    def getTags() -> FrozenSet[str]:
+        return frozenset({"binary", "base2", "base"})
 
     @staticmethod
     def try_split(split_text: List[str]):

@@ -1,4 +1,4 @@
-from typing import Optional, Dict, Any, Set
+from typing import Optional, Dict, Any, FrozenSet
 
 from loguru import logger
 
@@ -8,14 +8,6 @@ from ciphey.iface import registry, Level
 
 @registry.register
 class Octal(ciphey.iface.Decoder[str]):
-    @staticmethod
-    def getLevel() -> Level:
-        return Level.Rare
-
-    @staticmethod
-    def getTags() -> Set[str]:
-        return {"octal", "base"}
-
     def decode(self, text: str) -> Optional[bytes]:
         """
         It takes an octal string and return a string
@@ -46,6 +38,14 @@ class Octal(ciphey.iface.Decoder[str]):
         # Catch bad octal chars
         except ValueError:
             return None
+
+    @staticmethod
+    def getLevel() -> Level:
+        return Level.Rare
+
+    @staticmethod
+    def getTags() -> FrozenSet[str]:
+        return frozenset({"octal", "base"})
 
     @staticmethod
     def getParams() -> Optional[Dict[str, Dict[str, Any]]]:

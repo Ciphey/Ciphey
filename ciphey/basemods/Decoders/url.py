@@ -1,4 +1,4 @@
-from typing import Optional, Dict, List, Set
+from typing import Optional, Dict, FrozenSet
 
 from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, Level
 
@@ -32,5 +32,5 @@ class Url(Decoder[str]):
         return Level.VeryCommon
 
     @staticmethod
-    def getTags() -> Set[str]:
-        return {"url", "web"}
+    def getTags() -> FrozenSet[str]:
+        return frozenset({"url", "web"})

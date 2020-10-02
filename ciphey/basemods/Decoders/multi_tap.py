@@ -1,4 +1,4 @@
-from typing import Optional, Dict, List, Set
+from typing import Optional, Dict, FrozenSet
 
 from ciphey.iface import ParamSpec, Config, T, U, Decoder, registry, Level
 
@@ -85,5 +85,5 @@ class MultiTap(Decoder[str]):
         return Level.VeryRare
 
     @staticmethod
-    def getTags() -> Set[str]:
-        return {"multi-tap", "substitution", "telecom"}
+    def getTags() -> FrozenSet[str]:
+        return frozenset({"multi-tap", "substitution", "telecom"})

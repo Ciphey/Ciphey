@@ -1,7 +1,7 @@
 # community
 # by https://github.com/lukasgabriel
 
-from typing import Optional, Dict, List, Set
+from typing import Optional, Dict, FrozenSet
 
 from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, Translation, Level
 from loguru import logger
@@ -82,5 +82,5 @@ class Galactic(Decoder[str]):
         return Level.VeryRare
 
     @staticmethod
-    def getTags() -> Set[str]:
-        return {"galactic", "substitution"}
+    def getTags() -> FrozenSet[str]:
+        return frozenset({"galactic", "substitution"})

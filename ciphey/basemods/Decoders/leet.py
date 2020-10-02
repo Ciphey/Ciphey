@@ -1,4 +1,4 @@
-from typing import Optional, Dict, Any, Set
+from typing import Optional, Dict, Any, FrozenSet
 
 from loguru import logger
 
@@ -18,8 +18,8 @@ class Leet(ciphey.iface.Decoder[str]):
         return Level.VeryRare
 
     @staticmethod
-    def getTags() -> Set[str]:
-        return {"leet", "substitution"}
+    def getTags() -> FrozenSet[str]:
+        return frozenset({"leet", "substitution"})
 
     @staticmethod
     def getParams() -> Optional[Dict[str, Dict[str, Any]]]:

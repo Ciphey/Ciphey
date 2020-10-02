@@ -5,9 +5,9 @@
 import re
 from math import ceil
 
-from typing import Optional, Dict, List
+from typing import Optional, Dict, FrozenSet
 
-from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, WordList
+from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, WordList, Level
 
 
 @registry.register
@@ -84,8 +84,8 @@ class Base69(Decoder[str]):
         }
 
     @staticmethod
-    def getTags() -> Set[str]:
-        return {"base69", "base"}
+    def getTags() -> FrozenSet[str]:
+        return frozenset({"base69", "base"})
 
     @staticmethod
     def getLevel() -> Level:

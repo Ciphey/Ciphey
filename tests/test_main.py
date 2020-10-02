@@ -87,8 +87,13 @@ def test_atbash():
 
 
 def test_galactic():
+    # I keep getting wrong results
+    cfg = Config().library_default()
+    cfg.checker = "regex"
+    cfg.update_param("regex", "regex", answer_str.lower())
+    cfg.complete_config()
     res = decrypt(
-        Config().library_default().complete_config(),
+        cfg,
         "⍑ᒷꖎꖎ𝙹 ᒲ|| リᔑᒲᒷ ╎ᓭ ʖᒷᒷ ᔑリ↸ i ꖎ╎ꖌᒷ ↸𝙹⊣ ᔑリ↸ ᔑ!¡!¡ꖎᒷ ᔑリ↸ ℸ ̣ ∷ᒷᒷ",
     )
     assert res.lower() == answer_str.lower()

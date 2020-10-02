@@ -1,4 +1,4 @@
-from typing import Optional, Dict, Any, List, Set
+from typing import Optional, Dict, FrozenSet
 import re
 from loguru import logger
 import ciphey
@@ -27,7 +27,7 @@ class MorseCode(ciphey.iface.Decoder[str]):
             i_priority = self.BOUNDARIES.get(i)
             if i_priority is None:
                 if i in self.ALLOWED:
-                  continue
+                    continue
                 logger.trace(f"Non-morse char '{i}' found")
                 return None
 
@@ -56,7 +56,7 @@ class MorseCode(ciphey.iface.Decoder[str]):
             for char in word.split(char_boundary):
                 char = char.translate(self.PURGE)
                 if len(char) == 0:
-                  continue
+                    continue
                 try:
                     m = self.MORSE_CODE_DICT_INV[char]
                 except KeyError:
@@ -78,9 +78,8 @@ class MorseCode(ciphey.iface.Decoder[str]):
         return Level.Uncommon
 
     @staticmethod
-    def getTags() -> Set[str]:
-        return {"morse", "substitution", "telecom"}
-
+    def getTags() -> FrozenSet[str]:
+        return frozenset({"morse", "substitution", "telecom"})
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ciphey.iface.ParamSpec]]:

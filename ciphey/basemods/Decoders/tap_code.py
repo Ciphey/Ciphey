@@ -1,26 +1,22 @@
 # by https://github.com/RustyDucky and https://github.com/lukasgabriel
 
-from typing import Optional, Dict, List
+from typing import Optional, Dict, FrozenSet
 
-from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, Translation
+from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, Translation, Level
 
 
 @registry.register
-class tap_code(Decoder[str, str]):
+class TapCode(Decoder[str]):
     def decode(self, ctext: T) -> Optional[U]:
-        try:
-            output = ""
-            combinations = ctext.split(" ")
-            for fragment in combinations:
-                    output += self.TABLE.get(fragment)
-            return output
-
-        except Exception as e:
-            return None
-
-    @staticmethod
-    def priority() -> float:
-        return 0.06
+        output = ""
+        combinations = ctext.split(" ")
+        for fragment in combinations:
+            elem = self.TABLE.get(fragment)
+            # Stop if we find something outside the table
+            if elem is None:
+                return None
+            output += elem
+        return output
 
     def __init__(self, config: Config):
         super().__init__(config)
@@ -37,5 +33,9 @@ class tap_code(Decoder[str, str]):
         }
 
     @staticmethod
-    def getTarget() -> str:
-        return "tap_code"
+    def getLevel() -> Level:
+        return Level.VeryCommon
+
+    @staticmethod
+    def getTags() -> FrozenSet[str]:
+        return frozenset({"utf-8", "unicode", "text"})

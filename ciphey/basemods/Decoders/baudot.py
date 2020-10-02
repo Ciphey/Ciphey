@@ -1,7 +1,7 @@
 import re
-from typing import Optional, Dict, List
+from typing import Optional, Dict, FrozenSet
 
-from ciphey.iface import ParamSpec, Config, T, U, Decoder, registry, Translation
+from ciphey.iface import ParamSpec, Config, T, U, Decoder, registry, Translation, Level
 
 
 @registry.register
@@ -39,8 +39,8 @@ class Baudot(Decoder[str]):
         }
 
     @staticmethod
-    def getTags() -> Set[str]:
-        return {"baudot", "substitution", "telecom"}
+    def getTags() -> FrozenSet[str]:
+        return frozenset({"baudot", "substitution", "telecom"})
 
     @staticmethod
     def getLevel() -> Level:

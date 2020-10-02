@@ -1,4 +1,4 @@
-from typing import Optional, Dict, List, Set
+from typing import Optional, Dict, FrozenSet
 
 from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, Level
 
@@ -51,5 +51,5 @@ class Decimal(Decoder[str]):
         return None
 
     @staticmethod
-    def getTags() -> Set[str]:
-        return {"decimal", "base"}
+    def getTags() -> FrozenSet[str]:
+        return frozenset({"decimal", "base"})

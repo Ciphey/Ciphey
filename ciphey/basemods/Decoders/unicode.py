@@ -1,4 +1,4 @@
-from typing import Optional, Dict, Any, Set
+from typing import Optional, Dict, Any, FrozenSet
 
 from loguru import logger
 
@@ -8,10 +8,6 @@ from ciphey.iface import registry, Level
 
 @registry.register
 class Utf8(ciphey.iface.Decoder[bytes]):
-    @staticmethod
-    def getLevel() -> Level:
-        return Level.VeryCommon
-
     def decode(self, text: bytes) -> Optional[str]:
         logger.trace("Attempting utf-8 decode")
         try:
@@ -26,13 +22,13 @@ class Utf8(ciphey.iface.Decoder[bytes]):
     def getParams() -> Optional[Dict[str, Dict[str, Any]]]:
         pass
 
-    @staticmethod
-    def getName() -> str:
-        return "utf-8"
-
     def __init__(self, config: ciphey.iface.Config):
         super().__init__(config)
 
     @staticmethod
-    def getTags() -> Set[str]:
-        return {"utf-8", "unicode", "text"}
+    def getLevel() -> Level:
+        return Level.VeryCommon
+
+    @staticmethod
+    def getTags() -> FrozenSet[str]:
+        return frozenset({"utf-8", "unicode", "text"})
