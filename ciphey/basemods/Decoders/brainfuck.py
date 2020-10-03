@@ -1,9 +1,12 @@
 from typing import Optional, Dict, List, Tuple
 
 from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, WordList
-from ciphey.common import fix_case
+
 from loguru import logger
-import time, re
+
+import re
+
+import time
 
 
 @registry.register
@@ -21,7 +24,7 @@ class Brainfuck(Decoder[str, str]):
             * Does not require user input ("," instruction)
             * Includes at least one putchar instruction (".")
             * Does not contain anything but the main 7 instructions,
-                (excluding ",") and whitespace (tabs, spaces, and newlines)
+                (excluding ",") and whitespace
 
         Details:
             * This implementation wraps the memory pointer for ">" and "<"
@@ -29,28 +32,30 @@ class Brainfuck(Decoder[str, str]):
             * The program starts with 100 memory cells, chosen arbitrarily
         """
 
+        logger.trace("Attempting brainfuck")
+
         result = ""
         memory = [0] * 100
-        codeptr, memptr = 0, 0  # instruction pointer, stack pointer
-        timelimit = 60  # timeout, in seconds
+        codeptr, memptr = 0, 0  # Instruction pointer and stack pointer
+        timelimit = 60  # The timeout in seconds
 
         bracemap, isbf = self.bracemap_and_check(ctext)
 
-        # this doesn't appear to be a brainfuck program we can decode
+        # If it doesn't appear to be valid brainfuck code
         if not isbf:
-            logger.debug("Sample is not Ciphey-legal brainfuck. Continuing...")
+            logger.trace("Failed to interpret brainfuck due to invalid characters")
             return None
 
-        # get start time
+        # Get start time
         start = time.time()
 
         while codeptr < len(ctext):
 
             current = time.time()
 
-            # arbitrarily quit if we've been running for over a minute
+            # Return none if we've been running for over a minute
             if current - start > timelimit:
-                logger.trace("Brainfuck decoding timed out")
+                logger.trace("Failed to interpret brainfuck due to timing out")
                 return None
 
             cmd = ctext[codeptr]
@@ -78,22 +83,21 @@ class Brainfuck(Decoder[str, str]):
                 else:
                     memptr -= 1
 
-            # if we're at the beginning of the loop and the memory is 0,
-            # exit the loop
+            # If we're at the beginning of the loop and the memory is 0, exit the loop
             elif cmd == "[" and memory[memptr] == 0:
                 codeptr = bracemap[codeptr]
 
-            # if we're at the end of the loop and the memory is >0, jmp to
-            # the beginning of the loop
+            # If we're at the end of the loop and the memory is >0, jmp to the beginning of the loop
             elif cmd == "]" and memory[memptr]:
                 codeptr = bracemap[codeptr]
 
-            # store the output as a string instead of printing it out
+            # Store the output as a string instead of printing it out
             elif cmd == ".":
                 result += chr(memory[memptr])
 
             codeptr += 1
 
+        logger.debug(f"Brainfuck successful, returning '{result}'")
         return result
 
     def bracemap_and_check(self, program: str) -> Tuple[Optional[Dict], bool]:
@@ -101,8 +105,8 @@ class Brainfuck(Decoder[str, str]):
         Create a bracemap of brackets in the program, to compute jmps.
         Maps open -> close brackets as well as close -> open brackets.
 
-        Also returns True if the program is legal Brainfuck code. If False, we
-        won't try to even run it.
+        Also returns True if the program is valid Brainfuck code. If False, we
+        won't even try to run it.
         """
 
         open_stack = []
@@ -110,17 +114,16 @@ class Brainfuck(Decoder[str, str]):
         legal_instructions = {"+", "-", ">", "<", "[", "]", "."}
         legal_count = 0
 
-        # if the program actually outputs anything (contains ".")
+        # If the program actually outputs anything (contains ".")
         prints = False
 
         for idx, instruction in enumerate(program):
-            # if instruction is brainfuck (without input) or whitespace, it counts
-            if instruction in legal_instructions or re.match("\s", instruction):
+            # If instruction is brainfuck (without input) or whitespace, it counts
+            if instruction in legal_instructions or re.match(r"\s", instruction):
                 legal_count += 1
 
             if not prints and instruction == ".":
-                # If there are no "." instructions,
-                # then this program will not output anything
+                # If there are no "." instructions then this program will not output anything
                 prints = True
 
             elif instruction == "[":
@@ -132,13 +135,13 @@ class Brainfuck(Decoder[str, str]):
                     bracemap[opbracket] = idx
                     bracemap[idx] = opbracket
                 except IndexError:
-                    # mismatched braces, not a valid program
-                    # closing braces > opening braces
+                    # Mismatched braces, not a valid program
+                    # Closing braces > opening braces
                     return (None, False)
 
-        # 1. all characters are instructions or whitespace,
-        # 2. no extra open braces, and
-        # 3. there is at least one character to be "printed"
+        # 1. All characters are instructions or whitespace
+        # 2. There are no extra open braces
+        # 3. There is at least one character to be "printed"
         # (result is >=1 in length)
         is_brainfuck = legal_count == len(program) and len(open_stack) == 0 and prints
 
@@ -146,7 +149,7 @@ class Brainfuck(Decoder[str, str]):
 
     @staticmethod
     def priority() -> float:
-        # not uncommon, but not especially likely either. slow.
+        # Not uncommon, but not very common either. It's also slow.
         return 0.08
 
     def __init__(self, config: Config):
