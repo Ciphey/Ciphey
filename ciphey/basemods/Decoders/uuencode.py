@@ -13,6 +13,7 @@ class Uuencode(Decoder[str, str]):
         try:
             res = decode(bytes(ctext, 'utf-8'), 'uu').decode()
             logger.debug(f"uuencode decode gave '{res}'")
+            print(f"uuencode decode gave '{res}'")
             return res
         except ValueError:
             logger.trace("uuuencode decode failed")
