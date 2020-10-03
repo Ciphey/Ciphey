@@ -2,7 +2,8 @@ from typing import Optional, Dict, List, Tuple
 
 from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, WordList
 from ciphey.common import fix_case
-import time
+from loguru import logger
+import time, re
 
 
 @registry.register
@@ -30,13 +31,14 @@ class Brainfuck(Decoder[str, str]):
 
         result = ""
         memory = [0] * 100
-        codeptr, memptr = 0, 0      # instruction pointer, stack pointer
-        timelimit = 60              # timeout, in seconds
+        codeptr, memptr = 0, 0  # instruction pointer, stack pointer
+        timelimit = 60  # timeout, in seconds
 
         bracemap, isbf = self.bracemap_and_check(ctext)
 
         # this doesn't appear to be a brainfuck program we can decode
         if not isbf:
+            logger.debug("Sample is not Ciphey-legal brainfuck. Continuing...")
             return None
 
         # get start time
@@ -48,6 +50,7 @@ class Brainfuck(Decoder[str, str]):
 
             # arbitrarily quit if we've been running for over a minute
             if current - start > timelimit:
+                logger.trace("Brainfuck decoding timed out")
                 return None
 
             cmd = ctext[codeptr]
@@ -65,7 +68,7 @@ class Brainfuck(Decoder[str, str]):
                     memory[memptr] = 255
 
             elif cmd == ">":
-                if memptr == len(memory)-1:
+                if memptr == len(memory) - 1:
                     memory.append(0)
                 memptr += 1
 
@@ -104,26 +107,21 @@ class Brainfuck(Decoder[str, str]):
 
         open_stack = []
         bracemap = dict()
-        legal_instructions = {
-            "+", "-", ">", "<", "[", "]", ".", ",", "\t", "\n", " "
-        }
+        legal_instructions = {"+", "-", ">", "<", "[", "]", "."}
         legal_count = 0
 
         # if the program actually outputs anything (contains ".")
         prints = False
 
         for idx, instruction in enumerate(program):
-            if instruction in legal_instructions:
+            # if instruction is brainfuck (without input) or whitespace, it counts
+            if instruction in legal_instructions or re.match("\s", instruction):
                 legal_count += 1
 
             if not prints and instruction == ".":
                 # If there are no "." instructions,
                 # then this program will not output anything
                 prints = True
-
-            if instruction == ",":
-                # we don't handle input
-                return (None, False)
 
             elif instruction == "[":
                 open_stack.append(idx)
@@ -142,9 +140,7 @@ class Brainfuck(Decoder[str, str]):
         # 2. no extra open braces, and
         # 3. there is at least one character to be "printed"
         # (result is >=1 in length)
-        is_brainfuck = legal_count == len(program) \
-            and len(open_stack) == 0 \
-            and prints
+        is_brainfuck = legal_count == len(program) and len(open_stack) == 0 and prints
 
         return bracemap, is_brainfuck
 
