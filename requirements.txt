@@ -388,9 +388,9 @@ typing-inspect==0.6.0; python_version >= "3.7" and python_version < "3.8" \
 urllib3==1.25.10 \
     --hash=sha256:e7983572181f5e1522d9c98453462384ee92a0be7fac5f1413a1e35c56cc0461 \
     --hash=sha256:91056c15fa70756691db97756772bb1eb9678fa585d9184f24534b100dc60f4a
-win32-setctime==1.0.2; sys_platform == "win32" \
-    --hash=sha256:02b4c5959ca0b195f45c98115826c6e8a630b7cf648e724feaab1a5aa6250640 \
-    --hash=sha256:47aa7c43548c1fc0a4f026d1944b748b37036df116c7c4cf908e82638d854313
+win32-setctime==1.0.3; sys_platform == "win32" \
+    --hash=sha256:dc925662de0a6eb987f0b01f599c01a8236cb8c62831c22d9cada09ad958243e \
+    --hash=sha256:4e88556c32fdf47f64165a2180ba4552f8bb32c1103a2fafd05723a0bd42bd4b
 wrapt==1.12.1 \
     --hash=sha256:b62ffa81fb85f4332a4f609cab4ac40709470da05643a082ec1eb88e6d9b97d7
 yaspin==1.0.0 \
