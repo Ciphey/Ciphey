@@ -7,15 +7,16 @@
 © Brandon Skerritt
 Github: brandonskerritt
 """
-import sys
-from distutils import util
+
 from typing import Optional, Dict, Union, Set, List, Tuple
 
-from loguru import logger
-import ciphey
-import cipheycore
-
 from ciphey.iface import ParamSpec, CrackResult, T, CrackInfo, registry
+
+from loguru import logger
+
+import ciphey
+
+import cipheycore
 
 
 @registry.register
@@ -58,7 +59,7 @@ class Rot47(ciphey.iface.Cracker[str]):
         logger.debug(f"ROT47 returned {n_candidates} candidates")
 
         if n_candidates == 0:
-            logger.trace(f"Filtering for better results")
+            logger.trace("Filtering for better results")
             analysis = cipheycore.analyse_string(ctext, self.group)
             possible_keys = cipheycore.caesar_crack(
                 analysis, self.expected, self.group, self.p_value
