@@ -9,11 +9,17 @@ from codecs import decode
 @registry.register
 class Uuencode(Decoder[str, str]):
     def decode(self, ctext: str) -> Optional[str]:
+        """
+        UUEncode (for Unix to Unix Encoding) is a symmetric encryption 
+        based on conversion of binary data (split into 6-bit blocks) into ASCII characters.
+
+        This function decodes the input string 'ctext' if it has been decoded using `uuencoder`. 
+        Will return 'None' otherwise
+        """
         logger.trace("Attempting uuencode decode")
         try:
             res = decode(bytes(ctext, 'utf-8'), 'uu').decode()
             logger.debug(f"uuencode decode gave '{res}'")
-            print(f"uuencode decode gave '{res}'")
             return res
         except ValueError:
             logger.trace("uuuencode decode failed")
