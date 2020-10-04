@@ -240,4 +240,3 @@ def test_uuencode():
         "begin 644 /dev/stdout\nM2&5L;&\@;7D@;F%M92!I<R!B964@86YD($D@;&EK92!D;V<@86YD(&%P<&QE\n)(&%N9\"!T<F5E\n`\nend\n"
     )
     assert res == answer_str
-    

@@ -18,15 +18,22 @@ class Uuencode(Decoder[str, str]):
         """
         logger.trace("Attempting uuencode decode")
         try:
-            res = decode(bytes(ctext, 'utf-8'), 'uu').decode()
-            logger.debug(f"uuencode decode gave '{res}'")
-            return res
+            # uuencoded messages begin with "begin (mode) (name)". 
+            # So we can skip the decoding if that is not the case
+            if ctext.startswith('begin'):
+                res = decode(bytes(ctext, 'utf-8'), 'uu').decode()
+                logger.debug(f"uuencode decode gave '{res}'")
+                return res
+            else:
+                logger.debug("Not a valid uuencoded text")
+                return None
         except ValueError:
             logger.trace("uuuencode decode failed")
             return None
 
     @staticmethod
     def priority() -> float:
+        # low probability as it is a not a commonly used encoding.
         return 0.05
 
     def __init__(self, config: Config):
@@ -34,7 +41,7 @@ class Uuencode(Decoder[str, str]):
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
-        """The parameters this returns"""
+        """No parameters needed"""
         pass
 
     @staticmethod
