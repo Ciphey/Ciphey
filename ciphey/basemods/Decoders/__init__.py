@@ -19,5 +19,6 @@ from . import (
     multi_tap,
     url,
     tap_code,
+    brainfuck,
     uuencode,
 )
