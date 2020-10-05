@@ -15,6 +15,7 @@ Class to provide helper functions for mathematics
 from collections import OrderedDict
 from string import punctuation
 from loguru import logger
+from typing import Optional
 
 
 class mathsHelper:
@@ -48,6 +49,7 @@ class mathsHelper:
     def mod_inv(a: int, m: int) -> Optional[int]:
         """
         Returns the modular inverse of a mod m, or None if it does not exist.
+
         The modular inverse of a is the number a_inv that satisfies the equation
         a_inv * a mod m === 1 mod m
 

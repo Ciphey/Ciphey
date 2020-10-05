@@ -3,15 +3,13 @@
 
 
 from distutils import util
-from typing import Optional, Dict, Union, Set, List
+from typing import Optional, List, Dict
 from loguru import logger
 
 import ciphey
 from ciphey.iface import ParamSpec, Cracker, CrackResult, CrackInfo, T, registry, Config
 from ciphey.common import fix_case
-
-import re
-from math import gcd
+from ciphey.mathsHelper import mathsHelper
 
 
 @registry.register
@@ -45,47 +43,42 @@ class Affine(Cracker[str]):
         possible_a = [
             a
             for a in range(1, self.ALPHABET_LENGTH)
-            if gcd(a, self.ALPHABET_LENGTH) == 1
+            if mathsHelper.gcd(a, self.ALPHABET_LENGTH) == 1
         ]
         logger.debug(
             f"Trying Affine Cracker with {len(possible_a)} a-values and {self.ALPHABET_LENGTH} b-values"
         )
         for a in possible_a:
+            a_inv = mathsHelper.mod_inv(a, self.ALPHABET_LENGTH)
+            # If there is no inverse, we cannot decrypt the text
+            if a_inv is None:
+                continue
             for b in range(self.ALPHABET_LENGTH):
-                translated = self.decrypt(ctext, a, b, self.ALPHABET_LENGTH)
-                logger.trace(f"Transated text: {translated}")
+                translated = self.decrypt(ctext, a_inv, b, self.ALPHABET_LENGTH)
                 candidates.append(
                     CrackResult(
-                        value=fix_case(translated, ctext), key_info=f"a: {a}, b: {b}"
+                        value=fix_case(translated, ctext), key_info=f"a={a}, b={b}"
                     )
                 )
         logger.debug(f"Affine Cipher returned {len(candidates)} candidates")
+
         return candidates
 
-    def decrypt(self, text: str, a: int, b: int, m: int) -> Optional[str]:
+    def decrypt(self, text: str, a_inv: int, b: int, m: int) -> Optional[str]:
         """
         Each letter is decrypted at D(x) = a_inv (x - b) mod m where x is the char
         We treat the char value as its index in the alphabet, so if
         the alphabet is 'abcd....' and the char is 'b', it has the value 1.
         """
-        a_inv = self.modInv(a, m)
-        if a_inv is None:
-            return None
-        return "".join([self.decryptChar(char, a, b, m) for char in text])
+        return "".join([self.decryptChar(char, a_inv, b, m) for char in text])
 
-    def decryptChar(self, char, a_inv, b, m):
+    def decryptChar(self, char: str, a_inv: int, b: int, m: int) -> str:
         # Preserve characters that are not in alphabet
         if char not in self.group:
             return char
         char_idx = self.group.index(char)
         decrypted_char_idx = (a_inv * (char_idx - b)) % m
         return self.group[decrypted_char_idx]
-
-    def modInv(self, a: int, m: int) -> int:
-        for i in range(1, m):
-            if (m * i + 1) % a == 0:
-                return (m * i + 1) // a
-        return None
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
