@@ -61,10 +61,9 @@ class Affine(Cracker[str]):
                     )
                 )
         logger.debug(f"Affine Cipher returned {len(candidates)} candidates")
-
         return candidates
 
-    def decrypt(self, text: str, a_inv: int, b: int, m: int) -> Optional[str]:
+    def decrypt(self, text: str, a_inv: int, b: int, m: int) -> str:
         """
         Each letter is decrypted at D(x) = a_inv (x - b) mod m where x is the char
         We treat the char value as its index in the alphabet, so if
