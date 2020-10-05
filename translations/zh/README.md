@@ -13,7 +13,7 @@
  ⬅️
 
 <br>
-  <img src="Pictures_for_README/binoculars.png" alt="Ciphey">
+  <img src="../../Pictures_for_README/binoculars.png" alt="Ciphey">
 </p>
 
 <p align="center">
@@ -35,7 +35,7 @@
 
 | <p align="center"><a href="https://pypi.org/project/ciphey">🐍 Python | <p align="center"><a href="https://pypi.org/project/ciphey">🐋 Docker (普遍) |
 | --------------------------- | ---------------------------------|
-| <p align="center"><img src="Pictures_for_README/python.png" /></p> | <p align="center"><img src="Pictures_for_README/docker.png" /></p> |
+| <p align="center"><img src="../../Pictures_for_README/python.png" /></p> | <p align="center"><img src="../../Pictures_for_README/docker.png" /></p> |
 | `python3 -m pip install ciphey --upgrade`  | `docker run -it --rm remnux/ciphey` | 
 
 
@@ -52,27 +52,31 @@
 > "什么类型的加密?"
 
 这才是重点。您不知道，只是知道它可能已加密。 Ciphey将为您解决。
+
 Ciphey可以在3秒或更短的时间内解密大多数加密的文本。
 
 <p align="center" href="https://asciinema.org/a/336257">
-  <img src="Pictures_for_README/index.gif" alt="Ciphey demo">
+  <img src="../../Pictures_for_README/index.gif" alt="Ciphey demo">
 </p>
 
 Ciphey旨在成为一种工具，用于自动执行许多解密和解码，例如多种基本编码，经典密码，哈希或更高级的加密技术。
 
 如果您对密码学不太了解，或者想在自己进行密文处理之前快速检查密文，那么Ciphey就是您的理想之选。
-**技术部分.** Ciphey使用带有(Cipher Detection Interface)和（_AuSearch_）的定制构建的人工智能来近似加密内容。然后是定制的，可定制的自然语言处理_Language Checker Interface_，它可以检测给定文本何时变为纯文本。
+
+**技术部分.** Ciphey使用一个带有密文检测接口(_Cipher Detection Interface_)的定制AI模型(_AuSearch_)来估测一个东西是用什么方式加密的。以及一个定制过的自然语言处理接口(_Language Checker Interface_)来检测给定文本何时变为纯文本。
+
 这里没有神经网络或缓慢的AI。我们只使用快速和最小的东西。
-那只是冰山一角. 如果您要完整的技术部分的解释, 看看我们的 [文件资料](https://github.com/Ciphey/Ciphey/wiki).
 
-# ✨ 特征
+那只是冰山一角. 如果您要完整的技术部分的解释, 看看我们的[文档](https://github.com/Ciphey/Ciphey/wiki).
 
-- **支持30+的加密法 ** 例如编码（二进制，base64）和常规加密（例如Caesar密码，重复密钥XOR等）。 **[有关完整列表，请单击此处](https://github.com/Ciphey/Ciphey/wiki/Supported-Ciphers)**
+# ✨ 特性
+
+- **支持30+的加密方法** 例如编码（二进制，base64）和常规加密（例如Caesar密码，重复密钥XOR等）。 **[有关完整列表，请单击此处](https://github.com/Ciphey/Ciphey/wiki/Supported-Ciphers)**
 - **具有增强搜索功能的定制人工智能（AuSearch）可以回答“使用了哪种加密技术?"** 解密时间不到3秒。
 - **定制的自然语言处理系统** Ciphey 可以确定某些东西是否是纯文本。无论该纯文本是JSON，CTF标志还是英语Ciphey，都可以在几毫秒内获得它。
 - **多国语言支持** 目前，仅有德语和英语（带有AU，UK，CAN，USA变体）。
 - **支持加密和哈希** 诸如CyberChef Magic之类的替代品则没有。
-- **[C++ 核心](https://github.com/Ciphey/CipheyCore)** 这会是整个过程变得非常快。
+- **[C++ 核心](https://github.com/Ciphey/CipheyCore)** 这会使整个过程变得非常快。
 
 # 🔭 Ciphey 与 CyberChef 的对比
 
@@ -86,8 +90,8 @@ Ciphey旨在成为一种工具，用于自动执行许多解密和解码，例�
   </tr>
   <tr>
   <th>Gif</th>
-    <td><img src="Pictures_for_README/ciphey_gooder_cyberchef.gif" alt="The guy she tells you not to worry about"></td>
-    <td><img src="Pictures_for_README/not_dying.gif" alt="You"></td>
+    <td><img src="../../Pictures_for_README/ciphey_gooder_cyberchef.gif" alt="The guy she tells you not to worry about"></td>
+    <td><img src="../../Pictures_for_README/not_dying.gif" alt="You"></td>
   </tr>
   <tr>
   <th>时间</th>
@@ -97,16 +101,16 @@ Ciphey旨在成为一种工具，用于自动执行许多解密和解码，例�
     <tr>
   <th>建立</th>
     <td><ul><li>在文件上运行ciphey</li></ul></td>
-    <td><ul><li>将正则表达式参数设置为 "{"</li><li>您需要知道要重复多少次</li><li>您需要一直知道它是使用Base64加密法</li><li>您需要运行 CyberChef (它是以个超级超级慢的JS 应用程式)</li><li>对CyberChef有足够了解以创建此管道</li><li>反转比赛</li></ul></td>
+    <td><ul><li>将正则表达式参数设置为 "{"</li><li>您需要知道要重复多少次</li><li>您需要一直知道它是使用Base64加密法</li><li>您需要运行 CyberChef (它是一个超级超级慢的JS 应用程序)</li><li>对CyberChef有足够了解以创建此管道</li><li>反转匹配</li></ul></td>
   </tr>
 </table>
 
 
 <sub><b>Note</b> 这些gif可能在不同的时间加载，因此一个gif的显示速度可能明显快于另一个.</sub><br>
-<sub><b>魔术笔记 </b>CyberChef与Ciphey最相似的功能是Magic。魔术在此输入上立即失败并崩溃。我们迫使CyberChef竞争的唯一方法是手动定义它。</sub>
+<sub><b>A note on magic</b> CyberChef与Ciphey最相似的功能是Magic。Magic在此输入上立即失败并崩溃。我们迫使CyberChef竞争的唯一方法是手动定义它。</sub>
 
 
-我们还使用**6gb文件**测试了CyberChef和Ciphey。 Ciphey在5分钟54秒内破解了它。 CyberChef在开始之前就系统崩溃了。
+我们还使用**6gb文件**测试了CyberChef和Ciphey。Ciphey在5分钟54秒内破解了它。CyberChef在开始之前就系统崩溃了。
 
 
 
@@ -120,7 +124,7 @@ Ciphey旨在成为一种工具，用于自动执行许多解密和解码，例�
 | 支持哈希算法                                | ✅          | ✅          | ❌                   |
 | 易于设置                                    | ✅          | ❌          | ✅                   |
 | 可以猜测使用什么加密                         | ✅          | ❌          | ❌                   |
-|由黑客为黑客创建                              | ✅          | ✅          | ❌                   |
+| 由黑客为黑客创建                              | ✅          | ✅          | ❌                   |
 
 # 🎬 入门
 
@@ -135,10 +139,10 @@ Ciphey旨在成为一种工具，用于自动执行许多解密和解码，例�
 ## 🏃‍♀️运行 Ciphey
 有3种方式可以运行Ciphey。
 1. 文件输入 `ciphey -f encrypted.txt`
-2.不合格输入 `ciphey -- "Encrypted input"`
+2. 不合格输入 `ciphey -- "Encrypted input"`
 3. 正常方式 `ciphey -t "Encrypted input"`
 
-![Gif显示3种运行Ciphey的方法](Pictures_for_README/3ways.gif)
+![Gif显示3种运行Ciphey的方法](../../Pictures_for_README/3ways.gif)
 
 要消除进度条，概率表和所有杂音，请使用安静模式。
 
@@ -149,20 +153,20 @@ Ciphey旨在成为一种工具，用于自动执行许多解密和解码，例�
 ### ⚗️ 导入Ciphey
 您可以导入Ciphey\'s main，并在您自己的程序和代码中使用它。 `from Ciphey.__main__ import main`
 
-# 🎪 制作者
-Ciphey是由[Brandon]制作的(https://github.com/bee-san) 在2008年，并在2019年复活。如果没有[Cyclic3](https://github.com/Cyclic3) - UoL网络安全协会主席。，Ciphey将不会是今天的样子 
+# 🎪 贡献者
+Ciphey是由[Brandon](https://github.com/bee-san)在2008年发明的，并在2019年重写。如果没有[Cyclic3](https://github.com/Cyclic3) - UoL网络安全协会主席，Ciphey将不会是今天的样子 
 
-Ciphey由[网络安全协会](https://www.cybersoc.cf/)进行了复兴和重建以用于CTF。如果您曾经在利物浦，请考虑发表演讲或赞助我们的活动。 给我们发电子邮件`cybersecurity@society.liverpoolguild.org` 以了解更多🤠
+Ciphey由[网络安全协会](https://www.cybersoc.cf/)进行了复兴和重建以用于CTF。如果您曾经在利物浦，请考虑发表演讲或赞助我们的活动。给我们发电子邮件 `cybersecurity@society.liverpoolguild.org` 以了解更多🤠
 
 **主要信用** 感谢George H找出如何使用适当的算法来加快搜索过程。
 **特别感谢** 至 [varghalladesign](https://www.facebook.com/varghalladesign) 用于设计徽标。查看他们的其他设计工作！
 
-## 🐕‍🦺 [参与制作](https://github.com/Ciphey/Ciphey/wiki/Contributing)
+## 🐕‍🦺 [参与贡献](https://github.com/Ciphey/Ciphey/wiki/Contributing)
 不要害怕参与！您可以做很多事情来帮助我们。它们每个都带有标签，并通过示例轻松解释。如果您想贡献但被停止，请在GitHub问题中标记 @bee-san或 @cyclic3✨
 
-或者，加入Discord群组并在那里发送消息 (链接在 [(https://github.com/Ciphey/Ciphey/wiki/Contributing)) 或在本自述文件的顶部作为徽章。
+或者，加入Discord群组并在那里发送消息（链接在 [贡献文件](https://github.com/Ciphey/Ciphey/wiki/Contributing)）或在本自述文件的顶部的徽章。
 
-请阅读[参与制作文件]](https://github.com/Ciphey/Ciphey/wiki/Contributing) 有关如何参与制作的细节 ✨
+请阅读 [参与贡献文件](https://github.com/Ciphey/Ciphey/wiki/Contributing) 有关如何参与制作的细节 ✨
 
 By doing so, you'll get your name added to the README below and get to be apart of an ever-growing project!
 [![Stargazers over time](https://starchart.cc/Ciphey/Ciphey.svg)](https://starchart.cc/Ciphey/Ciphey)
