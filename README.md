@@ -66,7 +66,7 @@ Ciphey aims to be a tool to automate a lot of decryptions & decodings such as mu
 
 If you don't know much about cryptography, or you want to quickly check the ciphertext before working on it yourself, Ciphey is for you.
 
-**The technical part.** Ciphey uses a custom built artificial intelligence module (_AuSearch_) with a _Cipher Detection Interface_ to approximate what something is encrypted with. And then a custom-built, customisable natural language processing _Language Checker Interface_, which can detect when the given text becomes plaintext.
+**The technical part.** Ciphey uses a custom built artificial intelligence module (_AuSearch_) with a _Cipher Detection Interface_ to approximate what something is encrypted with. And then a custom-built, customizable natural language processing _Language Checker Interface_, which can detect when the given text becomes plaintext.
 
 No neural networks or bloated AI here. We only use what is fast and minimal.
 
@@ -110,7 +110,7 @@ And that's just the tip of the iceberg. For the full technical explanation, chec
 
 
 <sub><b>Note</b> The gifs may load at different times, so one may appear significantly faster than another.</sub><br>
-<sub><b>A note on magic </b>CyberChef's most similar feature to Ciphey is Magic. Magic fails instantly on this input and crashes. The only way we could force CyberChef to compete was to manually define it.</sub>
+<sub><b>A note on magic</b> CyberChef's most similar feature to Ciphey is Magic. Magic fails instantly on this input and crashes. The only way we could force CyberChef to compete was to manually define it.</sub>
 
 
 We also tested CyberChef and Ciphey with a **6gb file**. Ciphey cracked it in **5 minutes and 54 seconds**. CyberChef crashed before it even started.
@@ -173,6 +173,7 @@ Please read the [contributing file](https://github.com/Ciphey/Ciphey/wiki/Contri
 
 By doing so, you'll get your name added to the README below and get to be apart of an ever-growing project!
 [![Stargazers over time](https://starchart.cc/Ciphey/Ciphey.svg)](https://starchart.cc/Ciphey/Ciphey)
+
 ## 💰 Financial Contributors
 The contributions will be used to fund not only the future of Ciphey and its authors, but also Cyber Security Society at the University of Liverpool.
 
