@@ -45,6 +45,22 @@ class mathsHelper:
         return b
 
     @staticmethod
+    def mod_inv(a: int, m: int) -> Optional[int]:
+        """
+        Returns the modular inverse of a mod m, or None if it does not exist.
+        The modular inverse of a is the number a_inv that satisfies the equation
+        a_inv * a mod m === 1 mod m
+
+        Note: This is a naive implementation, and runtime may be improved in several ways.
+        For instance by checking if m is prime to perform a different calculation,
+        or by using the extended euclidean algorithm.
+        """
+        for i in range(1, m):
+            if (m * i + 1) % a == 0:
+                return (m * i + 1) // a
+        return None
+
+    @staticmethod
     def percentage(part: float, whole: float) -> float:
         """Returns percentage.
 
