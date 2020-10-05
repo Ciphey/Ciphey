@@ -5,6 +5,7 @@ from ciphey.iface import ParamSpec, Config, Decoder, registry
 from loguru import logger
 
 from codecs import decode
+from binascii import a2b_uu
 
 @registry.register
 class Uuencode(Decoder[str, str]):
@@ -18,15 +19,20 @@ class Uuencode(Decoder[str, str]):
         """
         logger.trace("Attempting uuencode decode")
         try:
-            # uuencoded messages begin with "begin (mode) (name)". 
-            # So we can skip the decoding if that is not the case
-            if ctext.startswith('begin'):
-                res = decode(bytes(ctext, 'utf-8'), 'uu').decode()
-                logger.debug(f"uuencode decode gave '{res}'")
-                return res
+            # uuencoded messages may begin with prefix "begin" and end with suffix "end".
+            # codecs module in python is used in that case 
+            ctext_strip = ctext.strip()
+            if ctext_strip.startswith("begin") and ctext_strip.endswith("end"):
+                res = decode(bytes(ctext, "utf-8"), "uu").decode()
             else:
-                logger.debug("Not a valid uuencoded text")
-                return None
+                # If there is no "begin" prefix & "end" suffix use binascii module.
+                # It is possible that encoded string has multiple lines, so convert each line and append
+                ctext_split=list(filter(None, ctext.splitlines()))
+                res = ""
+                for i in range(0, len(ctext_split)):
+                    res += a2b_uu(ctext_split[i]).decode("utf-8")
+            logger.debug(f"uuencode decode gave '{res}'")
+            return res
         except ValueError:
             logger.trace("uuuencode decode failed")
             return None
