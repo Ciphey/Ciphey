@@ -234,11 +234,11 @@ def test_brandon():
 def test_affine():
     res = decrypt(
         Config().library_default().complete_config(),
-        "Ihsst bf kxbh rd ghh xky R srjh ytz xky xccsh xky muhh"
+        "Ihsst bf kxbh rd ghh xky R srjh ytz xky xccsh xky muhh",
     )
-    assert res.lower() == answer_str.lower()
+    assert res == answer_str
 
-    
+
 def test_brainfuck():
     res = decrypt(
         Config().library_default().complete_config(),
@@ -253,4 +253,3 @@ def test_ascii_shift():
         "\"?FFIzGSzH;G?zCMz<??z;H>z#zFCE?z>IAz;H>z;JJF?z;H>zNL??",
     )
     assert res.lower() == answer_str.lower()
-    
