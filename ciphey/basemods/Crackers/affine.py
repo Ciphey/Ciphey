@@ -7,6 +7,7 @@ from typing import Optional, List, Dict
 from loguru import logger
 
 import ciphey
+import cipheycore
 from ciphey.iface import ParamSpec, Cracker, CrackResult, CrackInfo, T, registry, Config
 from ciphey.common import fix_case
 from ciphey.mathsHelper import mathsHelper
@@ -38,7 +39,6 @@ class Affine(Cracker[str]):
     def attemptCrack(self, ctext: str) -> List[CrackResult]:
         """
         Brute forces all the possible combinations of a and b to attempt to crack the cipher.
-
         """
         logger.trace("Attempting Affine brute force.")
         candidates = []
@@ -60,15 +60,25 @@ class Affine(Cracker[str]):
                 continue
             for b in range(self.ALPHABET_LENGTH):
                 # Pass in lowered text. This means that we expect alfabets to not contain both 'a' and 'A'.
-                # Both are
                 translated = self.decrypt(ctext.lower(), a_inv, b, self.ALPHABET_LENGTH)
-                candidates.append(
-                    CrackResult(
-                        value=fix_case(translated, ctext), key_info=f"a={a}, b={b}"
+
+                candidate_probability = self.plaintext_probability(translated)
+                if candidate_probability > self.PLAINTEXT_PROB_THRESHOLD:
+                    candidates.append(
+                        CrackResult(
+                            value=fix_case(translated, ctext), key_info=f"a={a}, b={b}"
+                        )
                     )
-                )
         logger.debug(f"Affine Cipher returned {len(candidates)} candidates")
         return candidates
+
+    def plaintext_probability(self, translated: str) -> float:
+        """
+        Analyses the translated text and applies the chi squared test to see if it is a probable plaintext candidate
+        Returns the probability of the chi-squared test.
+        """
+        analysis = cipheycore.analyse_string(translated)
+        return cipheycore.chisq_test(analysis, self.expected)
 
     def decrypt(self, text: str, a_inv: int, b: int, m: int) -> str:
         """
@@ -94,15 +104,22 @@ class Affine(Cracker[str]):
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
         return {
+            "expected": ParamSpec(
+                desc="The expected distribution of the plaintext",
+                req=False,
+                config_ref=["default_dist"],
+            ),
             "group": ciphey.iface.ParamSpec(
                 desc="An ordered sequence of chars that make up the alphabet",
                 req=False,
                 default="abcdefghijklmnopqrstuvwxyz",
-            )
+            ),
         }
 
     def __init__(self, config: Config):
         super().__init__(config)
         self.group = list(self._params()["group"])
+        self.expected = config.get_resource(self._params()["expected"])
         self.ALPHABET_LENGTH = len(self.group)
         self.cache = config.cache
+        self.PLAINTEXT_PROB_THRESHOLD = 0.01
