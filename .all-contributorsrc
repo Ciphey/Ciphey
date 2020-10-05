@@ -225,6 +225,24 @@
       "contributions": [
         "translation"
       ]
+    },
+    {
+      "login": "mav8557",
+      "name": "Michael V",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/47306745?v=4",
+      "profile": "https://github.com/mav8557",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "chuinzer",
+      "name": "chuinzer",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/64257785?v=4",
+      "profile": "https://github.com/chuinzer",
+      "contributions": [
+        "translation"
+      ]
     }
   ],
   "contributorsPerLine": 7,
