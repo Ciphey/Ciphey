@@ -33,18 +33,6 @@ class Ook(Decoder[str, str]):
         if len(all_statements) % 2 == 1:
             logger.debug("Ignoring since there were an odd number of Ook statements in input text")
             return None
-
-        # Remove this 
-        self.translate = {
-            "Ook. Ook.": "+",
-            "Ook! Ook!": "-",
-            "Ook. Ook?": ">",
-            "Ook? Ook.": "<",
-            "Ook! Ook?": "[",
-            "Ook? Ook!": "]",
-            "Ook! Ook.": ".",
-            "Ook. Ook!": "," 
-        }
         
         # This will generate pairs of statements, discarding the last item if there is an odd number of items.
         # Then, convert it back to a single string. 
@@ -58,7 +46,6 @@ class Ook(Decoder[str, str]):
         logger.debug(f"Brainfuck decoded text after Ook decoding: {ctext}")
         # If there are any remaining Ook statements in the text, it means that there was an illegal pair of Ook statements.
         # For instance, Ook? Ook? is not a valid statement.
-        input()
         return None if "Ook" in ctext else ctext
 
     @staticmethod
@@ -67,7 +54,7 @@ class Ook(Decoder[str, str]):
 
     def __init__(self, config: Config):
         super().__init__(config)
-        #self.translate = config.get_resource(self._params()["dict"], Translation)
+        self.translate = config.get_resource(self._params()["dict"], Translation)
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
