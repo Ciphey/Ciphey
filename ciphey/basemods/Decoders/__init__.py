@@ -20,4 +20,5 @@ from . import (
     url,
     tap_code,
     brainfuck,
+    ook,
 )
