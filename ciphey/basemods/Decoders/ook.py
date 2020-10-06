@@ -24,7 +24,7 @@ class Ook(Decoder[str, str]):
         # Since we are passing this on to Brainfuck, we are very strict with what a valid Ook text looks like
         valid_statements = ["Ook.", "Ook!", "Ook?"]
         all_statements = ctext.split() 
-        logger.debug(f"All ook statements: {all_statements}")
+        
         if any([x not in valid_statements for x in all_statements]):
             logger.debug("Ignoring ctext because there were non-Ook statements in input text")
             return None
@@ -40,10 +40,8 @@ class Ook(Decoder[str, str]):
         # For instance, if the statement is ["Ook.", "Ook.", "Ook! Ook."], the resulting output is "Ook. Ook.Ook! Ook."
         pairs = zip(all_statements[::2], all_statements[1::2])
         ctext = ''.join(map(' '.join, pairs))
-        logger.debug(f"Converted input ctext to {ctext}")
         for src, dst in self.translate.items():
             ctext = ctext.replace(src, dst)
-        logger.debug(f"Brainfuck decoded text after Ook decoding: {ctext}")
         # If there are any remaining Ook statements in the text, it means that there was an illegal pair of Ook statements.
         # For instance, Ook? Ook? is not a valid statement.
         return None if "Ook" in ctext else ctext
