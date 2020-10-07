@@ -245,3 +245,16 @@ def test_ascii_shift():
         "\"?FFIzGSzH;G?zCMz<??z;H>z#zFCE?z>IAz;H>z;JJF?z;H>zNL??",
     )
     assert res.lower() == answer_str.lower()
+
+
+def test_uuencode():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "begin 644 /dev/stdout\nM2&5L;&\@;7D@;F%M92!I<R!B964@86YD($D@;&EK92!D;V<@86YD(&%P<&QE\n)(&%N9\"!T<F5E\n`\nend\n"
+    )
+    assert res == answer_str
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "M2&5L;&\@;7D@;F%M92!I<R!B964@86YD($D@;&EK92!D;V<@86YD(&%P<&QE\n)(&%N9\"!T<F5E\n"
+    )
+    assert res == answer_str
