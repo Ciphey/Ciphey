@@ -1,5 +1,5 @@
 <p align="center">
-Translations <br>
+Traduzioni <br>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/id/README.md>🇮🇩 ID   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/it/README.md>🇮🇹 IT   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/de/README.md>🇩🇪 DE   </a>
@@ -11,9 +11,9 @@ Translations <br>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/zh/README.md>🇨🇳 ZH   </a>
  <br><br>
 ➡️ 
-<a href="https://github.com/Ciphey/Ciphey/wiki">Documentation</a> |
+<a href="https://github.com/Ciphey/Ciphey/wiki">Documentazione</a> |
 <a href="https://discord.ciphey.online">Discord</a> |
- <a href="https://github.com/Ciphey/Ciphey/wiki/Installation">Installation Guide</a>
+ <a href="https://github.com/Ciphey/Ciphey/wiki/Installation">Guida all'installazione</a>
  ⬅️
 
 <br>
@@ -30,7 +30,7 @@ Translations <br>
 
   <img src="https://github.com/brandonskerritt/Ciphey/workflows/Python%20application/badge.svg?branch=master" alt="Ciphey">
 <br>
-Fully automated decryption/decoding/cracking tool using natural language processing & artificial intelligence, along with some common sense.
+Strumento completamente automatizzato per la decrittazione/decodificazione/cracking che usa la processazione del linguaggio naturale e l'intelligienza  artificiale, con un po' di senso comune.
 </p>
 <hr>
 
@@ -47,46 +47,47 @@ Fully automated decryption/decoding/cracking tool using natural language process
 
 <hr>
 
-# 🤔 What is this?
+# 🤔 Cos'è questo?
 
-Input encrypted text, get the decrypted text back.
+Inserisci del testo crittografato, ottieni il testo decrittografato indietro.
 
-> "What type of encryption?"
+> "Che tipo di crittografia?"
 
-That's the point. You don't know, you just know it's possibly encrypted. Ciphey will figure it out for you.
+Questo è il punto. Non lo sai, sai solo che forse è criptato. Ciphey lo scoprirà per te.
 
-Ciphey can solve most things in 3 seconds or less.
+Ciphey può risolvere la maggior parte delle cose in 3 secondi o meno.
 
 <p align="center" href="https://asciinema.org/a/336257">
   <img src="Pictures_for_README/index.gif" alt="Ciphey demo">
 </p>
 
-Ciphey aims to be a tool to automate a lot of decryptions & decodings such as multiple base encodings, classical ciphers, hashes or more advanced cryptography.
+Ciphey mira ad essere uno strumento per automatizzare molte decodifiche come le codifiche multiple di base, i classici ciphers, gli hash o la crittografia più avanzata.
 
-If you don't know much about cryptography, or you want to quickly check the ciphertext before working on it yourself, Ciphey is for you.
+Se non ne sai molto di crittografia, o vuoi controllare rapidamente il testo cifrato prima di lavorarci da solo, Ciphey fa per te.
 
-**The technical part.** Ciphey uses a custom built artificial intelligence module (_AuSearch_) with a _Cipher Detection Interface_ to approximate what something is encrypted with. And then a custom-built, customisable natural language processing _Language Checker Interface_, which can detect when the given text becomes plaintext.
+**La parte tecnica.** Ciphey usa un modulo di intelligenza artificiale costruito su misura (_AuSearch_) con un'interfaccia di rilevamento dei _Ciphers_ per approssimare ciò con cui qualcosa è criptato. Successivamente usa un'elaborazione del linguaggio naturale personalizzato e personalizzabile _Language Checker Interface_, in grado di rilevare quando il testo dato diventa in chiaro.
 
 No neural networks or bloated AI here. We only use what is fast and minimal.
+Nessuna rete neurale o IA gonfiate qua. Usiamo solo ciò che e veloce e minimale.
 
-And that's just the tip of the iceberg. For the full technical explanation, check out our [documentation](https://github.com/Ciphey/Ciphey/wiki).
+E questa è solo la punta dell'iceberg. Per l'intera spiegazione tecnica cntrolla la nostra [documentazione](https://github.com/Ciphey/Ciphey/wiki).
 
 # ✨ Features
 
-- **30+ encryptions supported** such as encodings (binary, base64) and normal encryptions like Caesar cipher, repeating-key XOR and more. **[For the full list, click here](https://github.com/Ciphey/Ciphey/wiki/Supported-Ciphers)**
-- **Custom Built Artificial Intelligence with Augmented Search (AuSearch) for answering the question "what encryption was used?"** Resulting in decryptions taking less than 3 seconds.
-- **Custom built natural language processing module** Ciphey can determine whether something is plaintext or not. Whether that plaintext is JSON, a CTF flag, or English, Ciphey can get it in a couple of milliseconds.
-- **Multi Language Support** at present, only German & English (with AU, UK, CAN, USA variants).
-- **Supports encryptions and hashes** Which the alternatives such as CyberChef Magic do not.
-- **[C++ core](https://github.com/Ciphey/CipheyCore)** Blazingly fast.
+- **30+ tipi di crittografia supportati** come gli encodings (binary, base64) e tipi di crittografia normale come il cifrario di cesare, key XOR ripetuta e molto altro. **[Per la lista completa, clicca qui](https://github.com/Ciphey/Ciphey/wiki/Supported-Ciphers)**
+- **Intelligenza artificiale costruita su misura con la ricerca aumentata (AuSearch) per rispondere alla domanda "quale algoritmo per la crittografia è stato usato?"** Il risultato è che le decifrazioni richiedono meno di 3 secondi.
+- **Modulo di elaborazione del linguaggio naturale costruito su misura** Ciphey può determinare se qualcosa è in chiaro o meno. Se quel testo in chiaro è JSON, una flag di una CTF, o l'inglese, Ciphey può ottenerlo in un paio di millisecondi.
+- **Supporto multilingue** al momento, solo tedesco e inglese (con varianti AU, UK, CAN, USA).
+- **Supporta le crittografie e gli hash** che le alternative come CyberChef Magic non hanno.
+- **[core in C++](https://github.com/Ciphey/CipheyCore)** Rapidissimo.
 
 # 🔭 Ciphey vs CyberChef
 
-## 🔁 Base64 Encoded 42 times
+## 🔁 Base64 codificato 42 volte
 
 <table>
   <tr>
-  <th>Name</th>
+  <th>Nome</th>
     <th>⚡ Ciphey ⚡ </th>
     <th>🐢 CyberChef 🐢</th>
   </tr>
@@ -96,93 +97,93 @@ And that's just the tip of the iceberg. For the full technical explanation, chec
     <td><img src="Pictures_for_README/not_dying.gif" alt="You"></td>
   </tr>
   <tr>
-  <th>Time</th>
-    <td>2 seconds</td>
-    <td>6 seconds</td>
+  <th>Tempo</th>
+    <td>2 secondi</td>
+    <td>6 secondi</td>
   </tr>
     <tr>
   <th>Setup</th>
-    <td><ul><li>Run ciphey on the file</li></ul></td>
-    <td><ul><li>Set the regex param to "{"</li><li>You need to know how many times to recurse</li><li>You need to know it's Base64 all the way down</li><li>You need to load CyberChef (it's a bloated JS app)</li><li>Know enough about CyberChef to create this pipeline</li><li>Invert the match</li></ul></td>
+    <td><ul><li>Esegui ciphey sul file</li></ul></td>
+    <td><ul><li>Impostare il parametro regex su "{"</li><li>Hai bisogno di conoscere quante volte devi decodificare il file</li><li>Devi sapere che è sempre Base64</li><li>Devi caricare CyberChef (è un'applicazione JS piena di roba)</li><li>Devi conoscere abbastanza su CyberChef per creare questa pipeline</li><li>Invert the match</li></ul></td>
   </tr>
 </table>
 
-<sub><b>Note</b> The gifs may load at different times, so one may appear significantly faster than another.</sub><br>
-<sub><b>A note on magic </b>CyberChef's most similar feature to Ciphey is Magic. Magic fails instantly on this input and crashes. The only way we could force CyberChef to compete was to manually define it.</sub>
+<sub><b>Nota: </b>Le gif possono caricarsi in tempi diversi, quindi una può apparire significativamente più veloce di un'altra.</sub><br>
+<sub><b>Una nota su CyberChef Magic: </b>La funzione di CyberChef che si avvicina di più a Ciphey è Magic. Magic fallisce istantaneamente con questo input e crasha. L'unico modo per forzare CyberChef a competere è definirlo manualmente</sub>
 
-We also tested CyberChef and Ciphey with a **6gb file**. Ciphey cracked it in **5 minutes and 54 seconds**. CyberChef crashed before it even started.
+Abbiamo anche testato un file da **6 gb**: Ciphey è riuscito a craccarlo in **5 minuti e 54 secondi**, CyberChef è crashato ancor prima di partire.
 
 ## 📊 Ciphey vs Katana vs CyberChef Magic
 
-| **Name**                                   | ⚡ Ciphey ⚡ | 🗡️ Katana 🗡️ | 🐢 CyberChef Magic 🐢 |
-| ------------------------------------------ | ------------ | ------------ | --------------------- |
-| Advanced Language Checker                  | ✅           | ❌           | ✅                    |
-| Supports Encryptions                       | ✅           | ✅           | ❌                    |
-| Releases named after Dystopian themes 🌃   | ✅           | ❌           | ❌                    |
-| Supports hashes                            | ✅           | ✅           | ❌                    |
-| Easy to set up                             | ✅           | ❌           | ✅                    |
-| Can guess what something is encrypted with | ✅           | ❌           | ❌                    |
-| Created for hackers by hackers             | ✅           | ✅           | ❌                    |
+| **Nome**                                         | ⚡ Ciphey ⚡ | 🗡️ Katana 🗡️ | 🐢 CyberChef Magic 🐢 |
+| ------------------------------------------------ | ------------ | ------------ | --------------------- |
+| Controllo avanzato del linguaggio                | ✅           | ❌           | ✅                    |
+| Supporta la crittografia                         | ✅           | ✅           | ❌                    |
+| Releases named after Dystopian themes 🌃         | ✅           | ❌           | ❌                    |
+| Supporta gli hashes                              | ✅           | ✅           | ❌                    |
+| Facile da impostare                              | ✅           | ❌           | ✅                    |
+| Può indovinare con cosa è crittografato quelcosa | ✅           | ❌           | ❌                    |
+| Creato dagli hackers per gli hackers             | ✅           | ✅           | ❌                    |
 
-# 🎬 Getting Started
+# 🎬 Per iniziare
 
-If you're having trouble with installing Ciphey, [read this.](https://github.com/Ciphey/Ciphey/wiki/Common-Issues-&-Their-Solutions)
+Se hai problemi a installare Ciphey, [leggi questo.](https://github.com/Ciphey/Ciphey/wiki/Common-Issues-&-Their-Solutions)
 
-## ‼️ Important Links (Docs, Installation guide, Discord Support)
+## ‼️ Link importanti (Documentazione, Guida all'installazione, supporto via Discord)
 
-| Installation Guide                                                          | Documentation                                             | Discord                                     | Docker Image (from REMnux)                                                                          |
-| --------------------------------------------------------------------------- | --------------------------------------------------------- | ------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| 📖 [Installation Guide](https://github.com/Ciphey/Ciphey/wiki/Installation) | 📚 [Documentation](https://github.com/Ciphey/Ciphey/wiki) | 🦜 [Discord](https://discord.ciphey.online) | 🐋 [Docker Documentation](https://docs.remnux.org/run-tools-in-containers/remnux-containers#ciphey) |
+| Guida all'installazione                                                          | Documentazione                                             | Discord                                     | Immagine Docker (di REMnux)                                                                          |
+| -------------------------------------------------------------------------------- | ---------------------------------------------------------- | ------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| 📖 [Guida all'installazione](https://github.com/Ciphey/Ciphey/wiki/Installation) | 📚 [Documentazione](https://github.com/Ciphey/Ciphey/wiki) | 🦜 [Discord](https://discord.ciphey.online) | 🐋 [Documentazione Docker](https://docs.remnux.org/run-tools-in-containers/remnux-containers#ciphey) |
 
-## 🏃‍♀️Running Ciphey
+## 🏃‍♀️Usare Ciphey
 
-There are 3 ways to run Ciphey.
+Ci sono 3 modi per usare Ciphey:
 
-1. File Input `ciphey -f encrypted.txt`
+1. File di input `ciphey -f encrypted.txt`
 2. Unqualified input `ciphey -- "Encrypted input"`
-3. Normal way `ciphey -t "Encrypted input"`
+3. Modo normale `ciphey -t "Encrypted input"`
 
-![Gif showing 3 ways to run Ciphey](Pictures_for_README/3ways.gif)
+![Gif che mostra i 3 modi per usare Ciphey](Pictures_for_README/3ways.gif)
 
-To get rid of the progress bars, probability table, and all the noise use the quiet mode.
+Per eliminare le barre di avanzamento, la tabella delle probabilità e tutto il resto, usa la modalità quiet.
 
 `ciphey -t "encrypted text here" -q`
 
-For a full list of arguments, run `ciphey --help`.
+Per una lista completa di argomenti, `ciphey --help`.
 
-### ⚗️ Importing Ciphey
+### ⚗️ Importare Ciphey
 
-You can import Ciphey\'s main and use it in your own programs and code. `from Ciphey.__main__ import main`
+Puoi importare il main di Ciphey e usarlo nei tuoi programmi e nel tuo codice. `from Ciphey.__main__ import main`
 
 # 🎪 Contributors
 
-Ciphey was invented by [Brandon](https://github.com/bee-san) in 2008, and revived in 2019. Ciphey wouldn't be where it was today without [Cyclic3](https://github.com/Cyclic3) - president of UoL's Cyber Security Society.
+Ciphey è stato inventato da [Brandon](https://github.com/bee-san) nel 2008, e ripreso nel 2019. Ciphey non sarebbe quello che è oggi senza [Cyclic3](https://github.com/Cyclic3) - presidente della società di Cyber Security UoL.
 
-Ciphey was revived & recreated by the [Cyber Security Society](https://www.cybersoc.cf/) for use in CTFs. If you're ever in Liverpool, consider giving a talk or sponsoring our events. Email us at `cybersecurity@society.liverpoolguild.org` to find out more 🤠
+Ciphey è stato ripreso & ricreato dalla [Cyber Security Society](https://www.cybersoc.cf/) per l'uso nei CTFs. Se sarai mai a Liverpool, prendi in considerazione la possibilità di tenere un discorso o di sponsorizzare i nostri eventi. Inviaci un'e-mail a `cybersecurity@society.liverpoolguild.org` per saperne di più 🤠
 
-**Major Credit** to George H for working out how we could use proper algorithms to speed up the search process.
-**Special thanks** to [varghalladesign](https://www.facebook.com/varghalladesign) for designing the logo. Check out their other design work!
+**Un grande ringraziamento** a George H per aver capito come possiamo usare gli algoritmi corretti per velocizzare il processo di ricerca.
+**Un ringraziamento speciale** a [varghalladesign](https://www.facebook.com/varghalladesign) per aver progettato il logo. Guarda gli altri loro lavori sul design!
 
-## 🐕‍🦺 [Contributing](https://github.com/Ciphey/Ciphey/wiki/Contributing)
+## 🐕‍🦺 [Come Contribuire](https://github.com/Ciphey/Ciphey/wiki/Contributing)
 
-Don't be afraid to contribute! We have many, many things you can do to help out. Each of them labelled and easily explained with examples. If you're trying to contribute but stuck, tag @bee-san or @cyclic3 in the GitHub issue ✨
+Non avere paura di contribuire! Abbiamo molte, molte cose che puoi fare per aiutare. Ognuna di esse è etichettata e facilmente spiegabile con esempi. Se stai cercando di contribuire ma sei bloccato, tagga @bee-san o @cyclic3 in un issue di GitHub ✨
 
-Alternatively, join the Discord group and send a message there (link in [contrib file](https://github.com/Ciphey/Ciphey/wiki/Contributing)) or at the top of this README as a badge.
+In alternativa, unisciti al gruppo della Discordia e invia un messaggio lì (link nella [wiki](https://github.com/Ciphey/Ciphey/wiki/Contributing)) o in cima a questo README come distintivo.
 
-Please read the [contributing file](https://github.com/Ciphey/Ciphey/wiki/Contributing) for exact details on how to contribute ✨
+Per favore leggi [la wiki](https://github.com/Ciphey/Ciphey/wiki/Contributing) per i dettagli esatti su come contribuire ✨
 
-By doing so, you'll get your name added to the README below and get to be apart of an ever-growing project!
-[![Stargazers over time](https://starchart.cc/Ciphey/Ciphey.svg)](https://starchart.cc/Ciphey/Ciphey)
+Così facendo, il tuo nome verrà aggiunto al README qui sotto e sarai parte di un progetto in continua crescita!
+[![Stargazers nel tempo](https://starchart.cc/Ciphey/Ciphey.svg)](https://starchart.cc/Ciphey/Ciphey)
 
-## 💰 Financial Contributors
+## 💰 Collaboratori finanziari
 
-The contributions will be used to fund not only the future of Ciphey and its authors, but also Cyber Security Society at the University of Liverpool.
+I contributi saranno utilizzati per finanziare non solo il futuro di Ciphey e dei suoi autori, ma anche la Cyber Security Society dell'Università di Liverpool.
 
-GitHub doesn't support "sponsor this project and we'll evenly distribute the money", so pick a link and we'll sort it out on our end 🥰
+GitHub non supporta "sponsorizza questo progetto e noi distribuiremo il denaro in modo equo", quindi scegli un link e ci penseremo noi 🥰
 
 ## ✨ Contributors
 
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+I ringraziamenti vanno a tutte queste fantastiche persone ([legenda emoji](https://allcontributors.org/docs/en/emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
@@ -228,4 +229,4 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+Questo progetto segue le specifiche [all-contributors](https://github.com/all-contributors/all-contributors) Contributi di qualunque tipo sono i benvenuti!
