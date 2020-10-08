@@ -59,7 +59,7 @@ class Affine(Cracker[str]):
             if a_inv is None:
                 continue
             for b in range(self.ALPHABET_LENGTH):
-                # Pass in lowered text. This means that we expect alfabets to not contain both 'a' and 'A'.
+                # Pass in lowered text. This means that we expect alphabets to not contain both 'a' and 'A'.
                 translated = self.decrypt(ctext.lower(), a_inv, b, self.ALPHABET_LENGTH)
 
                 candidate_probability = self.plaintext_probability(translated)
@@ -92,14 +92,15 @@ class Affine(Cracker[str]):
 
         # We lower the alphabet since both ctext and alphabet need to be in the same case in order
         # to perform the shifts. The translated text will have fixed case after the translation anyways.
+        # This is only necessary if the specified alphabet is uppercase. 
         alphabet = [x.lower() for x in self.group]
 
         # Preserve characters that are not in alphabet
-        if char not in self.group:
+        if char not in alphabet:
             return char
-        char_idx = self.group.index(char)
+        char_idx = alphabet.index(char)
         decrypted_char_idx = (a_inv * (char_idx - b)) % m
-        return self.group[decrypted_char_idx]
+        return alphabet[decrypted_char_idx]
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
