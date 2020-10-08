@@ -8,19 +8,19 @@ Im Interesse der Förderung eines offenen und einladenden Umfeldes wollen wir un
 
 Beispiele für Verhaltensweisen, welche dazu beitragen ein positives Umfeld zu erzeugen, beinhalten:
 
-* Die Verwendung von einladenden und einbindenden Formulierungen
-* Abweichenden Ansichten und Erfahrungen wird Respekt entgegengebracht
-* Konstruktive Kritik wird höflich entgegengenommen
-* Fokussierung auf das, was das Beste ist für die Gemeinschaft
-* Verständnis zeigen gegenüber anderen Mitgliedern der Gemeinschaft
+- Die Verwendung von einladenden und einbindenden Formulierungen
+- Abweichenden Ansichten und Erfahrungen wird Respekt entgegengebracht
+- Konstruktive Kritik wird höflich entgegengenommen
+- Fokussierung auf das, was das Beste ist für die Gemeinschaft
+- Verständnis zeigen gegenüber anderen Mitgliedern der Gemeinschaft
 
 Beispiele für nicht akzeptables Verhalten beinhalten:
 
-* Die Verwendung sexualisierter Sprache, Bilder oder Symbolik sowie unerwünschte Versuche sexueller Anbahnung
-* Beleidigende / abwertende Kommentare, persönliche oder politische Angriffe, Nutzung des Internets für unbilliges Verhalten
-* Öffentliche oder private Belästigungen
-* Das Veröffentlichen von privaten Informationen Anderer, wie zum Beispiel physische oder elektronische Adressen, ohne deren ausdrückliche Erlaubnis
-* Anderes Verhalten, welches in einem professionellen Umfeld begründet als unangemessen betrachtet werden kann 
+- Die Verwendung sexualisierter Sprache, Bilder oder Symbolik sowie unerwünschte Versuche sexueller Anbahnung
+- Beleidigende / abwertende Kommentare, persönliche oder politische Angriffe, Nutzung des Internets für unbilliges Verhalten
+- Öffentliche oder private Belästigungen
+- Das Veröffentlichen von privaten Informationen Anderer, wie zum Beispiel physische oder elektronische Adressen, ohne deren ausdrückliche Erlaubnis
+- Anderes Verhalten, welches in einem professionellen Umfeld begründet als unangemessen betrachtet werden kann
 
 ## Unsere Verantwortlichkeiten
 
@@ -40,4 +40,4 @@ Projektverantwortliche, welche den Verhaltenskodex nicht befolgen, oder nicht na
 
 ## Bezug
 
-Dieser Verhaltenskodex basiert auf dem Contributor Covenant, Version 1.4, verfügbar unter https://www.contributor-covenant.org/de/version/1/4/code-of-conduct.html
+Dieser Verhaltenskodex basiert auf dem Contributor Covenant, Version 1.4, verfügbar unter <https://www.contributor-covenant.org/de/version/1/4/code-of-conduct.html>

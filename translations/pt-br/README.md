@@ -6,7 +6,7 @@ Traduções <br>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/hu/README.md>🇭🇺 HU   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/pt-br/README.md>🇧🇷 PT-BR   </a>
  <br><br>
-➡️ 
+➡️
 <a href="https://github.com/Ciphey/Ciphey/wiki">Documentação</a> |
 <a href="https://discord.ciphey.online">Discord</a> |
  <a href="https://github.com/Ciphey/Ciphey/wiki/Installation">Guia de Instalação</a>
