@@ -1,16 +1,14 @@
-# community
+# Community
 # by https://github.com/Ozzyz
 
-
-from distutils import util
-from typing import Optional, List, Dict
-from loguru import logger
+from typing import Dict, List, Optional
 
 import ciphey
 import cipheycore
-from ciphey.iface import ParamSpec, Cracker, CrackResult, CrackInfo, T, registry, Config
 from ciphey.common import fix_case
+from ciphey.iface import Config, Cracker, CrackInfo, CrackResult, ParamSpec, registry
 from ciphey.mathsHelper import mathsHelper
+from loguru import logger
 
 
 @registry.register
@@ -19,7 +17,7 @@ class Affine(Cracker[str]):
     Each character in the Affine Cipher is encoded with the rule E(x) = (ax + b) mod m
     m is the size of the alphabet, while a and b are the keys in the cipher. a must be coprime to b.
     The Caesar cipher is a specific case of the Affine Cipher, with a=1 and b being the shift of the cipher.
-    Decrypton is performed by D(x) = a_inv (x - b) mod m where a_inv is the modular multiplicative inverse of a mod m.
+    Decryption is performed by D(x) = a_inv (x - b) mod m where a_inv is the modular multiplicative inverse of a mod m.
 
     In this version of the Affine Cipher, we do not allow alphabets with several instances of the same letter in different cases.
     For instance, the alphabet 'ABCdef123' is allowed, but 'AaBbCc' is not.
@@ -34,13 +32,13 @@ class Affine(Cracker[str]):
 
     @staticmethod
     def getTarget() -> str:
-        return "Affine"
+        return "affine"
 
     def attemptCrack(self, ctext: str) -> List[CrackResult]:
         """
         Brute forces all the possible combinations of a and b to attempt to crack the cipher.
         """
-        logger.trace("Attempting Affine brute force.")
+        logger.trace("Attempting affine")
         candidates = []
 
         # a and b are coprime if gcd(a,b) is 1.
@@ -92,7 +90,7 @@ class Affine(Cracker[str]):
 
         # We lower the alphabet since both ctext and alphabet need to be in the same case in order
         # to perform the shifts. The translated text will have fixed case after the translation anyways.
-        # This is only necessary if the specified alphabet is uppercase. 
+        # This is only necessary if the specified alphabet is uppercase.
         alphabet = [x.lower() for x in self.group]
 
         # Preserve characters that are not in alphabet
