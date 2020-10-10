@@ -231,6 +231,14 @@ def test_brandon():
     assert True
 
 
+def test_affine():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "Ihsst bf kxbh rd ghh xky R srjh ytz xky xccsh xky muhh",
+    )
+    assert res == answer_str
+
+
 def test_brainfuck():
     res = decrypt(
         Config().library_default().complete_config(),
