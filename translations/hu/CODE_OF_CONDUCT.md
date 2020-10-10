@@ -2,9 +2,9 @@
 
 ## Zálogunk
 
-A nyitott és barátságos környezet elősegítése érdekében, mi, 
+A nyitott és barátságos környezet elősegítése érdekében, mi,
 a közreműködők és fenntartók ígéretet teszünk arra, hogy részt veszünk projektünkben, és
-mindent megteszünk, hogy közösségünk zaklatásmentes élményt nyújtson mindenkinek, 
+mindent megteszünk, hogy közösségünk zaklatásmentes élményt nyújtson mindenkinek,
 kortól, testtől, mérettől, fogyatékosságtól, etnikumtól, nemi jellemzőktől, nemi identitás és kifejezés,
 tapasztalati szint, végzettség, társadalmi-gazdasági helyzet, nemzetiség, személyes
 megjelenés, faj, vallás vagy szexuális identitás és orientációtól függetlenül.
@@ -13,20 +13,19 @@ megjelenés, faj, vallás vagy szexuális identitás és orientációtól függe
 
 Példák olyan viselkedésre, melyek hozzájárulnak a pozitív környezet kialakításához:
 
-* Üdvözlő és befogadó nyelv használata
-* Tiszteletben tartani az eltérő nézőpontokat és tapasztalatokat
-* Építő kritikák elfogadása
-* Összpontosítás arra, ami a közösség számára a legjobb
-* Empátia mutatása a közösség többi tagjával szemben
-
+- Üdvözlő és befogadó nyelv használata
+- Tiszteletben tartani az eltérő nézőpontokat és tapasztalatokat
+- Építő kritikák elfogadása
+- Összpontosítás arra, ami a közösség számára a legjobb
+- Empátia mutatása a közösség többi tagjával szemben
 
 Példák a résztvevők által elfogadhatatlan viselkedésre:
 
-* Szexualizált nyelvezet vagy képek használata és nem kívánt szexuális figyelem vagy tolakodáss
-* Trollkodás, sértő / becsmérlő megjegyzések és személyes vagy politikai támadások
-* Nyilvános vagy magán zaklatás
-* Mások személyes adatainak, például fizikai vagy elektronikus címének közzététele kifejezett engedély nélkül
-* Egyéb magatartás, amely szakmai körülmények között ésszerűen helytelennek tekinthető
+- Szexualizált nyelvezet vagy képek használata és nem kívánt szexuális figyelem vagy tolakodáss
+- Trollkodás, sértő / becsmérlő megjegyzések és személyes vagy politikai támadások
+- Nyilvános vagy magán zaklatás
+- Mások személyes adatainak, például fizikai vagy elektronikus címének közzététele kifejezett engedély nélkül
+- Egyéb magatartás, amely szakmai körülmények között ésszerűen helytelennek tekinthető
 
 ## Feladataink
 
@@ -58,8 +57,8 @@ Azok a projektfenntartók, akik nem követik és nem tartják be megfelelően a 
 ## Hozzárendelés
 
 Ez a magatartási kódexet a [Contributor Covenant][homepage], formájára készült, version 1.4,
-elérhető https://www.contributor-covenant.org/version/1/4/code-of-conduct.html
+elérhető <https://www.contributor-covenant.org/version/1/4/code-of-conduct.html>
 
 [honlap]: https://www.contributor-covenant.org
 
-A magatartási kódex-szel kapcsolatos gyakori kérdésekre adott válaszokért lásd:https://www.contributor-covenant.org/faq
+A magatartási kódex-szel kapcsolatos gyakori kérdésekre adott válaszokért lásd:<https://www.contributor-covenant.org/faq>

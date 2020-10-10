@@ -5,13 +5,13 @@ Vertalingen <br>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/de/README.md>🇩🇪 DE   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/README.md>🇬🇧 EN   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/hu/README.md>🇭🇺 HU   </a>
- 
- <br><br>
-➡️ 
+
+<br><br>
+➡️
 <a href="https://github.com/Ciphey/Ciphey/wiki">Documentatie</a> |
 <a href="https://discord.ciphey.online">Discord</a> |
- <a href="https://github.com/Ciphey/Ciphey/wiki/Installation">Installatie Gids</a>
- ⬅️
+<a href="https://github.com/Ciphey/Ciphey/wiki/Installation">Installatie Gids</a>
+⬅️
 
 <br>
   <img src="Pictures_for_README/binoculars.png" alt="Ciphey">

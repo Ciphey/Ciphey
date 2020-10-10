@@ -7,7 +7,7 @@ Traductions <br>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/hu/README.md>🇧🇷 PT-BR   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/fr/README.md>🇫🇷 FR   </a>
  <br><br>
-➡️ 
+➡️
 <a href="https://github.com/Ciphey/Ciphey/wiki">Documentation</a> |
 <a href="https://discord.ciphey.online">Discord</a> |
  <a href="https://github.com/Ciphey/Ciphey/wiki/Installation">Guide d'installation</a>
@@ -175,7 +175,7 @@ N'ayez pas peur de contribuer ! Nous avons de très nombreuses choses que vous p
 
 Vous pouvez également rejoindre le groupe Discord et y envoyer un message (lien dans le fichier de [contributions](https://github.com/Ciphey/Ciphey/wiki/Contributing)) ou en haut de ce README comme un badge.
 
-Veuillez lire le [fichier de contribution] (https://github.com/Ciphey/Ciphey/wiki/Contributing) pour les détails exacts sur la façon de contribuer ✨
+Veuillez lire le [fichier de contribution](https://github.com/Ciphey/Ciphey/wiki/Contributing) pour les détails exacts sur la façon de contribuer ✨
 
 En faisant cela, votre nom sera ajouté au README ci-dessous et vous aurez la chance de faire partie d'un projet en constante évolution !
 
