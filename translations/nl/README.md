@@ -1,6 +1,7 @@
 <p align="center">
 Vertalingen <br>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/id/README.md>🇮🇩 ID   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/it/README.md>🇮🇹 IT   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/de/README.md>🇩🇪 DE   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/README.md>🇬🇧 EN   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/hu/README.md>🇭🇺 HU   </a>
@@ -24,7 +25,6 @@ Vertalingen <br>
 <a href="https://pypi.org/project/ciphey/"><img src="https://img.shields.io/pypi/v/ciphey.svg"></a>
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="Ciphey">
 
-  
   <img src="https://github.com/brandonskerritt/Ciphey/workflows/Python%20application/badge.svg?branch=master" alt="Ciphey">
 <br>
 Volledig automatische decryptie/decodering/kraak tool die gebruik maakt van natuurlijke taal verwerking en artificiële intelligentie, samen met gezond verstand.
@@ -34,19 +34,18 @@ Volledig automatische decryptie/decodering/kraak tool die gebruik maakt van natu
 ## [Installatie Gids](https://github.com/Ciphey/Ciphey/wiki/Installation)
 
 | <p align="center"><a href="https://pypi.org/project/ciphey">🐍 Python | <p align="center"><a href="https://pypi.org/project/ciphey">🐋 Docker (Universal) |
-| --------------------------- | ---------------------------------|
-| <p align="center"><img src="Pictures_for_README/python.png" /></p> | <p align="center"><img src="Pictures_for_README/docker.png" /></p> |
-| `python3 -m pip install ciphey --upgrade`  | `docker run -it --rm remnux/ciphey` | 
+| --------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| <p align="center"><img src="Pictures_for_README/python.png" /></p>    | <p align="center"><img src="Pictures_for_README/docker.png" /></p>                |
+| `python3 -m pip install ciphey --upgrade`                             | `docker run -it --rm remnux/ciphey`                                               |
 
-
-| Linux       | Mac OS | Windows     |
-| ----------- | ------ | ----------- |
-| ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ciphey/ciphey/Python%20application?label=Linux) |![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ciphey/ciphey/Python%20application?label=Mac%20OS) | ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ciphey/ciphey/Python%20application?label=Windows) |
-  
+| Linux                                                                                                                   | Mac OS                                                                                                                     | Windows                                                                                                                   |
+| ----------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ciphey/ciphey/Python%20application?label=Linux) | ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ciphey/ciphey/Python%20application?label=Mac%20OS) | ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ciphey/ciphey/Python%20application?label=Windows) |
 
 <hr>
 
 # 🤔 Wat is dit?
+
 Geef geëncrypteerde tekst, krijg de gedecrypteerde tekst terug.
 
 > "Welk type encryptie?"
@@ -59,7 +58,7 @@ Ciphey kan de meeste dingen oplossen in 3 seconden of minder.
   <img src="Pictures_for_README/index.gif" alt="Ciphey demo">
 </p>
 
-Ciphey wil een tool zijn die veel decryptie & decodering automatiseert, zoals meerdere base coderingen, klassieke coderingen of meer geavanceerde cryptografie. 
+Ciphey wil een tool zijn die veel decryptie & decodering automatiseert, zoals meerdere base coderingen, klassieke coderingen of meer geavanceerde cryptografie.
 
 Als u niet veel weet over cryptografie, of als u snel de geëncrypteerde tekst wilt controleren voordat u er zelf aan gaat werken, dan is Ciphey iets voor u.
 
@@ -68,18 +67,19 @@ Als u niet veel weet over cryptografie, of als u snel de geëncrypteerde tekst w
 Geen neurale netwerken of opgeblazen AI hier. We gebruiken enkel wat snel en minimalistisch is.
 
 En dat is nog maar de tip van de ijsberg. Voor de volledige technische uitleg, check onze [documentatie](https://github.com/Ciphey/Ciphey/wiki).
+
 # ✨ Functies
 
 - **Ondersteuning voor 30+ soorten encryptie** zoals coderingen (binary, base64) en normale encryptie zoals Caesar cipher, repeating-key XOR en meer. **[Voor de volledige lijst, klik hier](https://github.com/Ciphey/Ciphey/wiki/Supported-Ciphers)**
-- **Zelfgemaakte kunstmatige intelligentiemodule met Augmented Search (AuSearch) voor het beantwoorden van vragen als "Welke encryptiemethode werd hier gebruikt?"** Wat er voor zorgt dat decryptie minder dan 3 seconden duurt. 
+- **Zelfgemaakte kunstmatige intelligentiemodule met Augmented Search (AuSearch) voor het beantwoorden van vragen als "Welke encryptiemethode werd hier gebruikt?"** Wat er voor zorgt dat decryptie minder dan 3 seconden duurt.
 - **Zelfgemaakte natuurlijke taalverwerking module** Ciphey kan detecteren wanneer iets is gedecrypteerd of niet. Ongeacht of deze tekst JSON, een CTF vlag of Engels is, Ciphey krijgt het op enkele milliseconden klaar.
 - **Ondersteuning voor meerdere talen** op dit moment, wordt enkel Duits & Engels (met AU, UK, CAN, USA varianten).
-- **Ondersteuning voor encryptiemethodes en hashes** dewelke alternatieven zoals CyberChef Magic niet bevatten. 
+- **Ondersteuning voor encryptiemethodes en hashes** dewelke alternatieven zoals CyberChef Magic niet bevatten.
 - **[C++ kern](https://github.com/Ciphey/CipheyCore)** Razendsnel.
 
 # 🔭 Ciphey vs CyberChef
 
-## 🔁 42 keer  Base64 Gecodeerd
+## 🔁 42 keer Base64 Gecodeerd
 
 <table>
   <tr>
@@ -104,26 +104,22 @@ En dat is nog maar de tip van de ijsberg. Voor de volledige technische uitleg, c
   </tr>
 </table>
 
-
 <sub><b>Note</b> De gifs kunnen op verschillende momenten inladen, waardoor de ene significant sneller zou kunnen lijken dan de andere.</sub><br>
 <sub><b>Een opmerking over Magic</b>CyberChef's meest gelijkaardige functie aan Ciphey is Magic. Magic faalt meteen op deze input en crasht. De enige manier waarop we CyberChef konden dwingen om te concurreren was om alles manueel te definiëren.</sub>
 
-
 We hehben ook CyberChef en Ciphey getest met een **6gb groot bestand**. Ciphey kraakt dit in **5 minuten en 54 seconden**. CyberChef crasht voor het nog maar kon beginnen.
-
-
 
 ## 📊 Ciphey vs Katana vs CyberChef Magic
 
-| **Naam**                                   | ⚡ Ciphey ⚡ | 🗡️ Katana 🗡️ | 🐢 CyberChef Magic 🐢 |
-| ------------------------------------------ | ---------- | ---------- | ------------------- |
-| Geavanceerde Taalcontrole                  | ✅          | ❌          | ✅                   |
-| Ondersteunt Encryptie                      | ✅          | ✅          | ❌                   |
-| Releases genoemd naar Dystopische thema's 🌃 | ✅          | ❌          | ❌                   |
-| Ondersteunt hashes                         | ✅          | ✅          | ❌                   |
-| Makkelijk te installeren                   | ✅          | ❌          | ✅                   |
-| Kan raden waarmee iets is geëncrypteerd    | ✅          | ❌          | ❌                   |
-| Gemaakt voor hackers door hackers          | ✅          | ✅          | ❌                   |
+| **Naam**                                     | ⚡ Ciphey ⚡ | 🗡️ Katana 🗡️ | 🐢 CyberChef Magic 🐢 |
+| -------------------------------------------- | ------------ | ------------ | --------------------- |
+| Geavanceerde Taalcontrole                    | ✅           | ❌           | ✅                    |
+| Ondersteunt Encryptie                        | ✅           | ✅           | ❌                    |
+| Releases genoemd naar Dystopische thema's 🌃 | ✅           | ❌           | ❌                    |
+| Ondersteunt hashes                           | ✅           | ✅           | ❌                    |
+| Makkelijk te installeren                     | ✅           | ❌           | ✅                    |
+| Kan raden waarmee iets is geëncrypteerd      | ✅           | ❌           | ❌                    |
+| Gemaakt voor hackers door hackers            | ✅           | ✅           | ❌                    |
 
 # 🎬 Aan de slag
 
@@ -131,12 +127,14 @@ Als je problemen hebt met het installeren van Ciphey, [lees dit.](https://github
 
 ## ‼️ Belangrijke links (Docs, Installatie Gids, Discord Support)
 
-| Installation Gids | Documentatie | Discord | Docker Image (from REMnux)
-| ------------------ | ------------- | ------- | ------- | 
-| 📖 [Installatie Gids](https://github.com/Ciphey/Ciphey/wiki/Installation) | 📚 [Documentatie](https://github.com/Ciphey/Ciphey/wiki) | 🦜 [Discord](https://discord.ciphey.online) | 🐋 [Docker Documentatie](https://docs.remnux.org/run-tools-in-containers/remnux-containers#ciphey)
+| Installation Gids                                                         | Documentatie                                             | Discord                                     | Docker Image (from REMnux)                                                                         |
+| ------------------------------------------------------------------------- | -------------------------------------------------------- | ------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| 📖 [Installatie Gids](https://github.com/Ciphey/Ciphey/wiki/Installation) | 📚 [Documentatie](https://github.com/Ciphey/Ciphey/wiki) | 🦜 [Discord](https://discord.ciphey.online) | 🐋 [Docker Documentatie](https://docs.remnux.org/run-tools-in-containers/remnux-containers#ciphey) |
 
 ## 🏃‍♀️ Ciphey Gebruiken
+
 Er zijn 3 manieren om Ciphey te gebruiken.
+
 1. Bestand invoer `ciphey -f encrypted.txt`
 2. Ongekwantificeerde input `ciphey -- "Encrypted input"`
 3. Normale manier`ciphey -t "Encrypted input"`
@@ -145,13 +143,16 @@ Er zijn 3 manieren om Ciphey te gebruiken.
 
 Om van de progressie bar, kansen tafel en al het andere lawaai af te geraken, gebruikt de stille modus.
 
-```ciphey -t "encrypted text here" -q```
+`ciphey -t "encrypted text here" -q`
 
 Voor een volledige lijst van argumenten, voer `ciphey --help` uit.
 
 ### ⚗️ Ciphey Importeren
+
 Je kan Ciphey\'s main importeren en gebruiken in je eigen code. `from Ciphey.__main__ import main`
+
 # 🎪 Bijdragers
+
 Ciphey is uitgevonden door [Brandon](https://github.com/bee-san) in 2008, en nieuw leven ingeblazen in 2019. Ciphey zou niet staan waar het vandaag de dag staat zonder [Cyclic3](https://github.com/Cyclic3) - president van UoL's Cyber Security Society.
 
 Ciphey werd nieuw leven ingeblazen & hermaakt door de [Cyber Security Society](https://www.cybersoc.cf/) voor gebruik in CTFs. Moest je ooit in Liverpool zijn, overweeg een lezing te houden of onze evenementen te sponsoren. E-mail ons op `cybersecurity@society.liverpoolguild.org` om meer te weten te komen 🤠
@@ -160,6 +161,7 @@ Ciphey werd nieuw leven ingeblazen & hermaakt door de [Cyber Security Society](h
 **Grote Dank** to [varghalladesign](https://www.facebook.com/varghalladesign) voor het ontwerpen van het logo. Bekijk hun andere ontwerpen!
 
 ## 🐕‍🦺 [Bijdragen](https://github.com/Ciphey/Ciphey/wiki/Contributing)
+
 Wees niet bang om bij te dragen! Wij hebben veel dingen die je kan doen om te helpen. Elk waarvan een label hebben en een uitleg met voorbeelden. Moest je vast geraken, tag @bee-san of @cyclic3 in de GithHub Issue ✨
 Je kunt ook lid worden van de Discord-groep en daar een bericht sturen (link in [bijdrager bestand](https://github.com/Ciphey/Ciphey/wiki/Contributing)) of bovenaan deze README als badge.
 
@@ -167,7 +169,9 @@ Lees het [bijdrager bestand](https://github.com/Ciphey/Ciphey/wiki/Contributing)
 
 Door dit te doen, wordt uw naam toegevoegd aan de README hieronder en kunt u deel uitmaken van een steeds groter wordend project!
 [![Stargazers over tijd](https://starchart.cc/Ciphey/Ciphey.svg)](https://starchart.cc/Ciphey/Ciphey)
+
 ## 💰 Financiële bijdragers
+
 De bijdragen zullen niet alleen worden gebruikt om de toekomst van Ciphey en zijn auteurs te financieren, maar ook om Cyber Security Society aan de Universiteit van Liverpool te financieren.
 
 GitHub ondersteunt "sponsor this project and we'll evenly distribute the money" niet, dus kies een link en we lossen het aan onze kant op 🥰
@@ -208,6 +212,7 @@ Dank aan deze geweldige mensen ([emoji key](https://allcontributors.org/docs/en/
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 Dit project volgt de [all-contributors](https://github.com/all-contributors/all-contributors) specificatie. Bijdragen van welke aard dan ook zijn welkom!

@@ -2,6 +2,7 @@
 <p align="center">
 Terjemahan <br>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/README.md>🇬🇧 EN   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/it/README.md>🇮🇹 IT   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/de/README.md>🇩🇪 DE   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/hu/README.md>🇭🇺 HU   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/nl/README.md>🇳🇱 NL   </a>
