@@ -55,10 +55,12 @@ class Soundex(Cracker[str]):
         # Split ctext into groups of 4
         ctext = " ".join(ctext[i : i + 4] for i in range(0, len(ctext), 4))
         ctext_split = ctext.split(" ")
+        soundex_keys = self.SOUNDEX_DICT.keys()
 
         # Find all words that correspond to each given soundex code
         for code in ctext_split:
-            word_list.append(self.SOUNDEX_DICT[code])
+            if code in soundex_keys:
+                word_list.append(self.SOUNDEX_DICT[code])
 
         logger.debug(f"Possible words for given encoded text: {word_list}")
 
