@@ -252,6 +252,24 @@
       "contributions": [
         "translation"
       ]
+    },
+    {
+      "login": "Ozzyz",
+      "name": "Åsmund Brekke",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/6113447?v=4",
+      "profile": "https://github.com/Ozzyz",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "sashreek1",
+      "name": "Sashreek Shankar",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/45600974?v=4",
+      "profile": "https://github.com/sashreek1",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
