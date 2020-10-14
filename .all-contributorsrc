@@ -252,6 +252,15 @@
       "contributions": [
         "translation"
       ]
+    },
+    {
+      "login": "sashreek1",
+      "name": "Sashreek Shankar",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/45600974?v=4",
+      "profile": "https://github.com/sashreek1",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
