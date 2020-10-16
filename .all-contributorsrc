@@ -270,6 +270,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "cryptobadger",
+      "name": "cryptobadger",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/26308101?v=4",
+      "profile": "https://github.com/cryptobadger",
+      "contributions": [
+        "code",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
