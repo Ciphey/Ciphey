@@ -1,1 +1,11 @@
-from . import caesar, vigenere, xor_single, xorcrypt, XandY, rot47, ascii_shift, affine
+from . import (
+    XandY,
+    affine,
+    ascii_shift,
+    caesar,
+    rot47,
+    soundex,
+    vigenere,
+    xor_single,
+    xorcrypt,
+)
