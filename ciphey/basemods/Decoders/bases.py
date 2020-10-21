@@ -1,10 +1,11 @@
 import base64
 import types
-
-import ciphey
-from typing import Callable, Optional, Any, Dict
+from typing import Any, Callable, Optional
 
 from loguru import logger
+
+from ciphey import id_lambda
+from ciphey.iface import Decoder, registry
 
 
 def _dispatch(self: Any, ctext: str, func: Callable[[str], bytes]) -> Optional[bytes]:
@@ -29,19 +30,19 @@ _bases = {
 
 
 def gen_class(name, decoder, priority, ns):
-    ns["_get_func"] = ciphey.common.id_lambda(decoder)
+    ns["_get_func"] = id_lambda(decoder)
     ns["decode"] = lambda self, ctext: _dispatch(self, ctext, self._get_func())
-    ns["getParams"] = ciphey.common.id_lambda(None)
-    ns["getTarget"] = ciphey.common.id_lambda(name)
-    ns["priority"] = ciphey.common.id_lambda(priority)
+    ns["getParams"] = id_lambda(None)
+    ns["getTarget"] = id_lambda(name)
+    ns["priority"] = id_lambda(priority)
     ns["__init__"] = lambda self, config: super(type(self), self).__init__(config)
 
 
 for name, (decoder, priority) in _bases.items():
     t = types.new_class(
         name,
-        (ciphey.iface.Decoder[str, bytes],),
+        (Decoder[str],),
         exec_body=lambda x: gen_class(name, decoder, priority, x),
     )
 
-    ciphey.iface.registry.register(t)
+    registry.register(t)

@@ -1,28 +1,15 @@
-from abc import abstractmethod
-from typing import Set, Any, Union, List, Optional, Dict, Tuple
+from typing import Dict, Optional, Set
 
-from loguru import logger
+from ciphey.iface import Config, ParamSpec, registry
 
-from .ausearch import Node, AuSearch
-from ciphey.iface import (
-    SearchLevel,
-    Config,
-    registry,
-    CrackResult,
-    Searcher,
-    ParamSpec,
-    Decoder,
-    DecoderComparer,
-)
-
-import bisect
+from .ausearch import AuSearch, Node
 
 
 @registry.register
 class Perfection(AuSearch):
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
-        pass
+        return None
 
     def findBestNode(self, nodes: Set[Node]) -> Node:
         return next(iter(nodes))

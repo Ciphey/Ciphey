@@ -1,7 +1,2 @@
-from . import common
-
-from . import iface
-
-from . import basemods
-
+from . import basemods, common, iface
 from .ciphey import decrypt

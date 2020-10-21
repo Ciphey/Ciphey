@@ -1,22 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import (
-    Any,
-    Callable,
-    Dict,
-    Generic,
-    Optional,
-    List,
-    NamedTuple,
-    TypeVar,
-    Type,
-    Union,
-    Set,
-)
-import pydoc
-
-from loguru import logger
-
-import datetime
+from typing import Any, Dict, Generic, List, NamedTuple, Optional, Set, Type, TypeVar
 
 from ._fwd import config as Config
 
@@ -48,14 +31,14 @@ class ConfigurableModule(ABC):
     @abstractmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
         """
-            Returns a dictionary of `argument name: argument specification`
+        Returns a dictionary of `argument name: argument specification`
         """
         pass
 
     def _checkParams(self):
         """
-            Fills the given params dict with default values where arguments are not given,
-            using None as the default value for default values
+        Fills the given params dict with default values where arguments are not given,
+        using None as the default value for default values
         """
 
         params = self._params()
@@ -243,7 +226,7 @@ class Cracker(Generic[T], ConfigurableModule, Targeted):
     @abstractmethod
     def attemptCrack(self, ctext: T) -> List[CrackResult]:
         """
-            This should attempt to crack the cipher `target`, and return a list of candidate solutions
+        This should attempt to crack the cipher `target`, and return a list of candidate solutions
         """
         # FIXME: Actually CrackResult[T], but python complains
         pass
@@ -260,21 +243,21 @@ class ResourceLoader(Generic[T], ConfigurableModule):
     @abstractmethod
     def whatResources(self) -> Optional[Set[str]]:
         """
-            Return a set of the names of instances T you can provide.
-            The names SHOULD be unique amongst ResourceLoaders of the same type
+        Return a set of the names of instances T you can provide.
+        The names SHOULD be unique amongst ResourceLoaders of the same type
 
-            These names will be exposed as f"{self.__name__}::{name}", use split_resource_name to recover this
+        These names will be exposed as f"{self.__name__}::{name}", use split_resource_name to recover this
 
-            If you cannot reasonably determine what resources you provide, return None instead
+        If you cannot reasonably determine what resources you provide, return None instead
         """
         pass
 
     @abstractmethod
     def getResource(self, name: str) -> T:
         """
-            Returns the requested distribution
+        Returns the requested distribution
 
-            The behaviour is undefined if `name not in self.what_resources()`
+        The behavior is undefined if `name not in self.what_resources()`
         """
         pass
 

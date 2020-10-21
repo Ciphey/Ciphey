@@ -1,14 +1,13 @@
-from typing import Optional, Dict, List
-
-from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry
+import re
+from typing import Dict, Optional
 
 from loguru import logger
 
-import re
+from ciphey.iface import Config, Decoder, ParamSpec, T, U, registry
 
 
 @registry.register
-class Decimal(Decoder[str, str]):
+class Decimal(Decoder[str]):
     def decode(self, ctext: T) -> Optional[U]:
         """
         Performs Decimal decoding

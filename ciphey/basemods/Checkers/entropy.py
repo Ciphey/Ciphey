@@ -1,22 +1,19 @@
-from typing import Optional, Dict, List
+from typing import Dict, Optional
 
 from loguru import logger
 
-from . import brandon
-from ciphey.iface import registry, Checker, ParamSpec, T, Config
-
-import json
+from ciphey.iface import Checker, Config, ParamSpec, T, registry
 
 
 @registry.register
-class Enttropy(Checker[str]):
+class Entropy(Checker[str]):
 
     """
-        Uses entropy to determine plaintext
+    Uses entropy to determine plaintext
     """
 
     def check(self, text: T) -> Optional[str]:
-        logger.trace(f"Trying entropy checker")
+        logger.trace("Trying entropy checker")
         pass
 
     def getExpectedRuntime(self, text: T) -> float:

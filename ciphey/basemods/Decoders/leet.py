@@ -1,21 +1,20 @@
-from typing import Optional, Dict, Any
+from typing import Dict, Optional
 
-import ciphey
-from ciphey.iface import registry, Translation, ParamSpec
+from ciphey.iface import Config, Decoder, ParamSpec, T, Translation, U, registry
 
 
 @registry.register
-class Leet(ciphey.iface.Decoder[str, str]):
-    def decode(self, text: str) -> Optional[str]:
+class Leet(Decoder[str]):
+    def decode(self, ctext: T) -> Optional[U]:
         for src, dst in self.translate.items():
-            text = text.replace(src, dst)
-        return text
+            ctext = ctext.replace(src, dst)
+        return ctext
 
     @staticmethod
     def priority() -> float:
         return 0.05
 
-    def __init__(self, config: ciphey.iface.Config):
+    def __init__(self, config: Config):
         super().__init__(config)
         self.translate = config.get_resource(self._params()["dict"], Translation)
 

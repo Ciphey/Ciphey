@@ -1,16 +1,14 @@
-from typing import Optional, Dict, List, Tuple
-
-from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, WordList
+import re
+import time
+from typing import Dict, Optional, Tuple
 
 from loguru import logger
 
-import re
-
-import time
+from ciphey.iface import Config, Decoder, ParamSpec, T, U, WordList, registry
 
 
 @registry.register
-class Brainfuck(Decoder[str, str]):
+class Brainfuck(Decoder[str]):
     def decode(self, ctext: T) -> Optional[U]:
         """
         Takes a ciphertext and treats it as a Brainfuck program,

@@ -1,19 +1,18 @@
-# community
-# by https://github.com/lukasgabriel
-
 import re
-from distutils import util
-from typing import Optional, Dict, Union, Set, List
+from typing import Dict, List, Optional
+
 from loguru import logger
 
-from ciphey.iface import ParamSpec, Cracker, CrackResult, CrackInfo, T, registry, Config
+from ciphey.iface import Config, Cracker, CrackInfo, CrackResult, ParamSpec, registry
 
 
 @registry.register
 class XandY(Cracker[str]):
     def getInfo(self, ctext: str) -> CrackInfo:
         return CrackInfo(
-            success_likelihood=0.1, success_runtime=1e-5, failure_runtime=1e-5,
+            success_likelihood=0.1,
+            success_runtime=1e-5,
+            failure_runtime=1e-5,
         )
 
     @staticmethod
@@ -22,35 +21,34 @@ class XandY(Cracker[str]):
         binary_int = int(variant, 2)
         byte_number = binary_int.bit_length() + 7 // 8
 
-        # Convert the resulting int to a bytearray and then decode it to ascii text
+        # Convert the resulting int to a bytearray and then decode it to ASCII text
         binary_array = binary_int.to_bytes(byte_number, "big")
         try:
             ascii_text = binary_array.decode()
-            logger.trace(f"Found possible solution: {ascii_text[:32]}...")
+            logger.trace(f"Found possible solution: {ascii_text[:32]}")
             return ascii_text
         except UnicodeDecodeError as e:
-            logger.trace(f"X-Y Cracker ecountered UnicodeDecodeError when trying to crack ctext: {e}")
-            return ""
-    
+            logger.trace(f"Failed to crack X-Y due to a UnicodeDecodeError: {e}")
+            return None
+
     @staticmethod
     def getTarget() -> str:
-        return "XandY"
+        return "xandy"
 
     def attemptCrack(self, ctext: str) -> List[CrackResult]:
         """
         Checks an input if it only consists of two or three different letters.
         If this is the case, it attempts to regard those letters as
-        0 and 1 (with the third characters as an optional delimiter) and then 
-        converts it to ascii text.
+        0 and 1 (with the third characters as an optional delimiter) and then
+        converts it to ASCII text.
         """
-        logger.trace("Attempting X-Y replacement.")
+        logger.trace("Attempting X-Y replacement")
         variants = []
         candidates = []
         result = []
 
         # Convert the ctext to all-lowercase and regex-match & replace all whitespace
-        ctext = ctext.lower()
-        ctext = re.sub(r"\s+", "", ctext, flags=re.UNICODE)
+        ctext = re.sub(r"\s+", "", ctext.lower(), flags=re.UNICODE)
 
         # cset contains every unique value in the ctext
         cset = list(set(list(ctext)))
@@ -58,45 +56,44 @@ class XandY(Cracker[str]):
 
         if not 1 < cset_len < 4:
             # We only consider inputs with two or three unique values
-            logger.trace("String does not contain two or three unique values. Skipping X-Y...")
+            logger.trace(
+                "Failed to crack X-Y due to not containing two or three unique values"
+            )
             return None
 
-        else:
-            logger.trace(f"String contains {cset_len} unique values: {cset}")
+        logger.trace(f"String contains {cset_len} unique values: {cset}")
 
-            # In case of three unique values, we regard the least frequent character as the delimiter
-            if cset_len == 3:
-                # Count each unique character in the set to determine the least frequent one
-                counting_list = []
-                for char in cset:
-                    counting_list.append(ctext.count(char))
-                val, index = min(
-                    (val, index) for (index, val) in enumerate(counting_list)
-                )
-                delimiter = cset[index]
-                logger.trace(
-                    f"{delimiter} occurs {val} times and is least frequent character & probable delimiter."
-                )
-                # Remove the delimiter from the ctext and compute new cset
-                ctext = ctext.replace(delimiter, "")
-                cset = list(set(list(ctext)))
+        # In case of three unique values, we regard the least frequent character as the delimiter
+        if cset_len == 3:
+            # Count each unique character in the set to determine the least frequent one
+            counting_list = []
+            for char in cset:
+                counting_list.append(ctext.count(char))
+            val, index = min((val, index) for (index, val) in enumerate(counting_list))
+            delimiter = cset[index]
+            logger.trace(
+                f"{delimiter} occurs {val} times and is the probable delimiter"
+            )
+            # Remove the delimiter from the ctext and compute new cset
+            ctext = ctext.replace(delimiter, "")
+            cset = list(set(list(ctext)))
 
-            # Form both variants of the substitution
-            for i in range(2):
-                if i:
-                    variants.append(ctext.replace(cset[0], "1").replace(cset[1], "0"))
-                else:
-                    variants.append(ctext.replace(cset[0], "0").replace(cset[1], "1"))
+        # Form both variants of the substitution
+        for i in range(2):
+            if i:
+                variants.append(ctext.replace(cset[0], "1").replace(cset[1], "0"))
+            else:
+                variants.append(ctext.replace(cset[0], "0").replace(cset[1], "1"))
 
-            # Apply function to both variants and strip stray NULL characters
-            for variant in variants:
-                candidates.append(self.binary_to_ascii(variant).strip("\x00"))
-            for i, candidate in enumerate(candidates):
-                if candidate != "":
-                    keyinfo = f"{cset[0]} -> {i} & {cset[1]} -> {str(int(not i))}"
-                    result.append(CrackResult(value=candidate, key_info=keyinfo))
-                    logger.trace(f"X-Y cracker - Returning results: {result}")
-                    return result
+        # Apply function to both variants and strip stray NULL characters
+        for variant in variants:
+            candidates.append(self.binary_to_ascii(variant).strip("\x00"))
+        for i, candidate in enumerate(candidates):
+            if candidate != "":
+                keyinfo = f"{cset[0]} -> {i} & {cset[1]} -> {str(int(not i))}"
+                result.append(CrackResult(value=candidate, key_info=keyinfo))
+                logger.trace(f"X-Y cracker - Returning results: {result}")
+                return result
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:

@@ -1,25 +1,18 @@
 """
-his is Hashbuster but slightly modified to work with Ciphey
-why reivent the wheel?
+This is Hashbuster but slightly modified to work with Ciphey.
+Why reinvent the wheel?
 Changes (that I can remember)
 * timeout set, as hashbuster took AGES before timeout was set.
 https://github.com/s0md3v/Hash-Buster
 """
 
-
 import re
-import os
-import argparse
+from typing import Dict, List, Optional
+
 import requests
-import concurrent.futures
-
-from loguru import logger
-from typing import Optional, Dict, Union, Set, List, Any
-
 from loguru import logger
 
-import ciphey
-from ciphey.iface import ParamSpec, CrackResult, T, CrackInfo, registry
+from ciphey.iface import Config, Cracker, CrackInfo, CrackResult, ParamSpec, T, registry
 
 thread_count = 4
 
@@ -38,8 +31,7 @@ def beta(ctext, hashtype):
     match = re.search(r'/generate-hash/?text=.*?"', response)
     if match:
         return match.group(1)
-    else:
-        return None
+    return None
 
 
 def gamma(ctext, hashtype):
@@ -85,7 +77,7 @@ result = {}
 
 
 def crack(ctext):
-    raise ("Error Crack is called")
+    raise "Error Crack is called"
 
 
 def threaded(ctext):
@@ -96,14 +88,14 @@ def threaded(ctext):
 
 
 @registry.register
-class HashBuster(ciphey.iface.Cracker[str]):
+class HashBuster(Cracker[str]):
     @staticmethod
     def getTarget() -> str:
         return "hash"
 
     @staticmethod
-    def getParams() -> Optional[Dict[str, Dict[str, Any]]]:
-        pass
+    def getParams() -> Optional[Dict[str, ParamSpec]]:
+        return None
 
     @staticmethod
     def priority() -> float:
@@ -111,10 +103,14 @@ class HashBuster(ciphey.iface.Cracker[str]):
 
     def getInfo(self, ctext: T) -> CrackInfo:
         # TODO calculate these properly
-        return CrackInfo(success_likelihood=0.5, success_runtime=5, failure_runtime=5,)
+        return CrackInfo(
+            success_likelihood=0.5,
+            success_runtime=5,
+            failure_runtime=5,
+        )
 
     def attemptCrack(self, ctext: T) -> List[CrackResult]:
-        logger.debug(f"Starting to crack hashes")
+        logger.debug("Starting to crack hashes")
         result = False
 
         candidates = []
@@ -154,5 +150,5 @@ class HashBuster(ciphey.iface.Cracker[str]):
         # TODO add to 5.1 make this return multiple possible candidates
         return [CrackResult(value=candidates[0][0], misc_info=candidates[1][1])]
 
-    def __init__(self, config: ciphey.iface.Config):
+    def __init__(self, config: Config):
         super().__init__(config)

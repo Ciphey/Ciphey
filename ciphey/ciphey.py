@@ -1,10 +1,10 @@
 """
  ██████╗██╗██████╗ ██╗  ██╗███████╗██╗   ██╗
 ██╔════╝██║██╔══██╗██║  ██║██╔════╝╚██╗ ██╔╝
-██║     ██║██████╔╝███████║█████╗   ╚████╔╝ 
-██║     ██║██╔═══╝ ██╔══██║██╔══╝    ╚██╔╝  
-╚██████╗██║██║     ██║  ██║███████╗   ██║ 
-https://github.com/ciphey
+██║     ██║██████╔╝███████║█████╗   ╚████╔╝
+██║     ██║██╔═══╝ ██╔══██║██╔══╝    ╚██╔╝
+╚██████╗██║██║     ██║  ██║███████╗   ██║
+https://github.com/Ciphey
 https://github.com/Ciphey/Ciphey/wiki
 
 The cycle goes:
@@ -13,24 +13,16 @@ one_level_of_decryption -> decrypt_normal
 """
 import os
 import warnings
-import argparse
-import sys
-from typing import Optional, Dict, Any, List, Union
-import bisect
+from typing import Any, Optional, Union
 
-from ciphey.iface import SearchLevel, registry
-from . import iface
-
-from rich import print
-from loguru import logger
 import click
-import click_spinner
-from appdirs import AppDirs
 import yaspin
+from appdirs import AppDirs
+from loguru import logger
+from rich import print
 from yaspin.spinners import Spinners
-from yaspin import yaspin
 
-import time
+from . import iface
 
 warnings.filterwarnings("ignore")
 
@@ -64,7 +56,10 @@ def print_help(ctx):
 
 @click.command()
 @click.option(
-    "-t", "--text", help="The ciphertext you want to decrypt.", type=str,
+    "-t",
+    "--text",
+    help="The ciphertext you want to decrypt.",
+    type=str,
 )
 @click.option(
     "-q", "--quiet", help="Decrease verbosity", type=int, count=True, default=None
@@ -86,13 +81,20 @@ def print_help(ctx):
 )
 @click.option("-w", "--wordlist", help="Uses the given wordlist")
 @click.option(
-    "-p", "--param", help="Passes a parameter to the language checker", multiple=True,
+    "-p",
+    "--param",
+    help="Passes a parameter to the language checker",
+    multiple=True,
 )
 @click.option(
-    "-l", "--list-params", help="List the parameters of the selected module", type=bool,
+    "-l",
+    "--list-params",
+    help="List the parameters of the selected module",
+    type=bool,
 )
 @click.option(
-    "--searcher", help="Select the searching algorithm to use",
+    "--searcher",
+    help="Select the searching algorithm to use",
 )
 # HARLAN TODO XXX
 # I switched this to a boolean flag system
@@ -129,19 +131,19 @@ def print_help(ctx):
 @click.argument("text_stdin", callback=get_name, required=False)
 def main(**kwargs):
     """Ciphey - Automated Decryption Tool
-    
-    Documentation: 
+
+    Documentation:
     https://github.com/Ciphey/Ciphey/wiki\n
     Discord (support here, we're online most of the day):
     https://discord.ciphey.online/\n
-    GitHub: 
+    GitHub:
     https://github.com/ciphey/ciphey\n
 
     Ciphey is an automated decryption tool using smart artificial intelligence and natural language processing. Input encrypted text, get the decrypted text back.
 
     Examples:\n
-        Basic Usage: ciphey -t "aGVsbG8gbXkgbmFtZSBpcyBiZWU=" 
-        
+        Basic Usage: ciphey -t "aGVsbG8gbXkgbmFtZSBpcyBiZWU="
+
     """
 
     """Function to deal with arguments. Either calls with args or not. Makes Pytest work.
@@ -152,7 +154,6 @@ def main(**kwargs):
     we then update locals() with the new command line args and remove "withArgs"
     This function then calls call_encryption(**result) which passes our dict of args
     to the function as its own arguments using dict unpacking.
-    
         Returns:
             The output of the decryption.
     """
@@ -243,9 +244,9 @@ def main(**kwargs):
 
     if issubclass(config.objs["format"], type(kwargs["text"])):
         pass
-    elif config.objs["format"] == str and type(kwargs["text"]) is bytes:
+    elif config.objs["format"] == str and isinstance(kwargs["text"], bytes):
         kwargs["text"] = kwargs["text"].decode("utf-8")
-    elif config.objs["format"] == bytes and type(kwargs["text"]) is str:
+    elif config.objs["format"] == bytes and isinstance(kwargs["text"], str):
         kwargs["text"] = kwargs["text"].encode("utf-8")
     else:
         raise TypeError(f"Cannot load type {config.format} from {type(kwargs['text'])}")

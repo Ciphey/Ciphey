@@ -8,19 +8,16 @@
 Github: brandonskerritt
 """
 
-from typing import Optional, Dict, Union, Set, List, Tuple
-
-from ciphey.iface import ParamSpec, CrackResult, T, CrackInfo, registry
-
-from loguru import logger
-
-import ciphey
+from typing import Dict, List, Optional
 
 import cipheycore
+from loguru import logger
+
+from ciphey.iface import Config, Cracker, CrackInfo, CrackResult, ParamSpec, registry
 
 
 @registry.register
-class Rot47(ciphey.iface.Cracker[str]):
+class Rot47(Cracker[str]):
     def getInfo(self, ctext: str) -> CrackInfo:
         analysis = self.cache.get_or_update(
             ctext,
@@ -77,17 +74,17 @@ class Rot47(ciphey.iface.Cracker[str]):
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
         return {
-            "expected": ciphey.iface.ParamSpec(
+            "expected": ParamSpec(
                 desc="The expected distribution of the plaintext",
                 req=False,
                 config_ref=["default_dist"],
             ),
-            "group": ciphey.iface.ParamSpec(
+            "group": ParamSpec(
                 desc="An ordered sequence of chars that make up the ROT47 cipher alphabet",
                 req=False,
-                default="""!"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~""",
+                default="""!"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~""",
             ),
-            "p_value": ciphey.iface.ParamSpec(
+            "p_value": ParamSpec(
                 desc="The p-value to use for standard frequency analysis",
                 req=False,
                 default=0.01,
@@ -95,7 +92,7 @@ class Rot47(ciphey.iface.Cracker[str]):
             # TODO: add "filter" param
         }
 
-    def __init__(self, config: ciphey.iface.Config):
+    def __init__(self, config: Config):
         super().__init__(config)
         self.group = list(self._params()["group"])
         self.expected = config.get_resource(self._params()["expected"])

@@ -7,20 +7,18 @@
 © Brandon Skerritt
 Github: brandonskerritt
 """
-import sys
 from distutils import util
-from typing import Optional, Dict, Union, Set, List, Tuple
+from typing import Dict, List, Optional, Union
 
-from loguru import logger
-import ciphey
 import cipheycore
+from loguru import logger
 
-from ciphey.iface import ParamSpec, CrackResult, T, CrackInfo, registry
 from ciphey.common import fix_case
+from ciphey.iface import Config, Cracker, CrackInfo, CrackResult, ParamSpec, registry
 
 
 @registry.register
-class Caesar(ciphey.iface.Cracker[str]):
+class Caesar(Cracker[str]):
     def getInfo(self, ctext: str) -> CrackInfo:
         analysis = self.cache.get_or_update(
             ctext,
@@ -66,7 +64,7 @@ class Caesar(ciphey.iface.Cracker[str]):
         logger.debug(f"Caesar returned {n_candidates} candidates")
 
         if n_candidates == 0:
-            logger.trace(f"Filtering for better results")
+            logger.trace("Filtering for better results")
             analysis = cipheycore.analyse_string(ctext, self.group)
             possible_keys = cipheycore.caesar_crack(
                 analysis, self.expected, self.group, self.p_value
@@ -77,29 +75,31 @@ class Caesar(ciphey.iface.Cracker[str]):
         for candidate in possible_keys:
             logger.trace(f"Candidate {candidate.key} has prob {candidate.p_value}")
             translated = cipheycore.caesar_decrypt(message, candidate.key, self.group)
-            candidates.append(CrackResult(value=fix_case(translated, ctext), key_info=candidate.key))
+            candidates.append(
+                CrackResult(value=fix_case(translated, ctext), key_info=candidate.key)
+            )
 
         return candidates
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
         return {
-            "expected": ciphey.iface.ParamSpec(
+            "expected": ParamSpec(
                 desc="The expected distribution of the plaintext",
                 req=False,
                 config_ref=["default_dist"],
             ),
-            "group": ciphey.iface.ParamSpec(
+            "group": ParamSpec(
                 desc="An ordered sequence of chars that make up the caesar cipher alphabet",
                 req=False,
                 default="abcdefghijklmnopqrstuvwxyz",
             ),
-            "lower": ciphey.iface.ParamSpec(
+            "lower": ParamSpec(
                 desc="Whether or not the ciphertext should be converted to lowercase first",
                 req=False,
                 default=True,
             ),
-            "p_value": ciphey.iface.ParamSpec(
+            "p_value": ParamSpec(
                 desc="The p-value to use for standard frequency analysis",
                 req=False,
                 default=0.01,
@@ -107,10 +107,10 @@ class Caesar(ciphey.iface.Cracker[str]):
             # TODO: add "filter" param
         }
 
-    def __init__(self, config: ciphey.iface.Config):
+    def __init__(self, config: Config):
         super().__init__(config)
         self.lower: Union[str, bool] = self._params()["lower"]
-        if type(self.lower) != bool:
+        if not isinstance(self.lower, bool):
             self.lower = util.strtobool(self.lower)
         self.group = list(self._params()["group"])
         self.expected = config.get_resource(self._params()["expected"])

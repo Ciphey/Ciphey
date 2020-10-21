@@ -1,14 +1,13 @@
-from typing import Optional, Dict, List
-
-from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, Translation
+import re
+from typing import Dict, Optional
 
 from loguru import logger
 
-import re
+from ciphey.iface import Config, Decoder, ParamSpec, T, Translation, U, registry
 
 
 @registry.register
-class Dtmf(Decoder[str, str]):
+class Dtmf(Decoder[str]):
     def decode(self, ctext: T) -> Optional[U]:
         """
         Performs DTMF decoding

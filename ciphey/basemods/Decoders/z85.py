@@ -1,14 +1,13 @@
-from typing import Optional, Dict, List
-
-from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry
+from typing import Dict, Optional
 
 from loguru import logger
-
 from zmq.utils import z85
+
+from ciphey.iface import Config, Decoder, ParamSpec, T, U, registry
 
 
 @registry.register
-class Z85(Decoder[str, str]):
+class Z85(Decoder[str]):
     def decode(self, ctext: T) -> Optional[U]:
         """
         Performs Z85 decoding

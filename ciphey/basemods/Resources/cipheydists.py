@@ -1,16 +1,22 @@
-from typing import Optional, Dict, Any, Set
-
 from functools import lru_cache
+from typing import Any, Dict, Optional, Set
 
+import cipheydists
 import loguru
 
-import ciphey
-import cipheydists
-from ciphey.iface import ParamSpec, Config, registry, WordList, Distribution, Translation
+from ciphey.iface import (
+    Config,
+    Distribution,
+    ParamSpec,
+    ResourceLoader,
+    Translation,
+    WordList,
+    registry,
+)
 
 
 @registry.register_multi(WordList, Distribution, Translation)
-class CipheyDists(ciphey.iface.ResourceLoader):
+class CipheyDists(ResourceLoader):
     # _wordlists: Set[str] = frozenset({"english", "english1000", "englishStopWords"})
     # _brandons: Set[str] = frozenset({"english"})
     # _dists: Set[str] = frozenset({"twist"})
@@ -36,4 +42,4 @@ class CipheyDists(ciphey.iface.ResourceLoader):
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
-        pass
+        return None

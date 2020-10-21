@@ -1,34 +1,32 @@
-from typing import Optional, Dict, Any
+from typing import Dict, Optional
 
-import ciphey
-from ciphey.iface import registry
+from ciphey.iface import Config, Decoder, ParamSpec, T, U, registry
 
 
 @registry.register
-class Hex(ciphey.iface.Decoder[str, bytes]):
-    def decode(self, text: str) -> Optional[bytes]:
+class Hexadecimal(Decoder[str]):
+    def decode(self, ctext: T) -> Optional[U]:
         """
-        It takes an octal string and return a string
-            :octal_str: octal str like "110 145 154"
+        Performs Hexadecimal decoding
         """
+        ctext_decoded = ""
         try:
-            str_converted = bytearray.fromhex(text).decode()
-            return str_converted
-        # Catch bad octal chars
-        except ValueError:
+            ctext_decoded = bytearray.fromhex(ctext).decode("utf-8")
+            return ctext_decoded
+        except Exception:
             return None
 
     @staticmethod
     def priority() -> float:
         return 0.015
 
-    def __init__(self, config: ciphey.iface.Config):
+    def __init__(self, config: Config):
         super().__init__(config)
 
     @staticmethod
-    def getParams() -> Optional[Dict[str, Dict[str, Any]]]:
-        pass
+    def getParams() -> Optional[Dict[str, ParamSpec]]:
+        return None
 
     @staticmethod
     def getTarget() -> str:
-        return "hex"
+        return "hexadecimal"
