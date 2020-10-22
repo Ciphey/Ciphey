@@ -12,8 +12,8 @@ class MorseCode(Decoder[str]):
     PURGE = {ord(c): None for c in BOUNDARIES.keys()}
     MAX_PRIORITY = 3
     ALLOWED = {".", "-", " ", "/", "\n"}
-    MORSE_CODE_DICT: Dict[str]
-    MORSE_CODE_DICT_INV: Dict[str]
+    MORSE_CODE_DICT: Dict[str, str]
+    MORSE_CODE_DICT_INV: Dict[str, str]
 
     def decode(self, ctext: T) -> Optional[U]:
         logger.trace("Attempting Morse Code decoder")
