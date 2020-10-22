@@ -252,6 +252,34 @@
       "contributions": [
         "translation"
       ]
+    },
+    {
+      "login": "Ozzyz",
+      "name": "Åsmund Brekke",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/6113447?v=4",
+      "profile": "https://github.com/Ozzyz",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "sashreek1",
+      "name": "Sashreek Shankar",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/45600974?v=4",
+      "profile": "https://github.com/sashreek1",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "cryptobadger",
+      "name": "cryptobadger",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/26308101?v=4",
+      "profile": "https://github.com/cryptobadger",
+      "contributions": [
+        "code",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,

@@ -32,15 +32,16 @@ class Galactic(Decoder[str]):
         logger.trace(f"{galactic_matches} galactic alphabet letters found. ")
 
         result = ""
+        # Take out the problematic characters consisting of multiple symbols
         ctext = (
             ctext.replace("||", "|")
             .replace("/", "")
             .replace("¡", "")
             .replace(" ̣ ", "")
-            .replace(" ̇", " x")
+            .replace("̇", "x")
         )
         logger.trace(f"Modified string is {ctext}")
-        # Take out the problematic characters consisting of multiple symbols
+
         for letter in ctext:
             if letter in self.GALACTIC_DICT.keys():
                 # Match every letter of the input to its galactic counterpoint
@@ -49,10 +50,9 @@ class Galactic(Decoder[str]):
                 # If the current character is not in the defined alphabet,
                 # just accept it as-is (useful for numbers, punctuation, etc.)
                 result += letter
-
-        result = result.replace("x ", "x")
         # Remove the trailing space (appearing as a leading space)
         # from the x that results from the diacritic replacement
+        result = result.replace("x ", "x")
         logger.trace(f"Decoded string is {result}")
         return result
 
