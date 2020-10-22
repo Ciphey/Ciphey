@@ -1,5 +1,5 @@
 from ._config import Config
-from ._fwd import registry
+
 from ._modules import (
     Checker,
     Cracker,
@@ -21,3 +21,5 @@ from ._modules import (
     pretty_search_results,
 )
 from ._registry import get_args, get_origin
+
+from ._fwd import registry
