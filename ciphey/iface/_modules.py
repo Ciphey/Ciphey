@@ -162,7 +162,7 @@ class Checker(Generic[T], ConfigurableModule):
 #     def __init__(self, config: Config): super().__init__(config)
 
 
-class Decoder(Generic[T, U], ConfigurableModule, Targeted):
+class Decoder(Generic[T], ConfigurableModule, Targeted):
     """Represents the undoing of some encoding into a different (or the same) type"""
 
     @abstractmethod
