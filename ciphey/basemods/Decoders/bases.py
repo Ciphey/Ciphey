@@ -4,7 +4,7 @@ from typing import Any, Callable, Optional
 
 from loguru import logger
 
-from ciphey import id_lambda
+from ciphey.common import id_lambda
 from ciphey.iface import Decoder, registry
 
 
