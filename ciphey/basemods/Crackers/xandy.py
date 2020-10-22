@@ -7,7 +7,7 @@ from ciphey.iface import Config, Cracker, CrackInfo, CrackResult, ParamSpec, reg
 
 
 @registry.register
-class XandY(Cracker[str]):
+class Xandy(Cracker[str]):
     def getInfo(self, ctext: str) -> CrackInfo:
         return CrackInfo(
             success_likelihood=0.1,
