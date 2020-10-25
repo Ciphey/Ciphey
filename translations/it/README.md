@@ -48,7 +48,7 @@ Ciphey è uno strumento completamente automatizzato per la decrittazione/decodif
 
 <hr>
 
-# 🤔 Hmm... come funziona?
+# 🤔 Cos'è?
 
 Inserisci del testo crittografato, ottieni il testo decrittografato indietro.
 
