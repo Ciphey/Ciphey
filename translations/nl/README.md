@@ -18,7 +18,7 @@ Vertalingen <br>
 ⬅️
 
 <br>
-  <img src="Pictures_for_README/binoculars.png" alt="Ciphey">
+  <img src="https://github.com/Ciphey/Ciphey/raw/master/Pictures_for_README/binoculars.png" alt="Ciphey">
 </p>
 
 <p align="center">

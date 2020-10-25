@@ -65,7 +65,6 @@ Nagyon sokféleképpen járulhatsz hozzá a dokumentációhoz.
 
 Látogass el a GitHub-Issues oldalunkra, ahol megtalálod a Ciphey összes hibáját! Javítsd ki őket és felkerülsz a közreműködők listájára ;)
 
-
-
+# Alakítsd át a kódbázist
 
 Ciphey nem minden része követi a PEP8 szabályzatot, és sok az ismétlődő kódrészlet.
