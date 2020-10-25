@@ -50,7 +50,7 @@ class XY_encrypt:
     """
     Encrypts an input string using binary substitution (called XandY in Ciphey) in which
     first, the input string is converted to its binary representation and then the 0s and 1s
-    of the binary string are replaced with any two characters. 
+    of the binary string are replaced with any two characters.
     - flip: Which of the two possible rotations of the substitute characters is used?
     - randomize: If True, random spaces are inserted into the cstring, which Ciphey can handle.
     - key: Which two characters are used to represent the 0s and 1s?

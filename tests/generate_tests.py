@@ -69,7 +69,7 @@ def test_{cipher['Encrypted Texts']['CipherUsed']}_{id}():
     cfg["debug"] = "TRACE"
     result = main(cfg)
 
-    assert result["IsPlaintext?"] == True 
+    assert result["IsPlaintext?"] == True
 """
 
     def randomString(self, stringLength):
