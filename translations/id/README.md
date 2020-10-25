@@ -88,8 +88,8 @@ Dan itu hanya baru puncak dari gunung es. Untuk penjelasan teknis yang lebih len
   </tr>
   <tr>
   <th>Gif</th>
-    <td><img src="../../Pictures_for_README/ciphey_vs_cyberchef.gif" alt="The guy she tells you not to worry about"></td>
-    <td><img src="../../Pictures_for_README/not_dying.gif" alt="You"></td>
+    <td><img src="https://github.com/Ciphey/Ciphey/raw/master/Pictures_for_README/ciphey_gooder_cyberchef.gif" alt="The guy she tells you not to worry about"></td>
+    <td><img src="https://github.com/Ciphey/Ciphey/raw/master/Pictures_for_README/not_dying.gif" alt="You"></td>
   </tr>
   <tr>
   <th>Durasi</th>
