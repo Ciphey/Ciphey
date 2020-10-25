@@ -53,7 +53,7 @@ class Baconian(Cracker[str]):
             return None
 
         # Split ctext into groups of 5
-        ctext = " ".join(ctext[i : i + 5] for i in range(0, len(ctext), 5))
+        ctext = " ".join(ctext[i: i + 5] for i in range(0, len(ctext), 5))
         ctext_split = ctext.split(" ")
         baconian_keys = self.BACONIAN_DICT.keys()
 

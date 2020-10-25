@@ -9,7 +9,7 @@ class Imperfection:
 
     To calculate current, we push the entire graph to A*
 
-    And it calculates the next node to choose, as well as increasing the size 
+    And it calculates the next node to choose, as well as increasing the size
     of the graph with values
 
     We're using a heap, meaing the element at [0] is always the smallest element
@@ -17,7 +17,7 @@ class Imperfection:
     So we choose that and return it.
 
 
-    The current A* implemnentation has an end, we simply do not let it end as LC will make it 
+    The current A* implemnentation has an end, we simply do not let it end as LC will make it
     end far before itreaches Searcher again.
 
     Current is the start position, so if we say we always start at the start of the graph it'll
@@ -25,17 +25,17 @@ class Imperfection:
 
     graph = {
             Node: [
-                {Node : 
+                {Node :
                 {
                     node
                     }
                 }
                 ]
-            } 
+            }
 
     For encodings we just do them straight out
 
-    The last value of parents from abstract 
+    The last value of parents from abstract
     """
 
     """

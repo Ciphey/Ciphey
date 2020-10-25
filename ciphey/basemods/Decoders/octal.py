@@ -19,7 +19,7 @@ class Octal(ciphey.iface.Decoder[str, bytes]):
             # Concatted octal must be formed of octal triplets
             if len(text) % 3 != 0:
                 return None
-            octal_seq = [text[i : i + 3] for i in range(0, len(text), 3)]
+            octal_seq = [text[i: i + 3] for i in range(0, len(text), 3)]
             logger.trace(f"Trying chunked octal {octal_seq}")
         try:
             for octal_char in octal_seq:
@@ -53,4 +53,3 @@ class Octal(ciphey.iface.Decoder[str, bytes]):
     @staticmethod
     def getTarget() -> str:
         return "octal"
-

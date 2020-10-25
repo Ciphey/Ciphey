@@ -11,7 +11,7 @@ from loguru import logger
 class Galactic(Decoder[str, str]):
     def decode(self, ctext: T) -> Optional[U]:
         """
-        Takes a string written in the 'Standard Galactic Alphabet' 
+        Takes a string written in the 'Standard Galactic Alphabet'
         (aka Minecraft Enchanting Table Symbols) and translates it to ASCII text.
         """
         logger.trace("Attempting Standard Galactic Alphabet Decoder")

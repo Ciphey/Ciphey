@@ -16,7 +16,7 @@ class Dna(Decoder[str, str]):
         logger.trace("Attempting DNA decoder")
         ctext_decoded = ""
         ctext = re.sub(r"[,;:\-\s]", "", ctext)
-        ctext = " ".join(ctext[i : i + 3] for i in range(0, len(ctext), 3))
+        ctext = " ".join(ctext[i: i + 3] for i in range(0, len(ctext), 3))
         ctext_split = ctext.split(" ")
         dna_keys = self.DNA_DICT.keys()
 

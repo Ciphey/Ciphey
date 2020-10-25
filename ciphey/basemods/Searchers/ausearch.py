@@ -32,7 +32,7 @@ from dataclasses import dataclass
 
 """
     We are using a tree structure here, because that makes searching and tracing back easier
-    
+
     As such, when we encounter another possible parent, we remove that edge
 """
 

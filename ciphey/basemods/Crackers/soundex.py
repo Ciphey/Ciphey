@@ -53,7 +53,7 @@ class Soundex(Cracker[str]):
             return None
 
         # Split ctext into groups of 4
-        ctext = " ".join(ctext[i : i + 4] for i in range(0, len(ctext), 4))
+        ctext = " ".join(ctext[i: i + 4] for i in range(0, len(ctext), 4))
         ctext_split = ctext.split(" ")
         soundex_keys = self.SOUNDEX_DICT.keys()
 

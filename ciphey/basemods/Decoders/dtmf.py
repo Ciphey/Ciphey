@@ -16,7 +16,7 @@ class Dtmf(Decoder[str, str]):
         logger.trace("Attempting DTMF decoder")
         ctext_decoded = ""
         ctext = re.sub(r"[,;:\-\/\s]", "", ctext)
-        ctext = " ".join(ctext[i : i + 7] for i in range(0, len(ctext), 7))
+        ctext = " ".join(ctext[i: i + 7] for i in range(0, len(ctext), 7))
         ctext_split = ctext.split(" ")
         dtmf_keys = self.DTMF_DICT.keys()
 

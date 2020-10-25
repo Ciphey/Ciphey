@@ -31,7 +31,7 @@ class XandY(Cracker[str]):
         except UnicodeDecodeError as e:
             logger.trace(f"X-Y Cracker ecountered UnicodeDecodeError when trying to crack ctext: {e}")
             return ""
-    
+
     @staticmethod
     def getTarget() -> str:
         return "XandY"
@@ -40,7 +40,7 @@ class XandY(Cracker[str]):
         """
         Checks an input if it only consists of two or three different letters.
         If this is the case, it attempts to regard those letters as
-        0 and 1 (with the third characters as an optional delimiter) and then 
+        0 and 1 (with the third characters as an optional delimiter) and then
         converts it to ascii text.
         """
         logger.trace("Attempting X-Y replacement.")

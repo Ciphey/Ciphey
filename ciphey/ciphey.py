@@ -1,9 +1,9 @@
 """
  ██████╗██╗██████╗ ██╗  ██╗███████╗██╗   ██╗
 ██╔════╝██║██╔══██╗██║  ██║██╔════╝╚██╗ ██╔╝
-██║     ██║██████╔╝███████║█████╗   ╚████╔╝ 
-██║     ██║██╔═══╝ ██╔══██║██╔══╝    ╚██╔╝  
-╚██████╗██║██║     ██║  ██║███████╗   ██║ 
+██║     ██║██████╔╝███████║█████╗   ╚████╔╝
+██║     ██║██╔═══╝ ██╔══██║██╔══╝    ╚██╔╝
+╚██████╗██║██║     ██║  ██║███████╗   ██║
 https://github.com/ciphey
 https://github.com/Ciphey/Ciphey/wiki
 
@@ -129,19 +129,19 @@ def print_help(ctx):
 @click.argument("text_stdin", callback=get_name, required=False)
 def main(**kwargs):
     """Ciphey - Automated Decryption Tool
-    
-    Documentation: 
+
+    Documentation:
     https://github.com/Ciphey/Ciphey/wiki\n
     Discord (support here, we're online most of the day):
     https://discord.ciphey.online/\n
-    GitHub: 
+    GitHub:
     https://github.com/ciphey/ciphey\n
 
     Ciphey is an automated decryption tool using smart artificial intelligence and natural language processing. Input encrypted text, get the decrypted text back.
 
     Examples:\n
-        Basic Usage: ciphey -t "aGVsbG8gbXkgbmFtZSBpcyBiZWU=" 
-        
+        Basic Usage: ciphey -t "aGVsbG8gbXkgbmFtZSBpcyBiZWU="
+
     """
 
     """Function to deal with arguments. Either calls with args or not. Makes Pytest work.
@@ -152,7 +152,7 @@ def main(**kwargs):
     we then update locals() with the new command line args and remove "withArgs"
     This function then calls call_encryption(**result) which passes our dict of args
     to the function as its own arguments using dict unpacking.
-    
+
         Returns:
             The output of the decryption.
     """

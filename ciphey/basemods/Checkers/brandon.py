@@ -1,9 +1,9 @@
 """
  ██████╗██╗██████╗ ██╗  ██╗███████╗██╗   ██╗
 ██╔════╝██║██╔══██╗██║  ██║██╔════╝╚██╗ ██╔╝
-██║     ██║██████╔╝███████║█████╗   ╚████╔╝ 
-██║     ██║██╔═══╝ ██╔══██║██╔══╝    ╚██╔╝  
-╚██████╗██║██║     ██║  ██║███████╗   ██║ 
+██║     ██║██████╔╝███████║█████╗   ╚████╔╝
+██║     ██║██╔═══╝ ██╔══██║██╔══╝    ╚██╔╝
+╚██████╗██║██║     ██║  ██║███████╗   ██║
 © Brandon Skerritt
 Github: brandonskerritt
 
@@ -31,7 +31,7 @@ How to add a language:
 * Download your desired dictionary. Try to make it the most popular words, for example. Place this file into this
  folder with languagename.txt
 As an example, this comes built in with english.txt
-Find the statistical frequency of each letter in that language. 
+Find the statistical frequency of each letter in that language.
 For English, we have:
 self.languages = {
     "English":
@@ -45,7 +45,7 @@ self.languages = {
     [0.0855, 0.0160, 0.0316, 0.0387, 0.1210,0.0218, 0.0209, 0.0496, 0.0733, 0.0022,0.0081, 0.0421, 0.0253, 0.0717,
     0.0747,0.0207, 0.0010, 0.0633, 0.0673, 0.0894,0.0268, 0.0106, 0.0183, 0.0019, 0.0172,0.0011]
     "German": [0.0973]
-}   
+}
 In alphabetical order
 And you're.... Done! Make sure the name of the two match up
 """
@@ -216,7 +216,6 @@ class Brandon(ciphey.iface.Checker[str]):
 
         length_text = len(text)
 
-
         what_to_use = {}
 
         # this code decides what checker / threshold to use
@@ -262,7 +261,7 @@ class Brandon(ciphey.iface.Checker[str]):
         If the length of the text is over the maximum sentence length, use the last checker / threshold
         Otherwise, traverse the keys backwards until we find a key range that does not fit.
         So we traverse backwards and see if the sentence length is between current - 1 and current
-        In this way, we find the absolute lowest checker / percentage threshold. 
+        In this way, we find the absolute lowest checker / percentage threshold.
         We traverse backwards because if the text is longer than the max sentence length, we already know.
         In total, the keys are only 5 items long or so. It is not expensive to move backwards, nor is it expensive to move forwards.
 
