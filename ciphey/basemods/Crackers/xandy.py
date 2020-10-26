@@ -29,7 +29,7 @@ class Xandy(Cracker[str]):
             return ascii_text
         except UnicodeDecodeError as e:
             logger.trace(f"Failed to crack X-Y due to a UnicodeDecodeError: {e}")
-            return None
+            return ""
 
     @staticmethod
     def getTarget() -> str:
