@@ -190,9 +190,9 @@ def test_json_problem():
 def test_leetspeak():
     res = decrypt(
         Config().library_default().complete_config(),
-        "|-|3770 my nam3 is 833 and 1 lIke D06 AND 4|>|>13 4 7R33",
+        "|-|3ll0 my n4m3 1s 833 4nd 1 l1k3 D06 4ND 4ppl3 4nd 7R33",
     )
-    assert res.lower() == answer_str
+    assert res.lower() == answer_str.lower()
 
 
 def test_morse_code():
