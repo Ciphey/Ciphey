@@ -6,7 +6,7 @@ from ciphey.iface import Config, Decoder, ParamSpec, T, Translation, U, registry
 
 
 @registry.register
-class MorseCode(Decoder[str]):
+class Morse_code(Decoder[str]):
     # A priority list for char/word boundaries
     BOUNDARIES = {" ": 1, "/": 2, "\n": 3}
     PURGE = {ord(c): None for c in BOUNDARIES.keys()}
@@ -16,7 +16,7 @@ class MorseCode(Decoder[str]):
     MORSE_CODE_DICT_INV: Dict[str, str]
 
     def decode(self, ctext: T) -> Optional[U]:
-        logger.trace("Attempting Morse Code decoder")
+        logger.trace("Attempting Morse code decoder")
 
         char_boundary = word_boundary = None
 
@@ -94,4 +94,4 @@ class MorseCode(Decoder[str]):
 
     @staticmethod
     def getTarget() -> str:
-        return "morse"
+        return "morse_code"
