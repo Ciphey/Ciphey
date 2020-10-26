@@ -6,7 +6,7 @@ from ciphey.iface import Config, Decoder, ParamSpec, T, U, registry
 
 
 @registry.register
-class Utf8(Decoder[str]):
+class Utf8(Decoder[bytes]):
     def decode(self, ctext: T) -> Optional[U]:
         """
         Performs UTF-8 decoding
