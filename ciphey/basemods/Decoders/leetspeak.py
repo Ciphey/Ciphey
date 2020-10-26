@@ -4,7 +4,7 @@ from ciphey.iface import Config, Decoder, ParamSpec, T, Translation, U, registry
 
 
 @registry.register
-class Leet(Decoder[str]):
+class Leetspeak(Decoder[str]):
     def decode(self, ctext: T) -> Optional[U]:
         for src, dst in self.translate.items():
             ctext = ctext.replace(src, dst)
@@ -30,4 +30,4 @@ class Leet(Decoder[str]):
 
     @staticmethod
     def getTarget() -> str:
-        return "leet"
+        return "leetspeak"
