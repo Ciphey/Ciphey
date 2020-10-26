@@ -1,10 +1,10 @@
-from typing import Optional, Dict, List
+from typing import Dict, Optional
 
-from ciphey.iface import ParamSpec, Config, T, U, Decoder, registry
+from ciphey.iface import Config, Decoder, ParamSpec, T, U, registry
 
 
-@registry.register_multi((str, str), (bytes, bytes))
-class Reverse(Decoder):
+@registry.register
+class Reverse(Decoder[str]):
     def decode(self, ctext: T) -> Optional[U]:
         return ctext[::-1]
 
@@ -17,7 +17,7 @@ class Reverse(Decoder):
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
-        pass
+        return None
 
     @staticmethod
     def getTarget() -> str:

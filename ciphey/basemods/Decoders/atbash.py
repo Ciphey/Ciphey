@@ -1,21 +1,18 @@
-# community
-# by https://github.com/lukasgabriel
+from typing import Dict, Optional
 
-from typing import Optional, Dict, List
-
-from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, WordList
 from ciphey.common import fix_case
+from ciphey.iface import Config, Decoder, ParamSpec, T, U, WordList, registry
 
 
 @registry.register
-class Atbash(Decoder[str, str]):
+class Atbash(Decoder[str]):
     def decode(self, ctext: T) -> Optional[U]:
         """
         Takes an encoded string and attempts to decode it according to the Atbash cipher.
 
-            The Atbash cipher is a very simple substitution cipher without a key.
-            It operates by replacing every letter in the input by its 'counterpoint'
-            in the alphabet. Example: A -> Z, B -> Y, ... , M -> N and vice versa.
+        The Atbash cipher is a very simple substitution cipher without a key.
+        It operates by replacing every letter in the input by its 'counterpoint'
+        in the alphabet. Example: A -> Z, B -> Y, ... , M -> N and vice versa.
         """
 
         result = ""
@@ -27,7 +24,7 @@ class Atbash(Decoder[str, str]):
                 result += atbash_dict[letter]
             else:
                 # If the current character is not in the defined alphabet,
-                # just accept it as-is (useful for numbers, punctuation,...)
+                # just accept it as-is (useful for numbers, punctuation, etc.)
                 result += letter
         return fix_case(result, ctext)
 

@@ -1,15 +1,18 @@
-from collections import deque
 import cipheycore
 
 
 class Node:
     """
-    A node has a value assiocated with it
+    A node has a value associated with it
     Calculated from the heuristic
     """
 
     def __init__(
-        self, config, h: float = None, edges: (any, float) = None, ctext: str = None,
+        self,
+        config,
+        h: float = None,
+        edges: (any, float) = None,
+        ctext: str = None,
     ):
         self.weight = h
         # Edges is a list of other nodes it can connect to
@@ -90,18 +93,18 @@ class Graph:
             for v in open_list:
                 # TODO if v == decoder, run the decoder
                 print(f"The for loop node v is {v}")
-                if n == None or g[v] + self.h(v) < g[n] + self.h(n):
+                if n is None or g[v] + self.h(v) < g[n] + self.h(n):
                     n = v
                     print(f"The value of n is {n}")
 
-            if n == None:
+            if n is None:
                 print("Path does not exist!")
                 return None
 
             # if the current node is the stop_node
             # then we begin reconstructin the path from it to the start_node
             # NOTE Uncomment this for an exit condition
-            # TODO Make it exit if decryptor returns True
+            # TODO Make it exit if decrypter returns True
             # TODO We need to append the decryption methods to each node
             # So when we reconstruct the path we can reconstruct the decryptions
             # used
@@ -179,5 +182,5 @@ graph1 = Graph(adjacency_list)
 graph1.a_star_algorithm(A, D)
 
 """
-Maybe after it 
+Maybe after it
 """

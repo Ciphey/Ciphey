@@ -1,5 +1,6 @@
 import json
 import sys
+
 import cipheycore
 
 data = sys.stdin.read()

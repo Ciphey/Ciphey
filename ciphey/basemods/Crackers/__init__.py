@@ -1,5 +1,5 @@
 from . import (
-    XandY,
+    xandy,
     affine,
     ascii_shift,
     caesar,

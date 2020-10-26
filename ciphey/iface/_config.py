@@ -1,24 +1,14 @@
+import datetime
 import os
-from typing import (
-    Any,
-    Dict,
-    Optional,
-    List,
-    Type,
-    Union,
-    Callable,
-)
 import pydoc
+from typing import Any, Callable, Dict, List, Optional, Type, Union
 
+import appdirs
+import yaml
 from loguru import logger
 
-import datetime
-
-import yaml
-import appdirs
-
 from . import _fwd
-from ._modules import Checker, Searcher, ResourceLoader, PolymorphicChecker
+from ._modules import PolymorphicChecker, ResourceLoader, Searcher
 
 
 class Cache:
@@ -28,7 +18,7 @@ class Cache:
         self._cache: Dict[Any, Dict[str, Any]] = {}
 
     def mark_ctext(self, ctext: Any) -> bool:
-        if (type(ctext) == str or type(ctext) == bytes) and len(ctext) < 4:
+        if (isinstance(ctext, str) or isinstance(ctext, bytes)) and len(ctext) < 4:
             logger.trace(f"Candidate {ctext.__repr__()} too short!")
             return False
 
@@ -98,7 +88,7 @@ class Config:
 
     def instantiate(self, t: type) -> Any:
         """
-            Used to enable caching of a instantiated type after the configuration has settled
+        Used to enable caching of a instantiated type after the configuration has settled
         """
         # We cannot use set default as that would construct it again, and throw away the result
         res = self._inst.get(t)
@@ -138,7 +128,9 @@ class Config:
 
         # Checkers do not depend on any other config object
         logger.trace(f"Registry is {_fwd.registry._reg[PolymorphicChecker]}")
-        self.objs["checker"] = self(_fwd.registry.get_named(self.checker, PolymorphicChecker))
+        self.objs["checker"] = self(
+            _fwd.registry.get_named(self.checker, PolymorphicChecker)
+        )
         # Searchers only depend on checkers
         self.objs["searcher"] = self(_fwd.registry.get_named(self.searcher, Searcher))
 
@@ -159,8 +151,9 @@ class Config:
         else:
             verbosity_name = quiet_list[min(len(quiet_list), -verbosity) - 1]
 
-        from loguru import logger
         import sys
+
+        from loguru import logger
 
         logger.remove()
         if self.verbosity is None:

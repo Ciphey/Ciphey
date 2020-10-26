@@ -1,20 +1,18 @@
-# community
-# by https://github.com/lukasgabriel
+from typing import Dict, Optional
 
-from typing import Optional, Dict, List
-
-from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, Translation
 from loguru import logger
+
+from ciphey.iface import Config, Decoder, ParamSpec, T, Translation, U, registry
 
 
 @registry.register
-class Galactic(Decoder[str, str]):
+class Galactic(Decoder[str]):
     def decode(self, ctext: T) -> Optional[U]:
         """
-        Takes a string written in the 'Standard Galactic Alphabet' 
+        Takes a string written in the 'Standard Galactic Alphabet'
         (aka Minecraft Enchanting Table Symbols) and translates it to ASCII text.
         """
-        logger.trace("Attempting Standard Galactic Alphabet Decoder")
+        logger.trace("Attempting Standard Galactic Alphabet decoder")
 
         # To avoid complications, only move forward with the decoding if we can
         # reasonably assume that the input string is written in the galactic alphabet
@@ -28,7 +26,7 @@ class Galactic(Decoder[str, str]):
                 continue
         if galactic_matches == 0:
             logger.trace(
-                "No matching galactic alphabet letters found. Skipping galactic decoder..."
+                "No matching galactic alphabet letters found. Skipping galactic decoder"
             )
             return None
         logger.trace(f"{galactic_matches} galactic alphabet letters found. ")
@@ -50,7 +48,7 @@ class Galactic(Decoder[str, str]):
                 result += self.GALACTIC_DICT[letter]
             else:
                 # If the current character is not in the defined alphabet,
-                # just accept it as-is (useful for numbers, punctuation,...)
+                # just accept it as-is (useful for numbers, punctuation, etc.)
                 result += letter
         # Remove the trailing space (appearing as a leading space)
         # from the x that results from the diacritic replacement

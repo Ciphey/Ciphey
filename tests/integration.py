@@ -1,6 +1,8 @@
-from ciphey.LanguageChecker import LanguageChecker
 import unittest
+
 from loguru import logger
+
+from ciphey.LanguageChecker import LanguageChecker
 
 logger.remove()
 
@@ -24,7 +26,7 @@ class testIntegration(unittest.TestCase):
 
     def test_basics_quickbrownfox(self):
         """
-        This returns true becaue by default chi squared returns true so long as it's less than 10 items it's processed
+        This returns true because by default chi squared returns true so long as it's less than 10 items it's processed
         """
         lc = LanguageChecker.Checker()
         result = lc.check("The quick brown fox jumped over the lazy dog")
@@ -32,7 +34,7 @@ class testIntegration(unittest.TestCase):
 
     def test_basics_quickbrownfox(self):
         """
-        This returns true becaue by default chi squared returns true so long as it's less than 10 items it's processed
+        This returns true because by default chi squared returns true so long as it's less than 10 items it's processed
         """
         lc = LanguageChecker.Checker()
         result = lc.check("The quick brown fox jumped over the lazy dog")
@@ -109,7 +111,7 @@ class testIntegration(unittest.TestCase):
 
     def test_integration_addition(self):
         """
-        Makes sure you can add 2 lanuggae objecs together
+        Makes sure you can add 2 language objects together
         """
         lc = LanguageChecker.Checker()
         result = lc.check("hello my darling")
@@ -128,7 +130,7 @@ class testIntegration(unittest.TestCase):
         """
         I had a bug with this exact string
         Bug is that chi squared does not score this as True
-       """
+        """
         text = """Charles Babbage, FRS (26 December 1791 - 18 October 1871) was an English mathematician, philosopher, inventor and mechanical engineer who originated the concept of a programmable computer. Considered a "father of the computer", Babbage is credited with inventing the first mechanical computer that eventually led to more complex designs. Parts of his uncompleted mechanisms are on display in the London Science Museum. In 1991, a perfectly functioning difference engine was constructed from Babbage's original plans. Built to tolerances achievable in the 19th century, the success of the finished engine indicated that Babbage's machine would have worked. Nine years later, the Science Museum completed the printer Babbage had designed for the difference engine."""
         lc = LanguageChecker.Checker()
         result = lc.check(text)

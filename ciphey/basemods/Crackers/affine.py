@@ -3,12 +3,12 @@
 
 from typing import Dict, List, Optional
 
-import ciphey
 import cipheycore
+from loguru import logger
+
 from ciphey.common import fix_case
 from ciphey.iface import Config, Cracker, CrackInfo, CrackResult, ParamSpec, registry
 from ciphey.mathsHelper import mathsHelper
-from loguru import logger
 
 
 @registry.register
@@ -44,24 +44,24 @@ class Affine(Cracker[str]):
         # a and b are coprime if gcd(a,b) is 1.
         possible_a = [
             a
-            for a in range(1, self.ALPHABET_LENGTH)
-            if mathsHelper.gcd(a, self.ALPHABET_LENGTH) == 1
+            for a in range(1, self.alphabet_length)
+            if mathsHelper.gcd(a, self.alphabet_length) == 1
         ]
         logger.debug(
-            f"Trying Affine Cracker with {len(possible_a)} a-values and {self.ALPHABET_LENGTH} b-values"
+            f"Trying Affine Cracker with {len(possible_a)} a-values and {self.alphabet_length} b-values"
         )
 
         for a in possible_a:
-            a_inv = mathsHelper.mod_inv(a, self.ALPHABET_LENGTH)
+            a_inv = mathsHelper.mod_inv(a, self.alphabet_length)
             # If there is no inverse, we cannot decrypt the text
             if a_inv is None:
                 continue
-            for b in range(self.ALPHABET_LENGTH):
+            for b in range(self.alphabet_length):
                 # Pass in lowered text. This means that we expect alphabets to not contain both 'a' and 'A'.
-                translated = self.decrypt(ctext.lower(), a_inv, b, self.ALPHABET_LENGTH)
+                translated = self.decrypt(ctext.lower(), a_inv, b, self.alphabet_length)
 
                 candidate_probability = self.plaintext_probability(translated)
-                if candidate_probability > self.PLAINTEXT_PROB_THRESHOLD:
+                if candidate_probability > self.plaintext_prob_threshold:
                     candidates.append(
                         CrackResult(
                             value=fix_case(translated, ctext), key_info=f"a={a}, b={b}"
@@ -108,7 +108,7 @@ class Affine(Cracker[str]):
                 req=False,
                 config_ref=["default_dist"],
             ),
-            "group": ciphey.iface.ParamSpec(
+            "group": ParamSpec(
                 desc="An ordered sequence of chars that make up the alphabet",
                 req=False,
                 default="abcdefghijklmnopqrstuvwxyz",
@@ -119,6 +119,6 @@ class Affine(Cracker[str]):
         super().__init__(config)
         self.group = list(self._params()["group"])
         self.expected = config.get_resource(self._params()["expected"])
-        self.ALPHABET_LENGTH = len(self.group)
+        self.alphabet_length = len(self.group)
         self.cache = config.cache
-        self.PLAINTEXT_PROB_THRESHOLD = 0.01
+        self.plaintext_prob_threshold = 0.01

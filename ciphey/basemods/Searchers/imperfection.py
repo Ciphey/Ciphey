@@ -9,33 +9,33 @@ class Imperfection:
 
     To calculate current, we push the entire graph to A*
 
-    And it calculates the next node to choose, as well as increasing the size 
+    And it calculates the next node to choose, as well as increasing the size
     of the graph with values
 
-    We're using a heap, meaing the element at [0] is always the smallest element
+    We're using a heap, meaning the element at [0] is always the smallest element
 
     So we choose that and return it.
 
 
-    The current A* implemnentation has an end, we simply do not let it end as LC will make it 
-    end far before itreaches Searcher again.
+    The current A* implementation has an end, we simply do not let it end as LC will make it
+    end far before it reaches Searcher again.
 
     Current is the start position, so if we say we always start at the start of the graph it'll
     go through the entire graph
 
     graph = {
             Node: [
-                {Node : 
+                {Node :
                 {
                     node
                     }
                 }
                 ]
-            } 
+            }
 
     For encodings we just do them straight out
 
-    The last value of parents from abstract 
+    The last value of parents from abstract
     """
 
     """
@@ -50,7 +50,7 @@ class Imperfection:
     def __init__(self):
         None
 
-    def findBestNode(nodes):
+    def findBestNode(self, nodes):
         """Finds the best decryption module"""
         return next(iter(nodes))
 
@@ -66,9 +66,9 @@ class Imperfection:
     #     Current appears to be the list of all new tiles we can reach from current location
 
     #     End is the end node, that won't actually run bc LC will make it return before it hits aSTar function
-    #     so tbh I'll just make it infinitite unless something else forces a return
+    #     so tbh I'll just make it infinite unless something else forces a return
 
-    #     The graph is the actual data structure used. According to StackOvervlow, it looks like this:
+    #     The graph is the actual data structure used. According to StackOverflow, it looks like this:
 
     #     graph = {'A': ['B', 'C'],
     #              'B': ['C', 'D'],
@@ -196,7 +196,7 @@ class Imperfection:
 
 class Node:
     """
-    A node has a value assiocated with it
+    A node has a value associated with it
     Calculated from the heuristic
     """
 
