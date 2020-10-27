@@ -1,23 +1,24 @@
 <p align="center">
 Traduzioni <br>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/de/README.md>🇩🇪 DE   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/README.md>🇬🇧 EN   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/fr/README.md>🇫🇷 FR   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/hu/README.md>🇭🇺 HU   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/id/README.md>🇮🇩 ID   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/it/README.md>🇮🇹 IT   </a>
-<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/de/README.md>🇩🇪 DE   </a>
-<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/hu/README.md>🇭🇺 HU   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/nl/README.md>🇳🇱 NL   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/pt-br/README.md>🇧🇷 PT-BR   </a>
-<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/ru/README.md>🇷🇺 RU   </a> 
-<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/fr/README.md>🇫🇷 FR   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/ru/README.md>🇷🇺 RU   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/zh/README.md>🇨🇳 ZH   </a>
  <br><br>
-➡️ 
+➡️
 <a href="https://github.com/Ciphey/Ciphey/wiki">Documentazione</a> |
 <a href="https://discord.ciphey.online">Discord</a> |
  <a href="https://github.com/Ciphey/Ciphey/wiki/Installation">Guida all'installazione</a>
  ⬅️
 
 <br>
-  <img src="Pictures_for_README/binoculars.png" alt="Ciphey">
+  <img src="https://github.com/Ciphey/Ciphey/raw/master/Pictures_for_README/binoculars.png" alt="Ciphey">
 </p>
 
 <p align="center">
@@ -30,7 +31,7 @@ Traduzioni <br>
 
   <img src="https://github.com/brandonskerritt/Ciphey/workflows/Python%20application/badge.svg?branch=master" alt="Ciphey">
 <br>
-Strumento completamente automatizzato per la decrittazione/decodificazione/cracking che usa la processazione del linguaggio naturale e l'intelligienza  artificiale, con un po' di senso comune.
+Ciphey è uno strumento completamente automatizzato per la decrittazione/decodificazione/cracking che usa la processazione del linguaggio naturale e l'intelligienza  artificiale, con un po' di senso comune.
 </p>
 <hr>
 
@@ -38,7 +39,7 @@ Strumento completamente automatizzato per la decrittazione/decodificazione/crack
 
 | <p align="center"><a href="https://pypi.org/project/ciphey">🐍 Python | <p align="center"><a href="https://pypi.org/project/ciphey">🐋 Docker (Universal) |
 | --------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
-| <p align="center"><img src="Pictures_for_README/python.png" /></p>    | <p align="center"><img src="Pictures_for_README/docker.png" /></p>                |
+| <p align="center"><img src="https://github.com/Ciphey/Ciphey/raw/master/Pictures_for_README/python.png" /></p>    | <p align="center"><img src="https://github.com/Ciphey/Ciphey/raw/master/Pictures_for_README/docker.png" /></p>                |
 | `python3 -m pip install ciphey --upgrade`                             | `docker run -it --rm remnux/ciphey`                                               |
 
 | Linux                                                                                                                   | Mac OS                                                                                                                     | Windows                                                                                                                   |
@@ -47,7 +48,7 @@ Strumento completamente automatizzato per la decrittazione/decodificazione/crack
 
 <hr>
 
-# 🤔 Cos'è questo?
+# 🤔 Cos'è?
 
 Inserisci del testo crittografato, ottieni il testo decrittografato indietro.
 
@@ -58,7 +59,7 @@ Questo è il punto. Non lo sai, sai solo che forse è criptato. Ciphey lo scopri
 Ciphey può risolvere la maggior parte delle cose in 3 secondi o meno.
 
 <p align="center" href="https://asciinema.org/a/336257">
-  <img src="Pictures_for_README/index.gif" alt="Ciphey demo">
+  <img src="https://github.com/Ciphey/Ciphey/raw/master/Pictures_for_README/index.gif" alt="Ciphey demo">
 </p>
 
 Ciphey mira ad essere uno strumento per automatizzare molte decodifiche come le codifiche multiple di base, i classici ciphers, gli hash o la crittografia più avanzata.
@@ -67,14 +68,13 @@ Se non ne sai molto di crittografia, o vuoi controllare rapidamente il testo cif
 
 **La parte tecnica.** Ciphey usa un modulo di intelligenza artificiale costruito su misura (_AuSearch_) con un'interfaccia di rilevamento dei _Ciphers_ per approssimare ciò con cui qualcosa è criptato. Successivamente usa un'elaborazione del linguaggio naturale personalizzato e personalizzabile _Language Checker Interface_, in grado di rilevare quando il testo dato diventa in chiaro.
 
-No neural networks or bloated AI here. We only use what is fast and minimal.
-Nessuna rete neurale o IA gonfiate qua. Usiamo solo ciò che e veloce e minimale.
+Nessuna rete neurale o IA ripiene di funzioni inutili qua. Usiamo solo ciò che e veloce e minimal.
 
 E questa è solo la punta dell'iceberg. Per l'intera spiegazione tecnica cntrolla la nostra [documentazione](https://github.com/Ciphey/Ciphey/wiki).
 
 # ✨ Features
 
-- **30+ tipi di crittografia supportati** come gli encodings (binary, base64) e tipi di crittografia normale come il cifrario di cesare, key XOR ripetuta e molto altro. **[Per la lista completa, clicca qui](https://github.com/Ciphey/Ciphey/wiki/Supported-Ciphers)**
+- **50+ tipi di crittografia supportati** come gli encodings (binary, base64) e tipi di crittografia normale come il cifrario di cesare, key XOR ripetuta e molto altro. **[Per la lista completa, clicca qui](https://github.com/Ciphey/Ciphey/wiki/Supported-Ciphers)**
 - **Intelligenza artificiale costruita su misura con la ricerca aumentata (AuSearch) per rispondere alla domanda "quale algoritmo per la crittografia è stato usato?"** Il risultato è che le decifrazioni richiedono meno di 3 secondi.
 - **Modulo di elaborazione del linguaggio naturale costruito su misura** Ciphey può determinare se qualcosa è in chiaro o meno. Se quel testo in chiaro è JSON, una flag di una CTF, o l'inglese, Ciphey può ottenerlo in un paio di millisecondi.
 - **Supporto multilingue** al momento, solo tedesco e inglese (con varianti AU, UK, CAN, USA).
@@ -93,8 +93,8 @@ E questa è solo la punta dell'iceberg. Per l'intera spiegazione tecnica cntroll
   </tr>
   <tr>
   <th>Gif</th>
-    <td><img src="Pictures_for_README/ciphey_gooder_cyberchef.gif" alt="The guy she tells you not to worry about"></td>
-    <td><img src="Pictures_for_README/not_dying.gif" alt="You"></td>
+    <td><img src="https://github.com/Ciphey/Ciphey/raw/master/Pictures_for_README/ciphey_gooder_cyberchef.gif" alt="The guy she tells you not to worry about"></td>
+    <td><img src="https://github.com/Ciphey/Ciphey/raw/master/Pictures_for_README/not_dying.gif" alt="You"></td>
   </tr>
   <tr>
   <th>Tempo</th>

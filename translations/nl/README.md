@@ -1,12 +1,16 @@
 <p align="center">
 Vertalingen <br>
-<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/id/README.md>🇮🇩 ID   </a>
-<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/it/README.md>🇮🇹 IT   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/de/README.md>🇩🇪 DE   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/README.md>🇬🇧 EN   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/fr/README.md>🇫🇷 FR   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/hu/README.md>🇭🇺 HU   </a>
-
-<br><br>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/id/README.md>🇮🇩 ID   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/it/README.md>🇮🇹 IT   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/nl/README.md>🇳🇱 NL   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/pt-br/README.md>🇧🇷 PT-BR   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/ru/README.md>🇷🇺 RU   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/zh/README.md>🇨🇳 ZH   </a>
+ <br><br>
 ➡️
 <a href="https://github.com/Ciphey/Ciphey/wiki">Documentatie</a> |
 <a href="https://discord.ciphey.online">Discord</a> |
@@ -14,7 +18,7 @@ Vertalingen <br>
 ⬅️
 
 <br>
-  <img src="Pictures_for_README/binoculars.png" alt="Ciphey">
+  <img src="https://github.com/Ciphey/Ciphey/raw/master/Pictures_for_README/binoculars.png" alt="Ciphey">
 </p>
 
 <p align="center">
@@ -35,7 +39,7 @@ Volledig automatische decryptie/decodering/kraak tool die gebruik maakt van natu
 
 | <p align="center"><a href="https://pypi.org/project/ciphey">🐍 Python | <p align="center"><a href="https://pypi.org/project/ciphey">🐋 Docker (Universal) |
 | --------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
-| <p align="center"><img src="Pictures_for_README/python.png" /></p>    | <p align="center"><img src="Pictures_for_README/docker.png" /></p>                |
+| <p align="center"><img src="https://github.com/Ciphey/Ciphey/raw/master/Pictures_for_README/python.png" /></p>    | <p align="center"><img src="https://github.com/Ciphey/Ciphey/raw/master/Pictures_for_README/docker.png" /></p>                |
 | `python3 -m pip install ciphey --upgrade`                             | `docker run -it --rm remnux/ciphey`                                               |
 
 | Linux                                                                                                                   | Mac OS                                                                                                                     | Windows                                                                                                                   |
@@ -55,7 +59,7 @@ Dat is net het punt. Dat weet je niet, je weet enkel dat het mogelijks geëncryp
 Ciphey kan de meeste dingen oplossen in 3 seconden of minder.
 
 <p align="center" href="https://asciinema.org/a/336257">
-  <img src="Pictures_for_README/index.gif" alt="Ciphey demo">
+  <img src="https://github.com/Ciphey/Ciphey/raw/master/Pictures_for_README/index.gif" alt="Ciphey demo">
 </p>
 
 Ciphey wil een tool zijn die veel decryptie & decodering automatiseert, zoals meerdere base coderingen, klassieke coderingen of meer geavanceerde cryptografie.
@@ -89,8 +93,8 @@ En dat is nog maar de tip van de ijsberg. Voor de volledige technische uitleg, c
   </tr>
   <tr>
   <th>Gif</th>
-    <td><img src="Pictures_for_README/ciphey_gooder_cyberchef.gif" alt="The guy she tells you not to worry about"></td>
-    <td><img src="Pictures_for_README/not_dying.gif" alt="You"></td>
+    <td><img src="https://github.com/Ciphey/Ciphey/raw/master/Pictures_for_README/ciphey_gooder_cyberchef.gif" alt="The guy she tells you not to worry about"></td>
+    <td><img src="https://github.com/Ciphey/Ciphey/raw/master/Pictures_for_README/not_dying.gif" alt="You"></td>
   </tr>
   <tr>
   <th>Tijd</th>
@@ -137,9 +141,9 @@ Er zijn 3 manieren om Ciphey te gebruiken.
 
 1. Bestand invoer `ciphey -f encrypted.txt`
 2. Ongekwantificeerde input `ciphey -- "Encrypted input"`
-3. Normale manier`ciphey -t "Encrypted input"`
+3. Normale manier `ciphey -t "Encrypted input"`
 
-![Gif die de 3 manieren toont om Ciphey te gebruiken](Pictures_for_README/3ways.gif)
+![Gif die de 3 manieren toont om Ciphey te gebruiken](https://github.com/Ciphey/Ciphey/raw/master/Pictures_for_README/3ways.gif)
 
 Om van de progressie bar, kansen tafel en al het andere lawaai af te geraken, gebruikt de stille modus.
 
