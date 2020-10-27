@@ -11,6 +11,7 @@ from . import (
     brainfuck,
     decimal,
     galactic,
+    gzip,
     hexadecimal,
     leetspeak,
     morse_code,
