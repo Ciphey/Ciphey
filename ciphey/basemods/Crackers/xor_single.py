@@ -7,18 +7,16 @@
 © Brandon Skerritt
 Github: brandonskerritt
 """
-import sys
-from distutils import util
-from typing import Optional, Dict, Union, Set, List, Tuple
+from typing import Dict, List, Optional
 
-from loguru import logger
-import ciphey
 import cipheycore
+from loguru import logger
 
-from ciphey.iface import ParamSpec, CrackResult, T, CrackInfo, registry
+from ciphey.iface import Config, Cracker, CrackInfo, CrackResult, ParamSpec, registry
+
 
 @registry.register
-class XorSingle(ciphey.iface.Cracker[bytes]):
+class XorSingle(Cracker[bytes]):
     def getInfo(self, ctext: str) -> CrackInfo:
         analysis = self.cache.get_or_update(
             ctext,
@@ -72,12 +70,12 @@ class XorSingle(ciphey.iface.Cracker[bytes]):
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
         return {
-            "expected": ciphey.iface.ParamSpec(
+            "expected": ParamSpec(
                 desc="The expected distribution of the plaintext",
                 req=False,
                 config_ref=["default_dist"],
             ),
-            "p_value": ciphey.iface.ParamSpec(
+            "p_value": ParamSpec(
                 desc="The p-value to use for standard frequency analysis",
                 req=False,
                 default=0.01,
@@ -86,10 +84,10 @@ class XorSingle(ciphey.iface.Cracker[bytes]):
         }
 
     @staticmethod
-    def scoreUtility() -> float:
+    def score_utility() -> float:
         return 1.5
 
-    def __init__(self, config: ciphey.iface.Config):
+    def __init__(self, config: Config):
         super().__init__(config)
         self.expected = config.get_resource(self._params()["expected"])
         self.cache = config.cache

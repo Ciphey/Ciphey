@@ -8,19 +8,16 @@
 Github: brandonskerritt
 """
 
-from typing import Optional, Dict, Union, Set, List, Tuple
-
-from ciphey.iface import ParamSpec, CrackResult, T, CrackInfo, registry
-
-from loguru import logger
-
-import ciphey
+from typing import Dict, List, Optional
 
 import cipheycore
+from loguru import logger
+
+from ciphey.iface import Config, Cracker, CrackInfo, CrackResult, ParamSpec, registry
 
 
 @registry.register
-class Ascii_shift(ciphey.iface.Cracker[str]):
+class Ascii_shift(Cracker[str]):
     def getInfo(self, ctext: str) -> CrackInfo:
         analysis = self.cache.get_or_update(
             ctext,
@@ -77,17 +74,17 @@ class Ascii_shift(ciphey.iface.Cracker[str]):
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
         return {
-            "expected": ciphey.iface.ParamSpec(
+            "expected": ParamSpec(
                 desc="The expected distribution of the plaintext",
                 req=False,
                 config_ref=["default_dist"],
             ),
-            "group": ciphey.iface.ParamSpec(
+            "group": ParamSpec(
                 desc="An ordered sequence of chars that make up the ASCII shift cipher alphabet",
                 req=False,
                 default="""\x00\x01\x02\x03\x04\x05\x06\x07\x08\t\n\x0b\x0c\r\x0e\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\x7f""",
             ),
-            "p_value": ciphey.iface.ParamSpec(
+            "p_value": ParamSpec(
                 desc="The p-value to use for standard frequency analysis",
                 req=False,
                 default=0.01,
@@ -95,7 +92,7 @@ class Ascii_shift(ciphey.iface.Cracker[str]):
             # TODO: add "filter" param
         }
 
-    def __init__(self, config: ciphey.iface.Config):
+    def __init__(self, config: Config):
         super().__init__(config)
         self.group = list(self._params()["group"])
         self.expected = config.get_resource(self._params()["expected"])

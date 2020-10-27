@@ -1,18 +1,17 @@
+import zlib
 from typing import Dict, Optional
-
-import base91
 
 from ciphey.iface import Config, Decoder, ParamSpec, T, U, registry
 
 
 @registry.register
-class Base91(Decoder[str]):
+class Gzip(Decoder[bytes]):
     def decode(self, ctext: T) -> Optional[U]:
         """
-        Performs Base91 decoding
+        Performs Gzip decoding
         """
         try:
-            return base91.decode(ctext).decode("utf-8")
+            return zlib.decompress(ctext, 16 + zlib.MAX_WBITS).decode("utf-8")
         except Exception:
             return None
 
@@ -30,4 +29,4 @@ class Base91(Decoder[str]):
 
     @staticmethod
     def getTarget() -> str:
-        return "base91"
+        return "gzip"

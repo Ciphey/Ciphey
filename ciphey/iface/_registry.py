@@ -1,30 +1,12 @@
-from abc import ABC, abstractmethod
-from collections import defaultdict
-from typing import (
-    Any,
-    Callable,
-    Dict,
-    Generic,
-    Optional,
-    List,
-    NamedTuple,
-    TypeVar,
-    Type,
-    Union,
-    Set,
-    Tuple,
-)
-import pydoc
+from typing import Any, Dict, List, Optional, Set, Tuple, Type, Union
 
 try:
-    from typing import get_origin, get_args
+    from typing import get_args, get_origin
 except ImportError:
     from typing_inspect import get_origin, get_args
 
-from loguru import logger
 from . import _fwd
 from ._modules import *
-import datetime
 
 
 class Registry:
@@ -91,9 +73,13 @@ class Registry:
             # Replace input type with polymorphic checker if required
             if issubclass(input_type, Checker):
                 if len(args) == 0:
-                    arg = [get_args(i) for i in input_type.__orig_bases__ if get_origin(i) == Checker][0]
+                    arg = [
+                        get_args(i)
+                        for i in input_type.__orig_bases__
+                        if get_origin(i) == Checker
+                    ][0]
                     if len(arg) != 1:
-                        raise TypeError(f"No argument for Checker")
+                        raise TypeError("No argument for Checker")
                     input_type = input_type.convert({arg[0]})
                 else:
                     input_type = input_type.convert(set(args))

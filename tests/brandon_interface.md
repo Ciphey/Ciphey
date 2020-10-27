@@ -13,7 +13,7 @@ If you have more tests, let me know and I can factor them in.
 In your first reply:
 https://github.com/Ciphey/Ciphey/issues/90#issuecomment-645046918
 Point 3:
-> Be aware that the stuff passed to the checker will most likely be complete gibberish (with a similar freq dist) OR the correct result. A user will not care about an extra second spent on the final correct result, but really will care that every false candidate takes an extra second. The current suggestion seems to be pessimal for the gibberish inputs: maybe add some sanity checks (have I failed to match any word, have I failed to lemmatise any word, etc.)
+> Be aware that the stuff passed to the checker will most likely be complete gibberish (with a similar freq dist) OR the correct result. A user will not care about an extra second spent on the final correct result, but really will care that every false candidate takes an extra second. The current suggestion seems to be pessimal for the gibberish inputs: maybe add some sanity checks (have I failed to match any word, have I failed to lemmatize any word, etc.)
 
 I decided to test how well `lem` worked as phase 1. To do this, I created this program:
 ```python
@@ -36,7 +36,6 @@ import spacy
 import random
 import time
 from statistics import mean
-import ciphey
 import enciphey
 from alive_progress import alive_bar
 
@@ -75,10 +74,10 @@ def perform():
     total = 0
     true_returns = 0
 
-    # calculate aveager time
+    # calculate average time
     time_list = []
 
-    # average sentance size
+    # average sentence size
     sent_size_list = []
     items = range(20000)
     with alive_bar(len(items)) as bar:
@@ -117,7 +116,7 @@ perform()
 ```
 
 The results were fascinating, to say the least.
-With a 50/50 chance of the text being gibberish (ciphertext from enCiphey) or sentences from Hansard.txt, we had these results for using lemmization as phase 1:
+With a 50/50 chance of the text being gibberish (ciphertext from enCiphey) or sentences from Hansard.txt, we had these results for using lemmatization as phase 1:
 
 ```
 The accuracy is 49.63%
@@ -138,7 +137,7 @@ I will create a table of my results:
 
 | Name                       | Speed                        | Accuracy | String Size Average Chars | Epochs | Max Sentence Size |
 | -------------------------- | ---------------------------- | -------- | ------------------------- | ------ | ----------------- |
-| Lemmization (lem)          | 0.02 seconds                 | 50%      | 1580                      | 20,000 | 50                |
+| Lemmatization (lem)        | 0.02 seconds                 | 50%      | 1580                      | 20,000 | 50                |
 | Stop word removal          | 3.05465052884756e-05 seconds | 96%      | 1596                      | 20,000 | 50                |
 | Check1000Words             | 0.0005 seconds               | 96%      | 1597                      | 20,000 | 50                |
 | Word endings               | 0.0009 seconds               | 95%      | 1597                      | 20,000 | 50                |
@@ -147,7 +146,7 @@ I will create a table of my results:
 
 | Name                       | Speed                          | Accuracy | String Size Average Chars | Epochs | Max Sentence Size |
 | -------------------------- | ------------------------------ | -------- | ------------------------- | ------ | ----------------- |
-| Lemmization (lem)          |
+| Lemmatization (lem)          |
 | Stop word removal          | 1.1574924453998391e-05 seconds | 93%      | 569                       | 20,000 | 5                 |
 | Check1000Words             | 0.0006 seconds                 | 95%      | 586                       | 20,000 | 5                 |
 | Word endings               | 0.0003 seconds                 | 92%      | 482                       | 20,000 | 5                 |
@@ -155,14 +154,14 @@ I will create a table of my results:
 
 | Name                       | Speed                           | Accuracy | Threshold | String Size Average Chars | Epochs | Max Sentence Size |
 | -------------------------- | ------------------------------- | -------- | ------ |------------------------- | ------ | ----------------- |
-| Lemmization (lem)          |
+| Lemmatization (lem)          |
 | Stop word removal          | 1.2532061150591289e-05. seconds | 50%      | 481                       | 20,000 | 1                 |
 | Check1000Words             | 0.0006 seconds                  | 95%      | 586                       | 20,000 | 5                 |
 | Word endings               | 0.0002 seconds                  | 86%      | 15| 482                       | 20,000 | 1                 |
 
 
 ## Confusion Matrices & Notes
-### Lemization
+### Lemmatization
 
 ```
                 Positive    Negative
@@ -297,7 +296,7 @@ However, the accuracy for smaller sentence sizes tanked.
 
 The highest accuracy we had was with the original one. Words <= 2 chars and no limit on threshold. 
 
-If possible, we want to combine the high accuracy on smaller texts while maintaining the generalisation found in the latter checker results.
+If possible, we want to combine the high accuracy on smaller texts while maintaining the generalization found in the latter checker results.
 
 The reason we want a smaller threshold is that due to the chunking procedure, it will be much faster on larger texts. The lower the sentence length the higher the threshold is allowed to be.
 

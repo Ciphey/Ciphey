@@ -1,33 +1,38 @@
-from typing import Optional, Dict, Any
+from typing import Dict, Optional
 
 from loguru import logger
 
-import ciphey
-from ciphey.iface import registry
+from ciphey.iface import Config, Decoder, ParamSpec, T, U, registry
 
 
 @registry.register
-class Utf8(ciphey.iface.Decoder[bytes, str]):
-    def decode(self, text: bytes) -> Optional[str]:
-        logger.trace("Attempting utf-8 decode")
+class Utf8(Decoder[bytes]):
+    def decode(self, ctext: T) -> Optional[U]:
+        """
+        Performs UTF-8 decoding
+        """
+        logger.trace("Attempting UTF-8 decoder")
+        result = ""
         try:
-            res = text.decode("utf8")
-            logger.debug(f"utf-8 decode gave '{res}'")
-            return res if len(res) != 0 else None
-        except UnicodeDecodeError:
-            logger.trace("utf-8 decode failed")
+            result = ctext.decode("utf-8")
+            if result != ctext:
+                logger.debug(f"UTF-8 successful, returning '{result}'")
+                return result
+            else:
+                return None
+        except Exception:
             return None
 
     @staticmethod
     def priority() -> float:
         return 0.9
 
-    def __init__(self, config: ciphey.iface.Config):
+    def __init__(self, config: Config):
         super().__init__(config)
 
     @staticmethod
-    def getParams() -> Optional[Dict[str, Dict[str, Any]]]:
-        pass
+    def getParams() -> Optional[Dict[str, ParamSpec]]:
+        return None
 
     @staticmethod
     def getTarget() -> str:

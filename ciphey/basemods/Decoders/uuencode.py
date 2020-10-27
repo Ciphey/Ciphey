@@ -1,16 +1,14 @@
-from typing import Optional, Dict
-
-from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry
+from binascii import a2b_uu
+from codecs import decode
+from typing import Dict, Optional
 
 from loguru import logger
 
-from codecs import decode
-
-from binascii import a2b_uu
+from ciphey.iface import Config, Decoder, ParamSpec, T, U, registry
 
 
 @registry.register
-class Uuencode(Decoder[str, str]):
+class Uuencode(Decoder[str]):
     def decode(self, ctext: T) -> Optional[U]:
         """
         UUEncode (Unix to Unix Encoding) is a symmetric encryption
@@ -31,8 +29,8 @@ class Uuencode(Decoder[str, str]):
                 # If there isn't a "being" prefix and "end" suffix, we use the binascii module instead
                 # It is possible that the ctext has multiple lines, so convert each line and append
                 ctext_split = list(filter(None, ctext.splitlines()))
-                for i in range(0, len(ctext_split)):
-                    result += a2b_uu(ctext_split[i]).decode("utf-8")
+                for _, value in enumerate(ctext_split):
+                    result += a2b_uu(value).decode("utf-8")
             logger.debug(f"UUencode successful, returning '{result}'")
             return result
         except Exception:

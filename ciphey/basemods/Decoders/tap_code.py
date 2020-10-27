@@ -1,21 +1,23 @@
 # by https://github.com/RustyDucky and https://github.com/lukasgabriel
 
-from typing import Optional, Dict, List
+from typing import Dict, Optional
 
-from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, Translation
+from ciphey.iface import Config, Decoder, ParamSpec, T, Translation, U, registry
 
 
 @registry.register
-class tap_code(Decoder[str, str]):
+class Tap_code(Decoder[str]):
     def decode(self, ctext: T) -> Optional[U]:
+        """
+        Performs Tap code decoding
+        """
         try:
-            output = ""
+            result = ""
             combinations = ctext.split(" ")
             for fragment in combinations:
-                    output += self.TABLE.get(fragment)
-            return output
-
-        except Exception as e:
+                result += self.TABLE.get(fragment)
+            return result
+        except Exception:
             return None
 
     @staticmethod

@@ -1,9 +1,9 @@
 """
-██████╗██╗██████╗ ██╗  ██╗███████╗██╗   ██╗
+ ██████╗██╗██████╗ ██╗  ██╗███████╗██╗   ██╗
 ██╔════╝██║██╔══██╗██║  ██║██╔════╝╚██╗ ██╔╝
-██║     ██║██████╔╝███████║█████╗   ╚████╔╝ 
-██║     ██║██╔═══╝ ██╔══██║██╔══╝    ╚██╔╝  
-╚██████╗██║██║     ██║  ██║███████╗   ██║ 
+██║     ██║██████╔╝███████║█████╗   ╚████╔╝
+██║     ██║██╔═══╝ ██╔══██║██╔══╝    ╚██╔╝
+╚██████╗██║██║     ██║  ██║███████╗   ██║
 © Brandon Skerritt
 Github: brandonskerritt
 
@@ -14,8 +14,9 @@ Class to provide helper functions for mathematics
 
 from collections import OrderedDict
 from string import punctuation
-from loguru import logger
 from typing import Optional
+
+from loguru import logger
 
 
 class mathsHelper:
@@ -189,17 +190,16 @@ class mathsHelper:
         return bool(lambda s: len(s) == len(s.encode()))
 
     @staticmethod
-    def strip_puncuation(text: str) -> str:
+    def strip_punctuation(text: str) -> str:
         """Strips punctuation from a given string.
 
-        Uses string.puncuation.
+        Uses string.punctuation.
 
         Args:
-            text -> the text to strip puncuation from.
+            text -> the text to strip punctuation from.
 
         Returns:
-            Returns string without puncuation.
-
+            Returns string without punctuation.
         """
         text: str = (str(text).translate(str.maketrans("", "", punctuation))).strip(
             "\n"

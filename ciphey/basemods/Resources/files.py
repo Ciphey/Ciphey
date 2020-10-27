@@ -1,18 +1,22 @@
-from abc import abstractmethod
-from typing import Optional, Dict, Any, Set, Generic, Type
-
-from functools import lru_cache
-
-import ciphey
-from ciphey.iface import T, ParamSpec, Config, get_args, registry
-
-import json
 import csv
+import json
+from functools import lru_cache
+from typing import Dict, Generic, Optional, Set
+
+from ciphey.iface import (
+    Config,
+    Distribution,
+    ParamSpec,
+    ResourceLoader,
+    T,
+    WordList,
+    registry,
+)
 
 
 # We can use a generic resource loader here, as we can instantiate it later
-@registry.register_multi(ciphey.iface.WordList, ciphey.iface.Distribution)
-class Json(ciphey.iface.ResourceLoader):
+@registry.register_multi(WordList, Distribution)
+class Json(ResourceLoader):
     def whatResources(self) -> T:
         return self._names
 
@@ -28,18 +32,18 @@ class Json(ciphey.iface.ResourceLoader):
         return "json"
 
     @staticmethod
-    def getParams() -> Optional[Dict[str, ciphey.iface.ParamSpec]]:
+    def getParams() -> Optional[Dict[str, ParamSpec]]:
         return {"path": ParamSpec(req=True, desc="The path to a JSON file", list=True)}
 
-    def __init__(self, config: ciphey.iface.Config):
+    def __init__(self, config: Config):
         super().__init__(config)
         self._paths = self._params()["path"]
         self._names = set(range(1, len(self._paths)))
 
 
 # We can use a generic resource loader here, as we can instantiate it later
-@registry.register_multi(ciphey.iface.WordList, ciphey.iface.Distribution)
-class Csv(Generic[T], ciphey.iface.ResourceLoader[T]):
+@registry.register_multi(WordList, Distribution)
+class Csv(Generic[T], ResourceLoader[T]):
     def whatResources(self) -> Set[str]:
         return self._names
 
@@ -56,10 +60,10 @@ class Csv(Generic[T], ciphey.iface.ResourceLoader[T]):
         return "csv"
 
     @staticmethod
-    def getParams() -> Optional[Dict[str, ciphey.iface.ParamSpec]]:
+    def getParams() -> Optional[Dict[str, ParamSpec]]:
         return {"path": ParamSpec(req=True, desc="The path to a CSV file", list=True)}
 
-    def __init__(self, config: ciphey.iface.Config):
+    def __init__(self, config: Config):
         super().__init__(config)
         self._paths = self._params()["path"]
         self._names = set(range(1, len(self._paths)))

@@ -1,11 +1,9 @@
-from math import ceil
-from typing import Optional, Dict, Generic
+from typing import Dict, Generic, Optional
 
-import ciphey
-from ciphey.iface import ParamSpec, Config, T
+from ciphey.iface import Checker, Config, ParamSpec, T, _registry
 
 
-class Quorum(Generic[T], ciphey.iface.Checker[T]):
+class Quorum(Generic[T], Checker[T]):
     def check(self, text: T) -> Optional[str]:
         left = self._params().k
         results = []
@@ -32,9 +30,7 @@ class Quorum(Generic[T], ciphey.iface.Checker[T]):
         self.checkers = []
         for i in self._params()["checker"]:
             # This enforces type consistency
-            self.checkers.append(
-                ciphey.iface._registry.get_named(i, ciphey.iface.Checker[T])
-            )
+            self.checkers.append(_registry.get_named(i, Checker[T]))
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:

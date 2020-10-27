@@ -1,6 +1,6 @@
-from typing import Optional, Dict
+from typing import Dict, Optional
 
-from ciphey.iface import registry, PolymorphicChecker, Config, ParamSpec
+from ciphey.iface import Config, ParamSpec, PolymorphicChecker, registry
 
 
 @registry.register

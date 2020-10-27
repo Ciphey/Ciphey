@@ -1,14 +1,13 @@
-from typing import Optional, Dict
-
-import ciphey
 import re
-from ciphey.iface import ParamSpec, T, Config, registry
+from typing import Dict, Optional
 
 from loguru import logger
 
+from ciphey.iface import Checker, Config, ParamSpec, T, registry
+
 
 @registry.register
-class Regex(ciphey.iface.Checker[str]):
+class Regex(Checker[str]):
     def getExpectedRuntime(self, text: T) -> float:
         return 1e-5  # TODO: actually calculate this
 
@@ -37,7 +36,7 @@ class Regex(ciphey.iface.Checker[str]):
 
 
 @registry.register
-class RegexList(ciphey.iface.Checker[str]):
+class RegexList(Checker[str]):
     def getExpectedRuntime(self, text: T) -> float:
         return 1e-5  # TODO: actually calculate this
 
@@ -60,6 +59,8 @@ class RegexList(ciphey.iface.Checker[str]):
     def getParams() -> Optional[Dict[str, ParamSpec]]:
         return {
             "resource": ParamSpec(
-                req=True, desc="A list of regexes that could be matched", list=True,
+                req=True,
+                desc="A list of regexes that could be matched",
+                list=True,
             )
         }

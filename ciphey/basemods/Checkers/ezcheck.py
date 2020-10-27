@@ -1,29 +1,33 @@
-from typing import Optional, Dict, List
+from typing import Dict, List, Optional
 
-from . import brandon
-from ciphey.iface import registry, Checker, ParamSpec, T, Config
+from ciphey.iface import Checker, Config, ParamSpec, T, registry
 
-from .regex import RegexList
 from .brandon import Brandon
 from .format import JsonChecker
 from .human import HumanChecker
+from .regex import RegexList
 
 
 @registry.register
 class EzCheck(Checker[str]):
     """
-        This object is effectively a prebuilt quorum (with requirement 1) of common patterns, followed by a human check
+    This object is effectively a prebuilt quorum (with requirement 1) of common patterns, followed by a human check
     """
 
     def check(self, text: str) -> Optional[str]:
         for checker in self.checkers:
             res = checker.check(text)
-            if res is not None and (self.decider is None or self.decider.check(text)) is not None:
+            if (
+                res is not None
+                and (self.decider is None or self.decider.check(text)) is not None
+            ):
                 return res
         return None
 
     def getExpectedRuntime(self, text: T) -> float:
-        return sum(i.getExpectedRuntime(text) for i in self.checkers) + self.decider.getExpectedRuntime(text)
+        return sum(
+            i.getExpectedRuntime(text) for i in self.checkers
+        ) + self.decider.getExpectedRuntime(text)
 
     def __init__(self, config: Config):
         super().__init__(config)

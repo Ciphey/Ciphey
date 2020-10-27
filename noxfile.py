@@ -1,10 +1,10 @@
 """
 The file for Nox
 """
-import nox
 from typing import Any
+
+import nox
 from nox.sessions import Session
-import tempfile
 
 locations = "ciphey/", "tests/", "docs/"
 nox.options.sessions = "safety", "tests"

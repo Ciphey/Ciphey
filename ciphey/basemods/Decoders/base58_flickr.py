@@ -1,12 +1,12 @@
-from typing import Optional, Dict, List
-
-from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry
+from typing import Dict, Optional
 
 import base58
 
+from ciphey.iface import Config, Decoder, ParamSpec, T, U, registry
+
 
 @registry.register
-class Base58_flickr(Decoder[str, str]):
+class Base58_flickr(Decoder[str]):
     def decode(self, ctext: T) -> Optional[U]:
         """
         Performs Base58 (Flickr) decoding
