@@ -170,6 +170,14 @@ def test_galactic_Xproblem():
     assert res.lower() == "halifax, xylophone, a x alone and xerox from oxford"
 
 
+def test_gzip():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "H4sIAAzul18A/yXJzQmAMBSEwVa+ckwZT7LIw80P6sXuA3ocZpM9aC89msibXSJ6peA8RR3Hx5jTfzyXtAAbQvCyNgAAAA==",
+    )
+    assert res.lower() == answer_str.lower()
+
+
 def test_hexadecimal():
     res = decrypt(
         Config().library_default().complete_config(),
