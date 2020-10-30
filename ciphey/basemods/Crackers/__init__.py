@@ -8,4 +8,5 @@ from . import (
     vigenere,
     xor_single,
     xorcrypt,
+    playfair
 )
