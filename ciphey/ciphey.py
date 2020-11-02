@@ -12,6 +12,7 @@ main -> argparsing (if needed) -> call_encryption -> new Ciphey object -> decryp
 one_level_of_decryption -> decrypt_normal
 """
 import os
+import sys
 import warnings
 from typing import Any, Optional, Union
 
