@@ -1,17 +1,15 @@
-# by https://github.com/lukasgabriel
-# translated to Python and adapted for Ciphey from the JS original at https://github.com/pshihn/base69
+# Translated to Python and adapted for Ciphey from the JS original at https://github.com/pshihn/base69
 
 
 import re
 from math import ceil
+from typing import Dict, Optional
 
-from typing import Optional, Dict, List
-
-from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry, WordList
+from ciphey.iface import Config, Decoder, ParamSpec, T, U, WordList, registry
 
 
 @registry.register
-class Base69(Decoder[str, str]):
+class Base69(Decoder[str]):
     def decode(self, ctext: T) -> Optional[U]:
         """
         Performs Base69 decoding
@@ -39,7 +37,7 @@ class Base69(Decoder[str, str]):
                     for n, elem in enumerate(insert):
                         result[n + i * 7] = elem % 256
             return bytearray(result).decode().strip("\x00")
-        except:
+        except Exception:
             return None
 
     def decode_chunk(self, s: str):

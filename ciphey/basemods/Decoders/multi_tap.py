@@ -1,21 +1,21 @@
-from typing import Optional, Dict, List
+from typing import Dict, Optional
 
-from ciphey.iface import ParamSpec, Config, T, U, Decoder, registry
+from ciphey.iface import Config, Decoder, ParamSpec, T, U, registry
 
 
 @registry.register
-class multiTap(Decoder[str, str]):
-    def decode(self, ctext: str) -> Optional[str]:
-        decode_text = ""
+class Multi_tap(Decoder[str]):
+    def decode(self, ctext: T) -> Optional[U]:
+        result = ""
         for x in ctext.split():
-            if x == self.SPACE_DIGIT:  # check if it space
-                decode_text += " "
-            elif not multiTap.valid_code_part(x):
+            if x == self.SPACE_DIGIT:  # Check if it's a space
+                result += " "
+            elif not Multi_tap.valid_code_part(x):
                 return None
             else:
-                decode_text += self.decode_num_to_char(x)
+                result += self.decode_num_to_char(x)
 
-        return decode_text
+        return result
 
     @staticmethod
     def valid_code_part(code: str) -> bool:
@@ -23,7 +23,7 @@ class multiTap(Decoder[str, str]):
             return False
 
         # if not all the digits are the same
-        if not multiTap.is_all_dup(code):
+        if not Multi_tap.is_all_dup(code):
             return False
 
         if int(code[0]) not in range(2, 10):
@@ -36,8 +36,8 @@ class multiTap(Decoder[str, str]):
 
     @staticmethod
     def decode_num_to_char(number: str) -> str:
-        index = multiTap.calculate_index(number)
-        return multiTap.number_index_to_char(index)
+        index = Multi_tap.calculate_index(number)
+        return Multi_tap.number_index_to_char(index)
 
     @staticmethod
     def is_all_dup(code):
@@ -47,9 +47,9 @@ class multiTap(Decoder[str, str]):
     def calculate_index(number: str) -> int:
         first_number_as_int = int(number[0])
 
-        number_index = multiTap.get_index_from_first_digit(first_number_as_int)
+        number_index = Multi_tap.get_index_from_first_digit(first_number_as_int)
 
-        # add to index the number of the char : "22" -> index += 1
+        # Add to index the number of the char : "22" -> index += 1
         num_rest_numbers = len(number) - 1
         number_index += num_rest_numbers
 
@@ -82,8 +82,8 @@ class multiTap(Decoder[str, str]):
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
-        pass
+        return None
 
     @staticmethod
     def getTarget() -> str:
-        return "Multi-tap"
+        return "multi_tap"

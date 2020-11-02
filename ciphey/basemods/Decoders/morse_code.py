@@ -1,11 +1,12 @@
-from typing import Optional, Dict, Any, List
+from typing import Dict, Optional
+
 from loguru import logger
-import ciphey
-from ciphey.iface import registry
+
+from ciphey.iface import Config, Decoder, ParamSpec, T, Translation, U, registry
 
 
 @registry.register
-class MorseCode(ciphey.iface.Decoder[str, str]):
+class Morse_code(Decoder[str]):
     # A priority list for char/word boundaries
     BOUNDARIES = {" ": 1, "/": 2, "\n": 3}
     PURGE = {ord(c): None for c in BOUNDARIES.keys()}
@@ -14,19 +15,19 @@ class MorseCode(ciphey.iface.Decoder[str, str]):
     MORSE_CODE_DICT: Dict[str, str]
     MORSE_CODE_DICT_INV: Dict[str, str]
 
-    def decode(self, text: str) -> Optional[str]:
-        logger.trace("Attempting morse code")
+    def decode(self, ctext: T) -> Optional[U]:
+        logger.trace("Attempting Morse code decoder")
 
         char_boundary = word_boundary = None
 
         char_boundary = word_boundary = None
         char_priority = word_priority = 0
         # Custom loop allows early break
-        for i in text:
+        for i in ctext:
             i_priority = self.BOUNDARIES.get(i)
             if i_priority is None:
                 if i in self.ALLOWED:
-                  continue
+                    continue
                 logger.trace(f"Non-morse char '{i}' found")
                 return None
 
@@ -50,12 +51,12 @@ class MorseCode(ciphey.iface.Decoder[str, str]):
 
         result = ""
 
-        for word in text.split(word_boundary) if word_boundary else [text]:
+        for word in ctext.split(word_boundary) if word_boundary else [ctext]:
             logger.trace(f"Attempting to decode word {word}")
             for char in word.split(char_boundary):
                 char = char.translate(self.PURGE)
                 if len(char) == 0:
-                  continue
+                    continue
                 try:
                     m = self.MORSE_CODE_DICT_INV[char]
                 except KeyError:
@@ -65,7 +66,7 @@ class MorseCode(ciphey.iface.Decoder[str, str]):
             # after every word add a space
             result = result + " "
         if len(result) == 0:
-            logger.trace(f"Morse code failed to match")
+            logger.trace("Morse code failed to match")
             return None
         # Remove trailing space
         result = result[:-1]
@@ -76,17 +77,15 @@ class MorseCode(ciphey.iface.Decoder[str, str]):
     def priority() -> float:
         return 0.05
 
-    def __init__(self, config: ciphey.iface.Config):
+    def __init__(self, config: Config):
         super().__init__(config)
-        self.MORSE_CODE_DICT = config.get_resource(
-            self._params()["dict"], ciphey.iface.Translation
-        )
+        self.MORSE_CODE_DICT = config.get_resource(self._params()["dict"], Translation)
         self.MORSE_CODE_DICT_INV = {v: k for k, v in self.MORSE_CODE_DICT.items()}
 
     @staticmethod
-    def getParams() -> Optional[Dict[str, ciphey.iface.ParamSpec]]:
+    def getParams() -> Optional[Dict[str, ParamSpec]]:
         return {
-            "dict": ciphey.iface.ParamSpec(
+            "dict": ParamSpec(
                 desc="The morse code dictionary to use",
                 req=False,
                 default="cipheydists::translate::morse",
@@ -95,4 +94,4 @@ class MorseCode(ciphey.iface.Decoder[str, str]):
 
     @staticmethod
     def getTarget() -> str:
-        return "morse"
+        return "morse_code"

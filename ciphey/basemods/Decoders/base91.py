@@ -1,12 +1,12 @@
-from typing import Optional, Dict, List
-
-from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry
+from typing import Dict, Optional
 
 import base91
 
+from ciphey.iface import Config, Decoder, ParamSpec, T, U, registry
+
 
 @registry.register
-class Base91(Decoder[str, str]):
+class Base91(Decoder[str]):
     def decode(self, ctext: T) -> Optional[U]:
         """
         Performs Base91 decoding

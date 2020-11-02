@@ -1,13 +1,13 @@
 """
  ██████╗██╗██████╗ ██╗  ██╗███████╗██╗   ██╗
 ██╔════╝██║██╔══██╗██║  ██║██╔════╝╚██╗ ██╔╝
-██║     ██║██████╔╝███████║█████╗   ╚████╔╝ 
-██║     ██║██╔═══╝ ██╔══██║██╔══╝    ╚██╔╝  
-╚██████╗██║██║     ██║  ██║███████╗   ██║ 
+██║     ██║██████╔╝███████║█████╗   ╚████╔╝
+██║     ██║██╔═══╝ ██╔══██║██╔══╝    ╚██╔╝
+╚██████╗██║██║     ██║  ██║███████╗   ██║
 © Brandon Skerritt
 Github: brandonskerritt
 
-Class to determine whether somethine is English or not.
+Class to determine whether something is English or not.
 1. Calculate the Chi Squared score of a sentence
 2. If the score is significantly lower than the average score, it _might_ be English
     2.1. If the score _might_ be English, then take the text and compare it to the sorted dictionary
@@ -15,7 +15,7 @@ Class to determine whether somethine is English or not.
     It creates a percentage of "How much of this text is in the dictionary?"
     The dictionary contains:
         * 20,000 most common US words
-        * 10,000 most common UK words (there's no repition between the two)
+        * 10,000 most common UK words (there's no repetition between the two)
         * The top 10,000 passwords
     If the word "Looks like" English (chi-squared) and if it contains English words, we can conclude it is
     very likely English. The alternative is doing the dictionary thing but with an entire 479k word dictionary (slower)
@@ -31,7 +31,7 @@ How to add a language:
 * Download your desired dictionary. Try to make it the most popular words, for example. Place this file into this
  folder with languagename.txt
 As an example, this comes built in with english.txt
-Find the statistical frequency of each letter in that language. 
+Find the statistical frequency of each letter in that language.
 For English, we have:
 self.languages = {
     "English":
@@ -45,23 +45,17 @@ self.languages = {
     [0.0855, 0.0160, 0.0316, 0.0387, 0.1210,0.0218, 0.0209, 0.0496, 0.0733, 0.0022,0.0081, 0.0421, 0.0253, 0.0717,
     0.0747,0.0207, 0.0010, 0.0633, 0.0673, 0.0894,0.0268, 0.0106, 0.0183, 0.0019, 0.0172,0.0011]
     "German": [0.0973]
-}   
+}
 In alphabetical order
 And you're.... Done! Make sure the name of the two match up
 """
-from typing import Dict, Set, Optional, Any
-import ciphey
-from string import punctuation
-
-from loguru import logger
-
-import string
-import os
 import sys
-from loguru import logger
 from math import ceil
+from typing import Dict, Optional
 
-from ciphey.iface import T, registry
+from loguru import logger
+
+from ciphey.iface import Checker, Config, ParamSpec, T, registry
 
 sys.path.append("..")
 try:
@@ -71,7 +65,7 @@ except ModuleNotFoundError:
 
 
 @registry.register
-class Brandon(ciphey.iface.Checker[str]):
+class Brandon(Checker[str]):
     """
     Class designed to confirm whether something is **language** based on how many words of **language** appears
     Call confirmLanguage(text, language)
@@ -104,7 +98,7 @@ class Brandon(ciphey.iface.Checker[str]):
         """
         # makes the text unique words and readable
         text = text.lower()
-        text = self.mh.strip_puncuation(text)
+        text = self.mh.strip_punctuation(text)
         text = text.split(" ")
         text = filter(lambda x: len(x) > 2, text)
         text = set(text)
@@ -112,11 +106,11 @@ class Brandon(ciphey.iface.Checker[str]):
 
         x = []
         for word in text:
-            # poor mans lemisation
+            # poor mans lemmatisation
             # removes 's from the dict'
             if word.endswith("'s"):
                 x.append(word[0:-2])
-        text = self.mh.strip_puncuation(x)
+        text = self.mh.strip_punctuation(x)
         # turns it all into lowercase and as a set
         complete = set([word.lower() for word in x])
 
@@ -125,20 +119,20 @@ class Brandon(ciphey.iface.Checker[str]):
     def checker(self, text: str, threshold: float, text_length: int, var: set) -> bool:
         """Given text determine if it passes checker
 
-        The checker uses the vairable passed to it. I.E. Stopwords list, 1k words, dictionary
+        The checker uses the variable passed to it. I.E. Stopwords list, 1k words, dictionary
 
         Args:
             text -> The text to check
             threshold -> at what point do we return True? The percentage of text that is in var before we return True
             text_length -> the length of the text
-            var -> the variable we are checking against. Stopwords list, 1k words list, dictionray list.
+            var -> the variable we are checking against. Stopwords list, 1k words list, dictionary list.
         Returns:
             boolean -> True for it passes the test, False for it fails the test."""
         if text is None:
-            logger.trace(f"Checker's text is None, so returning False")
+            logger.trace("Checker's text is None, so returning False")
             return False
         if var is None:
-            logger.trace(f"Checker's input var is None, so returning False")
+            logger.trace("Checker's input var is None, so returning False")
             return False
 
         percent = ceil(text_length * threshold)
@@ -179,7 +173,7 @@ class Brandon(ciphey.iface.Checker[str]):
         )
         return False
 
-    def __init__(self, config: ciphey.iface.Config):
+    def __init__(self, config: Config):
         # Suppresses warning
         super().__init__(config)
         self.mh = mh.mathsHelper()
@@ -215,7 +209,6 @@ class Brandon(ciphey.iface.Checker[str]):
             return None
 
         length_text = len(text)
-
 
         what_to_use = {}
 
@@ -262,7 +255,7 @@ class Brandon(ciphey.iface.Checker[str]):
         If the length of the text is over the maximum sentence length, use the last checker / threshold
         Otherwise, traverse the keys backwards until we find a key range that does not fit.
         So we traverse backwards and see if the sentence length is between current - 1 and current
-        In this way, we find the absolute lowest checker / percentage threshold. 
+        In this way, we find the absolute lowest checker / percentage threshold.
         We traverse backwards because if the text is longer than the max sentence length, we already know.
         In total, the keys are only 5 items long or so. It is not expensive to move backwards, nor is it expensive to move forwards.
 
@@ -285,29 +278,29 @@ class Brandon(ciphey.iface.Checker[str]):
         return what_to_use
 
     @staticmethod
-    def getParams() -> Optional[Dict[str, ciphey.iface.ParamSpec]]:
+    def getParams() -> Optional[Dict[str, ParamSpec]]:
         return {
-            "top1000": ciphey.iface.ParamSpec(
+            "top1000": ParamSpec(
                 desc="A wordlist of the top 1000 words",
                 req=False,
                 default="cipheydists::list::english1000",
             ),
-            "wordlist": ciphey.iface.ParamSpec(
+            "wordlist": ParamSpec(
                 desc="A wordlist of all the words",
                 req=False,
                 default="cipheydists::list::english",
             ),
-            "stopwords": ciphey.iface.ParamSpec(
+            "stopwords": ParamSpec(
                 desc="A wordlist of StopWords",
                 req=False,
                 default="cipheydists::list::englishStopWords",
             ),
-            "threshold": ciphey.iface.ParamSpec(
+            "threshold": ParamSpec(
                 desc="The minimum proportion (between 0 and 1) that must be in the dictionary",
                 req=False,
                 default=0.45,
             ),
-            "phases": ciphey.iface.ParamSpec(
+            "phases": ParamSpec(
                 desc="Language-specific phase thresholds",
                 req=False,
                 default="cipheydists::brandon::english",

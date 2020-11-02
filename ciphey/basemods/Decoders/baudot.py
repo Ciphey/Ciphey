@@ -1,25 +1,25 @@
 import re
-from typing import Optional, Dict, List
+from typing import Dict, Optional
 
-from ciphey.iface import ParamSpec, Config, T, U, Decoder, registry, Translation
+from ciphey.iface import Config, Decoder, ParamSpec, T, Translation, U, registry
 
-@registry.register_multi((str, str), (bytes, bytes))
-class Baudot(Decoder[str, str]):
+
+@registry.register
+class Baudot(Decoder[str]):
     def decode(self, ctext: T) -> Optional[U]:
-        ret = ""
+        result = ""
         switch_to_digit_map = 0
-        if type(ctext) == str:
-            if re.search("^[01]{5}$", ctext.split()[0]):
-                for i in ctext.split():
-                    if i == "11011":
-                        switch_to_digit_map = 1
-                    if i == "11111":
-                        switch_to_digit_map = 0
-                    if switch_to_digit_map == 1:
-                        ret += self.BAUDOT_DICT["+" + i]
-                    if switch_to_digit_map == 0:
-                        ret += self.BAUDOT_DICT[i]
-                return ret
+        if re.search("^[01]{5}$", ctext.split()[0]):
+            for i in ctext.split():
+                if i == "11011":
+                    switch_to_digit_map = 1
+                if i == "11111":
+                    switch_to_digit_map = 0
+                if switch_to_digit_map == 1:
+                    result += self.BAUDOT_DICT["+" + i]
+                if switch_to_digit_map == 0:
+                    result += self.BAUDOT_DICT[i]
+            return result
         else:
             return None
 

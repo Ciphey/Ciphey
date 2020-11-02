@@ -1,12 +1,11 @@
-from typing import Optional, Dict, List
-
-from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry
-
 import base64
+from typing import Dict, Optional
+
+from ciphey.iface import Config, Decoder, ParamSpec, T, U, registry
 
 
 @registry.register
-class Base64_url(Decoder[str, str]):
+class Base64_url(Decoder[str]):
     def decode(self, ctext: T) -> Optional[U]:
         """
         Performs Base64 URL decoding

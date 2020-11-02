@@ -1,6 +1,6 @@
-from typing import Optional, Dict
+from typing import Dict, Optional
 
-from ciphey.iface import registry, Checker, Config, ParamSpec
+from ciphey.iface import Checker, Config, ParamSpec, registry
 
 
 @registry.register
@@ -11,10 +11,10 @@ class HumanChecker(Checker[str]):
 
     def check(self, text: str) -> Optional[str]:
         with self._config().pause_spinner_handle():
-            response = input(f'Result {text.__repr__()} (y/N): ').lower()
+            response = input(f"Result {text.__repr__()} (y/N): ").lower()
         if response == "y":
             return ""
-        elif response == "n" or response == "":
+        elif response in ("n", ""):
             return None
         else:
             return self.check(text)

@@ -1,9 +1,11 @@
+import unittest
+
+from loguru import logger
+
 from ciphey.basemods.Checkers.brandon import Brandon
 
 config = dict()
 lc = config["checker"](config)
-import unittest
-from loguru import logger
 
 logger.remove()
 

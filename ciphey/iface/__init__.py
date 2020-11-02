@@ -1,26 +1,25 @@
 from ._config import Config
 
 from ._modules import (
+    Checker,
+    Cracker,
+    CrackInfo,
+    CrackResult,
     Decoder,
     DecoderComparer,
-    Cracker,
-    CrackResult,
-    CrackInfo,
-    Checker,
-    Searcher,
-    SearchResult,
-    SearchLevel,
-    ResourceLoader,
-    ParamSpec,
-    WordList,
     Distribution,
-    Translation,
+    ParamSpec,
+    PolymorphicChecker,
+    ResourceLoader,
+    Searcher,
+    SearchLevel,
+    SearchResult,
     T,
+    Translation,
     U,
+    WordList,
     pretty_search_results,
-    PolymorphicChecker
 )
-
 from ._registry import get_args, get_origin
 
 from ._fwd import registry

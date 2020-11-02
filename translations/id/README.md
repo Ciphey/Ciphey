@@ -1,18 +1,22 @@
 <p align="center">
 <p align="center">
 Terjemahan <br>
-<a href=https://github.com/Ciphey/Ciphey/tree/master/README.md>🇬🇧 EN   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/de/README.md>🇩🇪 DE   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/README.md>🇬🇧 EN   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/fr/README.md>🇫🇷 FR   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/hu/README.md>🇭🇺 HU   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/id/README.md>🇮🇩 ID   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/it/README.md>🇮🇹 IT   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/nl/README.md>🇳🇱 NL   </a>
-
-
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/pt-br/README.md>🇧🇷 PT-BR   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/ru/README.md>🇷🇺 RU   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/zh/README.md>🇨🇳 ZH   </a>
  <br><br>
-➡️ 
+➡️
 <a href="https://github.com/Ciphey/Ciphey/wiki">Dokumentasi</a> |
 <a href="https://discord.ciphey.online">Discord</a> |
- <a href="https://github.com/Ciphey/Ciphey/wiki/Installation">Petunjuk Instalasi</a>
- ⬅️
+<a href="https://github.com/Ciphey/Ciphey/wiki/Installation">Petunjuk Instalasi</a>
+⬅️
 
 <br>
   <img src="../../Pictures_for_README/binoculars.png" alt="Ciphey">
@@ -35,19 +39,20 @@ Alat dekripsi otomatis yang menggunakan pemrosesan bahasa alami & kecerdasan bua
 ## [Petunjuk Instalasi](https://github.com/Ciphey/Ciphey/wiki/Installation)
 
 | <p align="center"><a href="https://pypi.org/project/ciphey">🐍 Python | <p align="center"><a href="https://pypi.org/project/ciphey">🐋 Docker (Universal) |
-| --------------------------- | ---------------------------------|
-| <p align="center"><img src="Pictures_for_README/python.png" /></p> | <p align="center"><img src="Pictures_for_README/docker.png" /></p> |
-| `python3 -m pip install ciphey --upgrade`  | `docker run -it --rm remnux/ciphey` |                                                | 
+| --------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| <p align="center"><img src="Pictures_for_README/python.png" /></p>    | <p align="center"><img src="Pictures_for_README/docker.png" /></p>                |
+| `python3 -m pip install ciphey --upgrade`                             | `docker run -it --rm remnux/ciphey`                                               |  |
 
-| Linux       | Mac OS | Windows     |
-| ----------- | ------ | ----------- |
-| ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ciphey/ciphey/Python%20application?label=Linux) |![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ciphey/ciphey/Python%20application?label=Mac%20OS) | ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ciphey/ciphey/Python%20application?label=Windows) |
-  
+| Linux                                                                                                                   | Mac OS                                                                                                                     | Windows                                                                                                                   |
+| ----------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ciphey/ciphey/Python%20application?label=Linux) | ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ciphey/ciphey/Python%20application?label=Mac%20OS) | ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ciphey/ciphey/Python%20application?label=Windows) |
 
 <hr>
 
 # 🤔 Apa itu Ciphey?
+
 Ciphey adalah sebuah alat dekripsi otomatis. Masukkan teks terenkripsi, dapatkan kembali teks yang didekripsi
+
 > "Jenis enkripsi apa?"
 
 Itulah intinya. Anda tidak tahu, Anda hanya tahu itu mungkin dienkripsi. Ciphey akan mencari tahu untuk Anda.
@@ -65,10 +70,10 @@ Dan itu hanya baru puncak dari gunung es. Untuk penjelasan teknis yang lebih len
 # ✨ Fitur-fitur
 
 - **Lebih dari 20 jenis enkripsi didukung** seperti penyandian (binary, base64) dan enkripsi normal seperti cipher Caesar, Transposisi dan banyak lagi. **[Untuk daftar lengkap, klik disini](https://github.com/Ciphey/Ciphey/wiki/Supported-Ciphers)**
-- **Ciphey mengunakan modul kecerdasan buatan dengan Pencarian Bertambah (_AuSearch_) untuk menjawab pertanyaan "enkripsi apa yang digunakan?"** Ini memunkinkan dekripsi untuk membutuhkan waktu kurang dari 3 detik. 
+- **Ciphey mengunakan modul kecerdasan buatan dengan Pencarian Bertambah (_AuSearch_) untuk menjawab pertanyaan "enkripsi apa yang digunakan?"** Ini memunkinkan dekripsi untuk membutuhkan waktu kurang dari 3 detik.
 - **Modul pemrosesan bahasa alami yang dibangun khusus** Ciphey dapat mendeteksi ketika sesuatu adalah teks biasa dengan akurasi yang sangat tinggi dan dengan cepat.
 - **Dukungan Multi Bahasa** saat ini, hanya Bahasa Jerman & Inggris (dengan varian AU, UK, CAN, USA) yang tersedia.
-- **Mendukung enkripsi** yang alternatif seperti CyberChef Magic tidak memiliki. 
+- **Mendukung enkripsi** yang alternatif seperti CyberChef Magic tidak memiliki.
 - **[Memakai inti C++](https://github.com/Ciphey/CipheyCore)** Sangat Cepat.
 
 # 🔭 Ciphey vs CyberChef
@@ -83,8 +88,8 @@ Dan itu hanya baru puncak dari gunung es. Untuk penjelasan teknis yang lebih len
   </tr>
   <tr>
   <th>Gif</th>
-    <td><img src="../../Pictures_for_README/ciphey_vs_cyberchef.gif" alt="The guy she tells you not to worry about"></td>
-    <td><img src="../../Pictures_for_README/not_dying.gif" alt="You"></td>
+    <td><img src="https://github.com/Ciphey/Ciphey/raw/master/Pictures_for_README/ciphey_gooder_cyberchef.gif" alt="The guy she tells you not to worry about"></td>
+    <td><img src="https://github.com/Ciphey/Ciphey/raw/master/Pictures_for_README/not_dying.gif" alt="You"></td>
   </tr>
   <tr>
   <th>Durasi</th>
@@ -98,26 +103,22 @@ Dan itu hanya baru puncak dari gunung es. Untuk penjelasan teknis yang lebih len
   </tr>
 </table>
 
-
 <sub><b>Catatan</b> Gif diatas dapat memuat pada waktu yang berbeda sehingga satu terlihat jauh lebih cepat daripada yang lain.</sub><br>
 <sub><b>Sebuah catatan tentang magic,</b> fitur CyberChef's yang paling mirip Ciphey. Magic gagal secara instan pada input ini dan cara satu-satunya untuk memaska CyberChef bersaing adalah untuk mendefinisikannya secara manual.</sub>
 
-
 Kami juga menguji CyberChef dan Ciphey dengan file sebesar **6gb**. Ciphey memecahkannya dalam **5 menit dan 54 detik** dan CyberChef gagal bahkan sebelum memulai.
-
-
 
 ## 📊 Ciphey vs Katana vs CyberChef Magic
 
 | **Name**                                   | ⚡ Ciphey ⚡ | 🤡 Katana 🤡 | 🐢 CyberChef Magic 🐢 |
-| ------------------------------------------ | ---------- | ---------- | ------------------- |
-| Pemerika Bahasa yang Mahir                 | ✅         | ❌         | ✅                  |
-| Mendukung Enkripsi                         | ✅         | ✅         | ❌                  |
-| Rilis diberi nama sesuai tema Dystopian 🌃 | ✅         | ❌         | ❌                  |
-| Mendukung Fungsi Hash                      | ✅         | ✅         | ❌                  |
-| Mudah dipakai                              | ✅         | ❌         | ✅                  |
-| Dapat menebak enkripsi yang dipakai        | ✅         | ❌         | ❌                  |
-| Dibuat untuk peretas oleh peretas          | ✅         | ✅         | ❌                  |
+| ------------------------------------------ | ------------ | ------------ | --------------------- |
+| Pemerika Bahasa yang Mahir                 | ✅           | ❌           | ✅                    |
+| Mendukung Enkripsi                         | ✅           | ✅           | ❌                    |
+| Rilis diberi nama sesuai tema Dystopian 🌃 | ✅           | ❌           | ❌                    |
+| Mendukung Fungsi Hash                      | ✅           | ✅           | ❌                    |
+| Mudah dipakai                              | ✅           | ❌           | ✅                    |
+| Dapat menebak enkripsi yang dipakai        | ✅           | ❌           | ❌                    |
+| Dibuat untuk peretas oleh peretas          | ✅           | ✅           | ❌                    |
 
 # 🎬 Getting Started
 
@@ -125,12 +126,14 @@ If you're having trouble with installing Ciphey, [read this.](https://github.com
 
 ## ‼️ Important Links (Docs, Installation guide, Discord Support)
 
-| Petunjuk Instalasi | Dokumentasi | Discord |
-| ------------------ | ------------- | ------- |
-| 📖 [Petunjuk Instalasi](https://github.com/Ciphey/Ciphey/wiki/Installation) | 📚 [Dokumentasi](https://github.com/Ciphey/Ciphey/wiki) | 🦜 [Discord](https://discord.ciphey.online)
+| Petunjuk Instalasi                                                          | Dokumentasi                                             | Discord                                     |
+| --------------------------------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------- |
+| 📖 [Petunjuk Instalasi](https://github.com/Ciphey/Ciphey/wiki/Installation) | 📚 [Dokumentasi](https://github.com/Ciphey/Ciphey/wiki) | 🦜 [Discord](https://discord.ciphey.online) |
 
 ## 🏃‍♀️Menggunakan Ciphey
+
 Ada 3 cara untuk memakai Ciphey.
+
 1. Input File `ciphey - encrypted.txt`
 2. Input Unqualified `ciphey -- "Teks terenkripsi di sini"`
 3. Cara Biasa `ciphey -t "Teks terenkripsi di sini"`
@@ -139,14 +142,16 @@ Ada 3 cara untuk memakai Ciphey.
 
 Untuk menyingkirkan progress bar, tabel probabilitas, dan lain-lain gunakan mode senyap.
 
-```ciphey -t "teks terenkripsi di sini" -q```
+`ciphey -t "teks terenkripsi di sini" -q`
 
 Untuk daftar argumen lengkap, jalankan `ciphey --help`.
 
 ### ⚗️ Mengimpor Ciphey
+
 Anda dapat mengimpor file utama Ciphey dan menggunakannya dalam program dan kode Anda sendiri. `from Ciphey.__main__ import main`
 
 # 🎪 Kontributor
+
 Ciphey dibuat oleh [Brandon Skerritt](https://github.com/brandonskerritt) pada 2008, and dihidupkan kembali pada 2019. Ciphey tidak akan berada di ia berada tanpa [Cyclic3](https://github.com/Cyclic3) - presiden Cyber Security Society UoL.
 
 Ciphey dihidupkan & diciptakan kembali oleh [Cyber Security Society](https://www.cybersoc.cf/) untuk digunakan dalam CTFs. Jika Anda pernah berada di Liverpool, pertimbangkan untuk memberi ceramah atau mensponsori acara kami. Kirimkan email kepada kami di `cybersecurity@society.liverpoolguild.org` untuk mengetahui lebih lanjut 🤠
@@ -155,6 +160,7 @@ Ciphey dihidupkan & diciptakan kembali oleh [Cyber Security Society](https://www
 **Terima kasih khusus** untuk [varghalladesign](https://www.facebook.com/varghalladesign) untuk mendesain logo. Lihat karya desain mereka yang lain!
 
 ## 🐕‍🦺 [Berkontribusi](CONTRIBUTING.md)
+
 Jangan takut untuk berkontribusi! Kami memiliki banyak, banyak hal yang dapat Anda lakukan untuk membantu. Masing-masing diberi label dan mudah dijelaskan dengan contoh-contoh. Jika Anda mencoba berkontribusi tetapi macet, tag @brandonskerritt di sebuah GitHub issue ✨
 
 Atau, bergabung dengan grup Discord kita dan kirim pesan di sana (link di [file contribusi](CONTRIBUTING.md)) atau di bagian atas README ini sebagai lencana.
@@ -162,6 +168,7 @@ Atau, bergabung dengan grup Discord kita dan kirim pesan di sana (link di [file 
 Silakan baca [file kontribusi](CONTRIBUTING.md) untuk detail yang tepat tentang cara berkontribusi ✨
 
 ## 💰 Kontributor Keuangan
+
 Semua kontribusi akan digunakan untuk mendanai tidak hanya masa depan Ciphey dan penulisnya, tetapi juga Cyber Security Society di Universitas Liverpool.
 
 GitHub tidak mendukung "mensponsori proyek ini dan kami akan mendistribusikan uang secara merata", jadi salah satu link dan kami akan mengatasinya di pihak kami 🥰
@@ -184,6 +191,7 @@ Terima kasih kepada orang-orang hebat ini ([kunci emoji](https://allcontributors
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 Proyek ini mengikuti spesifikasi [all-contributors](https://github.com/all-contributors/all-contributors). Kontribusi dalam bentuk apa pun dianjurkan!

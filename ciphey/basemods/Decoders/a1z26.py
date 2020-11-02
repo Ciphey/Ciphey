@@ -1,14 +1,13 @@
-from typing import Optional, Dict, List
-
-from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry
+import re
+from typing import Dict, Optional
 
 from loguru import logger
 
-import re
+from ciphey.iface import Config, Decoder, ParamSpec, T, U, registry
 
 
 @registry.register
-class A1z26(Decoder[str, str]):
+class A1z26(Decoder[str]):
     def decode(self, ctext: T) -> Optional[U]:
         """
         Performs A1Z26 decoding

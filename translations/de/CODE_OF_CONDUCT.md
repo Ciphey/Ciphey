@@ -1,3 +1,16 @@
+<p align="center">
+Übersetzungen <br>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/de/CODE_OF_CONDUCT.md>🇩🇪 DE   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/CODE_OF_CONDUCT.md>🇬🇧 EN   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/hu/CODE_OF_CONDUCT.md>🇭🇺 HU   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/id/CODE_OF_CONDUCT.md>🇮🇩 ID   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/it/CODE_OF_CONDUCT.md>🇮🇹 IT   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/nl/CODE_OF_CONDUCT.md>🇳🇱 NL   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/pt-br/CODE_OF_CONDUCT.md>🇧🇷 PT-BR   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/ru/CODE_OF_CONDUCT.md>🇷🇺 RU   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/zh/CODE_OF_CONDUCT.md>🇨🇳 ZH   </a>
+</p>
+
 # Vereinbarung über Verhaltenskodex für Mitwirkende
 
 ## Unsere Verpflichtung
@@ -8,19 +21,19 @@ Im Interesse der Förderung eines offenen und einladenden Umfeldes wollen wir un
 
 Beispiele für Verhaltensweisen, welche dazu beitragen ein positives Umfeld zu erzeugen, beinhalten:
 
-* Die Verwendung von einladenden und einbindenden Formulierungen
-* Abweichenden Ansichten und Erfahrungen wird Respekt entgegengebracht
-* Konstruktive Kritik wird höflich entgegengenommen
-* Fokussierung auf das, was das Beste ist für die Gemeinschaft
-* Verständnis zeigen gegenüber anderen Mitgliedern der Gemeinschaft
+- Die Verwendung von einladenden und einbindenden Formulierungen
+- Abweichenden Ansichten und Erfahrungen wird Respekt entgegengebracht
+- Konstruktive Kritik wird höflich entgegengenommen
+- Fokussierung auf das, was das Beste ist für die Gemeinschaft
+- Verständnis zeigen gegenüber anderen Mitgliedern der Gemeinschaft
 
 Beispiele für nicht akzeptables Verhalten beinhalten:
 
-* Die Verwendung sexualisierter Sprache, Bilder oder Symbolik sowie unerwünschte Versuche sexueller Anbahnung
-* Beleidigende / abwertende Kommentare, persönliche oder politische Angriffe, Nutzung des Internets für unbilliges Verhalten
-* Öffentliche oder private Belästigungen
-* Das Veröffentlichen von privaten Informationen Anderer, wie zum Beispiel physische oder elektronische Adressen, ohne deren ausdrückliche Erlaubnis
-* Anderes Verhalten, welches in einem professionellen Umfeld begründet als unangemessen betrachtet werden kann 
+- Die Verwendung sexualisierter Sprache, Bilder oder Symbolik sowie unerwünschte Versuche sexueller Anbahnung
+- Beleidigende / abwertende Kommentare, persönliche oder politische Angriffe, Nutzung des Internets für unbilliges Verhalten
+- Öffentliche oder private Belästigungen
+- Das Veröffentlichen von privaten Informationen Anderer, wie zum Beispiel physische oder elektronische Adressen, ohne deren ausdrückliche Erlaubnis
+- Anderes Verhalten, welches in einem professionellen Umfeld begründet als unangemessen betrachtet werden kann
 
 ## Unsere Verantwortlichkeiten
 
@@ -40,4 +53,4 @@ Projektverantwortliche, welche den Verhaltenskodex nicht befolgen, oder nicht na
 
 ## Bezug
 
-Dieser Verhaltenskodex basiert auf dem Contributor Covenant, Version 1.4, verfügbar unter https://www.contributor-covenant.org/de/version/1/4/code-of-conduct.html
+Dieser Verhaltenskodex basiert auf dem Contributor Covenant, Version 1.4, verfügbar unter <https://www.contributor-covenant.org/de/version/1/4/code-of-conduct.html>

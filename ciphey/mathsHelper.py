@@ -1,9 +1,9 @@
 """
-██████╗██╗██████╗ ██╗  ██╗███████╗██╗   ██╗
+ ██████╗██╗██████╗ ██╗  ██╗███████╗██╗   ██╗
 ██╔════╝██║██╔══██╗██║  ██║██╔════╝╚██╗ ██╔╝
-██║     ██║██████╔╝███████║█████╗   ╚████╔╝ 
-██║     ██║██╔═══╝ ██╔══██║██╔══╝    ╚██╔╝  
-╚██████╗██║██║     ██║  ██║███████╗   ██║ 
+██║     ██║██████╔╝███████║█████╗   ╚████╔╝
+██║     ██║██╔═══╝ ██╔══██║██╔══╝    ╚██╔╝
+╚██████╗██║██║     ██║  ██║███████╗   ██║
 © Brandon Skerritt
 Github: brandonskerritt
 
@@ -14,6 +14,8 @@ Class to provide helper functions for mathematics
 
 from collections import OrderedDict
 from string import punctuation
+from typing import Optional
+
 from loguru import logger
 
 
@@ -43,6 +45,23 @@ class mathsHelper:
         while a != 0:
             a, b = b % a, a
         return b
+
+    @staticmethod
+    def mod_inv(a: int, m: int) -> Optional[int]:
+        """
+        Returns the modular inverse of a mod m, or None if it does not exist.
+
+        The modular inverse of a is the number a_inv that satisfies the equation
+        a_inv * a mod m === 1 mod m
+
+        Note: This is a naive implementation, and runtime may be improved in several ways.
+        For instance by checking if m is prime to perform a different calculation,
+        or by using the extended euclidean algorithm.
+        """
+        for i in range(1, m):
+            if (m * i + 1) % a == 0:
+                return (m * i + 1) // a
+        return None
 
     @staticmethod
     def percentage(part: float, whole: float) -> float:
@@ -171,17 +190,16 @@ class mathsHelper:
         return bool(lambda s: len(s) == len(s.encode()))
 
     @staticmethod
-    def strip_puncuation(text: str) -> str:
+    def strip_punctuation(text: str) -> str:
         """Strips punctuation from a given string.
 
-        Uses string.puncuation.
+        Uses string.punctuation.
 
         Args:
-            text -> the text to strip puncuation from.
+            text -> the text to strip punctuation from.
 
         Returns:
-            Returns string without puncuation.
-
+            Returns string without punctuation.
         """
         text: str = (str(text).translate(str.maketrans("", "", punctuation))).strip(
             "\n"

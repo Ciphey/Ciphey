@@ -18,17 +18,17 @@ for i in range(1, 20000):
     grabCipher = grabCipher()
     # this returns a random cipher, encrypted text and plaintext combo
     toAppend ='''
-    def test_{cipher}_{suceeds}_{plaintext[0:10]}(textToTest):
+    def test_{cipher}_{succeeds}_{plaintext[0:10]}(textToTest):
         cipheyObj = ciphey(text)
         output = cipheyObj.decrypt()
         assert(output, {plaintext})
     '''
     file.append()
 """
-import uuid
-import enciphey
-import string
 import random
+import string
+
+import enciphey
 from rich.progress import track
 
 
@@ -69,7 +69,7 @@ def test_{cipher['Encrypted Texts']['CipherUsed']}_{id}():
     cfg["debug"] = "TRACE"
     result = main(cfg)
 
-    assert result["IsPlaintext?"] == True 
+    assert result["IsPlaintext?"] == True
 """
 
     def randomString(self, stringLength):

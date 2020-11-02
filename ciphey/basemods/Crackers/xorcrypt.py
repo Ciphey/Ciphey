@@ -7,22 +7,17 @@
 © Brandon Skerritt
 Github: brandonskerritt
 """
-from copy import copy
-from distutils import util
-from typing import Optional, Dict, Union, Set, List
-
-import re
 import base64
+from typing import Dict, List, Optional
 
-from loguru import logger
-import ciphey
 import cipheycore
+from loguru import logger
 
-from ciphey.iface import ParamSpec, Cracker, CrackResult, T, CrackInfo, registry
+from ciphey.iface import Config, Cracker, CrackInfo, CrackResult, ParamSpec, registry
 
 
 @registry.register
-class XorCrypt(ciphey.iface.Cracker[bytes]):
+class XorCrypt(Cracker[bytes]):
     def getInfo(self, ctext: bytes) -> CrackInfo:
         if self.keysize is not None:
             analysis = self.cache.get_or_update(
@@ -40,7 +35,7 @@ class XorCrypt(ciphey.iface.Cracker[bytes]):
 
         keysize = self.cache.get_or_update(
             ctext,
-            f"xorcrypt::likely_lens",
+            "xorcrypt::likely_lens",
             lambda: cipheycore.xorcrypt_guess_len(ctext),
         )
 
@@ -53,7 +48,7 @@ class XorCrypt(ciphey.iface.Cracker[bytes]):
             )
 
         return CrackInfo(
-            success_likelihood=0.9, # Dunno, but it's quite likely
+            success_likelihood=0.9,  # Dunno, but it's quite likely
             # TODO: actually calculate runtimes
             success_runtime=2e-3,
             failure_runtime=2e-2,
@@ -66,17 +61,17 @@ class XorCrypt(ciphey.iface.Cracker[bytes]):
     def crackOne(
         self, ctext: bytes, analysis: cipheycore.windowed_analysis_res
     ) -> List[CrackResult]:
-        possible_keys = cipheycore.xorcrypt_crack(
-            analysis, self.expected, self.p_value
-        )
+        possible_keys = cipheycore.xorcrypt_crack(analysis, self.expected, self.p_value)
 
-        logger.trace(f"xorcrypt crack got keys: {[[i for i in candidate.key] for candidate in possible_keys]}")
+        logger.trace(
+            f"xorcrypt crack got keys: {[[i for i in candidate.key] for candidate in possible_keys]}"
+        )
         return [
             CrackResult(
                 value=cipheycore.xorcrypt_decrypt(ctext, candidate.key),
                 key_info="0x" + "".join(["{:02x}".format(i) for i in candidate.key]),
             )
-            for candidate in possible_keys[:min(len(possible_keys), 10)]
+            for candidate in possible_keys[: min(len(possible_keys), 10)]
         ]
 
     def attemptCrack(self, ctext: bytes) -> List[CrackResult]:
@@ -92,52 +87,52 @@ class XorCrypt(ciphey.iface.Cracker[bytes]):
                     lambda: cipheycore.analyse_bytes(ctext, self.keysize),
                 ),
             )
-        else:
-            len = self.cache.get_or_update(
+
+        len = self.cache.get_or_update(
+            ctext,
+            "xorcrypt::likely_lens",
+            lambda: cipheycore.xorcrypt_guess_len(ctext),
+        )
+
+        logger.trace(f"Got possible length {len}")
+
+        if len < 2:
+            return []
+
+        ret = []
+        # Fuzz around
+        for i in range(min(len - 2, 2), len + 2):
+            ret += self.crackOne(
                 ctext,
-                f"xorcrypt::likely_lens",
-                lambda: cipheycore.xorcrypt_guess_len(ctext),
+                self.cache.get_or_update(
+                    ctext,
+                    f"xorcrypt::{len}",
+                    lambda: cipheycore.analyse_bytes(ctext, len),
+                ),
             )
 
-            logger.trace(f"Got possible length {len}")
-
-            if len < 2:
-                return []
-
-            ret = []
-            # Fuzz around
-            for i in range(min(len - 2, 2), len + 2):
-                ret += self.crackOne(
-                    ctext,
-                    self.cache.get_or_update(
-                        ctext,
-                        f"xorcrypt::{len}",
-                        lambda: cipheycore.analyse_bytes(ctext, len),
-                    )
-                )
-
-            return ret
+        return ret
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
         return {
-            "expected": ciphey.iface.ParamSpec(
+            "expected": ParamSpec(
                 desc="The expected distribution of the plaintext",
                 req=False,
                 config_ref=["default_dist"],
             ),
-            "keysize": ciphey.iface.ParamSpec(
+            "keysize": ParamSpec(
                 desc="A key size that should be used. If not given, will attempt to work it out",
                 req=False,
             ),
-            "p_value": ciphey.iface.ParamSpec(
+            "p_value": ParamSpec(
                 desc="The p-value to use for windowed frequency analysis",
                 req=False,
                 default=0.001,
             ),
         }
 
-    def __init__(self, config: ciphey.iface.Config):
+    def __init__(self, config: Config):
         super().__init__(config)
         self.expected = config.get_resource(self._params()["expected"])
         self.cache = config.cache
@@ -145,4 +140,4 @@ class XorCrypt(ciphey.iface.Cracker[bytes]):
         if self.keysize is not None:
             self.keysize = int(self.keysize)
         self.p_value = self._params()["p_value"]
-        self.MAX_KEY_LENGTH = 16
+        self.max_key_length = 16

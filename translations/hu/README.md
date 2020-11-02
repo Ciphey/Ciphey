@@ -1,16 +1,21 @@
 <p align="center">
 Fordítások <br>
-<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/id/README.md>🇮🇩 ID   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/de/README.md>🇩🇪 DE   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/README.md>🇬🇧 EN   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/fr/README.md>🇫🇷 FR   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/hu/README.md>🇭🇺 HU   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/id/README.md>🇮🇩 ID   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/it/README.md>🇮🇹 IT   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/nl/README.md>🇳🇱 NL   </a>
-
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/pt-br/README.md>🇧🇷 PT-BR   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/ru/README.md>🇷🇺 RU   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/zh/README.md>🇨🇳 ZH   </a>
  <br><br>
-➡️ 
+➡️
 <a href="https://github.com/Ciphey/Ciphey/wiki">Dokumentáció</a> |
 <a href="https://discord.ciphey.online">Discord</a> |
- <a href="https://github.com/Ciphey/Ciphey/wiki/Installation">Telepítési Útmutató</a>
- ⬅️
+<a href="https://github.com/Ciphey/Ciphey/wiki/Installation">Telepítési Útmutató</a>
+⬅️
 
 <br>
   <img src="https://github.com/Ciphey/Ciphey/raw/master/Pictures_for_README/binoculars.png" alt="Ciphey">
@@ -24,30 +29,29 @@ Fordítások <br>
 <a href="https://pypi.org/project/ciphey/"><img src="https://img.shields.io/pypi/v/ciphey.svg"></a>
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="Ciphey">
 
-  
   <img src="https://github.com/brandonskerritt/Ciphey/workflows/Python%20application/badge.svg?branch=master" alt="Ciphey">
 <br>
 
 Teljesen automatizált dekódoló program, mely a mesterséges intelligenciát és természetes nyelvi feldolgozást használva képes különböző fajta kódolásokat visszafejteni, feltörni és dekódolni.
+
 </p>
 <hr>
 
 ## [Telepítési Útmutató](https://github.com/Ciphey/Ciphey/wiki/Installation)
 
-| <p align="center"><a href="https://pypi.org/project/ciphey">🐍 Python | <p align="center"><a href="https://pypi.org/project/ciphey">🐋 Docker (Universal) |
-| --------------------------- | ---------------------------------|
+| <p align="center"><a href="https://pypi.org/project/ciphey">🐍 Python                                          | <p align="center"><a href="https://pypi.org/project/ciphey">🐋 Docker (Universal)                              |
+| -------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
 | <p align="center"><img src="https://github.com/Ciphey/Ciphey/raw/master/Pictures_for_README/python.png" /></p> | <p align="center"><img src="https://github.com/Ciphey/Ciphey/raw/master/Pictures_for_README/docker.png" /></p> |
-| `python3 -m pip install ciphey --upgrade`  | `docker run -it --rm remnux/ciphey` | 
+| `python3 -m pip install ciphey --upgrade`                                                                      | `docker run -it --rm remnux/ciphey`                                                                            |
 
-
-| Linux       | Mac OS | Windows     |
-| ----------- | ------ | ----------- |
-| ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ciphey/ciphey/Python%20application?label=Linux) |![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ciphey/ciphey/Python%20application?label=Mac%20OS) | ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ciphey/ciphey/Python%20application?label=Windows) |
-  
+| Linux                                                                                                                   | Mac OS                                                                                                                     | Windows                                                                                                                   |
+| ----------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ciphey/ciphey/Python%20application?label=Linux) | ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ciphey/ciphey/Python%20application?label=Mac%20OS) | ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ciphey/ciphey/Python%20application?label=Windows) |
 
 <hr>
 
 # 🤔 Mi is ez?
+
 Kódolt szöveg be, dekódolt szöveg ki.
 
 > "Milyen kódolással működik?"
@@ -62,7 +66,7 @@ A legtöbb kódolást Ciphey kevesebb mint 3 másodperc alatt visszafejti.
 
 A Ciphey projekt lényege, hogy automatizálja a monoton visszafejtési és dekódolási feladatokat, mint például a több rétegú base kódolás, klasszikus rejtjelek, hashek és bonyolultabb titkosítások megoldása.
 
-A Ciphey-t neked találták ki ha nem vagy jártas a kriptográfia világában vagy esetleg gyorsan tesztelni szeretnél egy rejtjelezett szöveget mielőtt komolyabban nekiülnél megfejteni.  
+A Ciphey-t neked találták ki ha nem vagy jártas a kriptográfia világában vagy esetleg gyorsan tesztelni szeretnél egy rejtjelezett szöveget mielőtt komolyabban nekiülnél megfejteni.
 
 **Mélyvíz.** Ciphey egy egyedi mesterséges intelligencia modult használ (_AuSearch_), egy úgynevezett _Cipher Detection Interface_-szel egybekötve, hogy megállapítsa egy adott szöveg hogyan van titkosítva. Ezek után egy egyedileg készített, bővíthető, természetes nyelvfeldolgozó _Language Checker Interface_-en keresztül észleli, hogy mikor kerül értelmezhetőve az adott titkosított szöveg.
 
@@ -71,10 +75,10 @@ Ráadásul ez még csak a jéghegy teteje. A teljes technikai tudnivalók itt é
 # ✨ Funkciók
 
 - **Több mint 30 támogatott dekódolás**, mint például (bináris, base64) és rendes titkosítás, például Caesar-rejtjel, kulcs-ismétlő XOR és még több. **[A teljes listáért kattint ide](https://github.com/Ciphey/Ciphey/wiki/Supported-Ciphers)**
-- **Egyedi mesterséges intelligencia kibővített kereséssel (AuSearch), ezzel megválaszolva az "Ez milyen titkosítás?" kérdést.** Ennek eredménye a 3 másodperc alatti munkaidő. 
+- **Egyedi mesterséges intelligencia kibővített kereséssel (AuSearch), ezzel megválaszolva az "Ez milyen titkosítás?" kérdést.** Ennek eredménye a 3 másodperc alatti munkaidő.
 - **Egyedi nyelveldolgozó modul** Ciphey el tudja dönteni, hogy mi mikor van titkosítva és mikor nincs. Legyen az sima szöveg, JSON, egy CTF játék megoldása vagy angol szöveg. Ciphey néhány milliszekundom alatt megoldja.
 - **Több nyelv támogatása** Jelenleg csak a német és angol nyelvek támogatottak (AU, UK, CAN, USA változatokat beleértve).
-- **Titkosítás és hash támogatás** Melyeket az alternatív megoldások (például CyberChef Magic) nem támogatnak. 
+- **Titkosítás és hash támogatás** Melyeket az alternatív megoldások (például CyberChef Magic) nem támogatnak.
 - **[C++ core](https://github.com/Ciphey/CipheyCore)** Irgalmatlanul gyors.
 
 # 🔭 Ciphey vs CyberChef
@@ -104,25 +108,22 @@ Ráadásul ez még csak a jéghegy teteje. A teljes technikai tudnivalók itt é
   </tr>
 </table>
 
-
 <sub><b>Megjegyzés</b> Lehetséges, hogy a gifek nem ugyan akkor töltenek be, ezért az egyik sokkal gyorsabbnak tűnhet.</sub><br>
 <sub><b>Megjegyzés a magic-ről </b>CyberChef's leghasonlóbb funkciója Ciphey-hoz, a magic. A fentebbi teszten Magic azonnal megbukik. Egyedül úgy sikerült rávenni CyberChef-et, hogy végezzen, ha manuálisan állítottunk be mindent.</sub>
 
 Több tesztet is végeztünk, egy **6gb-os file** segítségével. Ciphey sikeresen visszafejtette **5 perc és 54 másodperc** alatt, míg CyberChef crashelt mielőtt be tudta volna tölteni a fájlt.
 
-
-
 ## 📊 Ciphey vs Katana vs CyberChef Magic
 
-| **Name**                                   | ⚡ Ciphey ⚡ | 🗡️ Katana 🗡️ | 🐢 CyberChef Magic 🐢 |
-| ------------------------------------------ | ---------- | ---------- | ------------------- |
-| Fejlett nyelvi elemző                      | ✅          | ❌          | ✅                   |
-| Titkosítás támogatása                      | ✅          | ✅          | ❌                   |
-| Releases named after Dystopian themes 🌃   | ✅          | ❌          | ❌                   |
-| Hash támogatás                             | ✅          | ✅          | ❌                   |
-| Egyszerű használat                         | ✅          | ❌          | ✅                   |
-| Kitalálja mi mivel van titkosítva          | ✅          | ❌          | ❌                   |
-| Hackereknek, hackerektől                   | ✅          | ✅          | ❌                   |
+| **Name**                                 | ⚡ Ciphey ⚡ | 🗡️ Katana 🗡️ | 🐢 CyberChef Magic 🐢 |
+| ---------------------------------------- | ------------ | ------------ | --------------------- |
+| Fejlett nyelvi elemző                    | ✅           | ❌           | ✅                    |
+| Titkosítás támogatása                    | ✅           | ✅           | ❌                    |
+| Releases named after Dystopian themes 🌃 | ✅           | ❌           | ❌                    |
+| Hash támogatás                           | ✅           | ✅           | ❌                    |
+| Egyszerű használat                       | ✅           | ❌           | ✅                    |
+| Kitalálja mi mivel van titkosítva        | ✅           | ❌           | ❌                    |
+| Hackereknek, hackerektől                 | ✅           | ✅           | ❌                    |
 
 # 🎬 Kezdés
 
@@ -130,12 +131,14 @@ Ha problémáid akadnának a Ciphey telepítésével, [olvasd el ezt.](https://g
 
 ## ‼️ Fontos Linkek (Doksik, Telepítési Útmutató, Discord Támogatás)
 
-| Telepítési Útmutató | Dokumentáció | Discord | Docker Képfájl (from REMnux)
-| ------------------ | ------------- | ------- | ------- | 
-| 📖 [Telepítési Útmutató](https://github.com/Ciphey/Ciphey/wiki/Installation) | 📚 [Dokumentáció](https://github.com/Ciphey/Ciphey/wiki) | 🦜 [Discord](https://discord.ciphey.online) | 🐋 [Docker Dokumentáció](https://docs.remnux.org/run-tools-in-containers/remnux-containers#ciphey)
+| Telepítési Útmutató                                                          | Dokumentáció                                             | Discord                                     | Docker Képfájl (from REMnux)                                                                       |
+| ---------------------------------------------------------------------------- | -------------------------------------------------------- | ------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| 📖 [Telepítési Útmutató](https://github.com/Ciphey/Ciphey/wiki/Installation) | 📚 [Dokumentáció](https://github.com/Ciphey/Ciphey/wiki) | 🦜 [Discord](https://discord.ciphey.online) | 🐋 [Docker Dokumentáció](https://docs.remnux.org/run-tools-in-containers/remnux-containers#ciphey) |
 
 ## 🏃‍♀️ Ciphey Futtatása
+
 Ciphey három fajta módon is futtatható
+
 1. File bemenet `ciphey -f titkosított.txt`
 2. Ismeretlen bemenet `ciphey -- "Titkosított szöveg"`
 3. Normális mód `ciphey -t "Titkosított szöveg"`
@@ -144,14 +147,16 @@ Ciphey három fajta módon is futtatható
 
 Csendes módban eltűnik a haladásjelző, valószínűség táblázat és minden más zaj.
 
-```ciphey -t "titkosított szöveg helye" -q```
+`ciphey -t "titkosított szöveg helye" -q`
 
 A teljes parancslistához futtasd `ciphey --help`.
 
 ### ⚗️ Ciphey importálása saját kódba
+
 Egyszerűen importálhatod Ciphey main fűggvényét a saját kódodba. `from Ciphey.__main__ import main`
 
 # 🎪 Közreműködők
+
 A Ciphey-t [Brandon](https://github.com/bee-san) találta fel 2008-ban, és élesztette újjá 2019-ben. Ciphey nem tartana ma ott ahol tart [Cyclic3](https://github.com/Cyclic3) nélkül - UoL Cyber Security Society elnöke.
 
 Ciphey-t a [Cyber Security Society](https://www.cybersoc.cf/) élesztette újra és fejleszti, elsősorban CTF játékokban való használatra. Ha Liverpoolban járnál, gondolkodj el egy előadás tartásán vagy a rendezvényeink támogatásán. Küldj emailt a `cybersecurity@society.liverpoolguild.org`-ra, hogy többet megtudj 🤠
@@ -160,6 +165,7 @@ Ciphey-t a [Cyber Security Society](https://www.cybersoc.cf/) élesztette újra 
 **Különleges köszönet** jár [varghalladesign](https://www.facebook.com/varghalladesign)-nak a logó dizájnért. Nézd meg a többi dizájnt is!
 
 ## 🐕‍🦺 [Közremőködés](https://github.com/Ciphey/Ciphey/wiki/Contributing)
+
 Ne ijedj meg a hozzájárulástól! Nagyon sok dolgunk van amiben segíthetsz. Minden felcímkézve, hogy egyszerűen megérthető legyen, példákkal. Ha lenne hozzájárulásod, de elakadtál, jelöld be @bee-san vagy @cyclic3 tagokat a GitHub issue felületen ✨
 
 Másképpen, csatlakozz a Discord közösséghez és küldj üzenetet (link a [contrib file-ban](https://github.com/Ciphey/Ciphey/wiki/Contributing)) vagy a README tetején.
@@ -169,7 +175,9 @@ Kérlek olvasd el a [közreműködési útmutatót](https://github.com/Ciphey/Ci
 Ezzel, a neved bekerül a README fájlba és részese leszel egy folyamatosan növekvő projektnek!
 
 [![Stargazers over time](https://starchart.cc/Ciphey/Ciphey.svg)](https://starchart.cc/Ciphey/Ciphey)
+
 ## 💰 Anyagi hozzájárulás
+
 Az anyagi hozzájárulások nem csupán Ciphey jövőjét támogatják, hanem a készítőkét is, és a liverpooli Cyber Secuity Society-t.
 
 GitHub jelenleg nem támogatja a "támogass és mi majd késöbb szétosztjuk a pénzt módszert", ezért az alábbi linkek közül válassz, a többit pedig majd mi megoldjuk. 🥰
@@ -208,6 +216,7 @@ Köszönet az alábbi csodálatos embereknek ([emoji key](https://allcontributor
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 Ez a projekt megfelel az [all-contributors](https://github.com/all-contributors/all-contributors) specifikációnak. Minden nemű hozzájárulást/közreműködést szivesen látunk!

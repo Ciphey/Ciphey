@@ -1,11 +1,17 @@
 <p align="center">
 Traduções <br>
-<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/id/README.md>🇮🇩 ID   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/de/README.md>🇩🇪 DE   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/README.md>🇬🇧 EN   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/fr/README.md>🇫🇷 FR   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/hu/README.md>🇭🇺 HU   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/id/README.md>🇮🇩 ID   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/it/README.md>🇮🇹 IT   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/nl/README.md>🇳🇱 NL   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/pt-br/README.md>🇧🇷 PT-BR   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/ru/README.md>🇷🇺 RU   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/zh/README.md>🇨🇳 ZH   </a>
  <br><br>
-➡️ 
+➡️
 <a href="https://github.com/Ciphey/Ciphey/wiki">Documentação</a> |
 <a href="https://discord.ciphey.online">Discord</a> |
  <a href="https://github.com/Ciphey/Ciphey/wiki/Installation">Guia de Instalação</a>
@@ -23,7 +29,6 @@ Traduções <br>
 <a href="https://pypi.org/project/ciphey/"><img src="https://img.shields.io/pypi/v/ciphey.svg"></a>
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="Ciphey">
 
-  
   <img src="https://github.com/brandonskerritt/Ciphey/workflows/Python%20application/badge.svg?branch=master" alt="Ciphey">
 <br>
 Ferramenta de decifrar/decodificar completamente automatizada usando processamento de linguagem natural e inteligência artificial, também com um pouco de senso comum.
@@ -32,20 +37,19 @@ Ferramenta de decifrar/decodificar completamente automatizada usando processamen
 
 ## [Guia de instalação](https://github.com/Ciphey/Ciphey/wiki/Installation) (Em inglês)
 
-| <p align="center"><a href="https://pypi.org/project/ciphey">🐍 Python | <p align="center"><a href="https://pypi.org/project/ciphey">🐋 Docker (Universal) |
-| --------------------------- | ---------------------------------|
-| <p align="center"><img src="../../Pictures_for_README/python.png" /></p> | <p align="center"><img src="../../Pictures_for_README/docker.png" /></p> |
-| `python3 -m pip install ciphey --upgrade`  | `docker run -it --rm remnux/ciphey` | 
+| <p align="center"><a href="https://pypi.org/project/ciphey">🐍 Python    | <p align="center"><a href="https://pypi.org/project/ciphey">🐋 Docker (Universal) |
+| ------------------------------------------------------------------------ | --------------------------------------------------------------------------------- |
+| <p align="center"><img src="../../Pictures_for_README/python.png" /></p> | <p align="center"><img src="../../Pictures_for_README/docker.png" /></p>          |
+| `python3 -m pip install ciphey --upgrade`                                | `docker run -it --rm remnux/ciphey`                                               |
 
-
-| Linux       | Mac OS | Windows     |
-| ----------- | ------ | ----------- |
-| ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ciphey/ciphey/Python%20application?label=Linux) |![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ciphey/ciphey/Python%20application?label=Mac%20OS) | ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ciphey/ciphey/Python%20application?label=Windows) |
-  
+| Linux                                                                                                                   | Mac OS                                                                                                                     | Windows                                                                                                                   |
+| ----------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ciphey/ciphey/Python%20application?label=Linux) | ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ciphey/ciphey/Python%20application?label=Mac%20OS) | ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ciphey/ciphey/Python%20application?label=Windows) |
 
 <hr>
 
 # 🤔 Oque é ciphey?
+
 Entra texto criptografado e sai descriptografado.
 
 > "Que tipo de criptografia?"
@@ -109,25 +113,22 @@ E essa é apenas a ponta do iceberg. Para a explicação técnica completa, visi
   </tr>
 </table>
 
-
 <sub><b>Nota</b> Os gifs podem carregar em tempos diferentes, então um pode parecer muito mais rápido que outro.</sub><br>
 <sub><b>Uma nota em Magic</b> A ferramenta do CyberChef mais similar a Ciphey é Magic. Magic falha num instante nessa entrada e quebra. A unica maneira que poderíamos forçar CyberChef para competir seria definindo-o manualmente.</sub>
 
 Nós também testamos CyberChef e Ciphey com um **arquivo de 6gb**. Ciphey decifrou ele em **5 minutos e 54 segundos**. CyberChef quebrou antes de começar.
 
-
-
 ## 📊 Ciphey contra Katana contra CyberChef Magic
 
-| **Name**                                   | ⚡ Ciphey ⚡ | 🗡️ Katana 🗡️ | 🐢 CyberChef Magic 🐢 |
-| ------------------------------------------ | ---------- | ---------- | ------------------- |
-| Verificação avançada de linguagem          | ✅          | ❌          | ✅                   |
-| Suporta Criptografias                      | ✅          | ✅          | ❌                   |
-| Lançamentos com nomes provindos de temas distópicos 🌃   | ✅          | ❌          | ❌                   |
-| Suporta Hashes                             | ✅          | ✅          | ❌                   |
-| Fácil de configurar                        | ✅          | ❌          | ✅                   |
-| Pode descobrir qual criptografia é usada para algo | ✅          | ❌          | ❌                   |
-| Criado por hackers para hackers             | ✅          | ✅          | ❌                   |
+| **Name**                                               | ⚡ Ciphey ⚡ | 🗡️ Katana 🗡️ | 🐢 CyberChef Magic 🐢 |
+| ------------------------------------------------------ | ------------ | ------------ | --------------------- |
+| Verificação avançada de linguagem                      | ✅           | ❌           | ✅                    |
+| Suporta Criptografias                                  | ✅           | ✅           | ❌                    |
+| Lançamentos com nomes provindos de temas distópicos 🌃 | ✅           | ❌           | ❌                    |
+| Suporta Hashes                                         | ✅           | ✅           | ❌                    |
+| Fácil de configurar                                    | ✅           | ❌           | ✅                    |
+| Pode descobrir qual criptografia é usada para algo     | ✅           | ❌           | ❌                    |
+| Criado por hackers para hackers                        | ✅           | ✅           | ❌                    |
 
 # 🎬 Começando
 
@@ -135,13 +136,14 @@ Se você estiver tendo problemas instalando Ciphey, [leia isso](https://github.c
 
 ## ‼️ Links importantes (Documentação, Guia de instalação, Suporte do Discord)
 
-| Guia de instalação | Documentação  | Discord | Imagem Docker (de REMnux)
-| ------------------ | ------------- | ------- | ------- | 
-| 📖 [Guia de instalação](https://github.com/Ciphey/Ciphey/wiki/Installation) | 📚 [Documentação](https://github.com/Ciphey/Ciphey/wiki) | 🦜 [Discord](https://discord.ciphey.online) | 🐋 [Documentação Docker](https://docs.remnux.org/run-tools-in-containers/remnux-containers#ciphey)
+| Guia de instalação                                                          | Documentação                                             | Discord                                     | Imagem Docker (de REMnux)                                                                          |
+| --------------------------------------------------------------------------- | -------------------------------------------------------- | ------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| 📖 [Guia de instalação](https://github.com/Ciphey/Ciphey/wiki/Installation) | 📚 [Documentação](https://github.com/Ciphey/Ciphey/wiki) | 🦜 [Discord](https://discord.ciphey.online) | 🐋 [Documentação Docker](https://docs.remnux.org/run-tools-in-containers/remnux-containers#ciphey) |
 
 ## 🌀Rodando Ciphey
 
 Tem 3 maneiras de executar Ciphey.
+
 1. Arquivo de entrada `ciphey -f criptografado.txt`
 2. Entrada indefinida `ciphey -- "Entrada criptografada"`
 3. Jeito normal `ciphey -t "Entrada criptografada"`
@@ -150,24 +152,27 @@ Tem 3 maneiras de executar Ciphey.
 
 Para tirar as barras de progresso, tabela de probabilidade e todo ruído use o modo quieto.
 
-```ciphey -t "texto criptografado" -q```
+`ciphey -t "texto criptografado" -q`
 
 Para uma lista cheia de argumentos, use `ciphey --help`.
 
 ### ⚗️ Importando Ciphey
+
 Você pode importar o arquivo main de Ciphey e usar nos seu próprio código. `from Ciphey.__main__ import main`
 
 # 🎪 Contribuidores
+
 Ciphey foi inventado por [Brandon](https://github.com/bee-san) em 2008 e revivido em 2019.
 Ciphey não estária aqui hoje sem [Cyclic3](https://github.com/Cyclic3) - presidente da UoL's Cyber Security Society.
 
-Ciphey foi revivido e recriado pela [Cyber Security Society](https://www.cybersoc.cf/) para uso em CTFs. Se a qualquer momento você estiver em Liverpool, considere dar uma palesta ou patrocinar nossos eventos. Nos mande um Email em  `cybersecurity@society.liverpoolguild.org` para saber mais 🤠
+Ciphey foi revivido e recriado pela [Cyber Security Society](https://www.cybersoc.cf/) para uso em CTFs. Se a qualquer momento você estiver em Liverpool, considere dar uma palesta ou patrocinar nossos eventos. Nos mande um Email em `cybersecurity@society.liverpoolguild.org` para saber mais 🤠
 
 **Crédito principal** para George H por trabalhar em como que poderíamos usar algorítmos adequados para acelerar o processo de busca.
 
 **Agradecimentos especiais** para [varghalladesign](https://www.facebook.com/varghalladesign) por fazer o design da logo. Confira o seu trabalho trabalho de desing!
 
 ## 🐕‍🦺 [Contribuindo](CONTRIBUTING.md)
+
 Não tenha medo de contribuir! Nós temos varias coisas que você pode fazer para ajudar. Cada uma rotulada e explicada com exemplos. Se você estiver tentando contribuir mas estiver perdido, marque @bee-san ou @cyclic3 na issue do GitHub. ✨
 
 Alternativamente, entre no grupo do Discord e mande uma mensagem lá (link no [arquivo de contribuição](CONTRIBUTING.md)) ou no topo desse README.
@@ -178,6 +183,7 @@ Contribuindo, você terá seu nome adicionado no README abaixo e será parte de 
 [![Stargazers over time](https://starchart.cc/Ciphey/Ciphey.svg)](https://starchart.cc/Ciphey/Ciphey)
 
 ## 💰 Contribuições financeiras
+
 As contribuições serão usadas para financiar não apenas o futuro de Ciphey e seus autores, mas também a Cyber Security Society na Universidade de Liverpool.
 
 GitHub não suporta "patrocine esse projeto e dividiremos o dinheiro", então escolha um link e nós dividiremos entre nós. 🥰
@@ -218,6 +224,7 @@ Agradecimentos para essas pessoas maravilhosas ([guia de emojis](https://allcont
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 Esse projeto segue a especificação [todos contribuidores](https://github.com/all-contributors/all-contributors). Contribuições de qualquer tipo são bem vindas!

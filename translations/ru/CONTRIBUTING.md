@@ -1,3 +1,16 @@
+<p align="center">
+Translations <br>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/de/CONTRIBUTING.md>🇩🇪 DE   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/de/CONTRIBUTING.md>🇬🇧 EN   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/hu/CONTRIBUTING.md>🇭🇺 HU   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/id/CONTRIBUTING.md>🇮🇩 ID   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/it/CONTRIBUTING.md>🇮🇹 IT   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/nl/CONTRIBUTING.md>🇳🇱 NL   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/pt-br/CONTRIBUTING.md>🇧🇷 PT-BR   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/ru/CONTRIBUTING.md>🇷🇺 RU   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/zh/CONTRIBUTING.md>🇨🇳 ZH   </a>
+</p>
+
 Здорово!
 
 Значит, вы заинтересованы в том, чтобы внести свой вклад в Ciphey? 🤔
@@ -20,8 +33,8 @@
 Как я могу внести свой вклад?
 Ciphey всегда нуждается в новых модулях расшифровки! Чтобы узнать, как можно интегрировать свой код в Ciphey, посмотрите здесь:
 
-https://github.com/Ciphey/Ciphey/wiki/Adding-your-own-ciphers для простых инструкций.
-https://github.com/Ciphey/Ciphey/wiki/Extending-Ciphey для ссылки на API.
+<https://github.com/Ciphey/Ciphey/wiki/Adding-your-own-ciphers> для простых инструкций.
+<https://github.com/Ciphey/Ciphey/wiki/Extending-Ciphey> для ссылки на API.
 Было бы здорово, если бы вы могли написать несколько тестов для своего кода. Это очень просто: скопируйте вашу функцию в Ciphey/tests/test_main.py и замените шифрованный текст чем-нибудь зашифрованным вашим методом. Скорее всего, мы также будем сливать код без тестов, но это сложнее отлаживать.
 
 Конечно же, мы будем благодарны вам за вашу усердную работу в списке участников!
@@ -46,4 +59,3 @@ https://github.com/Ciphey/Ciphey/wiki/Extending-Ciphey для ссылки на 
 
 Рефакторинг кодовой базы
 PEP8 не придерживается всего нашего кода - и многие части кода существуют дважды.
-

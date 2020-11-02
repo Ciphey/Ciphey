@@ -1,15 +1,15 @@
-from typing import Optional, Dict, List
-
-from ciphey.iface import Config, ParamSpec, T, U, Decoder, registry
+from typing import Dict, Optional
 
 import base58
 
+from ciphey.iface import Config, Decoder, ParamSpec, T, U, registry
+
 
 @registry.register
-class Base58(Decoder[str, str]):
+class Base58_bitcoin(Decoder[str]):
     def decode(self, ctext: T) -> Optional[U]:
         """
-        Performs Base62 decoding
+        Performs Base58 (Bitcoin) decoding
         """
         try:
             return base58.b58decode(ctext).decode("utf-8")
@@ -30,4 +30,4 @@ class Base58(Decoder[str, str]):
 
     @staticmethod
     def getTarget() -> str:
-        return "base58"
+        return "base58_bitcoin"
