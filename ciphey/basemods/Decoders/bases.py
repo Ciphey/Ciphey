@@ -5,13 +5,16 @@ import ciphey
 from typing import Callable, Optional, Any, Dict
 
 from loguru import logger
+import re
 
 
 def _dispatch(self: Any, ctext: str, func: Callable[[str], bytes]) -> Optional[bytes]:
     logger.trace(f"Attempting {self.getTarget()}")
 
     try:
-        result = func(ctext.strip())
+        # remove all whitespace
+        ctext = re.sub(r"\s+", "", ctext, re.UNICODE)
+        result = func(ctext)
         logger.debug(f"{self.getTarget()} successful, returning {result}")
         return result
     except ValueError:
