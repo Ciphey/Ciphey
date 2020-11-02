@@ -1,39 +1,32 @@
+import bisect
 import distutils
 import math
-import bisect
 from copy import copy
-from functools import lru_cache
-from typing import (
-    Generic,
-    List,
-    Optional,
-    Dict,
-    Any,
-    Union,
-    TypeVar,
-)
-from ciphey.iface import (
-    T,
-    Cracker,
-    Config,
-    Searcher,
-    ParamSpec,
-    CrackInfo,
-    SearchLevel,
-    CrackResult,
-    SearchResult,
-    Decoder,
-    registry,
-    Checker,
-)
-from loguru import logger
-import cipheycore
 from dataclasses import dataclass
+from functools import lru_cache
+from typing import Any, Dict, Generic, List, Optional, TypeVar, Union
+
+import cipheycore
+from loguru import logger
+
+from ciphey.iface import (
+    Checker,
+    Config,
+    Cracker,
+    CrackInfo,
+    CrackResult,
+    Decoder,
+    ParamSpec,
+    Searcher,
+    SearchLevel,
+    SearchResult,
+    T,
+    registry,
+)
 
 """
-    We are using a tree structure here, because that makes searching and tracing back easier
-    
-    As such, when we encounter another possible parent, we remove that edge
+We are using a tree structure here, because that makes searching and tracing back easier
+As such, when we encounter another possible parent, we remove that edge
 """
 
 
@@ -131,9 +124,7 @@ class PriorityWorkQueue(Generic[PriorityType, T]):
     _queues: Dict[Any, List[T]]
 
     def add_work(self, priority: PriorityType, work: List[T]) -> None:
-        logger.trace(
-            f"""Adding work at depth {priority}"""
-        )
+        logger.trace(f"""Adding work at depth {priority}""")
 
         idx = bisect.bisect_left(self._sorted_priorities, priority)
         if (
@@ -203,15 +194,12 @@ class AuSearch(Searcher):
 
         self.work.add_work(priority, additional_work)
 
-    def recursive_decode(self, node: Node) -> List[Node]:
+    def expand_decodings(self, node: Node) -> None:
         val = node.level.result.value
-
-        new_nodes = []
 
         for decoder in self.get_decoders_for(type(val)):
             inst = self._config()(decoder)
             res = inst(val)
-
             if res is None:
                 continue
             try:
@@ -221,10 +209,8 @@ class AuSearch(Searcher):
             except DuplicateNode:
                 continue
 
-            new_nodes.append(new_node)
-            new_nodes.extend(self.recursive_decode(new_node))
-
-        return new_nodes
+            logger.trace("Nesting encodings")
+            self.recursive_expand(new_node, False)
 
     def recursive_expand(self, node: Node, nested: bool = True) -> None:
         if node.depth >= self.max_depth:
@@ -232,12 +218,11 @@ class AuSearch(Searcher):
 
         logger.trace(f"Expanding depth {node.depth}")
 
-        new_nodes = self.recursive_decode(node)
+        self.expand_decodings(node)
 
         # Doing this last allows us to catch simple nested encodings faster
         if not nested or self.enable_nested:
-            for new_node in new_nodes:
-                self.expand_crackers(new_node)
+            self.expand_crackers(node)
 
     def search(self, ctext: Any) -> Optional[SearchResult]:
         logger.trace(
