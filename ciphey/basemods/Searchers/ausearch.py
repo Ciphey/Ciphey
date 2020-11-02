@@ -201,12 +201,15 @@ class AuSearch(Searcher):
 
         self.work.add_work(priority, additional_work)
 
-    def expand_decodings(self, node: Node) -> None:
+    def recursive_decode(self, node: Node) -> List[Node]:
         val = node.level.result.value
+
+        new_nodes = []
 
         for decoder in self.get_decoders_for(type(val)):
             inst = self._config()(decoder)
             res = inst(val)
+
             if res is None:
                 continue
             try:
@@ -216,8 +219,10 @@ class AuSearch(Searcher):
             except DuplicateNode:
                 continue
 
-            logger.trace(f"Nesting encodings")
-            self.recursive_expand(new_node, False)
+            new_nodes.append(new_node)
+            new_nodes.extend(self.recursive_decode(new_node))
+
+        return new_nodes
 
     def recursive_expand(self, node: Node, nested: bool = True) -> None:
         if node.depth >= self.max_depth:
@@ -225,11 +230,12 @@ class AuSearch(Searcher):
 
         logger.trace(f"Expanding depth {node.depth}")
 
-        self.expand_decodings(node)
+        new_nodes = self.recursive_decode(node)
 
         # Doing this last allows us to catch simple nested encodings faster
         if not nested or self.enable_nested:
-            self.expand_crackers(node)
+            for new_node in new_nodes:
+                self.expand_crackers(new_node)
 
     def search(self, ctext: Any) -> Optional[SearchResult]:
         logger.trace(

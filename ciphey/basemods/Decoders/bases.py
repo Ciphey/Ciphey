@@ -11,7 +11,7 @@ def _dispatch(self: Any, ctext: str, func: Callable[[str], bytes]) -> Optional[b
     logger.trace(f"Attempting {self.getTarget()}")
 
     try:
-        result = func(ctext)
+        result = func(ctext.strip())
         logger.debug(f"{self.getTarget()} successful, returning {result}")
         return result
     except ValueError:
