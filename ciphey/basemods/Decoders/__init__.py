@@ -8,6 +8,7 @@ from . import (
     bases,
     baudot,
     binary,
+    braille,
     brainfuck,
     decimal,
     galactic,
