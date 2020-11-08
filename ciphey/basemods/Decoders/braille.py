@@ -24,7 +24,7 @@ class Braille(Decoder[str]):
         wordArr = []
         for word in text.split(' '):
             # if two commas are infront of word, uppercase word and remove comma
-            if (word.find(',,') != -1):
+            if (word[:2].find(',,') != -1):
                 wordArr.append(word.replace(',,', '').upper())
             else:
                 wordArr.append(word)
