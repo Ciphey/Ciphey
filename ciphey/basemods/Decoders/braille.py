@@ -1,43 +1,49 @@
 import re
-
 from typing import Dict, Optional
 
+from ciphey.iface import Config, Decoder, ParamSpec, T, Translation, U, registry
 from loguru import logger
 
-from ciphey.iface import Config, Decoder, ParamSpec, T, Translation, U, registry
 
 @registry.register
 class Braille(Decoder[str]):
-    def decode(self, text: T) -> Optional[U]:
+    def decode(self, ctext: T) -> Optional[U]:
+        """
+        Performs Braille decoding
+        """
+        logger.trace("Attempting Braille")
+        ctext_decoded = ""
         braille_matches = 0
         for symbol in self.BRAILLE_DICT_INV.values():
-            if symbol in text:
+            if symbol in ctext:
                 braille_matches += 1
             else:
                 continue
         if braille_matches == 0:
+            logger.trace("Failed to decode Braille due to invalid characters")
             return None
 
         for pattern, value in self.BRAILLE_DICT.items():
-            text = re.sub(pattern, value, text)
+            ctext = re.sub(pattern, value, ctext)
 
         wordArr = []
-        for word in text.split(' '):
-            # if two commas are infront of word, uppercase word and remove comma
-            if (word[:2].find(',,') != -1):
-                wordArr.append(word.replace(',,', '').upper())
+        for word in ctext.split(" "):
+            # If two commas are in front of a word, uppercase the word and remove the comma
+            if word[:2].find(",,") != -1:
+                wordArr.append(word.replace(",,", "").upper())
             else:
                 wordArr.append(word)
 
         result = []
         for word in wordArr:
-            # if one comma is infront of word, capitalize word and remove comma
-            if (word[0].find(',') != -1):
-                result.append(word.replace(',', '').capitalize())
+            # If one comma is in front of a word, capitalize the word and remove the comma
+            if word[0].find(",") != -1:
+                result.append(word.replace(",", "").capitalize())
             else:
                 result.append(word)
-
-        return ' '.join(result)
+        ctext_decoded = " ".join(result)
+        logger.debug(f"Braille successful, returning '{ctext_decoded}'")
+        return ctext_decoded
 
     @staticmethod
     def priority() -> float:
@@ -52,7 +58,7 @@ class Braille(Decoder[str]):
     def getParams() -> Optional[Dict[str, ParamSpec]]:
         return {
             "dict": ParamSpec(
-                desc="The braille dictionary to use",
+                desc="The Braille dictionary to use",
                 req=False,
                 default="cipheydists::translate::braille",
             )
