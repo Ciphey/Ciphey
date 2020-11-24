@@ -281,6 +281,15 @@
         "code",
         "bug"
       ]
+    },
+    {
+      "login": "e1fy",
+      "name": "elf",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/61194758?v=4",
+      "profile": "https://github.com/e1fy",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
