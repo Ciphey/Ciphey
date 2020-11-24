@@ -121,6 +121,14 @@ def test_binary_base64_caesar():
     assert res == answer_str
 
 
+def test_braille():
+    res = decrypt(
+        Config.library_default().complete_config(), 
+        "⠓⠑⠇⠇⠕⠀⠍⠽⠀⠝⠁⠍⠑⠀⠊⠎⠀⠃⠑⠑⠀⠁⠝⠙⠀⠊⠀⠇⠊⠅⠑⠀⠙⠕⠛⠀⠁⠝⠙⠀⠁⠏⠏⠇⠑⠀⠁⠝⠙⠀⠞⠗⠑⠑"
+    )
+    assert res.lower() == answer_str.lower()
+
+
 def test_brainfuck():
     res = decrypt(
         Config().library_default().complete_config(),
