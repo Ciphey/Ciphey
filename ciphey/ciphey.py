@@ -12,7 +12,6 @@ main -> argparsing (if needed) -> call_encryption -> new Ciphey object -> decryp
 one_level_of_decryption -> decrypt_normal
 """
 import os
-import sys
 import warnings
 from typing import Any, Optional, Union
 
@@ -255,16 +254,14 @@ def main(**kwargs):
     result: Optional[str]
                         
     # if debug or quiet mode is on, run without spinner
-    try:
-        if config.verbosity != 0:
+    if config.verbosity != 0:
+        result = decrypt(config, kwargs["text"])
+    else:
+        # else, run with spinner if verbosity is 0
+        with yaspin(Spinners.earth, "Thinking") as sp:
+            config.set_spinner(sp)
             result = decrypt(config, kwargs["text"])
-        else:
-            # else, run with spinner if verbosity is 0
-            with yaspin.yaspin(Spinners.earth, "Thinking") as sp:
-                config.set_spinner(sp)
-                result = decrypt(config, kwargs["text"])
-        if result is None:
-            result = "Could not find any solutions."
-        print(result)
-    except KeyboardInterrupt:
-        sys.exit()
+    if result is None:
+        result = "Could not find any solutions."
+
+    print(result)
