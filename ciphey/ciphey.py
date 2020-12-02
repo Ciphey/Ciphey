@@ -16,10 +16,10 @@ import warnings
 from typing import Any, Optional, Union
 
 import click
-import yaspin
 from appdirs import AppDirs
 from loguru import logger
 from rich import print
+from yaspin import yaspin
 from yaspin.spinners import Spinners
 
 from . import iface
@@ -252,7 +252,7 @@ def main(**kwargs):
         raise TypeError(f"Cannot load type {config.format} from {type(kwargs['text'])}")
 
     result: Optional[str]
-                        
+
     # if debug or quiet mode is on, run without spinner
     if config.verbosity != 0:
         result = decrypt(config, kwargs["text"])
