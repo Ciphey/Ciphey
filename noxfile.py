@@ -7,7 +7,7 @@ import nox
 from nox.sessions import Session
 
 locations = "ciphey/", "tests/", "docs/"
-nox.options.sessions = "safety", "tests"
+nox.options.sessions = "tests"
 package = "ciphey"
 
 
@@ -41,21 +41,6 @@ def black(session):
     args = session.posargs or locations
     session.install("black")
     session.run("black", *args)
-
-
-@nox.session
-def safety(session):
-    session.run(
-        "poetry",
-        "export",
-        "--dev",
-        "--format=requirements.txt",
-        "--without-hashes",
-        "--output=requirements.txt",
-        external=True,
-    )
-    install_with_constraints(session, "safety")
-    session.run("safety", "check", "--file=requirements.txt", "--full-report")
 
 
 @nox.session(python="3.8")
