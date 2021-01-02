@@ -7,7 +7,7 @@ import nox
 from nox.sessions import Session
 
 locations = "ciphey/", "tests/", "docs/"
-nox.options.sessions = "tests"
+nox.options.sessions = ["tests"]
 package = "ciphey"
 
 
