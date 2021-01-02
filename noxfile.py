@@ -7,7 +7,7 @@ import nox
 from nox.sessions import Session
 
 locations = "ciphey/", "tests/", "docs/"
-nox.options.sessions = "safety", "tests"
+nox.options.sessions = "tests"
 package = "ciphey"
 
 
@@ -41,11 +41,6 @@ def black(session):
     args = session.posargs or locations
     session.install("black")
     session.run("black", *args)
-
-
-@nox.session
-def safety(session):
-    None
 
 
 @nox.session(python="3.8")
