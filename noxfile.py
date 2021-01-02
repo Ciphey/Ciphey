@@ -54,7 +54,6 @@ def safety(session):
         external=True,
     )
     install_with_constraints(session, "safety")
-    session.run("safety", "check", "--file=requirements.txt", "--full-report")
 
 
 @nox.session(python="3.8")
