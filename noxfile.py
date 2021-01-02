@@ -45,15 +45,7 @@ def black(session):
 
 @nox.session
 def safety(session):
-    session.run(
-        "poetry",
-        "export",
-        "--dev",
-        "--format=requirements.txt",
-        "--output=requirements.txt",
-        external=True,
-    )
-    install_with_constraints(session, "safety")
+    None
 
 
 @nox.session(python="3.8")
