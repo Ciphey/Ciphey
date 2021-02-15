@@ -205,8 +205,10 @@ class DecoderComparer:
         return f"<DecoderComparer {self.value}:{self.value.priority()}>"
 
 
-class CrackResult(NamedTuple, Generic[T]):
-    value: T
+class CrackResult(NamedTuple):
+    # TODO consider using Generic[T] again for value's type once
+    # https://bugs.python.org/issue36517 is resolved
+    value: Any
     key_info: Optional[str] = None
     misc_info: Optional[str] = None
 
