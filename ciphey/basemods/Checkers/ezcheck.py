@@ -51,10 +51,12 @@ class EzCheck(Checker[str]):
         # Next, the json checker
         self.checkers.append(config(JsonChecker))
 
+        self.checkers.append(config(ChiSquared))
+
         # Finally, the Brandon checker, as it is the slowest
         self.checkers.append(config(Brandon))
 
-        self.checkers.append(config(ChiSquared))
+        
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:

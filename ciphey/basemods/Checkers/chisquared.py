@@ -25,9 +25,10 @@ class ChiSquared(Checker[str]):
             except:
                 continue
         logger.debug(f"Chi squared is {chi_sq}")
-        if chi_sq / len(text) > 100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000:
+        logger.debug(chi_sq / len(text))
+        if chi_sq / len(text) > 50.0:
             return True
-        return False
+        return None
 
 
     def getExpectedRuntime(self, text: T) -> float:
