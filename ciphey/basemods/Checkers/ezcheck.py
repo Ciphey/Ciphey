@@ -6,6 +6,7 @@ from .brandon import Brandon
 from .format import JsonChecker
 from .human import HumanChecker
 from .regex import RegexList
+from .chisquared import ChiSquared
 
 
 @registry.register
@@ -52,6 +53,8 @@ class EzCheck(Checker[str]):
 
         # Finally, the Brandon checker, as it is the slowest
         self.checkers.append(config(Brandon))
+
+        self.checkers.append(config(ChiSquared))
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
