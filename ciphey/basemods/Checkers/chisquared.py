@@ -21,15 +21,16 @@ class ChiSquared(Checker[str]):
         for i in list(counts.keys()):
             # If letter is not in dict, don't do it.
             try:
-                chi_sq = chi_sq + ((counts[i] - self.wordlist[i])**2 / self.wordlist[i])
+                chi_sq = chi_sq + (
+                    (counts[i] - self.wordlist[i]) ** 2 / self.wordlist[i]
+                )
             except:
                 continue
         logger.debug(f"Chi squared is {chi_sq}")
         logger.debug(chi_sq / len(text))
-        if chi_sq / len(text) > 50.0:
+        if chi_sq / len(text) > 10000.0:
             return True
         return None
-
 
     def getExpectedRuntime(self, text: T) -> float:
         # TODO: actually bench this
@@ -46,6 +47,6 @@ class ChiSquared(Checker[str]):
             "wordlist": ParamSpec(
                 desc="A wordlist of all the words",
                 req=False,
-                default="cipheydists::list::english",
+                default="cipheydists::dist::lcase",
             )
         }

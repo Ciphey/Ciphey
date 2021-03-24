@@ -123,8 +123,8 @@ def test_binary_base64_caesar():
 
 def test_braille():
     res = decrypt(
-        Config.library_default().complete_config(), 
-        "⠓⠑⠇⠇⠕⠀⠍⠽⠀⠝⠁⠍⠑⠀⠊⠎⠀⠃⠑⠑⠀⠁⠝⠙⠀⠊⠀⠇⠊⠅⠑⠀⠙⠕⠛⠀⠁⠝⠙⠀⠁⠏⠏⠇⠑⠀⠁⠝⠙⠀⠞⠗⠑⠑"
+        Config.library_default().complete_config(),
+        "⠓⠑⠇⠇⠕⠀⠍⠽⠀⠝⠁⠍⠑⠀⠊⠎⠀⠃⠑⠑⠀⠁⠝⠙⠀⠊⠀⠇⠊⠅⠑⠀⠙⠕⠛⠀⠁⠝⠙⠀⠁⠏⠏⠇⠑⠀⠁⠝⠙⠀⠞⠗⠑⠑",
     )
     assert res.lower() == answer_str.lower()
 
