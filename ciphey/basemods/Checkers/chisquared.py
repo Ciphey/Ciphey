@@ -17,14 +17,15 @@ class ChiSquared(Checker[str]):
     def check(self, text: T) -> Optional[str]:
         logger.trace("Trying Chi Squared checker")
         chi_sq = 0.0
-        counts = collections.Counter(text)
+        counts = Counter(text)
         for i in list(counts.keys()):
             # If letter is not in dict, don't do it.
             try:
                 chi_sq = chi_sq + ((counts[i] - self.wordlist[i])**2 / self.wordlist[i])
             except:
                 continue
-        if chi_sq > 0.5:
+        logger.debug(f"Chi Squaured is {chi_sq}")
+        if chi_sq > 100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000:
             return True
         return False
 
