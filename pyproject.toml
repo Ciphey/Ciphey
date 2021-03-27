@@ -10,7 +10,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.7"
-rich = ">=4,<10"
+rich = ">=4,<11"
 loguru = "^0.5.3"
 pylint = "^2.6.0"
 flake8 = "^3.8.4"
