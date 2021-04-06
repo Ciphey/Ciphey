@@ -1,4 +1,4 @@
-from functools import lru_cache
+from functools import cache
 from typing import Any, Dict, Optional, Set
 
 import cipheydists
@@ -31,7 +31,7 @@ class CipheyDists(ResourceLoader):
     def whatResources(self) -> Optional[Set[str]]:
         pass
 
-    @lru_cache()
+    @cache
     def getResource(self, name: str) -> Any:
         loguru.logger.trace(f"Loading cipheydists resource {name}")
         prefix, name = name.split("::", 1)
