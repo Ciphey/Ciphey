@@ -102,9 +102,7 @@ class Node:
 
 
 def convert_edge_info(info: CrackInfo):
-    return cipheycore.ausearch_edge(
-        info.success_likelihood, info.success_runtime, info.failure_runtime
-    )
+    return 1
 
 
 @dataclass
@@ -260,7 +258,7 @@ class AuSearch(Searcher):
                     #     infos = [i.info for i in chunk]
 
                     logger.trace(f"{len(infos)} remaining on this level")
-                    step_res = cipheycore.ausearch_minimise(infos)
+                    step_res = 1
                     edge: Edge = chunk.pop(step_res.index)
                     logger.trace(
                         f"Weight is currently {step_res.weight} "
