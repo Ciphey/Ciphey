@@ -102,7 +102,11 @@ class Node:
 
 
 def convert_edge_info(info: CrackInfo):
-    return 1
+    x =  cipheycore.ausearch_edge(
+        info.success_likelihood, info.success_runtime, info.failure_runtime
+    )
+    print(x)
+    return x
 
 
 @dataclass
@@ -259,13 +263,13 @@ class AuSearch(Searcher):
 
                     logger.trace(f"{len(infos)} remaining on this level")
                     step_res = 1
-                    edge: Edge = chunk.pop(step_res.index)
+                    edge: Edge = chunk.pop(0)
                     logger.trace(
                         f"Weight is currently {step_res.weight} "
                         f"when we pick {type(edge.route).__name__.lower()} "
                         f"with depth {edge.source.depth}"
                     )
-                    del infos[step_res.index]
+                    del infos[0]
 
                     # Expand the node
                     res = edge.route(edge.source.level.result.value)
