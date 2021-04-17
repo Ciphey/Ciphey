@@ -90,6 +90,26 @@ class Playfair(ciphey.iface.Cracker[str]):
                 ptext += ktable[math.floor(a_i / 5) * 5 + b_i % 5]
                 ptext += ktable[math.floor(b_i / 5) * 5 + a_i % 5]
 
+        # Remove trailing pad if it exists.
+        ptext = ptext.removesuffix("x")
+
+        # TODO: Detect use of other padding characters such as Q.
+        # Record padding characters separating repeated digraphs (e.g. ee, bb, aa.)
+        padding_chars = []
+        x_pos = 0
+        while x_pos != -1:
+            x_pos += 1
+            x_pos = ptext.find("x", x_pos)
+
+            if x_pos % 2 == 1 and ptext[x_pos - 1] == ptext[x_pos + 1]:
+                padding_chars.append(x_pos)
+
+        # Remove the padding characters.
+        for (offset, x_pos) in enumerate(padding_chars):
+            # Offset by the number of padding characters removed to handle
+            # shifting indices.
+            ptext = ptext[:x_pos - offset] + ptext[x_pos - offset + 1:]
+
         return ptext
 
     def attemptCrack(self, ctext: str) -> List[CrackResult]:
