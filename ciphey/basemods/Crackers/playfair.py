@@ -52,7 +52,7 @@ class Playfair(ciphey.iface.Cracker[str]):
     def getTarget() -> str:
         return "playfair"
 
-    def decrypt(self, ctext: str, ktable: str) -> str:
+    def decrypt(ctext: str, ktable: str) -> str:
         def digraphs(seq):
             return (seq[i:i + 2] for i in range(0, len(seq), 2))
 
