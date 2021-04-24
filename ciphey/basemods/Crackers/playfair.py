@@ -16,6 +16,14 @@ from ciphey.iface import ParamSpec, CrackResult, T, CrackInfo, registry, Transla
 
 
 def decrypt(ctext: str, ktable: str) -> str:
+    """Decrypt a Playfair message given the ciphertext and key table.
+    >>> decrypt(
+    ...  "kgyvrv kf qpeg cn ihh pti r pcem ivo pqb fyulah pti odkuku",
+    ...  "playfirbcdeghkmnoqstuvwxz"
+    ... )
+    'hello my name is bee and i like dog and apple and tree'
+    """
+
     ptext = ""
     index = 0
     while index < len(ctext):
