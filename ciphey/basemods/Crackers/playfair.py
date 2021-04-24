@@ -57,16 +57,31 @@ class Playfair(ciphey.iface.Cracker[str]):
             return (seq[i:i + 2] for i in range(0, len(seq), 2))
 
         ptext = ""
-        for d in digraphs(ctext):
-            a_i = ktable.index(d[0])
-            b_i = ktable.index(d[1])
+        index = 0
+        while index < len(ctext):
+            index_a = index
+            while not ctext[index_a].isalpha():
+                ptext += ctext[index_a]
+                index_a += 1
+
+            index_b = index_a + 1
+            while not ctext[index_b].isalpha():
+                ptext += ctext[index_b]
+                index_b += 1
+
+            index = index_b + 1
+
+            a_i = ktable.index(ctext[index_a].casefold())
+            b_i = ktable.index(ctext[index_b].casefold())
 
             # Same column, shift up.
             if a_i % 5 == b_i % 5:
+                # Insert A at `index_a` instead of appending. There may be
+                # non-alphabetic characters adding from shifting `index_b`.
                 if math.floor(a_i / 5) == 0:
-                    ptext += ktable[a_i % 5 + 20]
+                    ptext = ptext[:index_a] + ktable[a_i % 5 + 20] + ptext[index_a:]
                 else:
-                    ptext += ktable[a_i - 5]
+                    ptext = ptext[:index_a] + ktable[a_i - 5] + ptext[index_a:]
 
                 if math.floor(b_i / 5) == 0:
                     ptext += ktable[b_i % 5 + 20]
@@ -75,10 +90,12 @@ class Playfair(ciphey.iface.Cracker[str]):
 
             # Same row, shift left.
             elif math.floor(a_i / 5) == math.floor(b_i / 5):
+                # Insert A at `index_a` instead of appending. There may be
+                # non-alphabetic characters adding from shifting `index_b`.
                 if a_i % 5 == 0:
-                    ptext += ktable[a_i + 4]
+                    ptext = ptext[:index_a] + ktable[a_i + 4] + ptext[index_a:]
                 else:
-                    ptext += ktable[a_i - 1]
+                    ptext = ptext[:index_a] + ktable[a_i - 1] + ptext[index_a:]
 
                 if b_i % 5 == 0:
                     ptext += ktable[b_i + 4]
@@ -87,18 +104,24 @@ class Playfair(ciphey.iface.Cracker[str]):
 
             # Rectangle, swap corners, same rows.
             else:
-                ptext += ktable[math.floor(a_i / 5) * 5 + b_i % 5]
+                # Insert A at `index_a` instead of appending. There may be
+                # non-alphabetic characters adding from shifting `index_b`.
+                ptext = ptext[:index_a] + ktable[math.floor(a_i / 5) * 5 + b_i % 5] + ptext[index_a:]
                 ptext += ktable[math.floor(b_i / 5) * 5 + a_i % 5]
 
         # Remove trailing pad if it exists.
         ptext = ptext.removesuffix("x")
 
-        # TODO: Detect use of other padding characters such as Q.
         # Record padding characters separating repeated digraphs (e.g. ee, bb, aa.)
         padding_chars = []
         x_pos = 0
+        # FIXME: This does not consider non-alphabetic characters like we do above.
+        # 2021-04-22
         while x_pos != -1:
+            # Advance one so we do not get stuck looping on the same character.
             x_pos += 1
+            # Find the next x in our plaintext if any.
+            # TODO: Detect use of other padding characters such as Q. 2021-04-18
             x_pos = ptext.find("x", x_pos)
 
             if x_pos % 2 == 1 and ptext[x_pos - 1] == ptext[x_pos + 1]:
