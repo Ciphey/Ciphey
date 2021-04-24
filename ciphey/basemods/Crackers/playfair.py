@@ -15,6 +15,91 @@ import cipheydists
 from ciphey.iface import ParamSpec, CrackResult, T, CrackInfo, registry, Translation
 
 
+def decrypt(ctext: str, ktable: str) -> str:
+    ptext = ""
+    index = 0
+    while index < len(ctext):
+        index_a = index
+        while not ctext[index_a].isalpha():
+            ptext += ctext[index_a]
+            index_a += 1
+
+        index_b = index_a + 1
+        while not ctext[index_b].isalpha():
+            ptext += ctext[index_b]
+            index_b += 1
+
+        index = index_b + 1
+
+        a_i = ktable.index(ctext[index_a].casefold())
+        b_i = ktable.index(ctext[index_b].casefold())
+
+        # Same column, shift up.
+        if a_i % 5 == b_i % 5:
+            # Insert A at `index_a` instead of appending. There may be
+            # non-alphabetic characters adding from shifting `index_b`.
+            if math.floor(a_i / 5) == 0:
+                ptext = ptext[:index_a] + ktable[a_i % 5 + 20] + ptext[index_a:]
+            else:
+                ptext = ptext[:index_a] + ktable[a_i - 5] + ptext[index_a:]
+
+            if math.floor(b_i / 5) == 0:
+                ptext += ktable[b_i % 5 + 20]
+            else:
+                ptext += ktable[b_i - 5]
+
+        # Same row, shift left.
+        elif math.floor(a_i / 5) == math.floor(b_i / 5):
+            # Insert A at `index_a` instead of appending. There may be
+            # non-alphabetic characters adding from shifting `index_b`.
+            if a_i % 5 == 0:
+                ptext = ptext[:index_a] + ktable[a_i + 4] + ptext[index_a:]
+            else:
+                ptext = ptext[:index_a] + ktable[a_i - 1] + ptext[index_a:]
+
+            if b_i % 5 == 0:
+                ptext += ktable[b_i + 4]
+            else:
+                ptext += ktable[b_i - 1]
+
+        # Rectangle, swap corners, same rows.
+        else:
+            # Insert A at `index_a` instead of appending. There may be
+            # non-alphabetic characters adding from shifting `index_b`.
+            ptext = (
+                ptext[:index_a]
+                + ktable[math.floor(a_i / 5) * 5 + b_i % 5]
+                + ptext[index_a:]
+            )
+            ptext += ktable[math.floor(b_i / 5) * 5 + a_i % 5]
+
+    # Remove trailing pad if it exists.
+    ptext = ptext.removesuffix("x")
+
+    # Record padding characters separating repeated digraphs (e.g. ee, bb, aa.)
+    padding_chars = []
+    x_pos = 0
+    # FIXME: This does not consider non-alphabetic characters like we do above.
+    # 2021-04-22
+    while x_pos != -1:
+        # Advance one so we do not get stuck looping on the same character.
+        x_pos += 1
+        # Find the next x in our plaintext if any.
+        # TODO: Detect use of other padding characters such as Q. 2021-04-18
+        x_pos = ptext.find("x", x_pos)
+
+        if x_pos % 2 == 1 and ptext[x_pos - 1] == ptext[x_pos + 1]:
+            padding_chars.append(x_pos)
+
+    # Remove the padding characters.
+    for (offset, x_pos) in enumerate(padding_chars):
+        # Offset by the number of padding characters removed to handle
+        # shifting indices.
+        ptext = ptext[: x_pos - offset] + ptext[x_pos - offset + 1 :]
+
+    return ptext
+
+
 @registry.register
 class Playfair(ciphey.iface.Cracker[str]):
     def getInfo(self, ctext: str) -> CrackInfo:
@@ -51,89 +136,6 @@ class Playfair(ciphey.iface.Cracker[str]):
     @staticmethod
     def getTarget() -> str:
         return "playfair"
-
-    def decrypt(ctext: str, ktable: str) -> str:
-        def digraphs(seq):
-            return (seq[i:i + 2] for i in range(0, len(seq), 2))
-
-        ptext = ""
-        index = 0
-        while index < len(ctext):
-            index_a = index
-            while not ctext[index_a].isalpha():
-                ptext += ctext[index_a]
-                index_a += 1
-
-            index_b = index_a + 1
-            while not ctext[index_b].isalpha():
-                ptext += ctext[index_b]
-                index_b += 1
-
-            index = index_b + 1
-
-            a_i = ktable.index(ctext[index_a].casefold())
-            b_i = ktable.index(ctext[index_b].casefold())
-
-            # Same column, shift up.
-            if a_i % 5 == b_i % 5:
-                # Insert A at `index_a` instead of appending. There may be
-                # non-alphabetic characters adding from shifting `index_b`.
-                if math.floor(a_i / 5) == 0:
-                    ptext = ptext[:index_a] + ktable[a_i % 5 + 20] + ptext[index_a:]
-                else:
-                    ptext = ptext[:index_a] + ktable[a_i - 5] + ptext[index_a:]
-
-                if math.floor(b_i / 5) == 0:
-                    ptext += ktable[b_i % 5 + 20]
-                else:
-                    ptext += ktable[b_i - 5]
-
-            # Same row, shift left.
-            elif math.floor(a_i / 5) == math.floor(b_i / 5):
-                # Insert A at `index_a` instead of appending. There may be
-                # non-alphabetic characters adding from shifting `index_b`.
-                if a_i % 5 == 0:
-                    ptext = ptext[:index_a] + ktable[a_i + 4] + ptext[index_a:]
-                else:
-                    ptext = ptext[:index_a] + ktable[a_i - 1] + ptext[index_a:]
-
-                if b_i % 5 == 0:
-                    ptext += ktable[b_i + 4]
-                else:
-                    ptext += ktable[b_i - 1]
-
-            # Rectangle, swap corners, same rows.
-            else:
-                # Insert A at `index_a` instead of appending. There may be
-                # non-alphabetic characters adding from shifting `index_b`.
-                ptext = ptext[:index_a] + ktable[math.floor(a_i / 5) * 5 + b_i % 5] + ptext[index_a:]
-                ptext += ktable[math.floor(b_i / 5) * 5 + a_i % 5]
-
-        # Remove trailing pad if it exists.
-        ptext = ptext.removesuffix("x")
-
-        # Record padding characters separating repeated digraphs (e.g. ee, bb, aa.)
-        padding_chars = []
-        x_pos = 0
-        # FIXME: This does not consider non-alphabetic characters like we do above.
-        # 2021-04-22
-        while x_pos != -1:
-            # Advance one so we do not get stuck looping on the same character.
-            x_pos += 1
-            # Find the next x in our plaintext if any.
-            # TODO: Detect use of other padding characters such as Q. 2021-04-18
-            x_pos = ptext.find("x", x_pos)
-
-            if x_pos % 2 == 1 and ptext[x_pos - 1] == ptext[x_pos + 1]:
-                padding_chars.append(x_pos)
-
-        # Remove the padding characters.
-        for (offset, x_pos) in enumerate(padding_chars):
-            # Offset by the number of padding characters removed to handle
-            # shifting indices.
-            ptext = ptext[:x_pos - offset] + ptext[x_pos - offset + 1:]
-
-        return ptext
 
     def attemptCrack(self, ctext: str) -> List[CrackResult]:
         logger.debug("Trying playfair cipher")
@@ -178,7 +180,7 @@ class Playfair(ciphey.iface.Cracker[str]):
         # analysis = cipheycore.analyse_string(self.decrypt(message, ktable))
         # key_p_value = math.pow(cipheycore.chisq_test(analysis, self.expected), 2)
         key_p_value = math.pow(self.score(
-            self.count_bigrams(self.decrypt(message, ktable))), 3)
+            self.count_bigrams(decrypt(message, ktable))), 3)
 
         print("Gate 2")
 
@@ -190,7 +192,7 @@ class Playfair(ciphey.iface.Cracker[str]):
             for _i in range(600):
                 new_key = self.random_swap(ktable)
                 new_score = math.pow(self.score(
-                    self.count_bigrams(self.decrypt(message, new_key))), 3)
+                    self.count_bigrams(decrypt(message, new_key))), 3)
                 # ptext = self.decrypt(message, new_key)
                 # analysis = cipheycore.analyse_string(ptext)
                 # new_score = math.pow(cipheycore.chisq_test(analysis, self.expected), 2)
@@ -230,7 +232,7 @@ class Playfair(ciphey.iface.Cracker[str]):
         candidates = []
 
         for candidate in possible_keys:
-            plaintext = self.finalize(self.decrypt(message, candidate), ctext)
+            plaintext = self.finalize(decrypt(message, candidate), ctext)
             candidates.append(CrackResult(
                 value=plaintext, key_info=''.join(candidate)))
 
