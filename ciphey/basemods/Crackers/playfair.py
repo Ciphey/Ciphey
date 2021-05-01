@@ -207,8 +207,6 @@ class Playfair(ciphey.iface.Cracker[str]):
                               )
         message = message.translate(table)
 
-        print("Gate 1")
-
         logger.trace("Beginning cipheycore simple analysis")
         alphabet = [
             "a", "b", "c", "d", "e",
@@ -223,55 +221,24 @@ class Playfair(ciphey.iface.Cracker[str]):
         ktable = alphabet
         shuffle(ktable)
         # TODO: Count bigrams for frequency analysis. 2020-10-25
-        # analysis = self.count_bigrams(self.decrypt(message, ktable))
-        # analysis = cipheycore.analyse_string(self.decrypt(message, ktable))
-        # key_p_value = math.pow(cipheycore.chisq_test(analysis, self.expected), 2)
-        key_p_value = math.pow(self.score(
-            self.count_bigrams(decrypt(message, ktable))), 3)
-
-        print("Gate 2")
+        key_p_value = self.score(
+            count_bigrams(decrypt(message, ktable)))
 
         # Threshold Acceptance algorithm (similar to Simulated Annealing)
-        r_max = 1000
         threshold = 0.2
-        for _r in range(r_max):
-            new_score = 0.0
-            for _i in range(600):
-                new_key = self.random_swap(ktable)
-                new_score = math.pow(self.score(
-                    self.count_bigrams(decrypt(message, new_key))), 3)
-                # ptext = self.decrypt(message, new_key)
-                # analysis = cipheycore.analyse_string(ptext)
-                # new_score = math.pow(cipheycore.chisq_test(analysis, self.expected), 2)
+        while threshold > 0:
+            new_key = random_swap(ktable)
+            new_score = self.score(
+                count_bigrams(decrypt(message, new_key)))
 
-                if (new_score > key_p_value * (1 - threshold)):
-                    ktable = new_key
-                    key_p_value = new_score
+            if (new_score > key_p_value * (1 - threshold)):
+                ktable = new_key
+                key_p_value = new_score
 
-                if new_score >= self.p_value:
-                    possible_keys.append(new_key)
-                    print(new_score, ''.join(new_key))
+            if new_score >= self.p_value:
+                possible_keys.append(new_key)
 
             threshold -= 0.0002
-
-        print("Gate 3")
-
-        # ktable = [
-        #     "p","l","a","y","f",
-        #     "i","r","b","c","d",
-        #     "e","g","h","k","m",
-        #     "n","o","q","s","t",
-        #     "u","v","w","x","z"
-        # ]
-
-        # possible_keys.append(ktable)
-        # ptext = finalize_ptext(self.decrypt(message, possible_keys[0]), ctext)
-        # print(ptext)
-        # analysis = cipheycore.analyse_string(decrypt(message, ktable))
-        # print(cipheycore.chisq_test(analysis, self.expected))
-        # print(self.score(self.count_bigrams(ptext)))
-
-        print("Gate 4")
 
         n_candidates = len(possible_keys)
         logger.debug(f"Playfair returned {n_candidates} candidates")
@@ -279,7 +246,7 @@ class Playfair(ciphey.iface.Cracker[str]):
         candidates = []
 
         for candidate in possible_keys:
-            plaintext = self.finalize(decrypt(message, candidate), ctext)
+            plaintext = decrypt(message, candidate)
             candidates.append(CrackResult(
                 value=plaintext, key_info=''.join(candidate)))
 
