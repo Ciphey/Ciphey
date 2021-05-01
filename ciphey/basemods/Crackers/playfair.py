@@ -130,6 +130,23 @@ def decrypt(ctext: str, ktable: str) -> str:
     return ptext
 
 
+def random_swap(ktable: str) -> str:
+    """
+    Randomly swaps two characters in the key table.
+    """
+    a = randint(0, 24)
+    b = randint(0, 23)
+
+    if a == b:
+        b += 1
+
+    swap = ktable[a]
+    ktable[a] = ktable[b]
+    ktable[b] = swap
+
+    return ktable
+
+
 @registry.register
 class Playfair(ciphey.iface.Cracker[str]):
     def getInfo(self, ctext: str) -> CrackInfo:
@@ -300,22 +317,6 @@ class Playfair(ciphey.iface.Cracker[str]):
                 offset += 1
 
         return ret
-
-    def random_swap(self, ktable: str) -> str:
-        """
-        Randomly swaps two characters in the key table.
-        """
-        a = randint(0, 24)
-        b = randint(0, 23)
-
-        if a == b:
-            b += 1
-
-        swap = ktable[a]
-        ktable[a] = ktable[b]
-        ktable[b] = swap
-
-        return ktable
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
