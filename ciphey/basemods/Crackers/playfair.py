@@ -15,6 +15,28 @@ import cipheydists
 from ciphey.iface import ParamSpec, CrackResult, T, CrackInfo, registry, Translation
 
 
+def count_bigrams(str):
+    """Count bigrams which appear in `str`.
+    >>> count_bigrams("hello my name is bee")
+    {'he': 1, 'll': 1, 'om': 1, 'yn': 1, 'am': 1, 'ei': 1, 'sb': 1, 'ee': 1}
+    """
+    table = str.maketrans('', '',
+                    string.digits +
+                    string.punctuation +
+                    string.whitespace
+                    )
+    str = str.translate(table).lower()
+
+    freq = {}
+    for (i, c) in enumerate(str[:-1:2]):
+        try:
+            freq[c + str[i * 2 + 1]] += 1
+        except KeyError:
+            freq[c + str[i * 2 + 1]] = 1
+
+    return freq
+
+
 def decrypt(ctext: str, ktable: str) -> str:
     """Decrypt a Playfair message given the ciphertext and key table.
     >>> decrypt(
@@ -245,17 +267,6 @@ class Playfair(ciphey.iface.Cracker[str]):
                 value=plaintext, key_info=''.join(candidate)))
 
         return candidates
-
-    def count_bigrams(self, str):
-        freq = {}
-        lower = str.lower()
-        for (i, c) in enumerate(lower[:-1]):
-            try:
-                freq[c + str[i+1]] += 1
-            except KeyError:
-                freq[c + str[i+1]] = 1
-
-        return freq
 
     def score(self, observed):
         score = 0.0
