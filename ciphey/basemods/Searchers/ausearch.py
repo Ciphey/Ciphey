@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from functools import lru_cache
 from typing import Any, Dict, Generic, List, Optional, TypeVar, Union
 
+import cipheycore
 from loguru import logger
 
 from ciphey.iface import (
@@ -101,7 +102,9 @@ class Node:
 
 
 def convert_edge_info(info: CrackInfo):
-    return 1
+    return cipheycore.ausearch_edge(
+        info.success_likelihood, info.success_runtime, info.failure_runtime
+    )
 
 
 @dataclass
@@ -110,7 +113,7 @@ class Edge:
     route: Union[Cracker, Decoder]
     dest: Optional[Node] = None
     # Info is not filled in for Decoders
-
+    info: Optional[cipheycore.ausearch_edge] = None
 
 
 PriorityType = TypeVar("PriorityType")
@@ -183,7 +186,7 @@ class AuSearch(Searcher):
         for i in self.get_crackers_for(type(res)):
             inst = self._config()(i)
             additional_work.append(
-                Edge(source=node, route=inst)
+                Edge(source=node, route=inst, info=convert_edge_info(inst.getInfo(res)))
             )
         priority = min(node.depth, self.priority_cap)
         if self.invert_priority:
@@ -243,6 +246,7 @@ class AuSearch(Searcher):
                     break
                 # Get the highest level result
                 chunk = self.work.get_work_chunk()
+                infos = [i.info for i in chunk]
                 # Work through all of this level's results
                 while len(chunk) != 0:
                     max_depth = 0
@@ -255,13 +259,15 @@ class AuSearch(Searcher):
                     #     chunk += self.work.get_work_chunk()
                     #     infos = [i.info for i in chunk]
 
-                    step_res = 0.1
-                    edge: Edge = chunk.pop(0)
+                    logger.trace(f"{len(infos)} remaining on this level")
+                    step_res = cipheycore.ausearch_minimise(infos)
+                    edge: Edge = chunk.pop(step_res.index)
                     logger.trace(
-                        f"Weight is currently {0} "
+                        f"Weight is currently {step_res.weight} "
                         f"when we pick {type(edge.route).__name__.lower()} "
                         f"with depth {edge.source.depth}"
                     )
+                    del infos[step_res.index]
 
                     # Expand the node
                     res = edge.route(edge.source.level.result.value)
