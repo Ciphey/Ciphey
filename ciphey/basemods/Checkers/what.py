@@ -7,7 +7,7 @@ from ciphey.iface import Checker, Config, ParamSpec, T, registry
 
 
 @registry.register
-class GTestChecker(Checker[str]):
+class What(Checker[str]):
 
     """
     G-test of fitness, similar to Chi squared.
@@ -15,8 +15,8 @@ class GTestChecker(Checker[str]):
 
     def check(self, text: T) -> Optional[str]:
         logger.trace("Trying PyWhat checker")
-        returned_regexes = self.id.identify(text)
-        if returned_regexes["Regexes"] > 0:
+        returned_regexes = self.id.identify(text, api=True)
+        if len(returned_regexes["Regexes"]) > 0:
             return returned_regexes["Regexes"][0]["Regex Pattern"]["Name"]
         return None
 

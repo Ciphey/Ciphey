@@ -6,6 +6,7 @@ from .brandon import Brandon
 from .format import JsonChecker
 from .human import HumanChecker
 from .regex import RegexList
+from .what import What
 
 
 @registry.register
@@ -46,6 +47,8 @@ class EzCheck(Checker[str]):
         flags_config.update_param("regexlist", "resource", "cipheydists::list::flags")
         # We do not cache, as this uses a different, on-time config
         self.checkers.append(RegexList(flags_config))
+
+        self.checkers.append(config(What))
 
         # Next, the json checker
         self.checkers.append(config(JsonChecker))
