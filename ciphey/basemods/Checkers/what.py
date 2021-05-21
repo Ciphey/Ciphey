@@ -16,7 +16,7 @@ class What(Checker[str]):
         logger.trace("Trying PyWhat checker")
         returned_regexes = self.id.identify(ctext, api=True)
         if len(returned_regexes["Regexes"]) > 0:
-            print(f"\nPyWhat Checker passed with {returned_regexes["Regexes"][0]["Regex Pattern"]["Name"]}")
+            print(f'\nPyWhat Checker passed with {returned_regexes["Regexes"][0]["Regex Pattern"]["Name"]}')
             return returned_regexes["Regexes"][0]["Regex Pattern"]["Name"]
         return None
 
