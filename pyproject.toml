@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ciphey"
-version = "5.11.0"
+version = "5.11.2"
 description = "Automated Decryption Tool"
 authors = ["Brandon <brandon@skerritt.blog>"]
 license = "MIT"
