@@ -1,13 +1,11 @@
 from typing import Dict, Optional
 
+from ciphey.iface import Checker, Config, ParamSpec, T, registry
 from loguru import logger
 from pywhat import identifier
 from rich.console import Console
 
 console = Console()
-
-from ciphey.iface import Checker, Config, ParamSpec, T, registry
-
 
 @registry.register
 class What(Checker[str]):
