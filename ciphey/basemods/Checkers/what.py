@@ -17,7 +17,7 @@ class What(Checker[str]):
         returned_regexes = self.id.identify(ctext, api=True)
         if len(returned_regexes["Regexes"]) > 0:
             print(f'\nPyWhat Checker passed with {returned_regexes["Regexes"][0]["Regex Pattern"]["Name"]}')
-            return returned_regexes["Regexes"][0]["Regex Pattern"]["Name"]
+            return ""
         return None
 
     def getExpectedRuntime(self, text: T) -> float:
