@@ -104,18 +104,6 @@ class Brandon(Checker[str]):
         text = set(text)
         return text
 
-        x = []
-        for word in text:
-            # poor mans lemmatisation
-            # removes 's from the dict'
-            if word.endswith("'s"):
-                x.append(word[0:-2])
-        text = self.mh.strip_punctuation(x)
-        # turns it all into lowercase and as a set
-        complete = set([word.lower() for word in x])
-
-        return complete
-
     def checker(self, text: str, threshold: float, text_length: int, var: set) -> bool:
         """Given text determine if it passes checker
 
