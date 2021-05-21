@@ -17,9 +17,10 @@ class EzCheck(Checker[str]):
     def check(self, text: str) -> Optional[str]:
         for checker in self.checkers:
             res = checker.check(text)
+            print(res)
             if (
                 res is not None
-                and (self.decider is None or self.decider.check(text)) is not None
+                and (self.decider is None or self.decider.check(text, res)) is not None
             ):
                 return res
         return None
