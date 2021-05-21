@@ -18,10 +18,8 @@ class What(Checker[str]):
         logger.trace("Trying PyWhat checker")
         returned_regexes = self.id.identify(text, api=True)
         if len(returned_regexes["Regexes"]) > 0:
-            console.print(f'\nI think the plaintext is a [yellow]{returned_regexes["Regexes"][0]["Regex Pattern"]["Name"]}[/yellow]')
-            print(returned_regexes)
-            exit(0)
-            return returned_regexes["Regexes"][0]["Regex Pattern"]["Name"]
+            console.print(f'\nI think the plaintext is a [yellow]{returned_regexes["Regexes"][0]["Regex Pattern"]["Name"]}[/yellow].')
+            return f'The plaintext is a [yellow]{returned_regexes["Regexes"][0]["Regex Pattern"]["Name"]}[/yellow].'
         return None
 
     def getExpectedRuntime(self, text: T) -> float:

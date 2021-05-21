@@ -303,33 +303,48 @@ class Searcher(ConfigurableModule):
 
 def pretty_search_results(res: SearchResult, display_intermediate: bool = False) -> str:
     ret: str = ""
-    if len(res.check_res) != 0:
-        ret += f"Checker: {res.check_res}\n"
-    ret += "Format used:\n"
+    # Only print the checker if we need to. Normal people don't know what 
+    # "quadgrams", "brandon", "json checker" is. 
+    # We print the checker if its regex or another language, so long as it starts with:
+    # "The" like "The plaintext is a Uniform Resource Locator (URL)."
+    if len(res.check_res) != 0 and "The" == res.check_res[0:3]:
+        ret += f"{res.check_res}\n"
 
     def add_one():
-        nonlocal ret
-        ret += f"  {i.name}"
+        out = ""
+        if i.name == "utf8":
+            out += f"   [#808080]{i.name}[/#808080]"
+        else:
+            out += f"   {i.name}"
         already_broken = False
         if i.result.key_info is not None:
-            ret += f":\n    Key: {i.result.key_info}\n"
+            out += f":\n    Key: {i.result.key_info}\n"
             already_broken = True
         if i.result.misc_info is not None:
             if not already_broken:
-                ret += ":\n"
-            ret += f"    Misc: {i.result.misc_info}\n"
+                out += ":\n"
+            out += f"    Misc: {i.result.misc_info}\n"
             already_broken = True
         if display_intermediate:
             if not already_broken:
-                ret += ":\n"
-            ret += f'    Value: "{i.result.value}"\n'
+                out += ":\n"
+            out += f'    Value: "{i.result.value}"\n'
             already_broken = True
         if not already_broken:
-            ret += "\n"
+            out += "\n"
+        return out
 
     # Skip the 'input' and print in order
+    out = ""
     for i in res.path[1:]:
-        add_one()
+        out += add_one()
+
+    if out:
+        if len(out.split("\n")) > 1:
+            ret += "Formats used:\n"
+        else:
+            ret += "Format used:\n"
+        ret += out
 
     # Remove trailing newline
     ret = ret[:-1]
@@ -337,7 +352,7 @@ def pretty_search_results(res: SearchResult, display_intermediate: bool = False)
     # If we didn't show intermediate steps, then print the final result
     if not display_intermediate:
         ret += (
-            f"""\nFinal result: [bold green]"{res.path[-1].result.value}"[bold green]"""
+            f"""\nPlaintext: [bold green]"{res.path[-1].result.value}"[bold green]"""
         )
 
     return ret

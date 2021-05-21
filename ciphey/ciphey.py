@@ -18,9 +18,10 @@ from typing import Any, Optional, Union
 import click
 from appdirs import AppDirs
 from loguru import logger
-from rich import print
 from yaspin import yaspin
 from yaspin.spinners import Spinners
+from rich.console import Console
+console = Console()
 
 from . import iface
 
@@ -264,4 +265,4 @@ def main(**kwargs):
     if result is None:
         result = "Could not find any solutions."
 
-    print(result)
+    console.print(result)
