@@ -1,33 +1,32 @@
 from typing import Dict, Optional
 
+from ciphey.iface import Checker, Config, ParamSpec, T, registry
 from loguru import logger
 from pywhat import identifier
-
-from ciphey.iface import Checker, Config, ParamSpec, T, registry
 
 
 @registry.register
 class What(Checker[str]):
 
     """
-    G-test of fitness, similar to Chi squared.
+    Uses PyWhat to determine plaintext with regexes
     """
 
-    def check(self, text: T) -> Optional[str]:
+    def check(self, ctext: T) -> Optional[str]:
         logger.trace("Trying PyWhat checker")
-        returned_regexes = self.id.identify(text, api=True)
+        returned_regexes = self.id.identify(ctext, api=True)
         if len(returned_regexes["Regexes"]) > 0:
             return returned_regexes["Regexes"][0]["Regex Pattern"]["Name"]
         return None
 
     def getExpectedRuntime(self, text: T) -> float:
         # TODO: actually bench this
-        return 4e-7 * len(text)
+        return 2e-7 * len(text)
+
+    @staticmethod
+    def getParams() -> Optional[Dict[str, ParamSpec]]:
+        return None
 
     def __init__(self, config: Config):
         super().__init__(config)
         self.id = identifier.Identifier()
-
-    @staticmethod
-    def getParams() -> Optional[Dict[str, ParamSpec]]:
-        pass
