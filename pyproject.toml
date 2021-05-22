@@ -11,7 +11,6 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.7"
 rich = ">=4,<11"
-loguru = "^0.5.3"
 pylint = "^2.6.0"
 flake8 = "^3.8.4"
 cipheydists = "^0.3.34"
@@ -22,9 +21,6 @@ base58 = "^2.0.1"
 base91 = "^1.0.1"
 pybase62 = "^0.4.3"
 click = ">=7.1.2,<9.0.0"
-click-spinner = "^0.1.10"
-pyyaml = "^5.3.1"
-yaspin = ">=0.17,<1.6"
 pywhat = "^0.2.5"
 
 [tool.poetry.dev-dependencies]

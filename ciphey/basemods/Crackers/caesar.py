@@ -11,7 +11,7 @@ from distutils import util
 from typing import Dict, List, Optional, Union
 
 import cipheycore
-from loguru import logger
+import logging
 
 from ciphey.common import fix_case
 from ciphey.iface import Config, Cracker, CrackInfo, CrackResult, ParamSpec, registry
@@ -47,7 +47,7 @@ class Caesar(Cracker[str]):
         else:
             message = ctext
 
-        logger.trace("Beginning cipheycore simple analysis")
+        logging.debug("Beginning cipheycore simple analysis")
 
         # Hand it off to the core
         analysis = self.cache.get_or_update(
@@ -55,7 +55,7 @@ class Caesar(Cracker[str]):
             "cipheycore::simple_analysis",
             lambda: cipheycore.analyse_string(ctext),
         )
-        logger.trace("Beginning cipheycore::caesar")
+        logging.debug("Beginning cipheycore::caesar")
         possible_keys = cipheycore.caesar_crack(
             analysis, self.expected, self.group, self.p_value
         )
@@ -64,7 +64,7 @@ class Caesar(Cracker[str]):
         logger.debug(f"Caesar returned {n_candidates} candidates")
 
         if n_candidates == 0:
-            logger.trace("Filtering for better results")
+            logging.debug("Filtering for better results")
             analysis = cipheycore.analyse_string(ctext, self.group)
             possible_keys = cipheycore.caesar_crack(
                 analysis, self.expected, self.group, self.p_value
@@ -73,7 +73,7 @@ class Caesar(Cracker[str]):
         candidates = []
 
         for candidate in possible_keys:
-            logger.trace(f"Candidate {candidate.key} has prob {candidate.p_value}")
+            logging.debug(f"Candidate {candidate.key} has prob {candidate.p_value}")
             translated = cipheycore.caesar_decrypt(message, candidate.key, self.group)
             candidates.append(
                 CrackResult(value=fix_case(translated, ctext), key_info=candidate.key)

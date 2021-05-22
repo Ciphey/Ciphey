@@ -1,7 +1,7 @@
 import re
 from typing import Dict, Optional
 
-from loguru import logger
+import logging
 
 from ciphey.iface import Checker, Config, ParamSpec, T, registry
 
@@ -14,13 +14,13 @@ class Regex(Checker[str]):
     def __init__(self, config: Config):
         super().__init__(config)
         self.regexes = list(map(re.compile, self._params()["regex"]))
-        logger.trace(f"There are {len(self.regexes)} regexes")
+        logging.debug(f"There are {len(self.regexes)} regexes")
 
     def check(self, text: str) -> Optional[str]:
         for regex in self.regexes:
-            logger.trace(f"Trying regex {regex} on {text}")
+            logging.debug(f"Trying regex {regex} on {text}")
             res = regex.search(text)
-            logger.trace(f"Results: {res}")
+            logging.debug(f"Results: {res}")
             if res:
                 return f"passed with regex {regex}"
 
@@ -45,13 +45,13 @@ class RegexList(Checker[str]):
         self.regexes = []
         for i in self._params()["resource"]:
             self.regexes += [re.compile(regex) for regex in config.get_resource(i)]
-        logger.trace(f"There are {len(self.regexes)} regexes")
+        logging.debug(f"There are {len(self.regexes)} regexes")
 
     def check(self, text: str) -> Optional[str]:
         for regex in self.regexes:
-            logger.trace(f"Trying regex {regex} on {text}")
+            logging.debug(f"Trying regex {regex} on {text}")
             res = regex.search(text)
-            logger.trace(f"Results: {res}")
+            logging.debug(f"Results: {res}")
             if res:
                 return f"passed with regex {regex}"
 

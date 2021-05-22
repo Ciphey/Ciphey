@@ -10,7 +10,7 @@ from ciphey.iface import (
     Translation,
     registry,
 )
-from loguru import logger
+import logging
 
 
 @registry.register
@@ -30,7 +30,7 @@ class Baconian(Cracker[str]):
         """
         Attempts to decode both variants of the Baconian cipher.
         """
-        logger.trace("Attempting Baconian cracker")
+        logging.debug("Attempting Baconian cracker")
         candidates = []
         result = []
         ctext_decoded = ""
@@ -41,13 +41,13 @@ class Baconian(Cracker[str]):
 
         # Make sure ctext only contains A and B
         if bool(re.search(r"[^AB]", ctext)) is True:
-            logger.trace("Failed to crack baconian due to non baconian character(s)")
+            logging.debug("Failed to crack baconian due to non baconian character(s)")
             return None
 
         # Make sure ctext is divisible by 5
         ctext_len = len(ctext)
         if ctext_len % 5:
-            logger.trace(
+            logging.debug(
                 f"Failed to decode Baconian because length must be a multiple of 5, not '{ctext_len}'"
             )
             return None
@@ -75,7 +75,7 @@ class Baconian(Cracker[str]):
                     result.append(CrackResult(value=candidate, key_info="I=J & U=V"))
                 else:
                     result.append(CrackResult(value=candidate))
-        logger.trace(f"Baconian cracker - Returning results: {result}")
+        logging.debug(f"Baconian cracker - Returning results: {result}")
         return result
 
     @staticmethod

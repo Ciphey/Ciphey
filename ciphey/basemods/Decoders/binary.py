@@ -1,7 +1,7 @@
 import re
 from typing import Dict, List, Optional
 
-from loguru import logger
+import logging
 
 from ciphey.iface import Config, Decoder, ParamSpec, T, U, registry
 

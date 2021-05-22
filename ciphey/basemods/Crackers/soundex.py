@@ -1,7 +1,7 @@
 import re
 from typing import Dict, List, Optional
 
-from loguru import logger
+import logging
 
 from ciphey.iface import (
     Config,
@@ -31,7 +31,7 @@ class Soundex(Cracker[str]):
         """
         Attempts to crack Soundex by generating all possible combinations.
         """
-        logger.trace("Attempting Soundex cracker")
+        logging.debug("Attempting Soundex cracker")
         word_list = []
         sentences = []
         result = []
@@ -41,13 +41,13 @@ class Soundex(Cracker[str]):
 
         # Make sure ctext contains only A-Z and 0-9
         if bool(re.search(r"[^A-Z0-9]", ctext)) is True:
-            logger.trace("Failed to crack soundex due to non soundex character(s)")
+            logging.debug("Failed to crack soundex due to non soundex character(s)")
             return None
 
         # Make sure ctext is divisible by 4
         ctext_len = len(ctext)
         if ctext_len % 4:
-            logger.trace(
+            logging.debug(
                 f"Failed to decode Soundex because length must be a multiple of 4, not '{ctext_len}'"
             )
             return None
@@ -78,7 +78,7 @@ class Soundex(Cracker[str]):
         for sentence in sorted_sentences:
             result.append(CrackResult(value=sentence))
 
-        logger.trace(f"Soundex cracker - Returning results: {result}")
+        logging.debug(f"Soundex cracker - Returning results: {result}")
         return result
 
     def sortlistwithdict(self, listtosort, hashes):
@@ -95,7 +95,7 @@ class Soundex(Cracker[str]):
         This function uses recursion to generate a list of sentences from all possible
         words for a given set of soundex codes.
         """
-        logger.trace("Creating all possible sentences from Soundex")
+        logging.debug("Creating all possible sentences from Soundex")
         if n == len(A):
             sentences.append(result[1:])
             for word in result[1:].split():

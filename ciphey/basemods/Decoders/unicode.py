@@ -1,6 +1,6 @@
 from typing import Dict, Optional
 
-from loguru import logger
+import logging
 
 from ciphey.iface import Config, Decoder, ParamSpec, T, U, registry
 
@@ -11,7 +11,7 @@ class Utf8(Decoder[bytes]):
         """
         Performs UTF-8 decoding
         """
-        logger.trace("Attempting UTF-8 decoder")
+        logging.debug("Attempting UTF-8 decoder")
         result = ""
         try:
             result = ctext.decode("utf-8")

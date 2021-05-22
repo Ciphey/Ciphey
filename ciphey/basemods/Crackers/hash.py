@@ -10,7 +10,7 @@ import re
 from typing import Dict, List, Optional
 
 import requests
-from loguru import logger
+import logging
 
 from ciphey.iface import Config, Cracker, CrackInfo, CrackResult, ParamSpec, T, registry
 
@@ -118,35 +118,35 @@ class HashBuster(Cracker[str]):
             for api in md5:
                 r = api(ctext, "md5")
                 if result is not None or r is not None:
-                    logger.trace("MD5 returns True {r}")
+                    logging.debug("MD5 returns True {r}")
                     candidates.append(result, "MD5")
         elif len(ctext) == 40:
             for api in sha1:
                 r = api(ctext, "sha1")
                 if result is not None and r is not None:
-                    logger.trace("sha1 returns true")
+                    logging.debug("sha1 returns true")
                     candidates.append(result, "SHA1")
         elif len(ctext) == 64:
             for api in sha256:
                 r = api(ctext, "sha256")
                 if result is not None and r is not None:
-                    logger.trace("sha256 returns true")
+                    logging.debug("sha256 returns true")
                     candidates.append(result, "SHA256")
         elif len(ctext) == 96:
             for api in sha384:
                 r = api(ctext, "sha384")
                 if result is not None and r is not None:
-                    logger.trace("sha384 returns true")
+                    logging.debug("sha384 returns true")
                     candidates.append(result, "SHA384")
         elif len(ctext) == 128:
             for api in sha512:
                 r = api(ctext, "sha512")
                 if result is not None and r is not None:
-                    logger.trace("sha512 returns true")
+                    logging.debug("sha512 returns true")
                     candidates.append(result, "SHA512")
 
         # TODO what the fuck is this code?
-        logger.trace(f"Hash buster returning {result}")
+        logging.debug(f"Hash buster returning {result}")
         # TODO add to 5.1 make this return multiple possible candidates
         return [CrackResult(value=candidates[0][0], misc_info=candidates[1][1])]
 

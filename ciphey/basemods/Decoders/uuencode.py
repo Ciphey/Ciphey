@@ -2,7 +2,7 @@ from binascii import a2b_uu
 from codecs import decode
 from typing import Dict, Optional
 
-from loguru import logger
+import logging
 
 from ciphey.iface import Config, Decoder, ParamSpec, T, U, registry
 
@@ -17,7 +17,7 @@ class Uuencode(Decoder[str]):
         This function decodes the input string 'ctext' if it has been encoded using 'uuencoder'
         It will return None otherwise
         """
-        logger.trace("Attempting UUencode")
+        logging.debug("Attempting UUencode")
         result = ""
         try:
             # UUencoded messages may begin with prefix "begin" and end with suffix "end"
@@ -34,7 +34,7 @@ class Uuencode(Decoder[str]):
             logger.debug(f"UUencode successful, returning '{result}'")
             return result
         except Exception:
-            logger.trace("Failed to decode UUencode")
+            logging.debug("Failed to decode UUencode")
             return None
 
     @staticmethod

@@ -1,7 +1,7 @@
 import re
 from typing import Dict, List, Optional
 
-from loguru import logger
+import logging
 
 from ciphey.iface import Config, Cracker, CrackInfo, CrackResult, ParamSpec, registry
 
@@ -25,10 +25,10 @@ class Xandy(Cracker[str]):
         binary_array = binary_int.to_bytes(byte_number, "big")
         try:
             ascii_text = binary_array.decode()
-            logger.trace(f"Found possible solution: {ascii_text[:32]}")
+            logging.debug(f"Found possible solution: {ascii_text[:32]}")
             return ascii_text
         except UnicodeDecodeError as e:
-            logger.trace(f"Failed to crack X-Y due to a UnicodeDecodeError: {e}")
+            logging.debug(f"Failed to crack X-Y due to a UnicodeDecodeError: {e}")
             return ""
 
     @staticmethod
@@ -42,7 +42,7 @@ class Xandy(Cracker[str]):
         0 and 1 (with the third characters as an optional delimiter) and then
         converts it to ASCII text.
         """
-        logger.trace("Attempting X-Y replacement")
+        logging.debug("Attempting X-Y replacement")
         variants = []
         candidates = []
         result = []
@@ -56,12 +56,12 @@ class Xandy(Cracker[str]):
 
         if not 1 < cset_len < 4:
             # We only consider inputs with two or three unique values
-            logger.trace(
+            logging.debug(
                 "Failed to crack X-Y due to not containing two or three unique values"
             )
             return None
 
-        logger.trace(f"String contains {cset_len} unique values: {cset}")
+        logging.debug(f"String contains {cset_len} unique values: {cset}")
 
         # In case of three unique values, we regard the least frequent character as the delimiter
         if cset_len == 3:
@@ -71,7 +71,7 @@ class Xandy(Cracker[str]):
                 counting_list.append(ctext.count(char))
             val, index = min((val, index) for (index, val) in enumerate(counting_list))
             delimiter = cset[index]
-            logger.trace(
+            logging.debug(
                 f"{delimiter} occurs {val} times and is the probable delimiter"
             )
             # Remove the delimiter from the ctext and compute new cset
@@ -92,7 +92,7 @@ class Xandy(Cracker[str]):
             if candidate != "":
                 keyinfo = f"{cset[0]} -> {i} & {cset[1]} -> {str(int(not i))}"
                 result.append(CrackResult(value=candidate, key_info=keyinfo))
-                logger.trace(f"X-Y cracker - Returning results: {result}")
+                logging.debug(f"X-Y cracker - Returning results: {result}")
                 return result
 
     @staticmethod

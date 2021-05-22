@@ -1,7 +1,7 @@
 from typing import Dict, Optional
 from urllib.parse import unquote_plus
 
-from loguru import logger
+import logging
 
 from ciphey.iface import Config, Decoder, ParamSpec, T, U, registry
 
@@ -12,7 +12,7 @@ class Url(Decoder[str]):
         """
         Performs URL decoding
         """
-        logger.trace("Attempting URL")
+        logging.debug("Attempting URL")
         result = ""
         try:
             result = unquote_plus(ctext, errors="strict")
@@ -22,7 +22,7 @@ class Url(Decoder[str]):
             else:
                 return None
         except Exception:
-            logger.trace("Failed to decode URL")
+            logging.debug("Failed to decode URL")
             return None
 
     @staticmethod

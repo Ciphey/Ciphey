@@ -7,7 +7,7 @@ from functools import lru_cache
 from typing import Any, Dict, Generic, List, Optional, TypeVar, Union
 
 import cipheycore
-from loguru import logger
+import logging
 
 from ciphey.iface import (
     Checker,
@@ -124,7 +124,7 @@ class PriorityWorkQueue(Generic[PriorityType, T]):
     _queues: Dict[Any, List[T]]
 
     def add_work(self, priority: PriorityType, work: List[T]) -> None:
-        logger.trace(f"""Adding work at depth {priority}""")
+        logging.debug(f"""Adding work at depth {priority}""")
 
         idx = bisect.bisect_left(self._sorted_priorities, priority)
         if (
@@ -209,14 +209,14 @@ class AuSearch(Searcher):
             except DuplicateNode:
                 continue
 
-            logger.trace("Nesting encodings")
+            logging.debug("Nesting encodings")
             self.recursive_expand(new_node, False)
 
     def recursive_expand(self, node: Node, nested: bool = True) -> None:
         if node.depth >= self.max_depth:
             return
 
-        logger.trace(f"Expanding depth {node.depth}")
+        logging.debug(f"Expanding depth {node.depth}")
 
         self.expand_decodings(node)
 
@@ -225,7 +225,7 @@ class AuSearch(Searcher):
             self.expand_crackers(node)
 
     def search(self, ctext: Any) -> Optional[SearchResult]:
-        logger.trace(
+        logging.debug(
             f"""Beginning AuSearch with {"inverted" if self.invert_priority else "normal"} priority"""
         )
 
@@ -259,10 +259,10 @@ class AuSearch(Searcher):
                     #     chunk += self.work.get_work_chunk()
                     #     infos = [i.info for i in chunk]
 
-                    logger.trace(f"{len(infos)} remaining on this level")
+                    logging.debug(f"{len(infos)} remaining on this level")
                     step_res = cipheycore.ausearch_minimise(infos)
                     edge: Edge = chunk.pop(step_res.index)
-                    logger.trace(
+                    logging.debug(
                         f"Weight is currently {step_res.weight} "
                         f"when we pick {type(edge.route).__name__.lower()} "
                         f"with depth {edge.source.depth}"

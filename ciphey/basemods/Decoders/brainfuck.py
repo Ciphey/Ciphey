@@ -2,7 +2,7 @@ import re
 import time
 from typing import Dict, Optional, Tuple
 
-from loguru import logger
+import logging
 
 from ciphey.iface import Config, Decoder, ParamSpec, T, U, WordList, registry
 
@@ -30,7 +30,7 @@ class Brainfuck(Decoder[str]):
             * The program starts with 100 memory cells, chosen arbitrarily
         """
 
-        logger.trace("Attempting brainfuck")
+        logging.debug("Attempting brainfuck")
 
         result = ""
         memory = [0] * 100
@@ -41,7 +41,7 @@ class Brainfuck(Decoder[str]):
 
         # If it doesn't appear to be valid brainfuck code
         if not isbf:
-            logger.trace("Failed to interpret brainfuck due to invalid characters")
+            logging.debug("Failed to interpret brainfuck due to invalid characters")
             return None
 
         # Get start time
@@ -53,7 +53,7 @@ class Brainfuck(Decoder[str]):
 
             # Return none if we've been running for over a minute
             if current - start > timelimit:
-                logger.trace("Failed to interpret brainfuck due to timing out")
+                logging.debug("Failed to interpret brainfuck due to timing out")
                 return None
 
             cmd = ctext[codeptr]

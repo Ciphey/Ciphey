@@ -1,7 +1,7 @@
 import re
 from typing import Dict, Optional
 
-from loguru import logger
+import logging
 
 from ciphey.iface import Config, Decoder, ParamSpec, T, Translation, U, registry
 
@@ -12,7 +12,7 @@ class Dna(Decoder[str]):
         """
         Performs DNA decoding
         """
-        logger.trace("Attempting DNA decoder")
+        logging.debug("Attempting DNA decoder")
         ctext_decoded = ""
         ctext = re.sub(r"[,;:\-\s]", "", ctext)
         ctext = " ".join(ctext[i : i + 3] for i in range(0, len(ctext), 3))

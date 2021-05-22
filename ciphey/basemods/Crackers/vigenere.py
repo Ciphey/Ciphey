@@ -11,7 +11,7 @@ from distutils import util
 from typing import Dict, List, Optional, Union
 
 import cipheycore
-from loguru import logger
+import logging
 
 from ciphey.common import fix_case
 from ciphey.iface import Config, Cracker, CrackInfo, CrackResult, ParamSpec, registry
@@ -87,7 +87,7 @@ class Vigenere(Cracker[str]):
         )
         if len(possible_keys) > self.clamp:
             possible_keys = possible_keys[: self.clamp]
-        logger.trace(
+        logging.debug(
             f"Vigenere crack got keys: {[[i for i in candidate.key] for candidate in possible_keys]}"
         )
         return [
@@ -134,7 +134,7 @@ class Vigenere(Cracker[str]):
         )
         possible_lens = [i for i in likely_lens]
         possible_lens.sort(key=lambda i: i.p_value)
-        logger.trace(f"Got possible lengths {[i.len for i in likely_lens]}")
+        logging.debug(f"Got possible lengths {[i.len for i in likely_lens]}")
         # TODO: work out length
         for i in possible_lens:
             arrs.extend(

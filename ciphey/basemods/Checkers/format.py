@@ -1,7 +1,7 @@
 import json
 from typing import Dict, Optional
 
-from loguru import logger
+import logging
 
 from ciphey.iface import Checker, Config, ParamSpec, T, registry
 
@@ -14,7 +14,7 @@ class JsonChecker(Checker[str]):
     """
 
     def check(self, text: T) -> Optional[str]:
-        logger.trace("Trying json checker")
+        logging.debug("Trying json checker")
 
         # https://github.com/Ciphey/Ciphey/issues/389
         if text.isdigit():

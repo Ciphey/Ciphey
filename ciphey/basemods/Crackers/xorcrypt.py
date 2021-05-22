@@ -11,7 +11,7 @@ import base64
 from typing import Dict, List, Optional
 
 import cipheycore
-from loguru import logger
+import logging
 
 from ciphey.iface import Config, Cracker, CrackInfo, CrackResult, ParamSpec, registry
 
@@ -63,7 +63,7 @@ class XorCrypt(Cracker[bytes]):
     ) -> List[CrackResult]:
         possible_keys = cipheycore.xorcrypt_crack(analysis, self.expected, self.p_value)
 
-        logger.trace(
+        logging.debug(
             f"xorcrypt crack got keys: {[[i for i in candidate.key] for candidate in possible_keys]}"
         )
         return [
@@ -94,7 +94,7 @@ class XorCrypt(Cracker[bytes]):
             lambda: cipheycore.xorcrypt_guess_len(ctext),
         )
 
-        logger.trace(f"Got possible length {len}")
+        logging.debug(f"Got possible length {len}")
 
         if len < 2:
             return []

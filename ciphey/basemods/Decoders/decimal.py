@@ -1,7 +1,7 @@
 import re
 from typing import Dict, Optional
 
-from loguru import logger
+import logging
 
 from ciphey.iface import Config, Decoder, ParamSpec, T, U, registry
 
@@ -12,20 +12,20 @@ class Decimal(Decoder[str]):
         """
         Performs Decimal decoding
         """
-        logger.trace("Attempting decimal")
+        logging.debug("Attempting decimal")
         ctext_converted = []
         ctext_split = re.split(r"[ ,;:\-\n]", ctext)
         delimiters = set(sorted(re.sub(r"[^ ,;:\-\n]", "", ctext)))
         ctext_num = re.sub(r"[,;:\-\s]", "", ctext)
         ctext_decoded = ""
         if ctext_num.isnumeric() is False:
-            logger.trace("Failed to decode decimal due to non numeric character(s)")
+            logging.debug("Failed to decode decimal due to non numeric character(s)")
             return None
         try:
             for i in ctext_split:
                 val = int(i)
                 if val > 255 or val < 0:
-                    logger.trace(
+                    logging.debug(
                         f"Failed to decode decimal due to invalid number '{val}'"
                     )
                     return None

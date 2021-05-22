@@ -1,7 +1,7 @@
 import re
 from typing import Dict, Optional
 
-from loguru import logger
+import logging
 
 from ciphey.iface import Config, Decoder, ParamSpec, T, U, registry
 
@@ -12,20 +12,20 @@ class A1z26(Decoder[str]):
         """
         Performs A1Z26 decoding
         """
-        logger.trace("Attempting A1Z26")
+        logging.debug("Attempting A1Z26")
         ctext_converted = []
         ctext_split = re.split(r"[ ,;:\-\n]", ctext)
         delimiters = set(sorted(re.sub(r"[^ ,;:\-\n]", "", ctext)))
         ctext_num = re.sub(r"[,;:\-\s]", "", ctext)
         ctext_decoded = ""
         if ctext_num.isnumeric() is False:
-            logger.trace("Failed to decode A1Z26 due to non numeric character(s)")
+            logging.debug("Failed to decode A1Z26 due to non numeric character(s)")
             return None
         try:
             for i in ctext_split:
                 val = int(i)
                 if val > 26 or val < 1:
-                    logger.trace(
+                    logging.debug(
                         f"Failed to decode A1Z26 due to invalid number '{val}'"
                     )
                     return None

@@ -2,7 +2,7 @@ import re
 from typing import Dict, Optional
 
 from ciphey.iface import Config, Decoder, ParamSpec, T, Translation, U, registry
-from loguru import logger
+import logging
 
 
 @registry.register
@@ -11,7 +11,7 @@ class Braille(Decoder[str]):
         """
         Performs Braille decoding
         """
-        logger.trace("Attempting Braille")
+        logging.debug("Attempting Braille")
         ctext_decoded = ""
         braille_matches = 0
         for symbol in self.BRAILLE_DICT_INV.values():
@@ -20,7 +20,7 @@ class Braille(Decoder[str]):
             else:
                 continue
         if braille_matches == 0:
-            logger.trace("Failed to decode Braille due to invalid characters")
+            logging.debug("Failed to decode Braille due to invalid characters")
             return None
 
         for pattern, value in self.BRAILLE_DICT.items():

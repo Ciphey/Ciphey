@@ -4,7 +4,7 @@
 from typing import Dict, List, Optional
 
 import cipheycore
-from loguru import logger
+import logging
 
 from ciphey.common import fix_case
 from ciphey.iface import Config, Cracker, CrackInfo, CrackResult, ParamSpec, registry
@@ -38,7 +38,7 @@ class Affine(Cracker[str]):
         """
         Brute forces all the possible combinations of a and b to attempt to crack the cipher.
         """
-        logger.trace("Attempting affine")
+        logging.debug("Attempting affine")
         candidates = []
 
         # a and b are coprime if gcd(a,b) is 1.

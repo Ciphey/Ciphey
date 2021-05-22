@@ -1,6 +1,10 @@
 from typing import Dict, Optional
+import os
+from rich.console import Console
 
 from ciphey.iface import Checker, Config, ParamSpec, registry
+
+console = Console()
 
 
 @registry.register
@@ -11,7 +15,9 @@ class HumanChecker(Checker[str]):
 
     def check(self, text: str) -> Optional[str]:
         with self._config().pause_spinner_handle():
-            response = input(f"Result {text.__repr__()} (y/N): ").lower()
+            response = console.input(
+                f"Result [blue bold]{text.__repr__()}[/blue bold] ([green]y[/green]/[red]N[/red]): "
+            )
         if response == "y":
             return ""
         elif response in ("n", ""):

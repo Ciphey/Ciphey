@@ -1,6 +1,6 @@
 from typing import Dict, Optional
 
-from loguru import logger
+import logging
 
 from ciphey.iface import Config, Decoder, ParamSpec, T, U, registry
 
@@ -18,17 +18,17 @@ class Octal(Decoder[str]):
             if len(ctext) % 3 != 0:
                 return None
             octal_seq = [ctext[i : i + 3] for i in range(0, len(ctext), 3)]
-            logger.trace(f"Trying chunked octal {octal_seq}")
+            logging.debug(f"Trying chunked octal {octal_seq}")
         try:
             for octal_char in octal_seq:
                 if len(octal_char) > 3:
-                    logger.trace("Octal subseq too long")
+                    logging.debug("Octal subseq too long")
                     return None
                 n = int(octal_char, 8)
                 if (
                     n < 0
                 ):  # n cannot be greater than 255, as we checked that with the earlier length check
-                    logger.trace(f"Non octal char {octal_char}")
+                    logging.debug(f"Non octal char {octal_char}")
                     return None
                 str_converted.append(n)
 

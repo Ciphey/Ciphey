@@ -11,12 +11,14 @@ def test_regex_ip():
     )
     assert res == "192.160.0.1"
 
+
 def test_regex_domain():
     res = decrypt(
         Config().library_default().complete_config(),
         "aHR0cHM6Ly9nb29nbGUuY29t",
     )
     assert res == "https://google.com"
+
 
 def test_regex_bitcoin():
     res = decrypt(
