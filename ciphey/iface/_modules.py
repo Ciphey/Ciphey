@@ -1,5 +1,9 @@
 from abc import ABC, abstractmethod
 from typing import Any, Dict, Generic, List, NamedTuple, Optional, Set, Type, TypeVar
+from rich.table import Table
+from rich.console import Console
+from rich import box
+console = Console()
 
 from ._fwd import config as Config
 
@@ -303,6 +307,7 @@ class Searcher(ConfigurableModule):
 
 def pretty_search_results(res: SearchResult, display_intermediate: bool = False) -> str:
     ret: str = ""
+    table = Table(show_header=False)
     # Only print the checker if we need to. Normal people don't know what 
     # "quadgrams", "brandon", "json checker" is. 
     # We print the checker if its regex or another language, so long as it starts with:
@@ -354,8 +359,8 @@ def pretty_search_results(res: SearchResult, display_intermediate: bool = False)
         ret += (
             f"""\nPlaintext: [bold green]"{res.path[-1].result.value}"[bold green]"""
         )
-
-    return ret
+    table.add_row(ret)
+    return table
 
 
 # Some common collection types

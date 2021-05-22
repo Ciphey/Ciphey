@@ -17,7 +17,6 @@ class HumanChecker(Checker[str]):
         with self._config().pause_spinner_handle():
             response = console.input(f"Possible plaintext: [blue bold]{text.__repr__()}[/blue bold] ([green]y[/green]/[red]N[/red]): ")
         if response == "y":
-            self.clear_terminal()
             return ""
         elif response in ("n", ""):
             return None
