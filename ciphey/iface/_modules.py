@@ -307,7 +307,7 @@ class Searcher(ConfigurableModule):
 
 def pretty_search_results(res: SearchResult, display_intermediate: bool = False) -> str:
     ret: str = ""
-    table = Table(show_header=False)
+    table = Table(show_header=False, box=box.ROUNDED)
     # Only print the checker if we need to. Normal people don't know what 
     # "quadgrams", "brandon", "json checker" is. 
     # We print the checker if its regex or another language, so long as it starts with:

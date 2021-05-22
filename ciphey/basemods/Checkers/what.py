@@ -11,7 +11,8 @@ console = Console()
 class What(Checker[str]):
 
     """
-    G-test of fitness, similar to Chi squared.
+    Uses PyWhat to determine plaintext with regexes
+    https://github.com/bee-san/pyWhat
     """
 
     def check(self, text: T) -> Optional[str]:
@@ -24,12 +25,12 @@ class What(Checker[str]):
 
     def getExpectedRuntime(self, text: T) -> float:
         # TODO: actually bench this
-        return 4e-7 * len(text)
-
-    def __init__(self, config: Config):
-        super().__init__(config)
-        self.id = identifier.Identifier()
+        return 2e-7 * len(text)
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
         pass
+
+    def __init__(self, config: Config):
+        super().__init__(config)
+        self.id = identifier.Identifier()
