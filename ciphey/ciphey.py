@@ -18,14 +18,15 @@ from typing import Any, Optional, Union
 import click
 from appdirs import AppDirs
 from loguru import logger
+from rich.console import Console
 from yaspin import yaspin
 from yaspin.spinners import Spinners
-from rich.console import Console
-console = Console()
 
 from . import iface
 
 warnings.filterwarnings("ignore")
+
+console = Console()
 
 
 def decrypt(config: iface.Config, ctext: Any) -> Union[str, bytes]:
