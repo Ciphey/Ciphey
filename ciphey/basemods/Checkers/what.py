@@ -7,6 +7,7 @@ from rich.console import Console
 
 console = Console()
 
+
 @registry.register
 class What(Checker[str]):
 
@@ -15,11 +16,13 @@ class What(Checker[str]):
     https://github.com/bee-san/pyWhat
     """
 
-    def check(self, text: T) -> Optional[str]:
+    def check(self, ctext: T) -> Optional[str]:
         logger.trace("Trying PyWhat checker")
-        returned_regexes = self.id.identify(text, api=True)
+        returned_regexes = self.id.identify(ctext, api=True)
         if len(returned_regexes["Regexes"]) > 0:
-            console.print(f'\nI think the plaintext is a [yellow]{returned_regexes["Regexes"][0]["Regex Pattern"]["Name"]}[/yellow].')
+            console.print(
+                f'\nI think the plaintext is a [yellow]{returned_regexes["Regexes"][0]["Regex Pattern"]["Name"]}[/yellow].'
+            )
             return f'The plaintext is a [yellow]{returned_regexes["Regexes"][0]["Regex Pattern"]["Name"]}[/yellow].'
         return None
 
@@ -29,7 +32,7 @@ class What(Checker[str]):
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
-        pass
+        return None
 
     def __init__(self, config: Config):
         super().__init__(config)
