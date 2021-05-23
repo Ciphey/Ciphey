@@ -19,11 +19,12 @@ import click
 from appdirs import AppDirs
 from loguru import logger
 from rich.console import Console
-console = Console()
 
 from . import iface
 
 warnings.filterwarnings("ignore")
+
+console = Console()
 
 
 def decrypt(config: iface.Config, ctext: Any) -> Union[str, bytes]:
@@ -257,7 +258,7 @@ def main(**kwargs):
         result = decrypt(config, kwargs["text"])
     else:
         # else, run with spinner if verbosity is 0
-        with console.status("[bold green]Thinking...", spinner='moon') as status:
+        with console.status("[bold green]Thinking...", spinner="moon") as status:
             config.set_spinner(status)
             result = decrypt(config, kwargs["text"])
     if result is None:
