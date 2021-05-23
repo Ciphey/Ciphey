@@ -1,14 +1,17 @@
 from abc import ABC, abstractmethod
 from typing import Any, Dict, Generic, List, NamedTuple, Optional, Set, Type, TypeVar
-from rich.table import Table
-from rich.console import Console
+
 from rich import box
-console = Console()
+from rich.console import Console
+from rich.markup import escape
+from rich.table import Table
 
 from ._fwd import config as Config
 
 T = TypeVar("T")
 U = TypeVar("U")
+
+console = Console()
 
 
 class ParamSpec(NamedTuple):
@@ -307,9 +310,9 @@ class Searcher(ConfigurableModule):
 
 def pretty_search_results(res: SearchResult, display_intermediate: bool = False) -> str:
     ret: str = ""
-    table = Table(show_header=False, box=box.ROUNDED)
-    # Only print the checker if we need to. Normal people don't know what 
-    # "quadgrams", "brandon", "json checker" is. 
+    table = Table(show_header=False, box=box.ROUNDED, safe_box=False)
+    # Only print the checker if we need to. Normal people don't know what
+    # "quadgrams", "brandon", "json checker" is.
     # We print the checker if its regex or another language, so long as it starts with:
     # "The" like "The plaintext is a Uniform Resource Locator (URL)."
     if len(res.check_res) != 0 and "The" == res.check_res[0:3]:
@@ -356,9 +359,7 @@ def pretty_search_results(res: SearchResult, display_intermediate: bool = False)
 
     # If we didn't show intermediate steps, then print the final result
     if not display_intermediate:
-        ret += (
-            f"""\nPlaintext: [bold green]"{res.path[-1].result.value}"[bold green]"""
-        )
+        ret += f"""\nPlaintext: [bold green]"{escape(res.path[-1].result.value)}"[bold green]"""
     table.add_row(ret)
     return table
 
