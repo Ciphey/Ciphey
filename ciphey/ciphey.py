@@ -18,13 +18,15 @@ from typing import Any, Optional, Union
 import click
 from appdirs import AppDirs
 from loguru import logger
-from rich import print
+from rich.console import Console
 from yaspin import yaspin
 from yaspin.spinners import Spinners
 
 from . import iface
 
 warnings.filterwarnings("ignore")
+
+console = Console()
 
 
 def decrypt(config: iface.Config, ctext: Any) -> Union[str, bytes]:
@@ -264,4 +266,4 @@ def main(**kwargs):
     if result is None:
         result = "Could not find any solutions."
 
-    print(result)
+    console.print(result)
