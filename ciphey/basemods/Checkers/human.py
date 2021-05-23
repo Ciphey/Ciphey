@@ -2,6 +2,7 @@ from typing import Dict, Optional
 
 from ciphey.iface import Checker, Config, ParamSpec, registry
 from rich.console import Console
+from rich.markup import escape
 
 console = Console()
 
@@ -16,7 +17,7 @@ class HumanChecker(Checker[str]):
     def check(self, ctext: str) -> Optional[str]:
         with self._config().pause_spinner_handle():
             response = console.input(
-                f"Possible plaintext: [blue bold]{ctext.__repr__()}[/blue bold] ([green]y[/green]/[red]N[/red]): "
+                f"Possible plaintext: [blue bold]{escape(ctext.__repr__())}[/blue bold] ([green]y[/green]/[red]N[/red]): "
             )
         if response == "y":
             return ""
