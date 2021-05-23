@@ -127,7 +127,7 @@ class mathsHelper:
                     )
                     if maxLocal > max_overall:
                         logger.trace(f"New max local found {maxLocal}")
-                        # because the dict doesnt reset
+                        # because the dict doesn't reset
                         max_dict_pair = {}
                         max_overall = maxLocal
                         # so eventually, we get the maximum dict pairing?
