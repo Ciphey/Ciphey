@@ -20,10 +20,28 @@ class What(Checker[str]):
         logger.trace("Trying PyWhat checker")
         returned_regexes = self.id.identify(ctext, api=True)
         if len(returned_regexes["Regexes"]) > 0:
-            console.print(
-                f'\nI think the plaintext is a [yellow]{returned_regexes["Regexes"][0]["Regex Pattern"]["Name"]}[/yellow].'
-            )
-            return f'The plaintext is a [yellow]{returned_regexes["Regexes"][0]["Regex Pattern"]["Name"]}[/yellow].'
+
+            matched_regex = returned_regexes["Regexes"][0]["Regex Pattern"]
+
+            ret = f'The plaintext is a [yellow]{matched_regex["Name"]}[/yellow]'
+            human = f'\nI think the plaintext is a [yellow]{matched_regex["Name"]}[/yellow]'
+
+            if "Description" in matched_regex and matched_regex["Description"]:
+                s = matched_regex['Description']
+                # lowercases first letter so it doesn't look weird
+                s = f", which is {s[0].lower() + s[1:]}"
+                ret += s
+                human += s
+            
+            # Print with full stop
+            console.print(human)
+            
+            # if URL is attached, include that too.
+            if "URL" in matched_regex:
+                link = matched_regex['URL'] + ctext.replace(' ', '')
+                ret += f"\nClick here to view in browser [#CAE4F1][link={link}]{link}[/link][/#CAE4F1]"
+
+            return ret
         return None
 
     def getExpectedRuntime(self, text: T) -> float:
