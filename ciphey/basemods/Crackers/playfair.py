@@ -156,7 +156,6 @@ class Playfair(ciphey.iface.Cracker[str]):
             message = ctext
 
         table = str.maketrans('', '',
-                              string.ascii_uppercase +
                               string.digits +
                               string.punctuation +
                               string.whitespace
@@ -197,15 +196,6 @@ class Playfair(ciphey.iface.Cracker[str]):
         # We do not handle any ciphertext with "j".
         if 'j' in message:
             return None
-
-        # Filter out anything except lowercase latin letters.
-        table = str.maketrans('', '',
-                              string.ascii_uppercase +
-                              string.digits +
-                              string.punctuation +
-                              string.whitespace
-                              )
-        message = message.translate(table)
 
         logger.trace("Beginning cipheycore simple analysis")
         alphabet = [
