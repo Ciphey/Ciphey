@@ -359,7 +359,7 @@ def pretty_search_results(res: SearchResult, display_intermediate: bool = False)
 
     # If we didn't show intermediate steps, then print the final result
     if not display_intermediate:
-        ret += f"""\nPlaintext: [bold green]"{escape(res.path[-1].result.value)}"[bold green]"""
+        ret += f"""Plaintext: [bold green]"{escape(res.path[-1].result.value)}"[bold green]"""
     table.add_row(ret)
     return table
 
