@@ -17,8 +17,8 @@ from ciphey.iface import ParamSpec, CrackResult, T, CrackInfo, registry, Transla
 
 def count_bigrams(str):
     """Count bigrams which appear in `str`.
-    >>> count_bigrams("hello my name is bee")
-    {'he': 1, 'll': 1, 'om': 1, 'yn': 1, 'am': 1, 'ei': 1, 'sb': 1, 'ee': 1}
+    >>> count_bigrams("hello")
+    {'he': 1, 'el': 1, 'll': 1, 'lo': 1}
     """
     table = str.maketrans('', '',
                     string.digits +
@@ -28,11 +28,11 @@ def count_bigrams(str):
     str = str.translate(table).lower()
 
     freq = {}
-    for (i, c) in enumerate(str[:-1:2]):
+    for (i, c) in enumerate(str[:-1]):
         try:
-            freq[c + str[i * 2 + 1]] += 1
+            freq[c + str[i + 1]] += 1
         except KeyError:
-            freq[c + str[i * 2 + 1]] = 1
+            freq[c + str[i + 1]] = 1
 
     return freq
 
