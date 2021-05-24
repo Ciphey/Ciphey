@@ -206,41 +206,41 @@ class Playfair(ciphey.iface.Cracker[str]):
             "v", "w", "x", "y", "z"]
 
         logger.trace("Beginning ciphey.playfair")
-        possible_keys = []
+        # possible_keys = []
 
-        ktable = alphabet
-        shuffle(ktable)
+        best_key = alphabet
+        shuffle(best_key)
         # TODO: Count bigrams for frequency analysis. 2020-10-25
         key_p_value = self.score(
-            count_bigrams(decrypt(message, ktable)))
+            count_bigrams(decrypt(message, best_key)))
 
         # Threshold Acceptance algorithm (similar to Simulated Annealing)
-        threshold = 0.2
+        threshold = 1.0
         while threshold > 0:
-            new_key = random_swap(ktable)
+            new_key = random_swap(best_key)
             new_score = self.score(
                 count_bigrams(decrypt(message, new_key)))
 
-            if (new_score > key_p_value * (1 - threshold)):
-                ktable = new_key
+            if (new_score >= key_p_value * (1.0 - threshold)):
+                print(''.join(new_key), new_score)
+
+                best_key = new_key
                 key_p_value = new_score
 
-            if new_score >= self.p_value:
-                possible_keys.append(new_key)
+            threshold -= 0.00002
 
-            threshold -= 0.0002
+        # n_candidates = len(possible_keys)
+        # logger.debug(f"Playfair returned {n_candidates} candidates")
 
-        n_candidates = len(possible_keys)
-        logger.debug(f"Playfair returned {n_candidates} candidates")
+        # candidates = []
 
-        candidates = []
+        # for candidate in possible_keys:
+        #     plaintext = decrypt(message, candidate)
+        #     candidates.append(CrackResult(
+        #         value=plaintext, key_info=''.join(candidate)))
 
-        for candidate in possible_keys:
-            plaintext = decrypt(message, candidate)
-            candidates.append(CrackResult(
-                value=plaintext, key_info=''.join(candidate)))
-
-        return candidates
+        # return candidates
+        return [CrackResult(value=decrypt(message, best_key), key_info=''.join(best_key))]
 
     def score(self, observed):
         score = 0.0
