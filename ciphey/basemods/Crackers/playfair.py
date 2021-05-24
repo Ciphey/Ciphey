@@ -45,7 +45,6 @@ def decrypt(ctext: str, ktable: str) -> str:
     ... )
     'hello my name is bee and i like dog and apple and tree'
     """
-
     ptext = ""
     index = 0
     while index < len(ctext):
