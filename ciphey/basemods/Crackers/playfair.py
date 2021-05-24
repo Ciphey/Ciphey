@@ -244,13 +244,18 @@ class Playfair(ciphey.iface.Cracker[str]):
 
     def score(self, observed):
         score = 0.0
-        for (k, v) in observed:
+        total = 0
+        for (k, v) in observed.items():
+            total += v
             try:
-                score += self.expected[k] * v
+                score += self.dist[k] * v
             except:
                 pass
 
-        score /= len(observed)
+        if total <= 0:
+            total = 1
+
+        score /= total
         return score
 
     def finalize(self, ptext, ctext):
