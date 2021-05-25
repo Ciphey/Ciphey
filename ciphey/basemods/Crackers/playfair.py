@@ -9,7 +9,6 @@ import string
 
 from loguru import logger
 import ciphey
-import cipheycore
 import cipheydists
 
 from ciphey.iface import ParamSpec, CrackResult, T, CrackInfo, registry, Translation
