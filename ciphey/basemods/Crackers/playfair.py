@@ -102,7 +102,8 @@ def decrypt(ctext: str, ktable: str) -> str:
             ptext += ktable[math.floor(b_i / 5) * 5 + a_i % 5]
 
     # Remove trailing pad if it exists.
-    ptext = ptext.removesuffix("x")
+    if ptext.endswith("x"):
+        ptext = ptext[:-1]
 
     # Record padding characters separating repeated digraphs (e.g. ee, bb, aa.)
     padding_chars = []
