@@ -184,16 +184,13 @@ class Playfair(ciphey.iface.Cracker[str]):
 
     def attemptCrack(self, ctext: str) -> List[CrackResult]:
         logger.debug("Trying playfair cipher")
-        # Convert it to lower case
+        # Convert it to upper case for scoring
         #
         # TODO: handle different alphabets
-        if self.lower:
-            message = ctext.lower()
-        else:
-            message = ctext
+        message = ctext.upper()
 
         # We do not handle any ciphertext with "j".
-        if 'j' in message:
+        if 'J' in message:
             return None
 
         logger.trace("Beginning cipheycore simple analysis")
@@ -239,7 +236,7 @@ class Playfair(ciphey.iface.Cracker[str]):
         #         value=plaintext, key_info=''.join(candidate)))
 
         # return candidates
-        return [CrackResult(value=decrypt(message, best_key), key_info=''.join(best_key))]
+        return [CrackResult(value=decrypt(ctext, best_key), key_info=''.join(best_key))]
 
     def score(self, observed):
         score = 0.0
@@ -282,10 +279,10 @@ class Playfair(ciphey.iface.Cracker[str]):
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
         return {
-            "expected": ciphey.iface.ParamSpec(
-                desc="The expected distribution of the plaintext",
+            "dist": ciphey.iface.ParamSpec(
+                desc="The bigram distribution to use",
                 req=False,
-                config_ref=["default_dist"],
+                default="cipheydists::dist::bigrams",
             ),
             "group": ciphey.iface.ParamSpec(
                 desc="An ordered sequence of chars that make up the playfair cipher alphabet",
@@ -311,7 +308,7 @@ class Playfair(ciphey.iface.Cracker[str]):
         if type(self.lower) != bool:
             self.lower = util.strtobool(self.lower)
         self.group = list(self._params()["group"])
-        self.expected = config.get_resource(
-            self._params()["expected"], Translation)
+        self.dist = config.get_resource(
+            self._params()["dist"], Translation)
         self.cache = config.cache
         self.p_value = self._params()["p_value"]
