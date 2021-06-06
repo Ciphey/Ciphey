@@ -29,18 +29,19 @@ class What(Checker[str]):
             if "Description" in matched_regex and matched_regex["Description"]:
                 s = matched_regex['Description']
                 # lowercases first letter so it doesn't look weird
-                s = f", which is {s[0].lower() + s[1:]}"
+                s = f", which is {s[0].lower() + s[1:]}\n"
                 ret += s
                 human += s
-            
-            # Print with full stop
-            console.print(human)
             
             # if URL is attached, include that too.
             if "URL" in matched_regex:
                 link = matched_regex['URL'] + ctext.replace(' ', '')
-                ret += f"\nClick here to view in browser [#CAE4F1][link={link}]{link}[/link][/#CAE4F1]"
-
+                ret += f"\nClick here to view in browser [#CAE4F1][link={link}]{link}[/link][/#CAE4F1]\n"
+            
+            # If greppable mode is on, don't print this
+            if self.config.verbosity > 0:
+                # Print with full stop
+                console.print(human)
             return ret
         return None
 
@@ -54,4 +55,5 @@ class What(Checker[str]):
 
     def __init__(self, config: Config):
         super().__init__(config)
+        self.config = config
         self.id = identifier.Identifier()
