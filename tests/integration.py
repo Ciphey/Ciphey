@@ -5,7 +5,7 @@ from rich.logging import RichHandler
 
 from ciphey.LanguageChecker import LanguageChecker
 
-logger.remove()
+logging.remove()
 
 
 class testIntegration(unittest.TestCase):
