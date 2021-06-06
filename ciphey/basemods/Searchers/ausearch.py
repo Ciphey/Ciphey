@@ -120,13 +120,19 @@ class AusearchResult:
     index: int
 
 def convert_edge_info(info: CrackInfo):
-    return 1
+    return AusearchEdge(
+        info.success_likelihood, info.success_runtime, info.failure_runtime
+    )
 
 # Equivalent to CPP ausearch_minimise
 def minimise_edges(edges) -> AusearchResult: 
     weight = minimise_edges_impl(edges)
     index = len(edges) # TODO: Is this ever different? C++ code seems to just count the number of elements...but in a really cursed way
+    # NOTE: Bee -- Cannot find this in the C++ code https://github.com/Ciphey/CipheyCore/blob/master/src/ausearch.cpp
     return AusearchResult(weight, index)
+
+def calculate_index(edges):
+    return len()
 
 # Equivalent to cpp minimise_edges
 def minimise_edges_impl(edges) -> float:
@@ -134,6 +140,7 @@ def minimise_edges_impl(edges) -> float:
     if num_edges == 0:
         return float('NaN')
     elif num_edges == 1:
+        # Because we can't minimise edges if we only have 1 edge.
         return calculate_weight(edges)
 
     # NOTE: Comment originally from C++ code. 
@@ -151,7 +158,8 @@ def minimise_edges_impl(edges) -> float:
 
         # Now, iterating down the edge list, trying to find the minimising value
         for current_pos, _ in enumerate(edges[:-1]):
-            max_remaining_weight = float_info.min
+            # max_remaining_weight = float_info.min
+            max_remaining_weight = float("-inf")
             max_pos = -1
 
             for i, target in enumerate(edges[current_pos:]):
@@ -170,15 +178,19 @@ def minimise_edges_impl(edges) -> float:
                     max_pos = i
             
             # Swap edges[current_pos] with edges[max]
+            # This is basically just a sorting algorithm
             edges[current_pos], edges[max_pos] = edges[max_pos], edges[current_pos]
             remaining_weight = max_remaining_weight
         
         weight = calculate_antiweight(edges)
 
         while True:
+            # We continually loop if we make progress towards the best minimally sorted list of edges
+            # So if we can improve on our current situation, keep on sorting
             tmp_weight = weight
 
             for pos, _ in enumerate(edges[:-2]):
+                # Sorts the edges and bruteforces it to find the best minimally sorted list of edges
                 brute_edges(edges, pos)
             
             weight = brute_edges(edges, len(edges)-2)
@@ -232,6 +244,7 @@ class Edge:
     route: Union[Cracker, Decoder]
     dest: Optional[Node] = None
     # Info is not filled in for Decoders
+    info: Optional[AusearchEdge] = None
 
 
 
@@ -305,7 +318,7 @@ class AuSearch(Searcher):
         for i in self.get_crackers_for(type(res)):
             inst = self._config()(i)
             additional_work.append(
-                Edge(source=node, route=inst)
+                Edge(source=node, route=inst, info=convert_edge_info(inst.getInfo(res)))
             )
         priority = min(node.depth, self.priority_cap)
         if self.invert_priority:
@@ -365,6 +378,7 @@ class AuSearch(Searcher):
                     break
                 # Get the highest level result
                 chunk = self.work.get_work_chunk()
+                infos = [i.info for i in chunk]
                 # Work through all of this level's results
                 while len(chunk) != 0:
                     max_depth = 0
@@ -373,12 +387,15 @@ class AuSearch(Searcher):
                             max_depth = i.source.depth
                     logger.debug(f"At depth {chunk[0].source.depth}")
 
-                    # if self.disable_priority:
-                    #     chunk += self.work.get_work_chunk()
-                    #     infos = [i.info for i in chunk]
+                    """if self.disable_priority:
+                         chunk += self.work.get_work_chunk()
+                         infos = [i.info for i in chunk]"""
 
-                    step_res = 0.1
-                    edge: Edge = chunk.pop(0)
+                    step_res = minimise_edges(infos)
+                    # TODO Cyclic uses some tricky C++ here
+                    # I know because it's sorted the one at the back (the anti-weight)
+                    # is the most likely
+                    edge: Edge = chunk.pop(-1)
                     logger.trace(
                         f"Weight is currently {0} "
                         f"when we pick {type(edge.route).__name__.lower()} "
