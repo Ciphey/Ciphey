@@ -5,7 +5,6 @@ from copy import copy
 from dataclasses import dataclass
 from functools import lru_cache
 from typing import Any, Dict, Generic, List, Optional, TypeVar, Union
-from sys import float_info
 
 from loguru import logger
 
@@ -132,9 +131,6 @@ def minimise_edges(edges) -> AusearchResult:
     # ret.index = (size_t)(edges.front() - input.data()) / sizeof(ausearch_edge const*);
     # https://github.com/Ciphey/CipheyCore/blob/657e4c934bd1e747034c5c766269d31646b95e36/include/ciphey/swig.hpp#L243
     return AusearchResult(weight, index)
-
-def calculate_index(edges):
-    return len()
 
 # Equivalent to cpp minimise_edges
 def minimise_edges_impl(edges) -> float:
