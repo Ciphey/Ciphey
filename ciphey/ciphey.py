@@ -19,8 +19,6 @@ import click
 from appdirs import AppDirs
 from loguru import logger
 from rich.console import Console
-from yaspin import yaspin
-from yaspin.spinners import Spinners
 
 from . import iface
 
@@ -260,8 +258,8 @@ def main(**kwargs):
         result = decrypt(config, kwargs["text"])
     else:
         # else, run with spinner if verbosity is 0
-        with yaspin(Spinners.earth, "Thinking") as sp:
-            config.set_spinner(sp)
+        with console.status("[bold green]Thinking...", spinner="moon") as status:
+            config.set_spinner(status)
             result = decrypt(config, kwargs["text"])
     if result is None:
         result = "Could not find any solutions."
