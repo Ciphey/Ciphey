@@ -23,8 +23,7 @@ base58 = "^2.0.1"
 base91 = "^1.0.1"
 pybase62 = "^0.4.3"
 click = ">=7.1.2,<9.0.0"
-click-spinner = "^0.1.10"
-yaspin = ">=0.17,<1.6"
+mock = "^4.0.3"
 pywhat = ">=0.2.5,<1.2.0"
 
 [tool.poetry.dev-dependencies]
