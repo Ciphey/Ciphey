@@ -128,7 +128,9 @@ def convert_edge_info(info: CrackInfo):
 def minimise_edges(edges) -> AusearchResult: 
     weight = minimise_edges_impl(edges)
     index = len(edges) # TODO: Is this ever different? C++ code seems to just count the number of elements...but in a really cursed way
-    # NOTE: Bee -- Cannot find this in the C++ code https://github.com/Ciphey/CipheyCore/blob/master/src/ausearch.cpp
+    # NOTE: In C++ this index is:
+    # ret.index = (size_t)(edges.front() - input.data()) / sizeof(ausearch_edge const*);
+    # https://github.com/Ciphey/CipheyCore/blob/657e4c934bd1e747034c5c766269d31646b95e36/include/ciphey/swig.hpp#L243
     return AusearchResult(weight, index)
 
 def calculate_index(edges):
@@ -389,8 +391,10 @@ class AuSearch(Searcher):
 
                     """if self.disable_priority:
                          chunk += self.work.get_work_chunk()
-                         infos = [i.info for i in chunk]"""
+                         infos = [i.info for i in chunk]
+                    """
 
+                    logger.trace(f"{len(infos)} remaining on this level")
                     step_res = minimise_edges(infos)
                     # TODO Cyclic uses some tricky C++ here
                     # I know because it's sorted the one at the back (the anti-weight)
