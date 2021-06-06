@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ciphey"
-version = "5.11.3"
+version = "5.12.1"
 description = "Automated Decryption Tool"
 authors = ["Brandon <brandon@skerritt.blog>"]
 license = "MIT"
@@ -23,6 +23,8 @@ base58 = "^2.0.1"
 base91 = "^1.0.1"
 pybase62 = "^0.4.3"
 click = ">=7.1.2,<9.0.0"
+click-spinner = "^0.1.10"
+yaspin = ">=0.17,<1.6"
 pywhat = ">=0.2.5,<1.2.0"
 
 [tool.poetry.dev-dependencies]
