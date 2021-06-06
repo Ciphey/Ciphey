@@ -142,7 +142,9 @@ class Config:
 
         if verbosity == 0:
             self.verbosity = logging.WARNING
-        elif verbosity >= 0:
+        elif verbosity == 1:
+            self.verbosity = logging.INFO
+        elif verbosity >= 2:
             self.verbosity = logging.DEBUG
         else:
             logging.disable(logging.CRITICAL)
