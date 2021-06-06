@@ -11,7 +11,8 @@ import base64
 from typing import Dict, List, Optional
 
 import cipheycore
-from loguru import logger
+import logging
+from rich.logging import RichHandler
 
 from ciphey.iface import Config, Cracker, CrackInfo, CrackResult, ParamSpec, registry
 
@@ -63,7 +64,7 @@ class XorCrypt(Cracker[bytes]):
     ) -> List[CrackResult]:
         possible_keys = cipheycore.xorcrypt_crack(analysis, self.expected, self.p_value)
 
-        logger.trace(
+        logging.debug(
             f"xorcrypt crack got keys: {[[i for i in candidate.key] for candidate in possible_keys]}"
         )
         return [
@@ -75,7 +76,7 @@ class XorCrypt(Cracker[bytes]):
         ]
 
     def attemptCrack(self, ctext: bytes) -> List[CrackResult]:
-        logger.debug(f"Trying xorcrypt cipher on {base64.b64encode(ctext)}")
+        logging.info(f"Trying xorcrypt cipher on {base64.b64encode(ctext)}")
 
         # Analysis must be done here, where we know the case for the cache
         if self.keysize is not None:
@@ -94,7 +95,7 @@ class XorCrypt(Cracker[bytes]):
             lambda: cipheycore.xorcrypt_guess_len(ctext),
         )
 
-        logger.trace(f"Got possible length {len}")
+        logging.debug(f"Got possible length {len}")
 
         if len < 2:
             return []

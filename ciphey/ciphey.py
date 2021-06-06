@@ -17,7 +17,8 @@ from typing import Any, Optional, Union
 
 import click
 from appdirs import AppDirs
-from loguru import logger
+import logging
+from rich.logging import RichHandler
 from rich.console import Console
 
 from . import iface
@@ -196,8 +197,8 @@ def main(**kwargs):
     # Use the existing value as a base
     config.verbosity += verbosity
     config.update_log_level(config.verbosity)
-    logger.debug(load_msg)
-    logger.trace(f"Got cmdline args {kwargs}")
+    logging.info(load_msg)
+    logging.debug(f"Got cmdline args {kwargs}")
 
     # Now we load the modules
     module_arg = kwargs["module"]
@@ -221,8 +222,8 @@ def main(**kwargs):
 
     config.complete_config()
 
-    logger.trace(f"Command line opts: {kwargs}")
-    logger.trace(f"Config finalised: {config}")
+    logging.debug(f"Command line opts: {kwargs}")
+    logging.debug(f"Config finalised: {config}")
 
     # Finally, we load the plaintext
     if kwargs["text"] is None:

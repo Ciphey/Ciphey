@@ -1,6 +1,7 @@
 from typing import Dict, Optional
 
-from loguru import logger
+import logging
+from rich.logging import RichHandler
 
 from ciphey.iface import Checker, Config, ParamSpec, T, registry
 
@@ -13,7 +14,7 @@ class GTestChecker(Checker[str]):
     """
 
     def check(self, text: T) -> Optional[str]:
-        logger.trace("Trying entropy checker")
+        logging.debug("Trying entropy checker")
         pass
 
     def getExpectedRuntime(self, text: T) -> float:

@@ -1,6 +1,7 @@
 import unittest
 
-from loguru import logger
+import logging
+from rich.logging import RichHandler
 
 from ciphey.basemods.Checkers.brandon import Brandon
 
