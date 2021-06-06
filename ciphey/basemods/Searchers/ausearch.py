@@ -6,9 +6,6 @@ from dataclasses import dataclass
 from functools import lru_cache
 from typing import Any, Dict, Generic, List, Optional, TypeVar, Union
 
-import cipheycore
-from loguru import logger
-
 from ciphey.iface import (
     Checker,
     Config,
@@ -23,6 +20,7 @@ from ciphey.iface import (
     T,
     registry,
 )
+from loguru import logger
 
 """
 We are using a tree structure here, because that makes searching and tracing back easier
@@ -101,10 +99,156 @@ class Node:
         return self.parent.source.get_path() + [self.level]
 
 
+@dataclass
+class AusearchEdge:
+    # TODO: This is just CrackInfo with failure probability added...
+    success_probability: float
+    failure_probability: float
+    success_time: float
+    failure_time: float
+
+    def __init__(self, success_probability, success_time, failure_time):
+        self.success_probability = success_probability
+        self.failure_probability = 1.0 - success_probability
+        self.success_time = success_time
+        self.failure_time = failure_time
+
+
+@dataclass
+class AusearchResult:
+    weight: float
+    index: int
+
+
 def convert_edge_info(info: CrackInfo):
-    return cipheycore.ausearch_edge(
+    return AusearchEdge(
         info.success_likelihood, info.success_runtime, info.failure_runtime
     )
+
+
+# Equivalent to CPP ausearch_minimise
+def minimise_edges(edges) -> AusearchResult:
+    weight = minimise_edges_impl(edges)
+    index = len(
+        edges
+    )  # TODO: Is this ever different? C++ code seems to just count the number of elements...but in a really cursed way
+    # NOTE: In C++ this index is:
+    # ret.index = (size_t)(edges.front() - input.data()) / sizeof(ausearch_edge const*);
+    # https://github.com/Ciphey/CipheyCore/blob/657e4c934bd1e747034c5c766269d31646b95e36/include/ciphey/swig.hpp#L243
+    return AusearchResult(weight, index)
+
+
+# Equivalent to cpp minimise_edges
+def minimise_edges_impl(edges) -> float:
+    num_edges = len(edges)
+    if num_edges == 0:
+        return float("NaN")
+    elif num_edges == 1:
+        # Because we can't minimise edges if we only have 1 edge.
+        return calculate_weight(edges)
+
+    # NOTE: Comment originally from C++ code.
+    # TODO: Validate if this is actually true or not in Python
+    # It turns out that it is faster to optimise for antiweight (weight in reverse)
+    #
+    # This is because weight is iteratively calculated from the end,
+    # and most machines run faster when iterating *forwards*
+
+    # First, we calculate a lower bound on the weight
+    weight = 0.0
+    old_weight = calculate_antiweight(edges)
+    while True:
+        remaining_weight = old_weight
+
+        # Now, iterating down the edge list, trying to find the minimising value
+        for current_pos, _ in enumerate(edges[:-1]):
+            # max_remaining_weight = float_info.min
+            max_remaining_weight = float("-inf")
+            max_pos = -1
+
+            for i, target in enumerate(edges[current_pos:]):
+                edge_remaining_weight = remaining_weight
+                # We didn't succeed
+                edge_remaining_weight -= (
+                    target.success_probability * target.success_time
+                )
+                # Expand the rest of the weight
+                if target.failure_probability == 0:
+                    # If we cannot fail, then there can be no remaining antiweight
+                    edge_remaining_weight = 0
+                else:
+                    edge_remaining_weight /= target.failure_probability
+
+                if edge_remaining_weight > max_remaining_weight:
+                    max_remaining_weight = edge_remaining_weight
+                    max_pos = i
+
+            # Swap edges[current_pos] with edges[max]
+            # This is basically just a sorting algorithm
+            edges[current_pos], edges[max_pos] = edges[max_pos], edges[current_pos]
+            remaining_weight = max_remaining_weight
+
+        weight = calculate_antiweight(edges)
+
+        while True:
+            # We continually loop if we make progress towards the best minimally sorted list of edges
+            # So if we can improve on our current situation, keep on sorting
+            tmp_weight = weight
+
+            for pos, _ in enumerate(edges[:-2]):
+                # Sorts the edges and bruteforces it to find the best minimally sorted list of edges
+                brute_edges(edges, pos)
+
+            weight = brute_edges(edges, len(edges) - 2)
+            if weight == tmp_weight:
+                # No progress made; exit the loop
+                break
+
+        if weight == old_weight:
+            # No progress made; exit the loop
+            break
+
+        old_weight = weight
+
+    # antiweight -> weight
+    edges.reverse()
+    return calculate_weight(edges)
+
+
+def calculate_weight(edges):
+    weight = 0.0
+    for edge in reversed(edges):
+        weight = (edge.success_probability * edge.success_time) + (
+            (edge.failure_probability) * (edge.failure_time + weight)
+        )
+    return weight
+
+
+def calculate_antiweight(edges):
+    # Original comment from C++ code: "Iterating forward is *way* faster"
+    # TODO: Verify that this actually applies in Python
+    weight = 0.0
+    for edge in edges:
+        weight = (edge.success_probability * edge.success_time) + (
+            (edge.failure_probability) * (edge.failure_time + weight)
+        )
+    return weight
+
+
+def brute_edges(edges, target: int):
+    best_weight = calculate_antiweight(edges)
+    # Triangle swaps
+    for i in range(target + 1, len(edges)):
+        edges[i], edges[target] = edges[target], edges[i]
+        new_weight = calculate_antiweight(edges)
+
+        if new_weight < best_weight:
+            best_weight = new_weight
+        else:
+            # Swap back
+            edges[i], edges[target] = edges[target], edges[i]
+
+    return best_weight
 
 
 @dataclass
@@ -113,7 +257,7 @@ class Edge:
     route: Union[Cracker, Decoder]
     dest: Optional[Node] = None
     # Info is not filled in for Decoders
-    info: Optional[cipheycore.ausearch_edge] = None
+    info: Optional[AusearchEdge] = None
 
 
 PriorityType = TypeVar("PriorityType")
@@ -255,19 +399,23 @@ class AuSearch(Searcher):
                             max_depth = i.source.depth
                     logger.debug(f"At depth {chunk[0].source.depth}")
 
-                    # if self.disable_priority:
-                    #     chunk += self.work.get_work_chunk()
-                    #     infos = [i.info for i in chunk]
+                    """if self.disable_priority:
+                         chunk += self.work.get_work_chunk()
+                         infos = [i.info for i in chunk]
+                    """
 
                     logger.trace(f"{len(infos)} remaining on this level")
-                    step_res = cipheycore.ausearch_minimise(infos)
-                    edge: Edge = chunk.pop(step_res.index)
+                    step_res = minimise_edges(infos)
+                    # TODO Cyclic uses some tricky C++ here
+                    # I know because it's sorted the one at the back (the anti-weight)
+                    # is the most likely
+                    edge: Edge = chunk.pop(0)
                     logger.trace(
                         f"Weight is currently {step_res.weight} "
                         f"when we pick {type(edge.route).__name__.lower()} "
                         f"with depth {edge.source.depth}"
                     )
-                    del infos[step_res.index]
+                    del infos[0]
 
                     # Expand the node
                     res = edge.route(edge.source.level.result.value)
