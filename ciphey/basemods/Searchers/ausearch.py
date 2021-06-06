@@ -399,6 +399,7 @@ class AuSearch(Searcher):
                     # TODO Cyclic uses some tricky C++ here
                     # I know because it's sorted the one at the back (the anti-weight)
                     # is the most likely
+                    print(len(chunk))
                     edge: Edge = chunk.pop(0)
                     logger.trace(
                         f"Weight is currently {step_res.weight} "
