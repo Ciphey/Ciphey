@@ -39,7 +39,7 @@ class What(Checker[str]):
                 ret += f"\nClick here to view in browser [#CAE4F1][link={link}]{link}[/link][/#CAE4F1]\n"
             
             # If greppable mode is on, don't print this
-            if self.config.verbosity > 0:
+            if self.config.verbosity >= 0:
                 # Print with full stop
                 console.print(human)
             return ret
