@@ -25,6 +25,7 @@ pybase62 = "^0.4.3"
 click = ">=7.1.2,<9.0.0"
 mock = "^4.0.3"
 pywhat = ">=0.2.5,<1.3.0"
+xortool-ciphey = "^0.1.11"
 
 [tool.poetry.dev-dependencies]
 pytest-cov = "^2.10.1"

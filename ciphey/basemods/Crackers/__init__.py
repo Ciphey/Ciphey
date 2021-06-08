@@ -6,6 +6,5 @@ from . import (
     rot47,
     soundex,
     vigenere,
-    xor_single,
-    xorcrypt,
+    xortool,
 )
