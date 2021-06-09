@@ -10,10 +10,7 @@ def test_fix_for_655(mock_click):
     mock_click.return_value = "y"
     result = runner.invoke(main, ['-t', 'NB2HI4DTHIXS6Z3PN5TWYZJOMNXW2==='])
     assert result.exit_code == 0
-
-  
-
-    # assert "base32" in result.output
+    assert "base32" in result.output
 
 """
 TODO Mock
