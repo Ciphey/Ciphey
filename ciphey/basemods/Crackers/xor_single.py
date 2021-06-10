@@ -10,7 +10,8 @@ Github: brandonskerritt
 from typing import Dict, List, Optional
 
 import cipheycore
-from loguru import logger
+import logging
+from rich.logging import RichHandler
 
 from ciphey.iface import Config, Cracker, CrackInfo, CrackResult, ParamSpec, registry
 
@@ -36,11 +37,11 @@ class XorSingle(Cracker[bytes]):
         return "xor_single"
 
     def attemptCrack(self, ctext: bytes) -> List[CrackResult]:
-        logger.debug("Trying xor single cipher")
+        logging.info("Trying xor single cipher")
         # TODO: handle different alphabets
 
-        logger.trace("Beginning cipheycore simple analysis")
-        logger.trace(f"{ctext}")
+        logging.debug("Beginning cipheycore simple analysis")
+        logging.debug(f"{ctext}")
 
         # Hand it off to the core
         analysis = self.cache.get_or_update(
@@ -48,22 +49,22 @@ class XorSingle(Cracker[bytes]):
             "cipheycore::simple_analysis",
             lambda: cipheycore.analyse_bytes(ctext),
         )
-        logger.trace("Beginning cipheycore::xor_single")
+        logging.debug("Beginning cipheycore::xor_single")
         possible_keys = cipheycore.xor_single_crack(
             analysis, self.expected, self.p_value
         )
 
         n_candidates = len(possible_keys)
-        logger.debug(f"XOR single returned {n_candidates} candidates")
+        logging.info(f"XOR single returned {n_candidates} candidates")
 
         candidates = []
 
         for candidate in possible_keys:
             translated = cipheycore.xor_single_decrypt(ctext, candidate.key)
-            logger.trace(f"Candidate {candidate.key} has prob {candidate.p_value}")
+            logging.debug(f"Candidate {candidate.key} has prob {candidate.p_value}")
             candidates.append(CrackResult(value=translated, key_info=candidate.key))
 
-        logger.trace(f"{candidates}")
+        logging.debug(f"{candidates}")
 
         return candidates
 
