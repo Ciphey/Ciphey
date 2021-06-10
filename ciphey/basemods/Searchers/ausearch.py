@@ -406,13 +406,13 @@ class AuSearch(Searcher):
                          infos = [i.info for i in chunk]
                     """
 
-                    logger.trace(f"{len(infos)} remaining on this level")
+                    logging.debug(f"{len(infos)} remaining on this level")
                     step_res = minimise_edges(infos)
                     # TODO Cyclic uses some tricky C++ here
                     # I know because it's sorted the one at the back (the anti-weight)
                     # is the most likely
                     edge: Edge = chunk.pop(0)
-                    logger.trace(
+                    logging.debug(
 
                         f"Weight is currently {step_res.weight} "
                         f"when we pick {type(edge.route).__name__.lower()} "
