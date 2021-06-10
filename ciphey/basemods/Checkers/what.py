@@ -1,7 +1,8 @@
 from typing import Dict, Optional
 
 from ciphey.iface import Checker, Config, ParamSpec, T, registry
-from loguru import logger
+import logging
+from rich.logging import RichHandler
 from pywhat import identifier
 from rich.console import Console
 
@@ -17,7 +18,7 @@ class What(Checker[str]):
     """
 
     def check(self, ctext: T) -> Optional[str]:
-        logger.trace("Trying PyWhat checker")
+        logging.debug("Trying PyWhat checker")
         returned_regexes = self.id.identify(ctext, api=True)
         if len(returned_regexes["Regexes"]) > 0:
 

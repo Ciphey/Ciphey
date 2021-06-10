@@ -4,7 +4,8 @@
 from typing import Dict, List, Optional
 
 import cipheycore
-from loguru import logger
+import logging
+from rich.logging import RichHandler
 
 from ciphey.common import fix_case
 from ciphey.iface import Config, Cracker, CrackInfo, CrackResult, ParamSpec, registry
@@ -38,7 +39,7 @@ class Affine(Cracker[str]):
         """
         Brute forces all the possible combinations of a and b to attempt to crack the cipher.
         """
-        logger.trace("Attempting affine")
+        logging.debug("Attempting affine")
         candidates = []
 
         # a and b are coprime if gcd(a,b) is 1.
@@ -47,7 +48,7 @@ class Affine(Cracker[str]):
             for a in range(1, self.alphabet_length)
             if mathsHelper.gcd(a, self.alphabet_length) == 1
         ]
-        logger.debug(
+        logging.info(
             f"Trying Affine Cracker with {len(possible_a)} a-values and {self.alphabet_length} b-values"
         )
 
@@ -67,7 +68,7 @@ class Affine(Cracker[str]):
                             value=fix_case(translated, ctext), key_info=f"a={a}, b={b}"
                         )
                     )
-        logger.debug(f"Affine Cipher returned {len(candidates)} candidates")
+        logging.info(f"Affine Cipher returned {len(candidates)} candidates")
         return candidates
 
     def plaintext_probability(self, translated: str) -> float:

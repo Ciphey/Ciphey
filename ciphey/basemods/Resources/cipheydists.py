@@ -2,7 +2,7 @@ from functools import lru_cache
 from typing import Any, Dict, Optional, Set
 
 import cipheydists
-import loguru
+import logging
 
 from ciphey.iface import (
     Config,
@@ -33,7 +33,7 @@ class CipheyDists(ResourceLoader):
 
     @lru_cache()
     def getResource(self, name: str) -> Any:
-        loguru.logger.trace(f"Loading cipheydists resource {name}")
+        logging.debug(f"Loading cipheydists resource {name}")
         prefix, name = name.split("::", 1)
         return self._getters[prefix](name)
 

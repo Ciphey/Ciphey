@@ -11,7 +11,8 @@ Github: brandonskerritt
 from typing import Dict, List, Optional
 
 import cipheycore
-from loguru import logger
+import logging
+from rich.logging import RichHandler
 
 from ciphey.iface import Config, Cracker, CrackInfo, CrackResult, ParamSpec, registry
 
@@ -37,9 +38,9 @@ class Rot47(Cracker[str]):
         return "rot47"
 
     def attemptCrack(self, ctext: str) -> List[CrackResult]:
-        logger.debug(f"Trying ROT47 cipher on {ctext}")
+        logging.info(f"Trying ROT47 cipher on {ctext}")
 
-        logger.trace("Beginning cipheycore simple analysis")
+        logging.debug("Beginning cipheycore simple analysis")
 
         # Hand it off to the core
         analysis = self.cache.get_or_update(
@@ -47,16 +48,16 @@ class Rot47(Cracker[str]):
             "cipheycore::simple_analysis",
             lambda: cipheycore.analyse_string(ctext),
         )
-        logger.trace("Beginning cipheycore::caesar")
+        logging.debug("Beginning cipheycore::caesar")
         possible_keys = cipheycore.caesar_crack(
             analysis, self.expected, self.group, self.p_value
         )
 
         n_candidates = len(possible_keys)
-        logger.debug(f"ROT47 returned {n_candidates} candidates")
+        logging.info(f"ROT47 returned {n_candidates} candidates")
 
         if n_candidates == 0:
-            logger.trace("Filtering for better results")
+            logging.debug("Filtering for better results")
             analysis = cipheycore.analyse_string(ctext, self.group)
             possible_keys = cipheycore.caesar_crack(
                 analysis, self.expected, self.group, self.p_value
@@ -65,7 +66,7 @@ class Rot47(Cracker[str]):
         candidates = []
 
         for candidate in possible_keys:
-            logger.trace(f"Candidate {candidate.key} has prob {candidate.p_value}")
+            logging.debug(f"Candidate {candidate.key} has prob {candidate.p_value}")
             translated = cipheycore.caesar_decrypt(ctext, candidate.key, self.group)
             candidates.append(CrackResult(value=translated, key_info=candidate.key))
 

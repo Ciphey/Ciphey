@@ -6,6 +6,9 @@ from dataclasses import dataclass
 from functools import lru_cache
 from typing import Any, Dict, Generic, List, Optional, TypeVar, Union
 
+import logging
+from rich.logging import RichHandler
+
 from ciphey.iface import (
     Checker,
     Config,
@@ -20,7 +23,6 @@ from ciphey.iface import (
     T,
     registry,
 )
-from loguru import logger
 
 """
 We are using a tree structure here, because that makes searching and tracing back easier
@@ -268,7 +270,7 @@ class PriorityWorkQueue(Generic[PriorityType, T]):
     _queues: Dict[Any, List[T]]
 
     def add_work(self, priority: PriorityType, work: List[T]) -> None:
-        logger.trace(f"""Adding work at depth {priority}""")
+        logging.debug(f"""Adding work at depth {priority}""")
 
         idx = bisect.bisect_left(self._sorted_priorities, priority)
         if (
@@ -353,14 +355,14 @@ class AuSearch(Searcher):
             except DuplicateNode:
                 continue
 
-            logger.trace("Nesting encodings")
+            logging.debug("Nesting encodings")
             self.recursive_expand(new_node, False)
 
     def recursive_expand(self, node: Node, nested: bool = True) -> None:
         if node.depth >= self.max_depth:
             return
 
-        logger.trace(f"Expanding depth {node.depth}")
+        logging.debug(f"Expanding depth {node.depth}")
 
         self.expand_decodings(node)
 
@@ -369,7 +371,7 @@ class AuSearch(Searcher):
             self.expand_crackers(node)
 
     def search(self, ctext: Any) -> Optional[SearchResult]:
-        logger.trace(
+        logging.debug(
             f"""Beginning AuSearch with {"inverted" if self.invert_priority else "normal"} priority"""
         )
 
@@ -397,20 +399,21 @@ class AuSearch(Searcher):
                     for i in chunk:
                         if i.source.depth > max_depth:
                             max_depth = i.source.depth
-                    logger.debug(f"At depth {chunk[0].source.depth}")
+                    logging.info(f"At depth {chunk[0].source.depth}")
 
                     """if self.disable_priority:
                          chunk += self.work.get_work_chunk()
                          infos = [i.info for i in chunk]
                     """
 
-                    logger.trace(f"{len(infos)} remaining on this level")
+                    logging.debug(f"{len(infos)} remaining on this level")
                     step_res = minimise_edges(infos)
                     # TODO Cyclic uses some tricky C++ here
                     # I know because it's sorted the one at the back (the anti-weight)
                     # is the most likely
                     edge: Edge = chunk.pop(0)
-                    logger.trace(
+                    logging.debug(
+
                         f"Weight is currently {step_res.weight} "
                         f"when we pick {type(edge.route).__name__.lower()} "
                         f"with depth {edge.source.depth}"
@@ -431,10 +434,10 @@ class AuSearch(Searcher):
                             continue
 
         except AuSearchSuccessful as e:
-            logger.debug("AuSearch succeeded")
+            logging.info("AuSearch succeeded")
             return SearchResult(path=e.target.get_path(), check_res=e.info)
 
-        logger.debug("AuSearch failed")
+        logging.info("AuSearch failed")
 
     def __init__(self, config: Config):
         super().__init__(config)
