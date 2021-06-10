@@ -23,7 +23,6 @@ from ciphey.iface import (
     T,
     registry,
 )
-from loguru import logger
 
 """
 We are using a tree structure here, because that makes searching and tracing back easier
