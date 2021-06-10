@@ -1,6 +1,7 @@
 from typing import Dict, Optional
 
-from loguru import logger
+import logging
+from rich.logging import RichHandler
 from zmq.utils import z85
 
 from ciphey.iface import Config, Decoder, ParamSpec, T, U, registry
@@ -14,7 +15,7 @@ class Z85(Decoder[str]):
         """
         ctext_len = len(ctext)
         if ctext_len % 5:
-            logger.trace(
+            logging.debug(
                 f"Failed to decode Z85 because length must be a multiple of 5, not '{ctext_len}'"
             )
             return None

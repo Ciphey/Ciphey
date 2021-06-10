@@ -5,9 +5,10 @@ from ciphey.iface import Config
 from click.testing import CliRunner
 from ciphey.ciphey import main
 from ciphey.basemods.Checkers import human
-import mock 
+import mock
 
 answer_str = "Hello my name is bee and I like dog and apple and tree"
+
 
 def test_quick_base32():
     res = decrypt(
@@ -16,6 +17,7 @@ def test_quick_base32():
     )
     assert res.lower() == answer_str.lower()
 
+
 def test_quick_base58_ripple():
     res = decrypt(
         Config().library_default().complete_config(),
@@ -23,17 +25,19 @@ def test_quick_base58_ripple():
     )
     assert res.lower() == answer_str.lower()
 
-def test_quick_greppable_works_with_ip_address():
-  runner = CliRunner()
-  result = runner.invoke(main, ['-g', '-t', 'MTkyLjE2OC4wLjE='])
-  assert result.exit_code == 0
-  assert result.output == '192.168.0.1\n'
 
-@mock.patch("ciphey.basemods.Checkers.human.HumanChecker.check", return_value = "")
+def test_quick_greppable_works_with_ip_address():
+    runner = CliRunner()
+    result = runner.invoke(main, ["-g", "-t", "MTkyLjE2OC4wLjE="])
+    assert result.exit_code == 0
+    assert result.output == "192.168.0.1\n"
+
+
+@mock.patch("ciphey.basemods.Checkers.human.HumanChecker.check", return_value="")
 def test_quick_visual_output(mock_click):
     # https://github.com/Ciphey/Ciphey/issues/655
-    runner = CliRunner()      
+    runner = CliRunner()
     mock_click.return_value = "y"
-    result = runner.invoke(main, ['-t', 'NB2HI4DTHIXS6Z3PN5TWYZJOMNXW2==='])
+    result = runner.invoke(main, ["-t", "NB2HI4DTHIXS6Z3PN5TWYZJOMNXW2==="])
     assert result.exit_code == 0
     assert "base32" in result.output

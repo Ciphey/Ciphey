@@ -309,6 +309,7 @@ class Searcher(ConfigurableModule):
 
 
 def pretty_search_results(res: SearchResult, display_intermediate: bool = False) -> str:
+    # TODO what is display_intermediate
     ret: str = ""
     table = Table(show_header=False, box=box.ROUNDED, safe_box=False)
     # Only print the checker if we need to. Normal people don't know what
@@ -340,12 +341,14 @@ def pretty_search_results(res: SearchResult, display_intermediate: bool = False)
             already_broken = True
         if not already_broken:
             out += "\n"
-        return out
+        return out, already_broken
 
     # Skip the 'input' and print in order
+    already_broken = False
     out = ""
     for i in res.path[1:]:
-        out += add_one()
+        output, already_broken = add_one()
+        out += output
 
     if out:
         if len(out.split("\n")) > 1:
@@ -358,8 +361,11 @@ def pretty_search_results(res: SearchResult, display_intermediate: bool = False)
     ret = ret[:-1]
 
     # If we didn't show intermediate steps, then print the final result
-    if not display_intermediate:
+    if already_broken:
+        ret += f"""\nPlaintext: [bold green]"{escape(res.path[-1].result.value)}"[bold green]"""
+    else:
         ret += f"""Plaintext: [bold green]"{escape(res.path[-1].result.value)}"[bold green]"""
+
     table.add_row(ret)
     return table
 

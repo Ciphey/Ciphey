@@ -11,7 +11,8 @@ from distutils import util
 from typing import Dict, List, Optional, Union
 
 import cipheycore
-from loguru import logger
+import logging
+from rich.logging import RichHandler
 
 from ciphey.common import fix_case
 from ciphey.iface import Config, Cracker, CrackInfo, CrackResult, ParamSpec, registry
@@ -31,7 +32,7 @@ class Vigenere(Cracker[str]):
 
             val = cipheycore.vigenere_detect(analysis, self.expected)
 
-            logger.debug(f"Vigenere has likelihood {val}")
+            logging.info(f"Vigenere has likelihood {val}")
 
             return CrackInfo(
                 success_likelihood=val,
@@ -64,7 +65,7 @@ class Vigenere(Cracker[str]):
                 failure_runtime=2e-2,
             )
 
-        logger.debug(
+        logging.info(
             f"Vigenere has likelihood {likely_lens[0].p_value} with lens {[i.len for i in likely_lens]}"
         )
 
@@ -87,7 +88,7 @@ class Vigenere(Cracker[str]):
         )
         if len(possible_keys) > self.clamp:
             possible_keys = possible_keys[: self.clamp]
-        logger.trace(
+        logging.debug(
             f"Vigenere crack got keys: {[[i for i in candidate.key] for candidate in possible_keys]}"
         )
         return [
@@ -103,7 +104,7 @@ class Vigenere(Cracker[str]):
         ]
 
     def attemptCrack(self, ctext: str) -> List[CrackResult]:
-        logger.debug("Trying vigenere cipher")
+        logging.info("Trying vigenere cipher")
         # Convert it to lower case
         if self.lower:
             message = ctext.lower()
@@ -134,7 +135,7 @@ class Vigenere(Cracker[str]):
         )
         possible_lens = [i for i in likely_lens]
         possible_lens.sort(key=lambda i: i.p_value)
-        logger.trace(f"Got possible lengths {[i.len for i in likely_lens]}")
+        logging.debug(f"Got possible lengths {[i.len for i in likely_lens]}")
         # TODO: work out length
         for i in possible_lens:
             arrs.extend(
@@ -149,7 +150,7 @@ class Vigenere(Cracker[str]):
                 )
             )
 
-        logger.debug(f"Vigenere returned {len(arrs)} candidates")
+        logging.info(f"Vigenere returned {len(arrs)} candidates")
         return arrs
 
     @staticmethod

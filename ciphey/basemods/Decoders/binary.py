@@ -1,7 +1,8 @@
 import re
 from typing import Dict, List, Optional
 
-from loguru import logger
+import logging
+from rich.logging import RichHandler
 
 from ciphey.iface import Config, Decoder, ParamSpec, T, U, registry
 
@@ -40,7 +41,7 @@ class Binary(Decoder[str]):
 
         if len(ret) != 0:
             ret = bytes(ret)
-            logger.debug(f"binary successful, returning {ret.__repr__()}")
+            logging.info(f"binary successful, returning {ret.__repr__()}")
             return ret
 
     @staticmethod

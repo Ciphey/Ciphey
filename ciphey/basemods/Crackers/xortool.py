@@ -9,7 +9,8 @@ Github: bee-san
 """
 from typing import Dict, List, Optional
 
-from loguru import logger
+import logging
+from rich.logging import RichHandler
 
 from xortool_ciphey import tool_main
 
@@ -31,17 +32,18 @@ class XorTool(Cracker[str]):
         return "xortool"
 
     def attemptCrack(self, ctext: str) -> List[CrackResult]:
-        logger.debug("Trying xortool cipher")
+        logging.debug("Trying xortool cipher")
         # TODO handle different charsets
         # TODO allow more config over xortool
 
-        logger.trace(f"{ctext}")
+        logging.debug(f"{ctext}")
 
         # https://github.com/Ciphey/xortool/discussions/4
         # for docs on this function
         try:
             result = tool_main.api(str.encode(ctext))
         except:
+            logging.debug("Xor failed.")
             return
 
         result = CrackResult(value=result[1]["Dexored"], key_info=result[0]["keys"])
@@ -60,7 +62,7 @@ class XorTool(Cracker[str]):
                 desc="The p-value to use for standard frequency analysis",
                 req=False,
                 default=0.01,
-            )
+            ),
         }
 
     @staticmethod
