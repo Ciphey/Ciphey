@@ -21,8 +21,7 @@ class What(Checker[str]):
         logging.debug("Trying PyWhat checker")
         returned_regexes = self.id.identify(ctext)
         if returned_regexes["Regexes"]:
-
-            matched_regex = returned_regexes["Regexes"][0]["Regex Pattern"]
+            matched_regex = returned_regexes["Regexes"]['text'][0]["Regex Pattern"]
 
             ret = f'The plaintext is a [yellow]{matched_regex["Name"]}[/yellow]'
             human = (
