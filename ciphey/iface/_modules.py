@@ -315,7 +315,7 @@ def pretty_search_results(res: SearchResult, display_intermediate: bool = False)
     # "quadgrams", "brandon", "json checker" is.
     # We print the checker if its regex or another language, so long as it starts with:
     # "The" like "The plaintext is a Uniform Resource Locator (URL)."
-    if len(res.check_res) != 0 and "The" == res.check_res[0:3]:
+    if len(res.check_res) != 0 and ("The" == res.check_res[0:3] or "Passed" == res.check_res[0:6]):
         ret += f"{res.check_res}\n"
 
     def add_one():
