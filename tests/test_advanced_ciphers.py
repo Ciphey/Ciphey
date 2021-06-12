@@ -41,3 +41,10 @@ def test_xor_tui_verbose_mode_doesnt_break(mock_click):
     result = runner.invoke(main, ['-v', '-t', 'Uihr!hr!`!udru!gns!YNS-!hu!hr!sd`mmx!mnof!un!l`jd!rtsd!ui`u!YNSunnm!b`o!fdu!hu/!Bhqidx!*!YNSunnm!hr!bnnm/'])
     assert result.exit_code == 0
     assert re.findall("This is a test for XOR", str(result.output))
+
+def test_xor_atbash():
+    # Frsi!si!{!fwif!tmh!BMH-!sf!si!hw{nnc!nmlu!fm!o{qw!ighw!fr{f!BMHfmmn!y{l!uwf!sf/!Ysjrwc!*!BMHfmmn.si!ymmn/
+    # This is a test for XOR, it is really long to make sure that XORtool can get it. Ciphey + XORtool/is cool.
+    # Previously xor only worked on level 1, this test ensures it always works on levels > 1
+    res = decrypt(Config().library_default().complete_config(),"Frsi!si!{!fwif!tmh!BMH-!sf!si!hw{nnc!nmlu!fm!o{qw!ighw!fr{f!BMHfmmn!y{l!uwf!sf/!Ysjrwc!*!BMHfmmn.si!ymmn/")
+    assert re.findall("This is a test for XOR", res)
