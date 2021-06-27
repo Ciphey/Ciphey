@@ -36,7 +36,7 @@ class What(Checker[str]):
                 human += s
 
             # if URL is attached, include that too.
-            if "URL" in matched_regex:
+            if "URL" in matched_regex and matched_regex["URL"]:
                 link = matched_regex["URL"] + ctext.replace(" ", "")
                 ret += f"\nClick here to view in browser [#CAE4F1][link={link}]{link}[/link][/#CAE4F1]\n"
 
