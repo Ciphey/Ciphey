@@ -108,6 +108,9 @@ class AusearchEdge:
     failure_probability: float
     success_time: float
     failure_time: float
+        
+    def calculate_score(self):
+        return self.success_probability / (self.success_probability * self.success_time + self.failure_probability * self.failure_time)
 
     def __init__(self, success_probability, success_time, failure_time):
         self.success_probability = success_probability
@@ -148,74 +151,11 @@ def minimise_edges_impl(edges) -> float:
     elif num_edges == 1:
         # Because we can't minimise edges if we only have 1 edge.
         return calculate_weight(edges)
-
-    # NOTE: Comment originally from C++ code.
-    # TODO: Validate if this is actually true or not in Python
-    # It turns out that it is faster to optimise for antiweight (weight in reverse)
-    #
-    # This is because weight is iteratively calculated from the end,
-    # and most machines run faster when iterating *forwards*
-
-    # First, we calculate a lower bound on the weight
-    weight = 0.0
-    old_weight = calculate_antiweight(edges)
-    while True:
-        remaining_weight = old_weight
-
-        # Now, iterating down the edge list, trying to find the minimising value
-        for current_pos, _ in enumerate(edges[:-1]):
-            # max_remaining_weight = float_info.min
-            max_remaining_weight = float("-inf")
-            max_pos = -1
-
-            for i, target in enumerate(edges[current_pos:]):
-                edge_remaining_weight = remaining_weight
-                # We didn't succeed
-                edge_remaining_weight -= (
-                    target.success_probability * target.success_time
-                )
-                # Expand the rest of the weight
-                if target.failure_probability == 0:
-                    # If we cannot fail, then there can be no remaining antiweight
-                    edge_remaining_weight = 0
-                else:
-                    edge_remaining_weight /= target.failure_probability
-
-                if edge_remaining_weight > max_remaining_weight:
-                    max_remaining_weight = edge_remaining_weight
-                    max_pos = i
-
-            # Swap edges[current_pos] with edges[max]
-            # This is basically just a sorting algorithm
-            edges[current_pos], edges[max_pos] = edges[max_pos], edges[current_pos]
-            remaining_weight = max_remaining_weight
-
-        weight = calculate_antiweight(edges)
-
-        while True:
-            # We continually loop if we make progress towards the best minimally sorted list of edges
-            # So if we can improve on our current situation, keep on sorting
-            tmp_weight = weight
-
-            for pos, _ in enumerate(edges[:-2]):
-                # Sorts the edges and bruteforces it to find the best minimally sorted list of edges
-                brute_edges(edges, pos)
-
-            weight = brute_edges(edges, len(edges) - 2)
-            if weight == tmp_weight:
-                # No progress made; exit the loop
-                break
-
-        if weight == old_weight:
-            # No progress made; exit the loop
-            break
-
-        old_weight = weight
-
-    # antiweight -> weight
-    edges.reverse()
+    
+    # New algorithm suggested by Dr Yi Zhang
+    scores = { i: -i.calculate_score()) for i in edges }
+    edges.sort(key=lambda i: scores[i])
     return calculate_weight(edges)
-
 
 def calculate_weight(edges):
     weight = 0.0
@@ -236,21 +176,6 @@ def calculate_antiweight(edges):
         )
     return weight
 
-
-def brute_edges(edges, target: int):
-    best_weight = calculate_antiweight(edges)
-    # Triangle swaps
-    for i in range(target + 1, len(edges)):
-        edges[i], edges[target] = edges[target], edges[i]
-        new_weight = calculate_antiweight(edges)
-
-        if new_weight < best_weight:
-            best_weight = new_weight
-        else:
-            # Swap back
-            edges[i], edges[target] = edges[target], edges[i]
-
-    return best_weight
 
 
 @dataclass
