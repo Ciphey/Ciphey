@@ -108,9 +108,6 @@ class AusearchEdge:
     failure_probability: float
     success_time: float
     failure_time: float
-        
-    def calculate_score(self):
-        return self.success_probability / (self.success_probability * self.success_time + self.failure_probability * self.failure_time)
 
     def __init__(self, success_probability, success_time, failure_time):
         self.success_probability = success_probability
@@ -125,57 +122,9 @@ class AusearchResult:
     index: int
 
 
-def convert_edge_info(info: CrackInfo):
-    return AusearchEdge(
-        info.success_likelihood, info.success_runtime, info.failure_runtime
-    )
-
-
-# Equivalent to CPP ausearch_minimise
-def minimise_edges(edges) -> AusearchResult:
-    weight = minimise_edges_impl(edges)
-    index = len(
-        edges
-    )  # TODO: Is this ever different? C++ code seems to just count the number of elements...but in a really cursed way
-    # NOTE: In C++ this index is:
-    # ret.index = (size_t)(edges.front() - input.data()) / sizeof(ausearch_edge const*);
-    # https://github.com/Ciphey/CipheyCore/blob/657e4c934bd1e747034c5c766269d31646b95e36/include/ciphey/swig.hpp#L243
-    return AusearchResult(weight, index)
-
-
-# Equivalent to cpp minimise_edges
-def minimise_edges_impl(edges) -> float:
-    num_edges = len(edges)
-    if num_edges == 0:
-        return float("NaN")
-    elif num_edges == 1:
-        # Because we can't minimise edges if we only have 1 edge.
-        return calculate_weight(edges)
-    
-    # New algorithm suggested by Dr Yi Zhang
-    scores = { i: -i.calculate_score()) for i in edges }
-    edges.sort(key=lambda i: scores[i])
-    return calculate_weight(edges)
-
-def calculate_weight(edges):
-    weight = 0.0
-    for edge in reversed(edges):
-        weight = (edge.success_probability * edge.success_time) + (
-            (edge.failure_probability) * (edge.failure_time + weight)
-        )
-    return weight
-
-
-def calculate_antiweight(edges):
-    # Original comment from C++ code: "Iterating forward is *way* faster"
-    # TODO: Verify that this actually applies in Python
-    weight = 0.0
-    for edge in edges:
-        weight = (edge.success_probability * edge.success_time) + (
-            (edge.failure_probability) * (edge.failure_time + weight)
-        )
-    return weight
-
+def calculate_score(info: CrackInfo):
+    return info.success_likelihood / \
+        (info.success_runtime * info.success_likelihood + info.failure_runtime * (1-info.success_likelihood))
 
 
 @dataclass
@@ -184,7 +133,7 @@ class Edge:
     route: Union[Cracker, Decoder]
     dest: Optional[Node] = None
     # Info is not filled in for Decoders
-    info: Optional[AusearchEdge] = None
+    score: Optional[float] = None
 
 
 PriorityType = TypeVar("PriorityType")
@@ -257,7 +206,7 @@ class AuSearch(Searcher):
         for i in self.get_crackers_for(type(res)):
             inst = self._config()(i)
             additional_work.append(
-                Edge(source=node, route=inst, info=convert_edge_info(inst.getInfo(res)))
+                Edge(source=node, route=inst, score=calculate_score(inst.getInfo(res)))
             )
         priority = min(node.depth, self.priority_cap)
         if self.invert_priority:
@@ -317,34 +266,14 @@ class AuSearch(Searcher):
                     break
                 # Get the highest level result
                 chunk = self.work.get_work_chunk()
-                infos = [i.info for i in chunk]
+                chunk.sort(key=lambda i: i.score)
                 # Work through all of this level's results
                 while len(chunk) != 0:
-                    max_depth = 0
-                    for i in chunk:
-                        if i.source.depth > max_depth:
-                            max_depth = i.source.depth
-                    logging.info(f"At depth {chunk[0].source.depth}")
-
-                    """if self.disable_priority:
-                         chunk += self.work.get_work_chunk()
-                         infos = [i.info for i in chunk]
-                    """
-
-                    logging.debug(f"{len(infos)} remaining on this level")
-                    step_res = minimise_edges(infos)
+                    logging.debug(f"{len(chunk)} remaining on this level")
                     # TODO Cyclic uses some tricky C++ here
                     # I know because it's sorted the one at the back (the anti-weight)
                     # is the most likely
-                    edge: Edge = chunk.pop(0)
-                    logging.debug(
-
-                        f"Weight is currently {step_res.weight} "
-                        f"when we pick {type(edge.route).__name__.lower()} "
-                        f"with depth {edge.source.depth}"
-                    )
-                    del infos[0]
-
+                    edge: Edge = chunk.pop(-1)
                     # Expand the node
                     res = edge.route(edge.source.level.result.value)
                     if res is None:
