@@ -136,7 +136,9 @@ class mathsHelper:
                         highest_key = key
                         logging.debug(f"Highest key is {highest_key}")
                 # removes the highest key from the prob table
-            logging.debug(f"Prob table is {prob_table} and highest key is {highest_key}")
+            logging.debug(
+                f"Prob table is {prob_table} and highest key is {highest_key}"
+            )
             logging.debug(f"Removing {prob_table[highest_key]}")
             del prob_table[highest_key]
             logging.debug(f"Prob table after deletion is {prob_table}")

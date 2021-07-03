@@ -273,7 +273,9 @@ class AuSearch(Searcher):
                     # TODO Cyclic uses some tricky C++ here
                     # I know because it's sorted the one at the back (the anti-weight)
                     # is the most likely
+
                     edge: Edge = chunk.pop(-1)
+
                     # Expand the node
                     res = edge.route(edge.source.level.result.value)
                     if res is None:

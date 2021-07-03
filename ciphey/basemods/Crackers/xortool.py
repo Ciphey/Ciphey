@@ -5,68 +5,50 @@
 ██║     ██║██╔═══╝ ██╔══██║██╔══╝    ╚██╔╝
 ╚██████╗██║██║     ██║  ██║███████╗   ██║
 © Brandon Skerritt
-Github: brandonskerritt
+Github: bee-san
 """
 from typing import Dict, List, Optional
 
-import cipheycore
 import logging
 from rich.logging import RichHandler
+
+from xortool_ciphey import tool_main
 
 from ciphey.iface import Config, Cracker, CrackInfo, CrackResult, ParamSpec, registry
 
 
 @registry.register
-class XorSingle(Cracker[bytes]):
+class XorTool(Cracker[str]):
     def getInfo(self, ctext: str) -> CrackInfo:
-        analysis = self.cache.get_or_update(
-            ctext,
-            "cipheycore::simple_analysis",
-            lambda: cipheycore.analyse_bytes(ctext),
-        )
-
         return CrackInfo(
-            success_likelihood=cipheycore.xor_single_detect(analysis, self.expected),
+            success_likelihood=0.1,
             # TODO: actually calculate runtimes
-            success_runtime=1e-5,
-            failure_runtime=1e-5,
+            success_runtime=1e-8,
+            failure_runtime=1e-8,
         )
 
     @staticmethod
     def getTarget() -> str:
-        return "xor_single"
+        return "xortool"
 
-    def attemptCrack(self, ctext: bytes) -> List[CrackResult]:
-        logging.info("Trying xor single cipher")
-        # TODO: handle different alphabets
+    def attemptCrack(self, ctext: str) -> List[CrackResult]:
+        logging.debug("Trying xortool cipher")
+        # TODO handle different charsets
+        # TODO allow more config over xortool
 
-        logging.debug("Beginning cipheycore simple analysis")
         logging.debug(f"{ctext}")
 
-        # Hand it off to the core
-        analysis = self.cache.get_or_update(
-            ctext,
-            "cipheycore::simple_analysis",
-            lambda: cipheycore.analyse_bytes(ctext),
-        )
-        logging.debug("Beginning cipheycore::xor_single")
-        possible_keys = cipheycore.xor_single_crack(
-            analysis, self.expected, self.p_value
-        )
+        # https://github.com/Ciphey/xortool/discussions/4
+        # for docs on this function
+        try:
+            result = tool_main.api(str.encode(ctext))
+        except:
+            logging.debug("Xor failed.")
+            return
 
-        n_candidates = len(possible_keys)
-        logging.info(f"XOR single returned {n_candidates} candidates")
+        result = CrackResult(value=result[1]["Dexored"], key_info=result[0]["keys"])
 
-        candidates = []
-
-        for candidate in possible_keys:
-            translated = cipheycore.xor_single_decrypt(ctext, candidate.key)
-            logging.debug(f"Candidate {candidate.key} has prob {candidate.p_value}")
-            candidates.append(CrackResult(value=translated, key_info=candidate.key))
-
-        logging.debug(f"{candidates}")
-
-        return candidates
+        return [result]
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
@@ -80,8 +62,7 @@ class XorSingle(Cracker[bytes]):
                 desc="The p-value to use for standard frequency analysis",
                 req=False,
                 default=0.01,
-            )
-            # TODO: add "filter" param
+            ),
         }
 
     @staticmethod
