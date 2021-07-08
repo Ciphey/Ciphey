@@ -1,4 +1,5 @@
 from . import (
+    a1z26,
     atbash,
     base58_bitcoin,
     base58_ripple,
@@ -11,6 +12,8 @@ from . import (
     braille,
     brainfuck,
     decimal,
+    dna,
+    dtmf,
     galactic,
     gzip,
     hexadecimal,
