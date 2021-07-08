@@ -1,9 +1,10 @@
+import logging
 import re
 from math import log10
 from typing import Dict, Optional
 
 from ciphey.iface import Checker, Config, ParamSpec, T, Translation, registry
-from loguru import logger
+from rich.logging import RichHandler
 
 
 @registry.register
@@ -14,7 +15,7 @@ class Quadgrams(Checker[str]):
     """
 
     def check(self, ctext: T) -> Optional[str]:
-        logger.trace("Trying Quadgrams checker")
+        logging.debug("Trying Quadgrams checker")
         ctext = re.sub("[^A-Z]", "", ctext.upper())
         quadgrams = self.QUADGRAMS_DICT
         N = sum(quadgrams.values())
@@ -29,7 +30,7 @@ class Quadgrams(Checker[str]):
                 score += floor
         if len(ctext) > 0:
             score = score / len(ctext)
-        logger.debug(f"Quadgrams is {score}")
+        logging.info(f"Quadgrams is {score}")
         if score > 0.00011:
             return ""
         return None
