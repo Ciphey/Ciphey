@@ -5,6 +5,7 @@ from ciphey.iface import Checker, Config, ParamSpec, T, registry
 from .brandon import Brandon
 from .format import JsonChecker
 from .human import HumanChecker
+from .quadgrams import Quadgrams
 from .regex import RegexList
 from .what import What
 
@@ -44,6 +45,8 @@ class EzCheck(Checker[str]):
 
         # First PyWhat, as it's the fastest
         self.checkers.append(config(What))
+
+        self.checkers.append(config(Quadgrams))
 
         # Next, the json checker
         self.checkers.append(config(JsonChecker))
