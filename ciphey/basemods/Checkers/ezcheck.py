@@ -46,10 +46,11 @@ class EzCheck(Checker[str]):
         # First PyWhat, as it's the fastest
         self.checkers.append(config(What))
 
-        self.checkers.append(config(Quadgrams))
-
         # Next, the json checker
         self.checkers.append(config(JsonChecker))
+
+        # Second to last, the quadgrams checker
+        self.checkers.append(config(Quadgrams))
 
         # Finally, the Brandon checker, as it is the slowest
         self.checkers.append(config(Brandon))
