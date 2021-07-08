@@ -53,7 +53,8 @@ import sys
 from math import ceil
 from typing import Dict, Optional
 
-from loguru import logger
+import logging
+from rich.logging import RichHandler
 
 from ciphey.iface import Checker, Config, ParamSpec, T, registry
 
@@ -104,18 +105,6 @@ class Brandon(Checker[str]):
         text = set(text)
         return text
 
-        x = []
-        for word in text:
-            # poor mans lemmatisation
-            # removes 's from the dict'
-            if word.endswith("'s"):
-                x.append(word[0:-2])
-        text = self.mh.strip_punctuation(x)
-        # turns it all into lowercase and as a set
-        complete = set([word.lower() for word in x])
-
-        return complete
-
     def checker(self, text: str, threshold: float, text_length: int, var: set) -> bool:
         """Given text determine if it passes checker
 
@@ -129,14 +118,14 @@ class Brandon(Checker[str]):
         Returns:
             boolean -> True for it passes the test, False for it fails the test."""
         if text is None:
-            logger.trace("Checker's text is None, so returning False")
+            logging.debug("Checker's text is None, so returning False")
             return False
         if var is None:
-            logger.trace("Checker's input var is None, so returning False")
+            logging.debug("Checker's input var is None, so returning False")
             return False
 
         percent = ceil(text_length * threshold)
-        logger.trace(f"Checker's chunks are size {percent}")
+        logging.debug(f"Checker's chunks are size {percent}")
         meet_threshold = 0
         location = 0
         end = percent
@@ -148,17 +137,17 @@ class Brandon(Checker[str]):
             # chunks the text, so only gets THRESHOLD chunks of text at a time
             text = list(text)
             to_analyse = text[location:end]
-            logger.trace(f"To analyse is {to_analyse}")
+            logging.debug(f"To analyse is {to_analyse}")
             for word in to_analyse:
                 # if word is a stopword, + 1 to the counter
                 if word in var:
-                    logger.trace(
+                    logging.debug(
                         f"{word} is in var, which means I am +=1 to the meet_threshold which is {meet_threshold}"
                     )
                     meet_threshold += 1
                 meet_threshold_percent = meet_threshold / text_length
                 if meet_threshold_percent >= threshold:
-                    logger.trace(
+                    logging.debug(
                         f"Returning true since the percentage is {meet_threshold / text_length} and the threshold is {threshold}"
                     )
                     # if we meet the threshold, return True
@@ -168,7 +157,7 @@ class Brandon(Checker[str]):
                     return True
             location = end
             end = end + percent
-        logger.trace(
+        logging.debug(
             f"The language proportion {meet_threshold_percent} is under the threshold {threshold}"
         )
         return False
@@ -201,11 +190,11 @@ class Brandon(Checker[str]):
             bool -> True if the text is English, False otherwise.
 
         """
-        logger.trace(f'In Language Checker with "{text}"')
+        logging.debug(f'In Language Checker with "{text}"')
         text = self.clean_text(text)
-        logger.trace(f'Text split to "{text}"')
+        logging.debug(f'Text split to "{text}"')
         if text == "":
-            logger.trace("Returning None from Brandon as the text cleaned is none.")
+            logging.debug("Returning None from Brandon as the text cleaned is none.")
             return None
 
         length_text = len(text)
@@ -217,7 +206,7 @@ class Brandon(Checker[str]):
         what_to_use = self.calculateWhatChecker(
             length_text, self.thresholds_phase1.keys()
         )
-        logger.trace(self.thresholds_phase1)
+        logging.debug(self.thresholds_phase1)
         what_to_use = self.thresholds_phase1[str(what_to_use)]
         # def checker(self, text: str, threshold: float, text_length: int, var: set) -> bool:
         if "check" in what_to_use:
@@ -236,7 +225,7 @@ class Brandon(Checker[str]):
             if not result:
                 return None
         else:
-            logger.debug(f"It is neither stop or check, but instead {what_to_use}")
+            logging.info(f"It is neither stop or check, but instead {what_to_use}")
 
         # return False if phase 1 fails
         if not result:

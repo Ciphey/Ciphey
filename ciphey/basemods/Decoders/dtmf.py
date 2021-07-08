@@ -1,7 +1,8 @@
 import re
 from typing import Dict, Optional
 
-from loguru import logger
+import logging
+from rich.logging import RichHandler
 
 from ciphey.iface import Config, Decoder, ParamSpec, T, Translation, U, registry
 
@@ -12,7 +13,7 @@ class Dtmf(Decoder[str]):
         """
         Performs DTMF decoding
         """
-        logger.trace("Attempting DTMF decoder")
+        logging.debug("Attempting DTMF decoder")
         ctext_decoded = ""
         ctext = re.sub(r"[,;:\-\/\s]", "", ctext)
         ctext = " ".join(ctext[i : i + 7] for i in range(0, len(ctext), 7))
@@ -24,7 +25,7 @@ class Dtmf(Decoder[str]):
                 ctext_decoded += self.DTMF_DICT[i]
             else:
                 return None
-        logger.debug(f"DTMF successful, returning '{ctext_decoded}'")
+        logging.info(f"DTMF successful, returning '{ctext_decoded}'")
         return ctext_decoded
 
     @staticmethod

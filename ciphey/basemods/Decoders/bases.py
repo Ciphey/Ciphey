@@ -2,7 +2,8 @@ import base64
 import types
 from typing import Any, Callable, Optional
 
-from loguru import logger
+import logging
+from rich.logging import RichHandler
 import re
 
 from ciphey.common import id_lambda
@@ -10,16 +11,16 @@ from ciphey.iface import Decoder, registry
 
 
 def _dispatch(self: Any, ctext: str, func: Callable[[str], bytes]) -> Optional[bytes]:
-    logger.trace(f"Attempting {self.getTarget()}")
+    logging.debug(f"Attempting {self.getTarget()}")
 
     try:
         # remove all whitespace
         ctext = re.sub(r"\s+", "", ctext, re.UNICODE)
         result = func(ctext)
-        logger.debug(f"{self.getTarget()} successful, returning {result}")
+        logging.info(f"{self.getTarget()} successful, returning {result}")
         return result
     except ValueError:
-        logger.trace(f"Failed to decode {self.getTarget()}")
+        logging.debug(f"Failed to decode {self.getTarget()}")
         return None
 
 

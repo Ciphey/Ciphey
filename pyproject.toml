@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ciphey"
-version = "5.11.2"
+version = "5.14.1"
 description = "Automated Decryption Tool"
 authors = ["Brandon <brandon@skerritt.blog>"]
 license = "MIT"
@@ -11,20 +11,20 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.7"
 rich = ">=4,<11"
-loguru = "^0.5.3"
+pyyaml = "^5.3.1"
 pylint = "^2.6.0"
 flake8 = "^3.8.4"
 cipheydists = "^0.3.35"
 cipheycore = "^0.3.2"
 appdirs = "^1.4.4"
-typing_inspect = { version = "^0.6.0", python = "~3.7" }
+typing_inspect = { version = ">=0.6,<0.8", python = "~3.7" }
 base58 = "^2.0.1"
 base91 = "^1.0.1"
 pybase62 = "^0.4.3"
 click = ">=7.1.2,<9.0.0"
-click-spinner = "^0.1.10"
-pyyaml = "^5.3.1"
-yaspin = ">=0.17,<1.6"
+mock = "^4.0.3"
+pywhat = "3.0.0"
+xortool-ciphey = "^0.1.16"
 
 [tool.poetry.dev-dependencies]
 pytest-cov = "^2.10.1"

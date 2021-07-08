@@ -6,8 +6,8 @@ from dataclasses import dataclass
 from functools import lru_cache
 from typing import Any, Dict, Generic, List, Optional, TypeVar, Union
 
-import cipheycore
-from loguru import logger
+import logging
+from rich.logging import RichHandler
 
 from ciphey.iface import (
     Checker,
@@ -101,10 +101,30 @@ class Node:
         return self.parent.source.get_path() + [self.level]
 
 
-def convert_edge_info(info: CrackInfo):
-    return cipheycore.ausearch_edge(
-        info.success_likelihood, info.success_runtime, info.failure_runtime
-    )
+@dataclass
+class AusearchEdge:
+    # TODO: This is just CrackInfo with failure probability added...
+    success_probability: float
+    failure_probability: float
+    success_time: float
+    failure_time: float
+
+    def __init__(self, success_probability, success_time, failure_time):
+        self.success_probability = success_probability
+        self.failure_probability = 1.0 - success_probability
+        self.success_time = success_time
+        self.failure_time = failure_time
+
+
+@dataclass
+class AusearchResult:
+    weight: float
+    index: int
+
+
+def calculate_score(info: CrackInfo):
+    return info.success_likelihood / \
+        (info.success_runtime * info.success_likelihood + info.failure_runtime * (1-info.success_likelihood))
 
 
 @dataclass
@@ -113,7 +133,7 @@ class Edge:
     route: Union[Cracker, Decoder]
     dest: Optional[Node] = None
     # Info is not filled in for Decoders
-    info: Optional[cipheycore.ausearch_edge] = None
+    score: Optional[float] = None
 
 
 PriorityType = TypeVar("PriorityType")
@@ -124,7 +144,7 @@ class PriorityWorkQueue(Generic[PriorityType, T]):
     _queues: Dict[Any, List[T]]
 
     def add_work(self, priority: PriorityType, work: List[T]) -> None:
-        logger.trace(f"""Adding work at depth {priority}""")
+        logging.debug(f"""Adding work at depth {priority}""")
 
         idx = bisect.bisect_left(self._sorted_priorities, priority)
         if (
@@ -186,7 +206,7 @@ class AuSearch(Searcher):
         for i in self.get_crackers_for(type(res)):
             inst = self._config()(i)
             additional_work.append(
-                Edge(source=node, route=inst, info=convert_edge_info(inst.getInfo(res)))
+                Edge(source=node, route=inst, score=calculate_score(inst.getInfo(res)))
             )
         priority = min(node.depth, self.priority_cap)
         if self.invert_priority:
@@ -209,14 +229,14 @@ class AuSearch(Searcher):
             except DuplicateNode:
                 continue
 
-            logger.trace("Nesting encodings")
+            logging.debug("Nesting encodings")
             self.recursive_expand(new_node, False)
 
     def recursive_expand(self, node: Node, nested: bool = True) -> None:
         if node.depth >= self.max_depth:
             return
 
-        logger.trace(f"Expanding depth {node.depth}")
+        logging.debug(f"Expanding depth {node.depth}")
 
         self.expand_decodings(node)
 
@@ -225,7 +245,7 @@ class AuSearch(Searcher):
             self.expand_crackers(node)
 
     def search(self, ctext: Any) -> Optional[SearchResult]:
-        logger.trace(
+        logging.debug(
             f"""Beginning AuSearch with {"inverted" if self.invert_priority else "normal"} priority"""
         )
 
@@ -246,28 +266,15 @@ class AuSearch(Searcher):
                     break
                 # Get the highest level result
                 chunk = self.work.get_work_chunk()
-                infos = [i.info for i in chunk]
+                chunk.sort(key=lambda i: i.score)
                 # Work through all of this level's results
                 while len(chunk) != 0:
-                    max_depth = 0
-                    for i in chunk:
-                        if i.source.depth > max_depth:
-                            max_depth = i.source.depth
-                    logger.debug(f"At depth {chunk[0].source.depth}")
+                    logging.debug(f"{len(chunk)} remaining on this level")
+                    # TODO Cyclic uses some tricky C++ here
+                    # I know because it's sorted the one at the back (the anti-weight)
+                    # is the most likely
 
-                    # if self.disable_priority:
-                    #     chunk += self.work.get_work_chunk()
-                    #     infos = [i.info for i in chunk]
-
-                    logger.trace(f"{len(infos)} remaining on this level")
-                    step_res = cipheycore.ausearch_minimise(infos)
-                    edge: Edge = chunk.pop(step_res.index)
-                    logger.trace(
-                        f"Weight is currently {step_res.weight} "
-                        f"when we pick {type(edge.route).__name__.lower()} "
-                        f"with depth {edge.source.depth}"
-                    )
-                    del infos[step_res.index]
+                    edge: Edge = chunk.pop(-1)
 
                     # Expand the node
                     res = edge.route(edge.source.level.result.value)
@@ -283,10 +290,10 @@ class AuSearch(Searcher):
                             continue
 
         except AuSearchSuccessful as e:
-            logger.debug("AuSearch succeeded")
+            logging.info("AuSearch succeeded")
             return SearchResult(path=e.target.get_path(), check_res=e.info)
 
-        logger.debug("AuSearch failed")
+        logging.info("AuSearch failed")
 
     def __init__(self, config: Config):
         super().__init__(config)

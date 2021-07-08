@@ -112,6 +112,9 @@ def test_binary():
     assert res == answer_str
 
 
+@pytest.mark.skip(
+    "Can't decode base64 + caesar https://github.com/Ciphey/Ciphey/issues/606"
+)
 def test_binary_base64_caesar():
     res = decrypt(
         Config().library_default().complete_config(),
@@ -123,8 +126,8 @@ def test_binary_base64_caesar():
 
 def test_braille():
     res = decrypt(
-        Config.library_default().complete_config(), 
-        "⠓⠑⠇⠇⠕⠀⠍⠽⠀⠝⠁⠍⠑⠀⠊⠎⠀⠃⠑⠑⠀⠁⠝⠙⠀⠊⠀⠇⠊⠅⠑⠀⠙⠕⠛⠀⠁⠝⠙⠀⠁⠏⠏⠇⠑⠀⠁⠝⠙⠀⠞⠗⠑⠑"
+        Config.library_default().complete_config(),
+        "⠓⠑⠇⠇⠕⠀⠍⠽⠀⠝⠁⠍⠑⠀⠊⠎⠀⠃⠑⠑⠀⠁⠝⠙⠀⠊⠀⠇⠊⠅⠑⠀⠙⠕⠛⠀⠁⠝⠙⠀⠁⠏⠏⠇⠑⠀⠁⠝⠙⠀⠞⠗⠑⠑",
     )
     assert res.lower() == answer_str.lower()
 

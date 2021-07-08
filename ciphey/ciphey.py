@@ -17,14 +17,15 @@ from typing import Any, Optional, Union
 
 import click
 from appdirs import AppDirs
-from loguru import logger
-from rich import print
-from yaspin import yaspin
-from yaspin.spinners import Spinners
+import logging
+from rich.logging import RichHandler
+from rich.console import Console
 
 from . import iface
 
 warnings.filterwarnings("ignore")
+
+console = Console()
 
 
 def decrypt(config: iface.Config, ctext: Any) -> Union[str, bytes]:
@@ -196,8 +197,8 @@ def main(**kwargs):
     # Use the existing value as a base
     config.verbosity += verbosity
     config.update_log_level(config.verbosity)
-    logger.debug(load_msg)
-    logger.trace(f"Got cmdline args {kwargs}")
+    logging.info(load_msg)
+    logging.debug(f"Got cmdline args {kwargs}")
 
     # Now we load the modules
     module_arg = kwargs["module"]
@@ -221,8 +222,8 @@ def main(**kwargs):
 
     config.complete_config()
 
-    logger.trace(f"Command line opts: {kwargs}")
-    logger.trace(f"Config finalised: {config}")
+    logging.debug(f"Command line opts: {kwargs}")
+    logging.debug(f"Config finalised: {config}")
 
     # Finally, we load the plaintext
     if kwargs["text"] is None:
@@ -258,10 +259,10 @@ def main(**kwargs):
         result = decrypt(config, kwargs["text"])
     else:
         # else, run with spinner if verbosity is 0
-        with yaspin(Spinners.earth, "Thinking") as sp:
-            config.set_spinner(sp)
+        with console.status("[bold green]Thinking...", spinner="moon") as status:
+            config.set_spinner(status)
             result = decrypt(config, kwargs["text"])
     if result is None:
         result = "Could not find any solutions."
 
-    print(result)
+    console.print(result)
