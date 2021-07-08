@@ -11,7 +11,7 @@
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/ru/README.md>🇷🇺 RU   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/zh/README.md>🇨🇳 ZH   </a>
  <br><br>
-➡️ 
+➡️
 <a href="https://github.com/Ciphey/Ciphey/wiki">Dokumentation</a> |
 <a href="https://discord.ciphey.online">Discord</a> |
  <a href="https://github.com/Ciphey/Ciphey/wiki/Installation">Installationshilfe</a>
@@ -28,7 +28,7 @@
   <a href="https://discord.gg/wM3scnc"><img alt="Discord" src="https://img.shields.io/discord/728245678895136898"></a>
 <a href="https://pypi.org/project/ciphey/"><img src="https://img.shields.io/pypi/v/ciphey.svg"></a>
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="Ciphey">
-  
+
   <img src="https://github.com/brandonskerritt/Ciphey/workflows/Python%20application/badge.svg?branch=master" alt="Ciphey">
 <br>
 Vollautomatisiertes Entschlüsselungs-Tool, gestützt durch algorithmische Sprachverarbeitung & künstliche Intelligenz.
@@ -37,16 +37,16 @@ Vollautomatisiertes Entschlüsselungs-Tool, gestützt durch algorithmische Sprac
 
 ## [Installationshilfe](https://github.com/Ciphey/Ciphey/wiki/Installation)
 
-| <p align="center"><a href="https://pypi.org/project/ciphey">🐍 Python | <p align="center"><a href="https://hub.docker.com/r/remnux/ciphey">🐋 Docker (Universell) | <p align="center"><a href="https://ports.macports.org/port/ciphey/summary">🍎 MacPorts (macOS)|
-| --------------------------- | ---------------------------------| ---------------------------------|
-| <p align="center"><img src="https://github.com/Ciphey/Ciphey/raw/master/Pictures_for_README/python.png" /></p> | <p align="center"><img src="https://github.com/Ciphey/Ciphey/raw/master/Pictures_for_README/docker.png" /></p> | <p align="center"><img src="https://github.com/Ciphey/Ciphey/raw/master/Pictures_for_README/macports.png" /></p> |
-| `python3 -m pip install ciphey --upgrade`  | `docker run -it --rm remnux/ciphey` | `sudo port install ciphey` |
+| <p align="center"><a href="https://pypi.org/project/ciphey">🐍 Python | <p align="center"><a href="https://hub.docker.com/r/remnux/ciphey">🐋 Docker (Universell) | <p align="center"><a href="https://ports.macports.org/port/ciphey/summary">🍎 MacPorts (macOS) | <p align="center"><a href="https://formulae.brew.sh/formula/ciphey">🍺 Homebrew (macOS/Linux) |
+| --------------------------- | ---------------------------------| ---------------------------------| ---------------------------------|
+| <p align="center"><img src="https://github.com/Ciphey/Ciphey/raw/master/Pictures_for_README/python.png" /></p> | <p align="center"><img src="https://github.com/Ciphey/Ciphey/raw/master/Pictures_for_README/docker.png" /></p> | <p align="center"><img src="https://github.com/Ciphey/Ciphey/raw/master/Pictures_for_README/macports.png" /></p> | <p align="center"><img src="https://github.com/Ciphey/Ciphey/raw/master/Pictures_for_README/homebrew.png" /></p> |
+| `python3 -m pip install ciphey --upgrade`  | `docker run -it --rm remnux/ciphey` | `sudo port install ciphey` | `brew install ciphey` |
 
 
 | Linux       | Mac OS | Windows     |
 | ----------- | ------ | ----------- |
 | ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ciphey/ciphey/Python%20application?label=Linux) |![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ciphey/ciphey/Python%20application?label=Mac%20OS) | ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/ciphey/ciphey/Python%20application?label=Windows) |
-  
+
 
 <hr>
 
@@ -130,7 +130,7 @@ Bei Problemen bei der Installation von Ciphey, [hier weiterlesen.](https://githu
 ## ‼️ Wichtige Links (Docs, Installationshilfe, Discord Support)
 
 | Installationshilfe | Dokumentation | Discord | Docker Image (von REMnux)
-| ------------------ | ------------- | ------- | ------- | 
+| ------------------ | ------------- | ------- | ------- |
 | 📖 [Installationshilfe](https://github.com/Ciphey/Ciphey/wiki/Installation) | 📚 [Dokumentation](https://github.com/Ciphey/Ciphey/wiki) | 🦜 [Discord](https://discord.ciphey.online) | 🐋 [Docker Dokumentation](https://docs.remnux.org/run-tools-in-containers/remnux-containers#ciphey)
 
 ## 🏃‍♀️Ciphey ausführen
