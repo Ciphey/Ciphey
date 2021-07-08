@@ -205,9 +205,13 @@ class AuSearch(Searcher):
 
         for i in self.get_crackers_for(type(res)):
             inst = self._config()(i)
+            info = inst.getInfo(res)
+            if info.success_likelihood < self.p_threshold:
+                continue
             additional_work.append(
                 Edge(source=node, route=inst, score=calculate_score(inst.getInfo(res)))
             )
+
         priority = min(node.depth, self.priority_cap)
         if self.invert_priority:
             priority = -priority
@@ -312,6 +316,7 @@ class AuSearch(Searcher):
         self.max_depth = int(self._params()["max_depth"])
         if self.max_depth == 0:
             self.max_depth = math.inf
+        self.p_threshold = float(self._params()["p_threshold"])
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
@@ -336,12 +341,19 @@ class AuSearch(Searcher):
             ),
             "max_depth": ParamSpec(
                 req=False,
-                desc="The depth at which we give up. " "Set to 0 to disable",
+                desc="The depth at which we give up. " 
+                     "Set to 0 to disable",
                 default="0",
             ),
             "priority_cap": ParamSpec(
                 req=False,
                 desc="Sets the maximum depth before we give up ordering items.",
                 default="2",
+            ),
+            "p_threshold": ParamSpec(
+                req=False,
+                desc="Will skip any crackers which have less than this likelihood of succeeding. "
+                     "Set to 0 to disable",
+                default="0.01",
             ),
         }
