@@ -6,6 +6,14 @@ from ciphey.iface import Config
 answer_str = "Hello my name is bee and I like dog and apple and tree"
 
 
+def test_a1z26():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "8 5 12 12 15 13 25 14 1 13 5 9 19 2 5 5 1 14 4 9 12 9 11 5 4 15 7 1 14 4 1 16 16 12 5 1 14 4 20 18 5 5",
+    )
+    assert res == "hellomynameisbeeandilikedogandappleandtree"
+
+
 def test_affine():
     res = decrypt(
         Config().library_default().complete_config(),
@@ -19,7 +27,7 @@ def test_ascii_shift():
         Config().library_default().complete_config(),
         '"?FFIzGSzH;G?zCMz<??z;H>z#zFCE?z>IAz;H>z;JJF?z;H>zNL??',
     )
-    assert res.lower() == answer_str.lower()
+    assert res == answer_str
 
 
 def test_atbash():
@@ -30,12 +38,28 @@ def test_atbash():
     assert res == answer_str
 
 
+def test_baconian_complete_variant():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "AABBB AABAA ABABB ABABB ABBBA ABBAA BBAAA ABBAB AAAAA ABBAA AABAA ABAAA BAABA AAAAB AABAA AABAA AAAAA ABBAB AAABB ABAAA ABABB ABAAA ABABA AABAA AAABB ABBBA AABBA AAAAA ABBAB AAABB AAAAA ABBBB ABBBB ABABB AABAA AAAAA ABBAB AAABB BAABB BAAAB AABAA AABAA",
+    )
+    assert res == "HELLOMYNAMEISBEEANDILIKEDOGANDAPPLEANDTREE"
+
+
+def test_baconian_standard_variant():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "AABBB AABAA ABABA ABABA ABBAB ABABB BABBA ABBAA AAAAA ABABB AABAA ABAAA BAAAB AAAAB AABAA AABAA AAAAA ABBAA AAABB ABAAA ABABA ABAAA ABAAB AABAA AAABB ABBAB AABBA AAAAA ABBAA AAABB AAAAA ABBBA ABBBA ABABA AABAA AAAAA ABBAA AAABB BAABA BAAAA AABAA AABAA",
+    )
+    assert res == "HELLOMYNAMEISBEEANDILIKEDOGANDAPPLEANDTREE"
+
+
 def test_base32():
     res = decrypt(
         Config().library_default().complete_config(),
         "JBSWY3DPEBWXSIDOMFWWKIDJOMQGEZLFEBQW4ZBAJEQGY2LLMUQGI33HEBQW4ZBAMFYHA3DFEBQW4ZBAORZGKZI=",
     )
-    assert res.lower() == answer_str.lower()
+    assert res == answer_str
 
 
 def test_base58_bitcoin():
@@ -43,7 +67,7 @@ def test_base58_bitcoin():
         Config().library_default().complete_config(),
         "6qYhNwsP46Mn4gy6gyANfsMm2icAxGFA6gnFjVm9phYHeby7PZm3vthiXxSU77teQgTFGbHETn",
     )
-    assert res.lower() == answer_str.lower()
+    assert res == answer_str
 
 
 def test_base58_ripple():
@@ -51,7 +75,7 @@ def test_base58_ripple():
         Config().library_default().complete_config(),
         "aqY64A1PhaM8hgyagyw4C1Mmp5cwxGEwag8EjVm9F6YHebyfPZmsvt65XxS7ffteQgTEGbHNT8",
     )
-    assert res.lower() == answer_str.lower()
+    assert res == answer_str
 
 
 def test_base62():
@@ -59,7 +83,7 @@ def test_base62():
         Config().library_default().complete_config(),
         "2mQvnz9Yevvb7DRCuyDltsP31vJLToR5pjE9orWkzHMUsht2kbC96PLbZ1sdIocsGHENrzC2n",
     )
-    assert res.lower() == answer_str.lower()
+    assert res == answer_str
 
 
 def test_base64():
@@ -84,7 +108,7 @@ def test_base85():
         Config().library_default().complete_config(),
         "87cURD]inB+DtV)AKY].+C\\nn+CT.u+A!\\lBkq9&A8c*'@;]Tu@;p1%AKYE!A0>u7ARt",
     )
-    assert res.lower() == answer_str.lower()
+    assert res == answer_str
 
 
 def test_base91():
@@ -92,7 +116,7 @@ def test_base91():
         Config().library_default().complete_config(),
         ">OwJh>=/fV@$x88j9ZNKB*ge$yV%lE%ZKi,<d,TX2$0t,,cjPD@JY<UCHRWznuWoQPD",
     )
-    assert res.lower() == answer_str.lower()
+    assert res == answer_str
 
 
 def test_baudot():
@@ -129,7 +153,7 @@ def test_braille():
         Config.library_default().complete_config(),
         "⠓⠑⠇⠇⠕⠀⠍⠽⠀⠝⠁⠍⠑⠀⠊⠎⠀⠃⠑⠑⠀⠁⠝⠙⠀⠊⠀⠇⠊⠅⠑⠀⠙⠕⠛⠀⠁⠝⠙⠀⠁⠏⠏⠇⠑⠀⠁⠝⠙⠀⠞⠗⠑⠑",
     )
-    assert res.lower() == answer_str.lower()
+    assert res == answer_str.lower()
 
 
 def test_brainfuck():
@@ -153,7 +177,6 @@ def test_caesar():
         Config().library_default().complete_config(),
         "Uryyb zl anzr vf orr naq V yvxr qbt naq nccyr naq gerr",
     )
-
     assert res == answer_str
 
 
@@ -162,7 +185,23 @@ def test_decimal():
         Config().library_default().complete_config(),
         "72 101 108 108 111 32 109 121 32 110 97 109 101 32 105 115 32 98 101 101 32 97 110 100 32 73 32 108 105 107 101 32 100 111 103 32 97 110 100 32 97 112 112 108 101 32 97 110 100 32 116 114 101 101",
     )
-    assert res.lower() == answer_str.lower()
+    assert res == answer_str
+
+
+def test_dna():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "GAT AAT GCT ATT TCT ATT AAT ACT GAA CGT GAA TCT ACT ATT AAT GGT",
+    )
+    assert res == "DNAISINTERESTING"
+
+
+def test_dtmf():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "1336-941 1209-697 1336-941 1336-941 1209-697 1336-941 1336-941 1336-941 1336-941 1209-697 1209-697 1336-941 1336-941 1209-697 1336-941 1209-697 1336-941 1209-697 1209-697 1336-941 1209-697 1209-697 1336-941 1336-941 1336-941 1209-697 1209-697 1336-941 1209-697 1209-697 1336-941 1336-941 1336-941 1209-697 1209-697 1336-941 1209-697 1209-697 1209-697 1209-697 1336-941 1336-941 1209-697 1336-941 1336-941 1336-941 1336-941 1336-941 1336-941 1209-697 1209-697 1336-941 1209-697 1209-697 1336-941 1209-697 1336-941 1209-697 1209-697 1209-697 1209-697 1336-941 1336-941 1209-697 1336-941 1336-941 1209-697 1336-941 1336-941 1336-941 1336-941 1336-941 1336-941 1209-697 1209-697 1336-941 1209-697 1209-697 1209-697 1336-941 1336-941 1209-697 1209-697 1336-941 1336-941 1336-941 1336-941 1209-697 1336-941 1209-697 1209-697 1336-941 1209-697 1209-697 1336-941 1209-697 1336-941 1209-697 1209-697 1336-941 1336-941 1209-697 1336-941 1209-697 1336-941 1336-941 1209-697 1336-941 1336-941 1336-941 1336-941 1336-941 1336-941 1209-697 1209-697 1336-941 1209-697 1336-941 1336-941 1209-697 1336-941 1209-697 1209-697 1209-697 1336-941 1336-941 1209-697 1209-697 1336-941 1336-941 1209-697 1336-941 1336-941 1336-941 1336-941 1336-941 1336-941 1209-697 1209-697 1336-941 1336-941 1336-941 1209-697 1336-941 1336-941 1209-697 1209-697 1336-941 1336-941 1209-697 1336-941 1209-697 1336-941 1209-697 1209-697 1336-941 1336-941 1209-697 1336-941 1209-697 1336-941 1336-941 1209-697 1336-941 1336-941 1336-941 1336-941 1336-941 1336-941 1209-697 1209-697 1336-941 1336-941 1336-941 1336-941 1209-697 1336-941 1209-697 1209-697 1336-941 1209-697 1209-697 1209-697 1336-941 1336-941 1209-697 1209-697 1336-941 1336-941 1209-697 1336-941 1336-941 1336-941 1336-941 1209-697 1336-941 1336-941 1336-941 1336-941 1336-941 1336-941 1209-697 1336-941 1336-941 1209-697 1336-941 1336-941 1209-697 1336-941 1336-941 1209-697 1336-941 1336-941 1336-941 1336-941 1336-941 1336-941 1209-697 1209-697 1336-941 1209-697 1209-697 1336-941 1336-941 1336-941 1209-697 1209-697 1336-941 1209-697 1336-941 1336-941 1209-697 1336-941 1209-697 1209-697 1336-941 1209-697 1336-941 1209-697 1209-697 1336-941 1209-697 1209-697 1336-941 1336-941 1209-697 1336-941 1209-697 1336-941 1336-941 1209-697 1336-941 1336-941 1336-941 1336-941 1336-941 1336-941 1209-697 1209-697 1336-941 1336-941 1209-697 1336-941 1336-941 1336-941 1209-697 1209-697 1336-941 1209-697 1209-697 1209-697 1209-697 1336-941 1209-697 1209-697 1336-941 1336-941 1209-697 1209-697 1209-697 1336-941 1336-941 1209-697 1336-941 1336-941 1336-941 1336-941 1336-941 1336-941 1209-697 1209-697 1336-941 1336-941 1336-941 1336-941 1209-697 1336-941 1209-697 1209-697 1336-941 1209-697 1209-697 1209-697 1336-941 1336-941 1209-697 1209-697 1336-941 1336-941 1209-697 1336-941 1336-941 1336-941 1336-941 1209-697 1336-941 1336-941 1336-941 1336-941 1336-941 1336-941 1209-697 1209-697 1336-941 1336-941 1336-941 1336-941 1209-697 1336-941 1209-697 1209-697 1209-697 1336-941 1336-941 1336-941 1336-941 1336-941 1209-697 1209-697 1209-697 1336-941 1336-941 1336-941 1336-941 1336-941 1209-697 1209-697 1336-941 1209-697 1209-697 1336-941 1336-941 1336-941 1209-697 1209-697 1336-941 1336-941 1209-697 1336-941 1209-697 1336-941 1336-941 1209-697 1336-941 1336-941 1336-941 1336-941 1336-941 1336-941 1209-697 1209-697 1336-941 1336-941 1336-941 1336-941 1209-697 1336-941 1209-697 1209-697 1336-941 1209-697 1209-697 1209-697 1336-941 1336-941 1209-697 1209-697 1336-941 1336-941 1209-697 1336-941 1336-941 1336-941 1336-941 1209-697 1336-941 1336-941 1336-941 1336-941 1336-941 1336-941 1209-697 1209-697 1209-697 1336-941 1209-697 1336-941 1336-941 1336-941 1209-697 1209-697 1209-697 1336-941 1336-941 1209-697 1336-941 1336-941 1209-697 1209-697 1336-941 1336-941 1209-697 1336-941 1209-697 1336-941 1209-697 1209-697 1336-941 1336-941 1209-697 1336-941 1209-697",
+    )
+    assert res == answer_str
 
 
 def test_galactic():
@@ -170,7 +209,7 @@ def test_galactic():
         Config().library_default().complete_config(),
         "⍑ᒷꖎꖎ𝙹 ᒲ|| リᔑᒲᒷ ╎ᓭ ʖᒷᒷ ᔑリ↸ i ꖎ╎ꖌᒷ ↸𝙹⊣ ᔑリ↸ ᔑ!¡!¡ꖎᒷ ᔑリ↸ ℸ ̣ ∷ᒷᒷ",
     )
-    assert res.lower() == answer_str.lower()
+    assert res == answer_str.lower()
 
 
 def test_galactic_Xproblem():
@@ -178,7 +217,7 @@ def test_galactic_Xproblem():
         Config().library_default().complete_config(),
         "⍑ᔑꖎ╎⎓ᔑ ̇/,  ̇/||ꖎ𝙹!¡⍑𝙹リᒷ, ᔑ  ̇/ ᔑꖎ𝙹リᒷ ᔑリ↸  ̇/ᒷ∷𝙹 ̇/ ⎓∷𝙹ᒲ 𝙹 ̇/⎓𝙹∷↸",
     )
-    assert res.lower() == "halifax, xylophone, a x alone and xerox from oxford"
+    assert res == "halifax, xylophone, a x alone and xerox from oxford"
 
 
 def test_gzip():
@@ -186,7 +225,7 @@ def test_gzip():
         Config().library_default().complete_config(),
         "H4sIAAzul18A/yXJzQmAMBSEwVa+ckwZT7LIw80P6sXuA3ocZpM9aC89msibXSJ6peA8RR3Hx5jTfzyXtAAbQvCyNgAAAA==",
     )
-    assert res.lower() == answer_str.lower()
+    assert res == answer_str
 
 
 def test_hexadecimal():
@@ -195,7 +234,7 @@ def test_hexadecimal():
         "48 65 6c 6c 6f 20 6d 79 20 6e 61 6d 65 20 69 73 20 62 65 65 20 61 6e 64 20 49 20 6c 69 6b 65 20 64 6f 67 20 61 6e 64 20 61 70 70 6c 65 20 61 6e 64 20 74 72 65 65",
     )
 
-    assert res.lower() == answer_str.lower()
+    assert res == answer_str
 
 
 def test_json_problem():
@@ -235,7 +274,7 @@ def test_new_line_at_start_returns():
     # but the new line should be returned to the user as new lines are important
     res = decrypt(Config().library_default().complete_config(), "\npass\n")
 
-    assert res.lower() == "\npass\n"
+    assert res == "\npass\n"
 
 
 def test_new_line_strip_and_return():
@@ -243,7 +282,7 @@ def test_new_line_strip_and_return():
     # but the new line should be returned to the user as new lines are important
     res = decrypt(Config().library_default().complete_config(), "pass\n")
 
-    assert res.lower() == "pass\n"
+    assert res == "pass\n"
 
 
 def test_octal():
@@ -251,7 +290,7 @@ def test_octal():
         Config().library_default().complete_config(),
         "110 145 154 154 157 40 155 171 40 156 141 155 145 40 151 163 40 142 145 145 40 141 156 144 40 111 40 154 151 153 145 40 144 157 147 40 141 156 144 40 141 160 160 154 145 40 141 156 144 40 164 162 145 145",
     )
-    assert res.lower() == answer_str.lower()
+    assert res == answer_str
 
 
 def test_plaintext():
@@ -259,12 +298,41 @@ def test_plaintext():
     assert res == answer_str
 
 
+def test_quadgrams_messed_up_spacing():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "H ello m y na m e is b ee an d I l ik e do g a n d ap pl e a nd tr e e",
+    )
+    assert (
+        res == "H ello m y na m e is b ee an d I l ik e do g a n d ap pl e a nd tr e e"
+    )
+
+
+def test_quadgrams_no_spaces():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "HellomynameisbeeandIlikedogandappleandtree",
+    )
+    assert res == "HellomynameisbeeandIlikedogandappleandtree"
+
+
+def test_quadgrams_space_between_every_letter():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "H e l l o m y n a m e i s b e e a n d I l i k e d o g a n d a p p l e a n d t r e e",
+    )
+    assert (
+        res
+        == "H e l l o m y n a m e i s b e e a n d I l i k e d o g a n d a p p l e a n d t r e e"
+    )
+
+
 def test_reversed_text():
     res = decrypt(
         Config().library_default().complete_config(),
         "eert dna elppa dna god ekil I dna eeb si eman ym olleH",
     )
-    assert res.lower() == answer_str.lower()
+    assert res == answer_str
 
 
 def test_rot47():
@@ -294,9 +362,9 @@ def test_tap_code():
 def test_url():
     res = decrypt(
         Config().library_default().complete_config(),
-        "Hello%20my%20name%20is%20bee%20and%20I%20like%20dog%20and%20apple%20and%20tree",
+        "https%3A%2F%2Fwww%2Egoogle%2Ecom%2Fsearch%3Fq%3Dciphey",
     )
-    assert res.lower() == answer_str.lower()
+    assert res == "https://www.google.com/search?q=ciphey"
 
 
 def test_uuencode():
@@ -324,6 +392,6 @@ def test_vigenere():
 def test_xandy():
     res = decrypt(
         Config().library_default().complete_config(),
-        "xDDxDxxx xDDxxDxD xDDxDDxx xDDxDDxx xDDxDDDD xxDxxxxx xDDxDDxD xDDDDxxD xxDxxxxx xDDxDDDx xDDxxxxD xDDxDDxD xDDxxDxD xxDxxxxx xDDxDxxD xDDDxxDD xxDxxxxx xDDxxxDx xDDxxDxD xDDxxDxD xxDxxxxx xDDxxxxD xDDxDDDx xDDxxDxx xxDxxxxx xDxxDxxD xxDxxxxx xDDxDDxx xDDxDxxD xDDxDxDD xDDxxDxD xxDxxxxx xDDxxDxx xDDxDDDD xDDxxDDD xxDxxxxx xDDxxxxD xDDxDDDx xDDxxDxx xxDxxxxx xDDxxxxD xDDDxxxx xDDDxxxx xDDxDDxx xDDxxDxD xxDxxxxx xDDxxxxD xDDxDDDx xDDxxDxx xxDxxxxx xDDDxDxx xDDDxxDx xDDxxDxD xDDxxDxD",
+        "xDxxDxxx xDDxxDxD xDDxDDxx xDDxDDxx xDDxDDDD xxDxxxxx xDDxDDxD xDDDDxxD xxDxxxxx xDDxDDDx xDDxxxxD xDDxDDxD xDDxxDxD xxDxxxxx xDDxDxxD xDDDxxDD xxDxxxxx xDDxxxDx xDDxxDxD xDDxxDxD xxDxxxxx xDDxxxxD xDDxDDDx xDDxxDxx xxDxxxxx xDxxDxxD xxDxxxxx xDDxDDxx xDDxDxxD xDDxDxDD xDDxxDxD xxDxxxxx xDDxxDxx xDDxDDDD xDDxxDDD xxDxxxxx xDDxxxxD xDDxDDDx xDDxxDxx xxDxxxxx xDDxxxxD xDDDxxxx xDDDxxxx xDDxDDxx xDDxxDxD xxDxxxxx xDDxxxxD xDDxDDDx xDDxxDxx xxDxxxxx xDDDxDxx xDDDxxDx xDDxxDxD xDDxxDxD",
     )
-    assert res.lower() == answer_str.lower()
+    assert res == answer_str

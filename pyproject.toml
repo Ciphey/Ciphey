@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ciphey"
-version = "5.14.0"
+version = "5.14.1"
 description = "Automated Decryption Tool"
 authors = ["Brandon <brandon@skerritt.blog>"]
 license = "MIT"
@@ -14,7 +14,7 @@ rich = ">=4,<11"
 pyyaml = "^5.3.1"
 pylint = "^2.6.0"
 flake8 = "^3.8.4"
-cipheydists = "^0.3.34"
+cipheydists = "^0.3.35"
 cipheycore = "^0.3.2"
 appdirs = "^1.4.4"
 typing_inspect = { version = ">=0.6,<0.8", python = "~3.7" }

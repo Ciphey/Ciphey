@@ -1,1 +1,1 @@
-from . import any, brandon, ezcheck, format, human, quorum, regex, what
+from . import any, brandon, ezcheck, format, human, quadgrams, quorum, regex, what
