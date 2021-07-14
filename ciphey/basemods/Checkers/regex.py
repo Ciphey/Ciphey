@@ -23,7 +23,7 @@ class Regex(Checker[str]):
             res = regex.search(text)
             logging.debug(f"Results: {res}")
             if res:
-                return f"passed with regex {regex}"
+                return f"Passed with regex {regex}. Want to contribute to Ciphey? Submit your regex here to allow Ciphey to automatically get this next time https://github.com/bee-san/pyWhat/wiki/Adding-your-own-Regex\n"
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
