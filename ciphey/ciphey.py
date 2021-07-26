@@ -35,8 +35,7 @@ def decrypt(config: iface.Config, ctext: Any) -> Union[str, bytes]:
         return "Failed to crack"
     if config.verbosity < 0:
         return res.path[-1].result.value
-    else:
-        return iface.pretty_search_results(res)
+    return iface.pretty_search_results(res)
 
 
 def get_name(ctx, param, value):
@@ -44,8 +43,7 @@ def get_name(ctx, param, value):
     if not value and not click.get_text_stream("stdin").isatty():
         click.get_text_stream("stdin").read().strip()
         return click.get_text_stream("stdin").read().strip()
-    else:
-        return value
+    return value
 
 
 def print_help(ctx):
