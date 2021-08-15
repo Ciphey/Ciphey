@@ -15,7 +15,8 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
         architecture: x64
-    - run: python -m pip install codespell==2.1.0 flake8==3.9.2 nox==2020.5.24 poetry==1.0.10
+    - run: python -m pip install --upgrade pip
+    - run: pip install codespell==2.1.0 flake8==3.9.2 nox==2021.6.12 poetry==1.0.10
     - run: codespell --ignore-words-list="nd,te" --skip="translations,*.archive"
     - run: flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
     - run: python -m nox
