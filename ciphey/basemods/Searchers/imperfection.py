@@ -5,7 +5,7 @@ class Imperfection:
     """The graph is a Node: [List of nodes]
     Where each item in the list of nodes can also have a node with a list of nodes
 
-    Ths result is that we can keep track of edges, while also keeping it small
+    The result is that we can keep track of edges, while also keeping it small
 
     To calculate current, we push the entire graph to A*
 

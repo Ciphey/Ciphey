@@ -40,7 +40,7 @@ def decrypt(config: iface.Config, ctext: Any) -> Union[str, bytes]:
 
 
 def get_name(ctx, param, value):
-    # reads from stdin if the argument wasnt supplied
+    # reads from stdin if value was not supplied
     if not value and not click.get_text_stream("stdin").isatty():
         click.get_text_stream("stdin").read().strip()
         return click.get_text_stream("stdin").read().strip()

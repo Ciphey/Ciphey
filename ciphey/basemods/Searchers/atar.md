@@ -143,7 +143,7 @@ function calculate_new_children(node):
     
 class Node:
     """
-    A node has a value assiocated with it
+    A node has a value associated with it
     Calculated from the heuristic
     """
 
