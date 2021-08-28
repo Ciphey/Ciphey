@@ -317,6 +317,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "AABur",
+      "name": "Alexander Burchenko",
+      "avatar_url": "https://avatars.githubusercontent.com/u/41373199?v=4",
+      "profile": "https://github.com/AABur",
+      "contributions": [
+        "translation"
+      ]
     }
   ],
   "contributorsPerLine": 7,
