@@ -65,6 +65,93 @@ except ModuleNotFoundError:
     import ciphey.mathsHelper as mh
 
 
+def checker(text: str, threshold: float, text_length: int, var: set) -> bool:
+    """Given text determine if it passes checker
+
+    The checker uses the variable passed to it. I.E. Stopwords list, 1k words, dictionary
+
+    Args:
+        text -> The text to check
+        threshold -> at what point do we return True? The percentage of text that is in var before we return True
+        text_length -> the length of the text
+        var -> the variable we are checking against. Stopwords list, 1k words list, dictionary list.
+    Returns:
+        boolean -> True for it passes the test, False for it fails the test."""
+    if text is None:
+        logging.debug("Checker's text is None, so returning False")
+        return False
+    if var is None:
+        logging.debug("Checker's input var is None, so returning False")
+        return False
+
+    percent = ceil(text_length * threshold)
+    logging.debug(f"Checker's chunks are size {percent}")
+    meet_threshold = 0
+    location = 0
+    end = percent
+
+    if text_length <= 0:
+        return False
+
+    while location <= text_length:
+        # chunks the text, so only gets THRESHOLD chunks of text at a time
+        text = list(text)
+        to_analyse = text[location:end]
+        logging.debug(f"To analyse is {to_analyse}")
+        for word in to_analyse:
+            # if word is a stopword, + 1 to the counter
+            if word in var:
+                logging.debug(
+                    f"{word} is in var, which means I am +=1 to the meet_threshold which is {meet_threshold}"
+                )
+                meet_threshold += 1
+            meet_threshold_percent = meet_threshold / text_length
+            if meet_threshold_percent >= threshold:
+                logging.debug(
+                    f"Returning true since the percentage is {meet_threshold / text_length} and the threshold is {threshold}"
+                )
+                # if we meet the threshold, return True
+                # otherwise, go over again until we do
+                # We do this in the for loop because if we're at 24% and THRESHOLD is 25
+                # we don't want to wait THRESHOLD to return true, we want to return True ASAP
+                return True
+        location = end
+        end = end + percent
+    logging.debug(
+        f"The language proportion {meet_threshold_percent} is under the threshold {threshold}"
+    )
+    return False
+
+
+def calculateWhatChecker(length_text, key):
+    """Calculates what threshold / checker to use
+
+    If the length of the text is over the maximum sentence length, use the last checker / threshold
+    Otherwise, traverse the keys backwards until we find a key range that does not fit.
+    So we traverse backwards and see if the sentence length is between current - 1 and current
+    In this way, we find the absolute lowest checker / percentage threshold.
+    We traverse backwards because if the text is longer than the max sentence length, we already know.
+    In total, the keys are only 5 items long or so. It is not expensive to move backwards, nor is it expensive to move forwards.
+
+    Args:
+        length_text -> The length of the text
+        key -> What key we want to use. I.E. Phase1 keys, Phase2 keys.
+    Returns:
+        what_to_use -> the key of the lowest checker."""
+
+    _keys = list(key)
+    _keys = list(map(int, _keys))
+    if length_text >= int(_keys[-1]):
+        what_to_use = list(key)[_keys.index(_keys[-1])]
+    else:
+        # this algorithm finds the smallest possible fit for the text
+        for counter, i in reversed(list(enumerate(_keys))):
+            #  [0, 110, 150]
+            if i <= length_text:
+                what_to_use = i
+    return what_to_use
+
+
 @registry.register
 class Brandon(Checker[str]):
     """
@@ -104,63 +191,6 @@ class Brandon(Checker[str]):
         text = filter(lambda x: len(x) > 2, text)
         text = set(text)
         return text
-
-    def checker(self, text: str, threshold: float, text_length: int, var: set) -> bool:
-        """Given text determine if it passes checker
-
-        The checker uses the variable passed to it. I.E. Stopwords list, 1k words, dictionary
-
-        Args:
-            text -> The text to check
-            threshold -> at what point do we return True? The percentage of text that is in var before we return True
-            text_length -> the length of the text
-            var -> the variable we are checking against. Stopwords list, 1k words list, dictionary list.
-        Returns:
-            boolean -> True for it passes the test, False for it fails the test."""
-        if text is None:
-            logging.debug("Checker's text is None, so returning False")
-            return False
-        if var is None:
-            logging.debug("Checker's input var is None, so returning False")
-            return False
-
-        percent = ceil(text_length * threshold)
-        logging.debug(f"Checker's chunks are size {percent}")
-        meet_threshold = 0
-        location = 0
-        end = percent
-
-        if text_length <= 0:
-            return False
-
-        while location <= text_length:
-            # chunks the text, so only gets THRESHOLD chunks of text at a time
-            text = list(text)
-            to_analyse = text[location:end]
-            logging.debug(f"To analyse is {to_analyse}")
-            for word in to_analyse:
-                # if word is a stopword, + 1 to the counter
-                if word in var:
-                    logging.debug(
-                        f"{word} is in var, which means I am +=1 to the meet_threshold which is {meet_threshold}"
-                    )
-                    meet_threshold += 1
-                meet_threshold_percent = meet_threshold / text_length
-                if meet_threshold_percent >= threshold:
-                    logging.debug(
-                        f"Returning true since the percentage is {meet_threshold / text_length} and the threshold is {threshold}"
-                    )
-                    # if we meet the threshold, return True
-                    # otherwise, go over again until we do
-                    # We do this in the for loop because if we're at 24% and THRESHOLD is 25
-                    # we don't want to wait THRESHOLD to return true, we want to return True ASAP
-                    return True
-            location = end
-            end = end + percent
-        logging.debug(
-            f"The language proportion {meet_threshold_percent} is under the threshold {threshold}"
-        )
-        return False
 
     def __init__(self, config: Config):
         # Suppresses warning
@@ -203,7 +233,7 @@ class Brandon(Checker[str]):
 
         # this code decides what checker / threshold to use
         # if text is over or equal to maximum size, just use the maximum possible checker
-        what_to_use = self.calculateWhatChecker(
+        what_to_use = calculateWhatChecker(
             length_text, self.thresholds_phase1.keys()
         )
         logging.debug(self.thresholds_phase1)
@@ -211,16 +241,16 @@ class Brandon(Checker[str]):
         # def checker(self, text: str, threshold: float, text_length: int, var: set) -> bool:
         if "check" in what_to_use:
             # perform check 1k words
-            result = self.checker(
+            result = checker(
                 text, what_to_use["check"], length_text, self.top1000Words
             )
         elif "stop" in what_to_use:
             # perform stopwords
-            result = self.checker(
+            result = checker(
                 text, what_to_use["stop"], length_text, self.stopwords
             )
         elif "dict" in what_to_use:
-            result = self.checker(text, what_to_use["dict"], length_text, self.wordlist)
+            result = checker(text, what_to_use["dict"], length_text, self.wordlist)
             # If result is None, no point doing it again in phase2
             if not result:
                 return None
@@ -231,40 +261,12 @@ class Brandon(Checker[str]):
         if not result:
             return None
         else:
-            what_to_use = self.calculateWhatChecker(
+            what_to_use = calculateWhatChecker(
                 length_text, self.thresholds_phase2.keys()
             )
             what_to_use = self.thresholds_phase2[str(what_to_use)]
-            result = self.checker(text, what_to_use["dict"], length_text, self.wordlist)
+            result = checker(text, what_to_use["dict"], length_text, self.wordlist)
         return "" if result else None
-
-    def calculateWhatChecker(self, length_text, key):
-        """Calculates what threshold / checker to use
-
-        If the length of the text is over the maximum sentence length, use the last checker / threshold
-        Otherwise, traverse the keys backwards until we find a key range that does not fit.
-        So we traverse backwards and see if the sentence length is between current - 1 and current
-        In this way, we find the absolute lowest checker / percentage threshold.
-        We traverse backwards because if the text is longer than the max sentence length, we already know.
-        In total, the keys are only 5 items long or so. It is not expensive to move backwards, nor is it expensive to move forwards.
-
-        Args:
-            length_text -> The length of the text
-            key -> What key we want to use. I.E. Phase1 keys, Phase2 keys.
-        Returns:
-            what_to_use -> the key of the lowest checker."""
-
-        _keys = list(key)
-        _keys = list(map(int, _keys))
-        if length_text >= int(_keys[-1]):
-            what_to_use = list(key)[_keys.index(_keys[-1])]
-        else:
-            # this algorithm finds the smallest possible fit for the text
-            for counter, i in reversed(list(enumerate(_keys))):
-                #  [0, 110, 150]
-                if i <= length_text:
-                    what_to_use = i
-        return what_to_use
 
     @staticmethod
     def getParams() -> Optional[Dict[str, ParamSpec]]:
