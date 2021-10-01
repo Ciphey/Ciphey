@@ -17,11 +17,10 @@ class Url(Decoder[str]):
         result = ""
         try:
             result = unquote_plus(ctext, errors="strict")
-            if result != ctext:
-                logging.info(f"URL successful, returning '{result}'")
-                return result
-            else:
+            if result == ctext:
                 return None
+            logging.info(f"URL successful, returning '{result}'")
+            return result
         except Exception:
             logging.debug("Failed to decode URL")
             return None

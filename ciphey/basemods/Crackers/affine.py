@@ -85,7 +85,7 @@ class Affine(Cracker[str]):
         We treat the char value as its index in the alphabet, so if
         the alphabet is 'abcd....' and the char is 'b', it has the value 1.
         """
-        return "".join([self.decryptChar(char, a_inv, b, m) for char in text])
+        return "".join(self.decryptChar(char, a_inv, b, m) for char in text)
 
     def decryptChar(self, char: str, a_inv: int, b: int, m: int) -> str:
 

@@ -122,7 +122,7 @@ class mathsHelper:
                     logging.debug(
                         f"Running key2 {key2}, value2 {value2} for loop for {value.items()}"
                     )
-                    maxLocal = maxLocal + value2
+                    maxLocal += value2
                     logging.debug(
                         f"MaxLocal is {maxLocal} and maxOverall is {max_overall}"
                     )
@@ -135,7 +135,7 @@ class mathsHelper:
                         max_dict_pair[key] = value
                         highest_key = key
                         logging.debug(f"Highest key is {highest_key}")
-                # removes the highest key from the prob table
+                        # removes the highest key from the prob table
             logging.debug(
                 f"Prob table is {prob_table} and highest key is {highest_key}"
             )

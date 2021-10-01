@@ -5,7 +5,7 @@ from rich.logging import RichHandler
 
 from ciphey.basemods.Checkers.brandon import Brandon
 
-config = dict()
+config = {}
 lc = config["checker"](config)
 
 logging.remove()

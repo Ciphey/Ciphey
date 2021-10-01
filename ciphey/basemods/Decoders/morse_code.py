@@ -63,9 +63,9 @@ class Morse_code(Decoder[str]):
                 except KeyError:
                     logging.debug(f"Invalid codeword '{char}' found")
                     return None
-                result = result + m
+                result += m
             # after every word add a space
-            result = result + " "
+            result += " "
         if len(result) == 0:
             logging.debug("Morse code failed to match")
             return None

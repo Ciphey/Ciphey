@@ -15,17 +15,9 @@ class Atbash(Decoder[str]):
         in the alphabet. Example: A -> Z, B -> Y, ... , M -> N and vice versa.
         """
 
-        result = ""
         atbash_dict = {self.ALPHABET[i]: self.ALPHABET[::-1][i] for i in range(26)}
 
-        for letter in ctext.lower():
-            if letter in atbash_dict.keys():
-                # Match every letter of the input to its atbash counterpoint
-                result += atbash_dict[letter]
-            else:
-                # If the current character is not in the defined alphabet,
-                # just accept it as-is (useful for numbers, punctuation, etc.)
-                result += letter
+        result = "".join(atbash_dict.get(letter, letter) for letter in ctext.lower())
         return fix_case(result, ctext)
 
     @staticmethod

@@ -18,8 +18,6 @@ def fix_case(target: str, base: str) -> str:
         ]
     )
     return "".join(
-        [
-            target[i].upper() if base[i].isupper() else target[i]
-            for i in range(len(target))
-        ]
+        target[i].upper() if base[i].isupper() else target[i]
+        for i in range(len(target))
     )

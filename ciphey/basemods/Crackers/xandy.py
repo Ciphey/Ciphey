@@ -45,7 +45,6 @@ class Xandy(Cracker[str]):
         """
         logging.debug("Attempting X-Y replacement")
         variants = []
-        candidates = []
         result = []
 
         # Convert the ctext to all-lowercase and regex-match & replace all whitespace
@@ -67,9 +66,7 @@ class Xandy(Cracker[str]):
         # In case of three unique values, we regard the least frequent character as the delimiter
         if cset_len == 3:
             # Count each unique character in the set to determine the least frequent one
-            counting_list = []
-            for char in cset:
-                counting_list.append(ctext.count(char))
+            counting_list = [ctext.count(char) for char in cset]
             val, index = min((val, index) for (index, val) in enumerate(counting_list))
             delimiter = cset[index]
             logging.debug(
@@ -86,12 +83,13 @@ class Xandy(Cracker[str]):
             else:
                 variants.append(ctext.replace(cset[0], "0").replace(cset[1], "1"))
 
-        # Apply function to both variants and strip stray NULL characters
-        for variant in variants:
-            candidates.append(self.binary_to_ascii(variant).strip("\x00"))
+        candidates = [
+            self.binary_to_ascii(variant).strip("\x00") for variant in variants
+        ]
+
         for i, candidate in enumerate(candidates):
             if candidate != "":
-                keyinfo = f"{cset[0]} -> {i} & {cset[1]} -> {str(int(not i))}"
+                keyinfo = f'{cset[0]} -> {i} & {cset[1]} -> {int(not i)}'
                 result.append(CrackResult(value=candidate, key_info=keyinfo))
                 logging.debug(f"X-Y cracker - Returning results: {result}")
                 return result

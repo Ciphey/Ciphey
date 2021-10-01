@@ -20,19 +20,16 @@ class Quadgrams(Checker[str]):
         ctext = re.sub("[^A-Z]", "", ctext.upper())
         quadgrams = self.QUADGRAMS_DICT
         quadgrams_sum = sum(quadgrams.values())
-        score = 0
         for key in quadgrams.keys():
             quadgrams[key] = float(quadgrams[key]) / quadgrams_sum
         floor = log10(0.01 / quadgrams_sum)
-        for i in range(len(ctext) - 4 + 1):
-            # Get all quadgrams from ctext and check if they're in the dict
-            # If yes then add the score of those quadgrams to the total score
-            if ctext[i : i + 4] in quadgrams:
-                score += quadgrams[ctext[i : i + 4]]
-            else:
-                score += floor
+        score = sum(
+            quadgrams[ctext[i : i + 4]] if ctext[i : i + 4] in quadgrams else floor
+            for i in range(len(ctext) - 4 + 1)
+        )
+
         if len(ctext) > 0:
-            score = score / len(ctext)
+            score /= len(ctext)
         logging.info(f"Quadgrams is {score}")
         # The default threshold was found to work the best from lots of testing
         if score > self.threshold:

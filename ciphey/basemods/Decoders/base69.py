@@ -17,12 +17,9 @@ class Base69(Decoder[str]):
         # Remove whitespace
         try:
             ctext = re.sub(r"\s+", "", ctext, flags=re.UNICODE)
-            extra_bytes = 0
             clen = len(ctext)
 
-            if ctext[:-1] == "=":
-                extra_bytes = int(ctext[clen - 2])
-
+            extra_bytes = int(ctext[clen - 2]) if ctext[:-1] == "=" else 0
             CHUNK_COUNT = ceil(clen / 16)
             result = [0 for _ in range(CHUNK_COUNT * 7 - extra_bytes)]
 

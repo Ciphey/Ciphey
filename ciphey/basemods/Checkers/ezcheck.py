@@ -36,11 +36,7 @@ class EzCheck(Checker[str]):
 
         self.checkers: List[Checker[str]] = []
         # Disable human checker for automated systems
-        if config.verbosity >= 0:
-            self.decider = config(HumanChecker)
-        else:
-            self.decider = None
-
+        self.decider = config(HumanChecker) if config.verbosity >= 0 else None
         # We need to modify the config for each of the objects
 
         # First PyWhat, as it's the fastest

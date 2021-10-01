@@ -35,11 +35,7 @@ class Registry:
         name = input_type.__name__.lower()
         name_target = self._names[name] = (input_type, set())
 
-        if issubclass(input_type, Targeted):
-            target = input_type.getTarget()
-        else:
-            target = None
-
+        target = input_type.getTarget() if issubclass(input_type, Targeted) else None
         if issubclass(input_type, Searcher):
             module_type = module_base = Searcher
             module_args = ()

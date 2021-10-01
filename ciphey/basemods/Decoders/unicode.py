@@ -16,11 +16,10 @@ class Utf8(Decoder[bytes]):
         result = ""
         try:
             result = ctext.decode("utf-8")
-            if result != ctext:
-                logging.info(f"UTF-8 successful, returning '{result}'")
-                return result
-            else:
+            if result == ctext:
                 return None
+            logging.info(f"UTF-8 successful, returning '{result}'")
+            return result
         except Exception:
             return None
 

@@ -57,7 +57,7 @@ class Vigenere(Cracker[str]):
             analysis = self.cache.get_or_update(
                 ctext, f"vigenere::{keysize.len}", lambda: keysize.tab
             )
-        if len(likely_lens) == 0:
+        if not likely_lens:
             return CrackInfo(
                 success_likelihood=0,
                 # TODO: actually calculate runtimes
@@ -97,7 +97,7 @@ class Vigenere(Cracker[str]):
                     cipheycore.vigenere_decrypt(ctext, candidate.key, self.group),
                     real_ctext,
                 ),
-                key_info="".join([self.group[i] for i in candidate.key]),
+                key_info="".join(self.group[i] for i in candidate.key),
                 misc_info=f"p-value was {candidate.p_value}",
             )
             for candidate in possible_keys[: min(len(possible_keys), 10)]
@@ -106,11 +106,7 @@ class Vigenere(Cracker[str]):
     def attemptCrack(self, ctext: str) -> List[CrackResult]:
         logging.info("Trying vigenere cipher")
         # Convert it to lower case
-        if self.lower:
-            message = ctext.lower()
-        else:
-            message = ctext
-
+        message = ctext.lower() if self.lower else ctext
         # Analysis must be done here, where we know the case for the cache
         if self.keysize is not None:
             return self.crackOne(

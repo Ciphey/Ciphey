@@ -15,7 +15,6 @@ class Entropy(Checker[str]):
 
     def check(self, text: T) -> Optional[str]:
         logging.debug("Trying entropy checker")
-        pass
 
     def getExpectedRuntime(self, text: T) -> float:
         # TODO: actually bench this

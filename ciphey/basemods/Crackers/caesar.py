@@ -43,11 +43,7 @@ class Caesar(Cracker[str]):
         # Convert it to lower case
         #
         # TODO: handle different alphabets
-        if self.lower:
-            message = ctext.lower()
-        else:
-            message = ctext
-
+        message = ctext.lower() if self.lower else ctext
         logging.debug("Beginning cipheycore simple analysis")
 
         # Hand it off to the core

@@ -34,9 +34,6 @@ class Baconian(Cracker[str]):
         logging.debug("Attempting Baconian cracker")
         candidates = []
         result = []
-        ctext_decoded = ""
-        ctext_decoded2 = ""
-
         # Convert to uppercase and replace delimiters and whitespace with nothing
         ctext = re.sub(r"[,;:\-\s]", "", ctext.upper())
 
@@ -58,15 +55,16 @@ class Baconian(Cracker[str]):
         ctext_split = ctext.split(" ")
         baconian_keys = self.BACONIAN_DICT.keys()
 
-        # Decode I=J and U=V variant
-        for i in ctext_split:
-            if i in baconian_keys:
-                ctext_decoded += self.BACONIAN_DICT[i]
+        ctext_decoded = "".join(
+            self.BACONIAN_DICT[i] for i in ctext_split if i in baconian_keys
+        )
 
-        # Decode variant that assigns each letter a unique code
-        for i in ctext_split:
-            if "+" + i in baconian_keys:
-                ctext_decoded2 += self.BACONIAN_DICT["+" + i]
+        ctext_decoded2 = "".join(
+            self.BACONIAN_DICT["+" + i]
+            for i in ctext_split
+            if "+" + i in baconian_keys
+        )
+
 
         candidates.append(ctext_decoded)
         candidates.append(ctext_decoded2)

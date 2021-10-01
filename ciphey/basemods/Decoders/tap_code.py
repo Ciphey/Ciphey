@@ -12,11 +12,8 @@ class Tap_code(Decoder[str]):
         Performs Tap code decoding
         """
         try:
-            result = ""
             combinations = ctext.split(" ")
-            for fragment in combinations:
-                result += self.TABLE.get(fragment)
-            return result
+            return "".join(self.TABLE.get(fragment) for fragment in combinations)
         except Exception:
             return None
 

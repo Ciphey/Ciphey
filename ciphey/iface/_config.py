@@ -19,7 +19,7 @@ class Cache:
         self._cache: Dict[Any, Dict[str, Any]] = {}
 
     def mark_ctext(self, ctext: Any) -> bool:
-        if (isinstance(ctext, str) or isinstance(ctext, bytes)) and len(ctext) < 4:
+        if isinstance(ctext, (str, bytes)) and len(ctext) < 4:
             logging.debug(f"Candidate {ctext.__repr__()} too short!")
             return False
 

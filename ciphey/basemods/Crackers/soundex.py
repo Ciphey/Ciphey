@@ -33,10 +33,7 @@ class Soundex(Cracker[str]):
         Attempts to crack Soundex by generating all possible combinations.
         """
         logging.debug("Attempting Soundex cracker")
-        word_list = []
         sentences = []
-        result = []
-
         # Convert to uppercase and replace delimiters and whitespace with nothing
         ctext = re.sub(r"[,;:\-\s]", "", ctext.upper())
 
@@ -58,10 +55,9 @@ class Soundex(Cracker[str]):
         ctext_split = ctext.split(" ")
         soundex_keys = self.SOUNDEX_DICT.keys()
 
-        # Find all words that correspond to each given soundex code
-        for code in ctext_split:
-            if code in soundex_keys:
-                word_list.append(self.SOUNDEX_DICT[code])
+        word_list = [
+            self.SOUNDEX_DICT[code] for code in ctext_split if code in soundex_keys
+        ]
 
         logging.info(f"Possible words for given encoded text: {word_list}")
 
@@ -76,8 +72,7 @@ class Soundex(Cracker[str]):
 
         sorted_sentences = self.sortlistwithdict(sentences, self.frequency_dict)
 
-        for sentence in sorted_sentences:
-            result.append(CrackResult(value=sentence))
+        result = [CrackResult(value=sentence) for sentence in sorted_sentences]
 
         logging.debug(f"Soundex cracker - Returning results: {result}")
         return result
@@ -101,12 +96,7 @@ class Soundex(Cracker[str]):
             sentences.append(result[1:])
             for word in result[1:].split():
                 # Adding the rank of each word to find out the sentence's net frequency
-                if word in word_freq:
-                    sentence_freq += word_freq.index(word)
-                # If the word isn't in the frequency list then it's a very uncommon word
-                # so we add a large number (5000)
-                else:
-                    sentence_freq += 5000
+                sentence_freq += word_freq.index(word) if word in word_freq else 5000
             frequency_dict[result[1:]] = sentence_freq
             sentence_freq = 0
             return
