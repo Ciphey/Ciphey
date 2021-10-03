@@ -322,7 +322,7 @@ def pretty_search_results(res: SearchResult, display_intermediate: bool = False)
     def add_one():
         out = ""
         if i.name == "utf8":
-            out += f"   [#808080]{i.name}[/#808080]"
+            out += f"   [#808080]{i.name}[/#808080]\n"
         else:
             out += f"   {i.name}"
         already_broken = False
