@@ -13,7 +13,7 @@ jobs:
       with:
         python-version: '3.8'
         architecture: x64
-    - run: pip install poetry==1.0.5
+    - run: pip install poetry
     - run: >-
         poetry version patch &&
         version=$(poetry version | awk '{print $2}') &&
