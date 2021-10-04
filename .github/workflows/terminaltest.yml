@@ -16,7 +16,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Build ciphey
       run: |
-        python -m pip install poetry==1.0.5
+        python -m pip install poetry
         poetry install
     - name: Test ciphey with plain text
       run: |
