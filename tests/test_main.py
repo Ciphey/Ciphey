@@ -304,7 +304,7 @@ def test_quadgrams_messed_up_spacing():
         "H ello m y na m e is b ee an d I l ik e do g a n d ap pl e a nd tr e e",
     )
     assert (
-        res == "H ello m y na m e is b ee an d I l ik e do g a n d ap pl e a nd tr e e"
+            res == "H ello m y na m e is b ee an d I l ik e do g a n d ap pl e a nd tr e e"
     )
 
 
@@ -322,8 +322,8 @@ def test_quadgrams_space_between_every_letter():
         "H e l l o m y n a m e i s b e e a n d I l i k e d o g a n d a p p l e a n d t r e e",
     )
     assert (
-        res
-        == "H e l l o m y n a m e i s b e e a n d I l i k e d o g a n d a p p l e a n d t r e e"
+            res
+            == "H e l l o m y n a m e i s b e e a n d I l i k e d o g a n d a p p l e a n d t r e e"
     )
 
 
@@ -333,6 +333,14 @@ def test_reversed_text():
         "eert dna elppa dna god ekil I dna eeb si eman ym olleH",
     )
     assert res == answer_str
+
+
+def test_rail_fence():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "He adem di nn lain gdatlnsalo  ro   idaee ybek plemeep",
+    )
+    assert res.lower() == answer_str.lower()
 
 
 def test_rot47():
