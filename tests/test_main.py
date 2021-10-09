@@ -304,7 +304,7 @@ def test_quadgrams_messed_up_spacing():
         "H ello m y na m e is b ee an d I l ik e do g a n d ap pl e a nd tr e e",
     )
     assert (
-            res == "H ello m y na m e is b ee an d I l ik e do g a n d ap pl e a nd tr e e"
+        res == "H ello m y na m e is b ee an d I l ik e do g a n d ap pl e a nd tr e e"
     )
 
 
@@ -322,8 +322,7 @@ def test_quadgrams_space_between_every_letter():
         "H e l l o m y n a m e i s b e e a n d I l i k e d o g a n d a p p l e a n d t r e e",
     )
     assert (
-            res
-            == "H e l l o m y n a m e i s b e e a n d I l i k e d o g a n d a p p l e a n d t r e e"
+        res == "H e l l o m y n a m e i s b e e a n d I l i k e d o g a n d a p p l e a n d t r e e"
     )
 
 
