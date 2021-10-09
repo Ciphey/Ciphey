@@ -322,7 +322,8 @@ def test_quadgrams_space_between_every_letter():
         "H e l l o m y n a m e i s b e e a n d I l i k e d o g a n d a p p l e a n d t r e e",
     )
     assert (
-        res == "H e l l o m y n a m e i s b e e a n d I l i k e d o g a n d a p p l e a n d t r e e"
+        res
+        == "H e l l o m y n a m e i s b e e a n d I l i k e d o g a n d a p p l e a n d t r e e"
     )
 
 
