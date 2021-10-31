@@ -26,5 +26,5 @@ from . import (
     unicode,
     url,
     uuencode,
-    last_word,
+    last_letter,
 )

@@ -4,7 +4,7 @@ from ciphey.iface import ParamSpec, Config, T, U, Decoder, registry
 
 
 @registry.register_multi((str, str), (bytes, bytes))
-class LastWord(Decoder[T, U]):
+class LastLetter(Decoder[T, U]):
     def decode(self, text: T) -> Optional[U]:
         """Write the code that decodes here
         text -> the input to the function
@@ -37,4 +37,4 @@ class LastWord(Decoder[T, U]):
         """The name of the decoding used
         returns string
         """
-        return "LastWord"
+        return "LastLetter"
