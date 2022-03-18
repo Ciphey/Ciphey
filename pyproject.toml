@@ -28,7 +28,7 @@ xortool-ciphey = "^0.1.16"
 
 [tool.poetry.dev-dependencies]
 pytest-cov = "^2.10.1"
-pytest = "^6.2.1"
+pytest = "^7.1.1"
 black = "^21.4b2"
 neovim = "^0.3.1"
 codecov = "^2.1.11"
