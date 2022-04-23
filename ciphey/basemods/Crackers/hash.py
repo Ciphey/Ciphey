@@ -119,7 +119,7 @@ class HashBuster(Cracker[str]):
             for api in md5:
                 r = api(ctext, "md5")
                 if result is not None or r is not None:
-                    logging.debug("MD5 returns True {r}")
+                    logging.debug(f"MD5 returns True {r}")
                     candidates.append(result, "MD5")
         elif len(ctext) == 40:
             for api in sha1:
