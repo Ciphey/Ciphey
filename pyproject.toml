@@ -20,7 +20,7 @@ appdirs = "^1.4.4"
 typing_inspect = { version = ">=0.6,<0.8", python = "~3.7" }
 base58 = "^2.0.1"
 base91 = "^1.0.1"
-pybase62 = "^0.4.3"
+pybase62 = ">=0.4.3,<0.6.0"
 click = ">=7.1.2,<9.0.0"
 mock = "^4.0.3"
 pywhat = "3.0.0"
