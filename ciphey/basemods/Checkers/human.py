@@ -21,7 +21,7 @@ class HumanChecker(Checker[str]):
             )
         if response == "y":
             return ""
-        elif response in ("n", ""):
+        elif response in ("n", "", "N"):
             return None
         else:
             return self.check(ctext)
