@@ -32,7 +32,7 @@ pytest = "^7.1.2"
 black = "^21.4b2"
 neovim = "^0.3.1"
 codecov = "^2.1.11"
-sphinx = "^4.0.0"
+sphinx = "^5.0.1"
 sphinx-autodoc-typehints = "^1.11.1"
 nltk = "^3.5"
 
