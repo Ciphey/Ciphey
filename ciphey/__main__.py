@@ -6,6 +6,7 @@ Ciphey: https://github.com/Ciphey/Ciphey
 
 import platform
 import sys
+from multiprocessing import Process
 
 if __name__ == "__main__":
     major = sys.version_info[0]
@@ -39,6 +40,14 @@ if __name__ == "__main__":
                 "You are using Python 32 bit and Windows, Ciphey does not support this. Please upgrade to Python 64-bit here https://www.python.org/downloads/"
             )
             sys.exit(1)
+
     from .ciphey import main
 
-    main()
+    m = Process(target=main, name="process_main")
+    m.start()
+    # Set timeout at 60 seconds
+    m.join(timeout=60)
+    m.terminate()
+
+    if m.exitcode is None:
+        print("Could not find any solutions.")

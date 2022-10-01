@@ -97,6 +97,12 @@ def print_help(ctx):
     "--searcher",
     help="Select the searching algorithm to use",
 )
+
+@click.option(
+    "--timeout",
+    help="Set the timeout in seconds (default 60)"
+)
+
 # HARLAN TODO XXX
 # I switched this to a boolean flag system
 # https://click.palletsprojects.com/en/7.x/options/#boolean-flags
