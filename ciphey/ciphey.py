@@ -136,7 +136,7 @@ def main(**kwargs):
     Documentation:
     https://github.com/Ciphey/Ciphey/wiki\n
     Discord (support here, we're online most of the day):
-    https://discord.ciphey.online/\n
+    http://discord.skerritt.blog\n
     GitHub:
     https://github.com/ciphey/ciphey\n
 
