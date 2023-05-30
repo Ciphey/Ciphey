@@ -9,6 +9,7 @@ Translations <br>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/pt-br/README.md>🇧🇷 PT-BR   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/ru/README.md>🇷🇺 RU   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/zh/README.md>🇨🇳 ZH   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/th/README.md>🇹🇭 TH   </a>
  <br><br>
 ➡️
 <a href="https://github.com/Ciphey/Ciphey/wiki">Documentation</a> |
@@ -229,6 +230,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/JesseEmond"><img src="https://avatars.githubusercontent.com/u/1843555?v=4?s=100" width="100px;" alt=""/><br /><sub><b>dysleixa</b></sub></a><br /><a href="https://github.com/Ciphey/Ciphey/commits?author=JesseEmond" title="Code">💻</a></td>
     <td align="center"><a href="http://mohzulfikar.me"><img src="https://avatars.githubusercontent.com/u/48849323?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Mohammad Zulfikar</b></sub></a><br /><a href="https://github.com/Ciphey/Ciphey/commits?author=mohzulfikar" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/AABur"><img src="https://avatars.githubusercontent.com/u/41373199?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Alexander Burchenko</b></sub></a><br /><a href="#translation-AABur" title="Translation">🌍</a></td>
+    <td align="center"><a href="https://github.com/PunGrumpy"><img src="https://avatars.githubusercontent.com/u/108584943?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Noppakorn Kaewsalabnil</b></sub></a><br /><a href="#translation-PunGrumpy" title="Translation">🌍</a></td>
   </tr>
 </table>
 
