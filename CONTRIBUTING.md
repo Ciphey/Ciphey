@@ -8,6 +8,7 @@ Translations <br>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/pt-br/CONTRIBUTING.md>🇧🇷 PT-BR   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/ru/CONTRIBUTING.md>🇷🇺 RU   </a>
 <a href=https://github.com/Ciphey/Ciphey/tree/master/translations/zh/CONTRIBUTING.md>🇨🇳 ZH   </a>
+<a href=https://github.com/Ciphey/Ciphey/tree/master/translations/es/CONTRIBUTING.md>es ES  </a>
 </p>
 
 Howdy!
