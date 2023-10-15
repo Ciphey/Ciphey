@@ -335,6 +335,14 @@ def test_reversed_text():
     assert res == answer_str
 
 
+def test_rail_fence():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "He adem di nn lain gdatlnsalo  ro   idaee ybek plemeep",
+    )
+    assert res.lower() == answer_str.lower()
+
+
 def test_rot47():
     res = decrypt(
         Config().library_default().complete_config(),
