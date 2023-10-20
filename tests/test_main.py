@@ -180,6 +180,14 @@ def test_caesar():
     assert res == answer_str
 
 
+def test_citrix_ctx1():
+    res = decrypt(
+        Config().library_default().complete_config(),
+        "ONEIIICNOEEBIICNOHECMHGCKKAPNDHGPDFGJNDIPMFJJBDEPEFBNEHBLNBIMOGLOOELIMCJOJEMIMCJKMAJMNGIKDAGMHGCOHECKOALIOCLOCEHILCOOAEFIFCAKFAAMBGEKOALMJGMOJEMIICNOGEDICCHKCAHMDGGLDBGMDGGKPAKMKGPOKEPILCOOFEAIBCEKBAENFHAKHACMCGHKHAC"
+        )
+    assert res == answer_str
+
+
 def test_decimal():
     res = decrypt(
         Config().library_default().complete_config(),
