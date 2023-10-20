@@ -17,7 +17,7 @@ flake8 = ">=3.8.4,<5.0.0"
 cipheydists = "^0.3.35"
 cipheycore = "^0.3.2"
 appdirs = "^1.4.4"
-typing_inspect = { version = ">=0.6,<0.8", python = "~3.7" }
+typing_inspect = { version = ">=0.6,<0.9", python = "~3.7" }
 base58 = "^2.0.1"
 base91 = "^1.0.1"
 pybase62 = ">=0.4.3,<0.6.0"
