@@ -27,7 +27,7 @@ pywhat = "3.0.0"
 xortool-ciphey = "^0.1.16"
 
 [tool.poetry.dev-dependencies]
-pytest-cov = "^3.0.0"
+pytest-cov = "^4.0.0"
 pytest = "^7.1.2"
 black = "^21.4b2"
 neovim = "^0.3.1"
