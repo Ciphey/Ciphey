@@ -354,7 +354,7 @@ def pretty_search_results(res: SearchResult, display_intermediate: bool = False)
         if len(out.split("\n")) > 1:
             ret += "Formats used:\n"
         else:
-            ret += "Format used:\n"
+            ret += "Format used(Ground up):\n"
         ret += out
 
     # Remove trailing newline
@@ -364,7 +364,7 @@ def pretty_search_results(res: SearchResult, display_intermediate: bool = False)
     if already_broken:
         ret += f"""\nPlaintext: [bold green]"{escape(res.path[-1].result.value)}"[bold green]"""
     else:
-        ret += f"""Plaintext: [bold green]"{escape(res.path[-1].result.value)}"[bold green]"""
+        ret += f"""\nPlaintext: [bold green]"{escape(res.path[-1].result.value)}"[bold green]"""
 
     table.add_row(ret)
     return table
