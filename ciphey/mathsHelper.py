@@ -49,20 +49,23 @@ class mathsHelper:
 
     @staticmethod
     def mod_inv(a: int, m: int) -> Optional[int]:
-        """
-        Returns the modular inverse of a mod m, or None if it does not exist.
+        # Extended Euclidean Algorithm
+        old_r, r = a, m
+        old_s, s = 1, 0
+        old_t, t = 0, 1
 
-        The modular inverse of a is the number a_inv that satisfies the equation
-        a_inv * a mod m === 1 mod m
+        while r != 0:
+            quotient = old_r // r
+            old_r, r = r, old_r - quotient * r
+            old_s, s = s, old_s - quotient * s
+            old_t, t = t, old_t - quotient * t
 
-        Note: This is a naive implementation, and runtime may be improved in several ways.
-        For instance by checking if m is prime to perform a different calculation,
-        or by using the extended euclidean algorithm.
-        """
-        for i in range(1, m):
-            if (m * i + 1) % a == 0:
-                return (m * i + 1) // a
-        return None
+        if old_r == 1:
+            # Ensure the result is positive
+            return old_s % m
+        else:
+            # Modular inverse does not exist
+            return None
 
     @staticmethod
     def percentage(part: float, whole: float) -> float:
