@@ -58,6 +58,7 @@ use crate::decoders::null_cipher_decoder::NullCipherDecoder;
 use crate::decoders::octal_decoder::OctalDecoder;
 use crate::decoders::ook_decoder::OokDecoder;
 use crate::decoders::playfair_decoder::PlayfairDecoder;
+use crate::decoders::pollux_decoder::PolluxDecoder;
 use crate::decoders::polybius_decoder::PolybiusDecoder;
 use crate::decoders::punycode_decoder::PunycodeDecoder;
 use crate::decoders::quoted_printable_decoder::QuotedPrintableDecoder;
@@ -665,6 +666,22 @@ decoder_functions! {
     /// assert_eq!(plaintext.key.as_deref(), Some("first letter of each word"));
     /// ```
     null_cipher: NullCipherDecoder, aliases ["acrostic", "concealment_cipher"], key None;
+
+    /// Cracks the Pollux cipher, which encodes Morse code by replacing dots, dashes and
+    /// separators with single digits from three disjoint classes (1/4/7, 2/5/8 and
+    /// 3/6/9/0). Ciphey tries every assignment of digits to the three classes
+    /// (3^10 = 59,049 possibilities), decodes each as Morse and reports the first
+    /// reading the checker accepts. The key is reported in the form
+    /// `. = 147, - = 258, x = 3690`.
+    ///
+    /// ```
+    /// // "HELLO WORLD" with `. = 1 4 7, - = 2 5 8, x = 3 6 9 0`
+    /// let decoded = ciphey::decoders::pollux("7774640754467514028890485358201240751738773");
+    /// let plaintext = decoded.plaintext().unwrap();
+    /// assert_eq!(plaintext.text, "HELLO WORLD");
+    /// assert_eq!(plaintext.key.as_deref(), Some(". = 147, - = 258, x = 3690"));
+    /// ```
+    pollux: PolluxDecoder, aliases [], key None;
 
     /// Decodes character codes written in octal.
     ///
