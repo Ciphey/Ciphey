@@ -267,6 +267,8 @@ pub mod yunying_decoder;
 
 /// The null_cipher_decoder module finds messages hidden in null ciphers such as acrostics
 pub mod null_cipher_decoder;
+/// The pollux_decoder module cracks the Pollux cipher (Morse encoded with digits)
+pub mod pollux_decoder;
 
 use atbash_decoder::AtbashDecoder;
 use backslash_escape_decoder::BackslashEscapeDecoder;
@@ -321,6 +323,7 @@ use null_cipher_decoder::NullCipherDecoder;
 use octal_decoder::OctalDecoder;
 use ook_decoder::OokDecoder;
 use playfair_decoder::PlayfairDecoder;
+use pollux_decoder::PolluxDecoder;
 use polybius_decoder::PolybiusDecoder;
 use punycode_decoder::PunycodeDecoder;
 use quoted_printable_decoder::QuotedPrintableDecoder;
@@ -523,6 +526,8 @@ pub enum DecoderType {
     T9Decoder(t9_decoder::T9Decoder),
     /// null cipher (acrostic) decoder
     NullCipherDecoder(null_cipher_decoder::NullCipherDecoder),
+    /// Pollux (Morse with digits) decoder
+    PolluxDecoder(pollux_decoder::PolluxDecoder),
 }
 
 /// Wrapper struct to hold Decoders for DECODER_MAP
@@ -771,5 +776,6 @@ pub static DECODER_MAP: Lazy<HashMap<&str, DecoderBox>> = Lazy::new(|| {
             "Null cipher",
             DecoderBox::new(Decoder::<NullCipherDecoder>::new()),
         ),
+        ("Pollux", DecoderBox::new(Decoder::<PolluxDecoder>::new())),
     ])
 });
